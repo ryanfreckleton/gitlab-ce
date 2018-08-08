@@ -62,7 +62,7 @@ in our case its named `clair-whitelist.yml`.
 TIP: **Tip:**
 For [GitLab Ultimate][ee] users, this information will
 be automatically extracted and shown right in the merge request widget.
-[Learn more on Container Scanning in merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/container_scanning.html).
+[Learn more on Container Scanning in merge requests](../../user/project/merge_requests/container_scanning.html).
 
 CAUTION: **Caution:**
 Starting with GitLab 11.5, Container Scanning feature is licensed under the name `container_scanning`.

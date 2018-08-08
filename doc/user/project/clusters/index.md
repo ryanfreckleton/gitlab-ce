@@ -482,7 +482,7 @@ credentials.
 
 When [Prometheus is deployed](#installing-applications), GitLab will automatically monitor the cluster's health. At the top of the cluster settings page, CPU and Memory utilization is displayed, along with the total amount available. Keeping an eye on cluster resources can be important, if the cluster runs out of memory pods may be shutdown or fail to start.
 
-![Cluster Monitoring](https://docs.gitlab.com/ee/user/project/clusters/img/k8s_cluster_monitoring.png)
+![Cluster Monitoring](img/k8s_cluster_monitoring.png)
 
 ## Enabling or disabling the Kubernetes cluster integration
 
@@ -513,7 +513,7 @@ and add a Kubernetes cluster again.
 ## View Kubernetes pod logs from GitLab **[ULTIMATE]**
 
 Learn how to easily
-[view the logs of running pods in connected Kubernetes clusters](https://docs.gitlab.com/ee/user/project/clusters/kubernetes_pod_logs.html).
+[view the logs of running pods in connected Kubernetes clusters](kubernetes_pod_logs.md).
 
 ## What you can get with the Kubernetes integration
 
@@ -527,7 +527,7 @@ displaying the status of the pods in the deployment. Developers and other
 teammates can view the progress and status of a rollout, pod by pod, in the
 workflow they already use without any need to access Kubernetes.
 
-[Read more about Deploy Boards](https://docs.gitlab.com/ee/user/project/deploy_boards.html)
+[Read more about Deploy Boards](../deploy_boards.md)
 
 ### Canary Deployments **[PREMIUM]**
 
@@ -535,7 +535,7 @@ Leverage [Kubernetes' Canary deployments](https://kubernetes.io/docs/concepts/cl
 and visualize your canary deployments right inside the Deploy Board, without
 the need to leave GitLab.
 
-[Read more about Canary Deployments](https://docs.gitlab.com/ee/user/project/canary_deployments.html)
+[Read more about Canary Deployments](../canary_deployments.md)
 
 ### Kubernetes monitoring
 

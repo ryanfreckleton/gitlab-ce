@@ -130,7 +130,8 @@ Parameters:
       "human_time_estimate": null,
       "human_total_time_spent": null
     },
-    "squash": false
+    "squash": false,
+    "approvals_before_merge": null
   }
 ]
 ```
@@ -265,7 +266,8 @@ Parameters:
       "human_time_estimate": null,
       "human_total_time_spent": null
     },
-    "squash": false
+    "squash": false,
+    "approvals_before_merge": null
   }
 ]
 ```
@@ -387,7 +389,8 @@ Parameters:
       "human_time_estimate": null,
       "human_total_time_spent": null
     },
-    "squash": false
+    "squash": false,
+    "approvals_before_merge": null
   }
 ]
 ```
@@ -511,7 +514,8 @@ Parameters:
     "start_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00"
   },
   "diverged_commits_count": 2,
-  "rebase_in_progress": false
+  "rebase_in_progress": false,
+  "approvals_before_merge": null
 }
 ```
 
@@ -727,6 +731,15 @@ POST /projects/:id/merge_requests
 | `allow_maintainer_to_push` | boolean | no       | Deprecated, see allow_collaboration                                             |
 | `squash`                   | boolean | no       | Squash commits into a single commit when merging                                |
 
+If `approvals_before_merge` is not provided, it inherits the value from the
+target project. If it is provided, then the following conditions must hold in
+order for it to take effect:
+
+1. The target project's `approvals_before_merge` must be greater than zero. (A
+   value of zero disables approvals for that project.)
+2. The provided value of `approvals_before_merge` must be greater than the
+   target project's `approvals_before_merge`.
+
 ```json
 {
   "id": 1,
@@ -824,7 +837,8 @@ POST /projects/:id/merge_requests
     "head_sha": "2be7ddb704c7b6b83732fdd5b9f09d5a397b5f8f",
     "start_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00"
   },
-  "diverged_commits_count": 2
+  "diverged_commits_count": 2,
+  "approvals_before_merge": null
 }
 ```
 
@@ -952,7 +966,8 @@ Must include at least one non-required attribute from above.
     "head_sha": "2be7ddb704c7b6b83732fdd5b9f09d5a397b5f8f",
     "start_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00"
   },
-  "diverged_commits_count": 2
+  "diverged_commits_count": 2,
+  "approvals_before_merge": null
 }
 ```
 
@@ -1095,7 +1110,8 @@ Parameters:
     "head_sha": "2be7ddb704c7b6b83732fdd5b9f09d5a397b5f8f",
     "start_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00"
   },
-  "diverged_commits_count": 2
+  "diverged_commits_count": 2,
+  "approvals_before_merge": null
 }
 ```
 
@@ -1211,7 +1227,8 @@ Parameters:
     "head_sha": "2be7ddb704c7b6b83732fdd5b9f09d5a397b5f8f",
     "start_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00"
   },
-  "diverged_commits_count": 2
+  "diverged_commits_count": 2,
+  "approvals_before_merge": null
 }
 ```
 
@@ -1466,7 +1483,8 @@ Example response:
     "head_sha": "2be7ddb704c7b6b83732fdd5b9f09d5a397b5f8f",
     "start_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00"
   },
-  "diverged_commits_count": 2
+  "diverged_commits_count": 2,
+  "approvals_before_merge": null
 }
 ```
 
@@ -1587,7 +1605,8 @@ Example response:
     "head_sha": "2be7ddb704c7b6b83732fdd5b9f09d5a397b5f8f",
     "start_sha": "c380d3acebd181f13629a25d2e2acca46ffe1e00"
   },
-  "diverged_commits_count": 2
+  "diverged_commits_count": 2,
+  "approvals_before_merge": null
 }
 ```
 
@@ -1948,3 +1967,7 @@ Example response:
 [ce-14016]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/14016
 [ce-15454]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/15454
 [ce-18935]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/18935
+
+## Approvals
+
+For approvals, please see [Merge Request Approvals](merge_request_approvals.md)

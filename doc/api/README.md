@@ -22,8 +22,11 @@ The following API resources are available:
 - [Deployments](deployments.md)
 - [Discussions](discussions.md) (threaded comments)
 - [Environments](environments.md)
+- [Epic issues](epic_issues.md) **[ULTIMATE]**
+- [Epics](epics.md) **[ULTIMATE]**
 - [Events](events.md)
 - [Feature flags](features.md)
+- [Geo Nodes](geo_nodes.md) **[PREMIUM]**
 - Group-related resources, including:
   - [Groups](groups.md)
   - [Group access requests](access_requests.md)
@@ -34,14 +37,19 @@ The following API resources are available:
   - [Group milestones](group_milestones.md)
 - [Issues](issues.md)
 - [Issue boards](boards.md)
+- [Issue links](issue_links.md)
 - [Jobs](jobs.md)
 - [Keys](keys.md)
 - [Labels](labels.md)
+- [License](license.md)
+- [Managed licenses](managed_licenses.md) **[ULTIMATE]**
 - [Markdown](markdown.md)
+- [Merge request approvals](merge_request_approvals.md) **[STARTER]**
 - [Merge requests](merge_requests.md)
 - [Namespaces](namespaces.md)
 - [Notes](notes.md) (comments)
 - [Notification settings](notification_settings.md)
+- [Packages](packages.md) **[PREMIUM]**
 - [Pages domains](pages_domains.md)
 - [Pipelines](pipelines.md)
 - [Pipeline schedules](pipeline_schedules.md)

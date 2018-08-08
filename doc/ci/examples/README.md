@@ -47,17 +47,21 @@ There's also a collection of repositories with [example projects](https://gitlab
 
 [Collect test reports in Verify stage](../junit_test_reports.md)
 
-## Code Quality analysis
+## Code Quality analysis **[STARTER]**
 
 **(Starter)** [Analyze your project's Code Quality](code_quality.md)
 
-## Static Application Security Testing (SAST)
+## Dependencies license management **[ULTIMATE]**
 
-**(Ultimate)** [Scan your code for vulnerabilities](https://docs.gitlab.com/ee/ci/examples/sast.html)
+[Find and manage the licenses of your dependencies](license_management.md).
 
-## Dependency Scanning
+## Static Application Security Testing (SAST) **[ULTIMATE]**
 
-**(Ultimate)** [Scan your dependencies for vulnerabilities](https://docs.gitlab.com/ee/ci/examples/dependency_scanning.html)
+[Scan your code for vulnerabilities](sast.md)
+
+## Dependency Scanning **[ULTIMATE]**
+
+[Scan your dependencies for vulnerabilities](dependency_scanning.md)
 
 ## Container Scanning
 

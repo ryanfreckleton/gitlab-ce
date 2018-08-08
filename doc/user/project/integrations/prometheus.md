@@ -13,7 +13,7 @@ There are two ways to set up Prometheus integration, depending on where your app
 - For deployments on Kubernetes, GitLab can automatically [deploy and manage Prometheus](#managed-prometheus-on-kubernetes).
 - For other deployment targets, simply [specify the Prometheus server](#manual-configuration-of-prometheus).
 
-Once enabled, GitLab will automatically detect metrics from known services in the [metric library](#monitoring-ci-cd-environments).
+Once enabled, GitLab will automatically detect metrics from known services in the [metric library](#monitoring-ci-cd-environments). You are also able to [add your own metrics](#adding-additional-metrics) as well.
 
 ## Enabling Prometheus Integration
 
@@ -92,6 +92,47 @@ environment which has had a successful deployment.
 GitLab will automatically scan the Prometheus server for metrics from known serves like Kubernetes and NGINX, and attempt to identify individual environment. The supported metrics and scan process is detailed in our [Prometheus Metrics Library documentation](prometheus_library/index.md).
 
 You can view the performance dashboard for an environment by [clicking on the monitoring button](../../../ci/environments.md#monitoring-environments).
+
+### Adding additional metrics **[PREMIUM]**
+
+> [Introduced](https://gitlab.com/gitlab-org/gitlab-ee/merge_requests/3799) in [GitLab Premium](https://about.gitlab.com/pricing/) 10.6.
+
+Additional metrics can be monitored by adding them on the Prometheus integration page. Once saved, they will be displayed on the environment performance dashboard.
+
+![Add New Metric](img/prometheus_add_metric.png)
+
+A few fields are required:
+
+- **Name**: Chart title
+- **Type**: Type of metric. Metrics of the same type will be shown together.
+- **Query**: Valid [PromQL query](https://prometheus.io/docs/prometheus/latest/querying/basics/). Note, no validation is performed at this time. If the query is not valid, the dashboard will display an error.
+- **Y-axis label**: Y axis title to display on the dashboard.
+- **Unit label**: Query units, for example `req / sec`. Shown next to the value.
+
+#### Query Variables
+
+GitLab supports a limited set of [CI variables](../../../ci/variables/README.html) in the Prometheus query. This is particularly useful for identifying a specific environment, for example with `CI_ENVIRONMENT_SLUG`. The supported variables are:
+
+- CI_ENVIRONMENT_SLUG
+- KUBE_NAMESPACE
+
+To specify a variable in a query, enclose it in curly braces with a leading percent. For example: `%{ci_environment_slug}`.
+
+### Setting up alerts for Prometheus metrics **[ULTIMATE]**
+
+> [Introduced](https://gitlab.com/gitlab-org/gitlab-ee/merge_requests/6590) in [GitLab Ultimate](https://about.gitlab.com/pricing/) 11.2 for [custom metrics](#adding-additional-metrics), and 11.3 for [library metrics](prometheus_library/metrics.md).
+
+Alerts can be configured for [metricss](#adding-additional-metrics) directly in the performance dashboard.
+
+To set an alert, click on the alarm icon in the top right corner of the metric you want to create the alert for. A dropdown
+will appear, with options to set the threshold and operator. Click **Add** to save and activate the alert.
+
+![Adding an alert](img/prometheus_alert.png)
+
+If the metric exceeds the threshold of the alert for over 5 minutes, an email
+will be sent to all [Maintainers and Owners](../../permissions.md#project-members-permissions) of the project.
+
+To remove the alert, click back on the alert icon for the desired metric, and click **Delete**.
 
 ## Determining the performance impact of a merge
 

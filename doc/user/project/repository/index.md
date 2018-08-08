@@ -220,14 +220,9 @@ Select branches to compare using the [branch filter search box](branches/index.m
 
 Find it under your project's **Repository > Compare**.
 
-## Locked files
+## Locked files **[PREMIUM]**
 
-> Available in [GitLab Premium](https://about.gitlab.com/pricing/).
-
-Lock your files to prevent any conflicting changes.
-
-[File Locking](https://docs.gitlab.com/ee/user/project/file_lock.html) is available only in
-[GitLab Premium](https://about.gitlab.com/pricing/).
+[Lock your files](../file_lock.md) to prevent any conflicting changes.
 
 ## Repository's API
 

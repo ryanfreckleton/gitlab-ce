@@ -58,15 +58,15 @@ project in a simple and automatic way:
 
 1. [Auto Build](#auto-build)
 1. [Auto Test](#auto-test)
-1. [Auto Code Quality](#auto-code-quality) **[STARTER]**
-1. [Auto SAST (Static Application Security Testing)](#auto-sast) **[ULTIMATE]**
-1. [Auto Dependency Scanning](#auto-dependency-scanning) **[ULTIMATE]**
-1. [Auto License Management](#auto-license-management) **[ULTIMATE]**
+1. [Auto Code Quality](#auto-code-quality-starter) **[STARTER]**
+1. [Auto SAST (Static Application Security Testing)](#auto-sast-ultimate) **[ULTIMATE]**
+1. [Auto Dependency Scanning](#auto-dependency-scanning-ultimate) **[ULTIMATE]**
+1. [Auto License Management](#auto-license-management-ultimate) **[ULTIMATE]**
 1. [Auto Container Scanning](#auto-container-scanning)
 1. [Auto Review Apps](#auto-review-apps)
-1. [Auto DAST (Dynamic Application Security Testing)](#auto-dast) **[ULTIMATE]**
+1. [Auto DAST (Dynamic Application Security Testing)](#auto-dast-ultimate) **[ULTIMATE]**
 1. [Auto Deploy](#auto-deploy)
-1. [Auto Browser Performance Testing](#auto-browser-performance-testing) **[PREMIUM]**
+1. [Auto Browser Performance Testing](#auto-browser-performance-testing-premium) **[PREMIUM]**
 1. [Auto Monitoring](#auto-monitoring)
 
 As Auto DevOps relies on many different components, it's good to have a basic
@@ -345,7 +345,7 @@ created, and is uploaded as an artifact which you can later download and check
 out.
 
 Any differences between the source and target branches are also
-[shown in the merge request widget](https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html).
+[shown in the merge request widget](../../user/project/merge_requests/code_quality.md).
 
 ### Auto SAST **[ULTIMATE]**
 
@@ -358,7 +358,7 @@ report is created, it's uploaded as an artifact which you can later download and
 check out.
 
 Any security warnings are also
-[shown in the merge request widget](https://docs.gitlab.com/ee//user/project/merge_requests/sast.html).
+[shown in the merge request widget](../../user/project/merge_requests/sast.md).
 
 NOTE: **Note:**
 The Auto SAST stage will be skipped on licenses other than Ultimate.
@@ -377,7 +377,7 @@ report is created, it's uploaded as an artifact which you can later download and
 check out.
 
 Any security warnings are also
-[shown in the merge request widget](https://docs.gitlab.com/ee//user/project/merge_requests/dependency_scanning.html).
+[shown in the merge request widget](../../user/project/merge_requests/dependency_scanning.md).
 
 NOTE: **Note:**
 The Auto Dependency Scanning stage will be skipped on licenses other than Ultimate.
@@ -396,7 +396,7 @@ report is created, it's uploaded as an artifact which you can later download and
 check out.
 
 Any licenses are also
-[shown in the merge request widget](https://docs.gitlab.com/ee//user/project/merge_requests/license_management.html).
+[shown in the merge request widget](../../user/project/merge_requests/license_management.md).
 
 NOTE: **Note:**
 The Auto License Management stage will be skipped on licenses other than Ultimate.

@@ -53,6 +53,8 @@ future GitLab releases.**
 | Variable                                  | GitLab | Runner | Description |
 |-------------------------------------------|--------|--------|-------------|
 | **ARTIFACT_DOWNLOAD_ATTEMPTS**            | 8.15   | 1.9    | Number of attempts to download artifacts running a job |
+| **CHAT_INPUT**                            | 10.6  | all    | Additional arguments passed in the [ChatOps](../chatops/README.md) command **[ULTIMATE]** |
+| **CHAT_CHANNEL**                          | 10.6  | all    | Source chat channel which triggered the [ChatOps](../chatops/README.md) command **[ULTIMATE]** |
 | **CI**                                    | all    | 0.4    | Mark that job is executed in CI environment |
 | **CI_COMMIT_BEFORE_SHA**                  | 11.2   | all    | The previous latest commit present on a branch before a push request. |
 | **CI_COMMIT_DESCRIPTION**                 | 10.8   | all    | The description of the commit: the message without first line, if the title is shorter than 100 characters; full message in other case. |
@@ -75,7 +77,7 @@ future GitLab releases.**
 | **CI_JOB_MANUAL**                         | 8.12   | all    | The flag to indicate that job was manually started |
 | **CI_JOB_NAME**                           | 9.0    | 0.5    | The name of the job as defined in `.gitlab-ci.yml` |
 | **CI_JOB_STAGE**                          | 9.0    | 0.5    | The name of the stage as defined in `.gitlab-ci.yml` |
-| **CI_JOB_TOKEN**                          | 9.0    | 1.2    | Token used for authenticating with the [GitLab Container Registry][registry] and downloading [dependent repositories][dependent-repositories] |
+| **CI_JOB_TOKEN**                          | 9.0    | 1.2    | Token used for authenticating with [GitLab Container Registry][registry], downloading [dependent repositories][dependent-repositories], authenticate with multi-project pipelines when [triggers][trigger-job-token] are involved, and for [downloading job artifacts][get-job-artifacts]  |
 | **CI_JOB_URL**                            | 11.1   | 0.5    | Job details URL |
 | **CI_MERGE_REQUEST_ID**                   | 11.6   | all    | The ID of the merge request if it's [pipelines for merge requests](../merge_request_pipelines/index.md) |
 | **CI_MERGE_REQUEST_IID**                  | 11.6   | all    | The IID of the merge request if it's [pipelines for merge requests](../merge_request_pipelines/index.md) |
@@ -131,6 +133,7 @@ future GitLab releases.**
 | **GITLAB_USER_ID**                        | 8.12   | all    | The id of the user who started the job |
 | **GITLAB_USER_LOGIN**                     | 10.0   | all    | The login username of the user who started the job |
 | **GITLAB_USER_NAME**                      | 10.0   | all    | The real name of the user who started the job |
+| **GITLAB_FEATURES**                       | 10.6   | all    | The comma separated list of licensed features available for your instance and plan |
 | **RESTORE_CACHE_ATTEMPTS**                | 8.15   | 1.9    | Number of attempts to restore the cache running a job |
 
 ## GitLab 9.0 renaming
@@ -244,6 +247,23 @@ Protected variables can be added by going to your project's
 **Variables**, and check "Protected".
 
 Once you set them, they will be available for all subsequent pipelines.
+
+### Limiting environment scopes of variables **[PREMIUM]**
+
+> [Introduced][ee-2112] in [GitLab Premium](https://about.gitlab.com/pricing/) 9.4.
+
+You can limit the environment scope of a variable by
+[defining which environments][envs] it can be available for.
+
+Wildcards can be used, and the default environment scope is `*` which means
+any jobs will have this variable, not matter if an environment is defined or
+not.
+
+For example, if the environment scope is `production`, then only the jobs
+having the environment `production` defined would have this specific variable.
+Wildcards (`*`) can be used along with the environment name, therefore if the
+environment scope is `review/*` then any jobs with environment names starting
+with `review/` would have that particular variable.
 
 ### Manually-specified variables
 
@@ -624,14 +644,16 @@ Below you can find supported syntax reference:
     Pattern matching is case-sensitive by default. Use `i` flag modifier, like
     `/pattern/i` to make a pattern case-insensitive.
 
+[ee-2112]: https://gitlab.com/gitlab-org/gitlab-ee/merge_requests/2112
 [ce-13784]: https://gitlab.com/gitlab-org/gitlab-ce/issues/13784 "Simple protection of CI variables"
-[eep]: https://about.gitlab.com/pricing/ "Available only in GitLab Premium"
 [envs]: ../environments.md
 [protected branches]: ../../user/project/protected_branches.md
 [protected tags]: ../../user/project/protected_tags.md
 [shellexecutors]: https://docs.gitlab.com/runner/executors/
 [triggered]: ../triggers/README.md
 [builds-policies]: ../yaml/README.md#only-and-except-complex
+[trigger-job-token]: ../triggers/README.md#ci-job-token
 [gitlab-deploy-token]: ../../user/project/deploy_tokens/index.md#gitlab-deploy-token
 [registry]: ../../user/project/container_registry.md
 [dependent-repositories]: ../../user/project/new_ci_build_permissions_model.md#dependent-repositories
+[get-job-artifacts]:  ../../api/jobs.html#get-job-artifacts

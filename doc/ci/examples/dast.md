@@ -17,7 +17,7 @@ It can be very useful combined with [Review Apps](../review_apps/index.md).
 ## Example
 
 First, you need GitLab Runner with
-[docker-in-docker executor](../docker/using_docker_build.md#use-docker-in-docker-executor).
+[docker executor](https://docs.gitlab.com/runner/executors/docker.html).
 
 Once you set up the Runner, add a new job to `.gitlab-ci.yml` that
 generates the expected report:
@@ -72,7 +72,7 @@ to learn more about authentication settings.
 TIP: **Tip:**
 For [GitLab Ultimate][ee] users, this information will
 be automatically extracted and shown right in the merge request widget.
-[Learn more on DAST in merge requests](https://docs.gitlab.com/ee/user/project/merge_requests/dast.html).
+[Learn more on DAST in merge requests](../../user/project/merge_requests/dast.md).
 
 ## Previous job definitions
 
