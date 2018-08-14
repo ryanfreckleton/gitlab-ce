@@ -21,7 +21,7 @@ module Search
 
     def scope
       @scope ||= begin
-        allowed_scopes = %w[issues merge_requests milestones]
+        allowed_scopes = %w[issues merge_requests milestones users]
 
         allowed_scopes.delete(params[:scope]) { 'projects' }
       end
