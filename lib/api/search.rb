@@ -17,7 +17,8 @@ module API
         blobs: Entities::Blob,
         wiki_blobs: Entities::Blob,
         snippet_titles: Entities::Snippet,
-        snippet_blobs: Entities::Snippet
+        snippet_blobs: Entities::Snippet,
+        users: Entities::UserBasic
       }.freeze
 
       def search(additional_params = {})
@@ -56,8 +57,8 @@ module API
         requires :scope,
           type: String,
           desc: 'The scope of search, available scopes:
-            projects, issues, merge_requests, milestones, snippet_titles, snippet_blobs',
-          values: %w(projects issues merge_requests milestones snippet_titles snippet_blobs)
+            projects, issues, merge_requests, milestones, snippet_titles, snippet_blobs, users',
+          values: %w(projects issues merge_requests milestones snippet_titles snippet_blobs users)
         use :pagination
       end
       get do
@@ -75,8 +76,8 @@ module API
         requires :scope,
           type: String,
           desc: 'The scope of search, available scopes:
-            projects, issues, merge_requests, milestones',
-          values: %w(projects issues merge_requests milestones)
+            projects, issues, merge_requests, milestones, users',
+          values: %w(projects issues merge_requests milestones users)
         use :pagination
       end
       get ':id/(-/)search' do
@@ -94,8 +95,8 @@ module API
         requires :scope,
           type: String,
           desc: 'The scope of search, available scopes:
-            issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs',
-          values: %w(issues merge_requests milestones notes wiki_blobs commits blobs)
+            issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users',
+          values: %w(issues merge_requests milestones notes wiki_blobs commits blobs users)
         use :pagination
       end
       get ':id/(-/)search' do

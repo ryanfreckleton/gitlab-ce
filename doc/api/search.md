@@ -17,7 +17,7 @@ GET /search
 | `scope`       | string   | yes        | The scope to search in                |
 | `search`      | string   | yes        | The search query  |
 
-Search the expression within the specified scope. Currently these scopes are supported: projects, issues, merge_requests, milestones, snippet_titles, snippet_blobs.
+Search the expression within the specified scope. Currently these scopes are supported: projects, issues, merge_requests, milestones, snippet_titles, snippet_blobs, users.
 
 The response depends on the requested scope.
 
@@ -281,6 +281,27 @@ Example response:
 ]
 ```
 
+### Scope: users
+
+```bash
+curl --request GET --header "PRIVATE-TOKEN: 9koXpg98eAheJpvBs5tK" https://gitlab.example.com/api/v4/search?scope=users&search=doe
+```
+
+Example response:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "John Doe1",
+    "username": "user1",
+    "state": "active",
+    "avatar_url": "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
+    "web_url": "http://localhost/user1"
+  }
+]
+```
+
 
 ## Group Search API
 
@@ -298,7 +319,7 @@ GET /groups/:id/search
 | `scope`       | string   | yes        | The scope to search in                |
 | `search`      | string   | yes        | The search query  |
 
-Search the expression within the specified scope. Currently these scopes are supported: projects, issues, merge_requests, milestones.
+Search the expression within the specified scope. Currently these scopes are supported: projects, issues, merge_requests, milestones, users.
 
 The response depends on the requested scope.
 
@@ -500,6 +521,27 @@ Example response:
 ]
 ```
 
+### Scope: users
+
+```bash
+curl --request GET --header "PRIVATE-TOKEN: 9koXpg98eAheJpvBs5tK" https://gitlab.example.com/api/v4/groups/3/search?scope=users&search=doe
+```
+
+Example response:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "John Doe1",
+    "username": "user1",
+    "state": "active",
+    "avatar_url": "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
+    "web_url": "http://localhost/user1"
+  }
+]
+```
+
 ## Project Search API
 
 Search within the specified project.
@@ -516,7 +558,7 @@ GET /projects/:id/search
 | `scope`       | string   | yes        | The scope to search in                |
 | `search`      | string   | yes        | The search query  |
 
-Search the expression within the specified scope. Currently these scopes are supported: issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs.
+Search the expression within the specified scope. Currently these scopes are supported: issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users.
 
 The response depends on the requested scope.
 
@@ -826,6 +868,27 @@ Example response:
     "ref": "master",
     "startline": 46,
     "project_id": 6
+  }
+]
+```
+
+### Scope: users
+
+```bash
+curl --request GET --header "PRIVATE-TOKEN: 9koXpg98eAheJpvBs5tK" https://gitlab.example.com/api/v4/projects/6/search?scope=users&search=doe
+```
+
+Example response:
+
+```json
+[
+  {
+    "id": 1,
+    "name": "John Doe1",
+    "username": "user1",
+    "state": "active",
+    "avatar_url": "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
+    "web_url": "http://localhost/user1"
   }
 ]
 ```
