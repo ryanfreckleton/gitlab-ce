@@ -170,6 +170,11 @@ module.exports = {
           name: '[name].[hash:8].[ext]',
         },
       },
+      {
+        test: /\.wasm$/,
+        loader: 'file-loader',
+        type: 'javascript/auto',
+      },
     ],
   },
 

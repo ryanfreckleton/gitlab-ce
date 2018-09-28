@@ -1,5 +1,9 @@
 import _ from 'underscore';
-import { editor as monacoEditor, KeyCode, KeyMod } from 'monaco-editor';
+import { editor as monacoEditor, languages, KeyCode, KeyMod } from 'monaco-editor';
+import { loadWASM } from 'onigasm';
+import { Registry } from 'monaco-textmate';
+import { wireTmGrammars } from 'monaco-editor-textmate';
+import { grammars as textmateGrammars } from 'monaco-textmate-languages/dist/manifest';
 import store from '../stores';
 import DecorationsController from './decorations/controller';
 import DirtyDiffController from './diff/controller';
@@ -9,10 +13,62 @@ import editorOptions, { defaultEditorOptions } from './editor_options';
 import gitlabTheme from './themes/gl_theme';
 import keymap from './keymap.json';
 
-function setupMonacoTheme() {
-  monacoEditor.defineTheme(gitlabTheme.themeName, gitlabTheme.monacoTheme);
-  monacoEditor.setTheme('gitlab');
+languages.register({ id: 'vue', extensions: ['vue'], mimeTypes: ['text/html'] });
+
+function standardizeColor(color) {
+  return color ? color.replace(/^#/, '') : color;
 }
+
+function setupMonacoTheme() {
+  monacoEditor.defineTheme(gitlabTheme.themeName, {
+    ...gitlabTheme.monacoTheme,
+    rules: gitlabTheme.monacoTheme.rules.reduce(
+      (acc, token) =>
+        acc.concat(
+          (typeof token.scope === 'string' ? token.scope.split(',') : token.scope).map(s => ({
+            token: s.trim(),
+            foreground: standardizeColor(token.settings.foreground),
+            background: standardizeColor(token.settings.background),
+            fontStyle: token.settings.fontStyle,
+          })),
+        ),
+      [],
+    ),
+  });
+  monacoEditor.setTheme(gitlabTheme.themeName);
+}
+
+let onigasmLoaded = false;
+const loadSyntaxHighlighting = () => {
+  // eslint-disable-next-line global-require
+  (onigasmLoaded ? Promise.resolve() : loadWASM(require('onigasm/lib/onigasm.wasm')))
+    .then(() => {
+      onigasmLoaded = true;
+
+      const registry = new Registry({
+        getGrammarDefinition: scopeName => {
+          const { path } = textmateGrammars.find(g => g.scopeName === scopeName);
+          return import(`monaco-textmate-languages/grammars/${path}`).then(content => ({
+            format: 'json',
+            content: content.default,
+          }));
+        },
+      });
+
+      const grammars = new Map();
+      grammars.set('typescript', 'source.tsx');
+      grammars.set('javascript', 'source.tsx');
+      grammars.set('vue', 'text.html.vue');
+      grammars.set('html', 'text.html.basic');
+      grammars.set('css', 'source.css');
+      grammars.set('json', 'source.json');
+
+      return wireTmGrammars(window.monaco, registry, grammars);
+    })
+    .catch(e => {
+      throw e;
+    });
+};
 
 export const clearDomElement = el => {
   if (!el || !el.firstChild) return;
@@ -37,6 +93,25 @@ export default class Editor {
     this.disposable = new Disposable();
     this.modelManager = new ModelManager();
     this.decorationsController = new DecorationsController(this);
+
+    languages
+      .getLanguages()
+      .filter(
+        l =>
+          l.id === 'javascript' ||
+          l.id === 'typescript' ||
+          l.id === 'html' ||
+          l.id === 'css' ||
+          l.id === 'json',
+      )
+      .forEach(lang => {
+        // eslint-disable-next-line no-param-reassign
+        lang.loader = () =>
+          Promise.resolve({
+            language: { tokenizer: { root: [] } },
+            conf: {},
+          });
+      });
 
     setupMonacoTheme();
 
@@ -118,6 +193,10 @@ export default class Editor {
     );
 
     if (this.dirtyDiffController) this.dirtyDiffController.reDecorate(model);
+
+    if (typeof WebAssembly === 'object') {
+      loadSyntaxHighlighting();
+    }
   }
 
   attachMergeRequestModel(model) {

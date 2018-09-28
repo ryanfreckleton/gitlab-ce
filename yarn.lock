@@ -3543,6 +3543,11 @@ fast-levenshtein@~2.0.4:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
+fast-plist@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/fast-plist/-/fast-plist-0.1.2.tgz#a45aff345196006d406ca6cdcd05f69051ef35b8"
+  integrity sha1-pFr/NFGWAG1AbKbNzQX2kFHvNbg=
+
 fastparse@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.1.tgz#d1e2643b38a94d7583b479060e6c4affc94071f8"
@@ -5577,6 +5582,11 @@ moment@2.x, moment@^2.21.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
   integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
 
+monaco-editor-textmate@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/monaco-editor-textmate/-/monaco-editor-textmate-2.0.1.tgz#f33b4ddd89e0e47d6e364c7e1772bb7ea0c99c9f"
+  integrity sha512-0xFYTKtn5bSIVheegKpsqiPN/sxEX2ddGf876hSSFiOt/YIKIDt6ULFDmJGVIz4Mog3XqCY3++dFUgVqamjScg==
+
 monaco-editor-webpack-plugin@^1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-1.5.4.tgz#6781a130e3e1379bb8f4cd190132f4af6dcd2c16"
@@ -5586,6 +5596,18 @@ monaco-editor@^0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.14.3.tgz#7cc4a4096a3821f52fea9b10489b527ef3034e22"
   integrity sha512-RhaO4xXmWn/p0WrkEOXe4PoZj6xOcvDYjoAh0e1kGUrQnP1IOpc0m86Ceuaa2CLEMDINqKijBSmqhvBQnsPLHQ==
+
+monaco-textmate-languages@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/monaco-textmate-languages/-/monaco-textmate-languages-1.1.0.tgz#61785ff1fc8a9a049398141ddb9b8e7bfbf3ab82"
+  integrity sha512-3vIEHIaifpp+tOXH3w1IGtKjSTnrET8AJNlbKKTiP162Z8JB3ic50zry4xRq+W6F8176NI0DyVMqDgCFD+OdBg==
+
+monaco-textmate@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/monaco-textmate/-/monaco-textmate-3.0.0.tgz#abfbce7d7ff000954ae3206e512f325db6e7b8a8"
+  integrity sha512-llE/NasQkbAEDx/RPp0ili5ZEXH4e/UkYFMACvJrEY0aybq6FVW9qySt5C4kWwRXCJDL+4ewgoTt4XO3M+bfIg==
+  dependencies:
+    fast-plist "^0.1.2"
 
 mousetrap@^1.4.6:
   version "1.4.6"
@@ -5949,6 +5971,13 @@ onetime@^2.0.0:
   integrity sha1-BnQoIw/WdEOyeUsiu6UotoZ5YtQ=
   dependencies:
     mimic-fn "^1.0.0"
+
+onigasm@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/onigasm/-/onigasm-2.2.1.tgz#d56da809d63d3bb25510e8b8e447ffe98e56bebb"
+  integrity sha512-pa361CpVfsWOk0MQ1jLuJ1GvEJMHEHgZmaBpOIfBbvbp2crkDHacXB6mA4vgEfO7fL0OEMUSuZjX0Q9yTx6jTg==
+  dependencies:
+    lru-cache "^4.1.1"
 
 opencollective@^1.0.3:
   version "1.0.3"
