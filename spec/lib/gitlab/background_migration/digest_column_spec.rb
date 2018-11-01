@@ -17,12 +17,12 @@ describe Gitlab::BackgroundMigration::DigestColumn, :migration, schema: 20180913
 
       it 'saves token digest' do
         expect { subject.perform(PersonalAccessToken, :token, :token_digest, 1, 2) }.to(
-          change { PersonalAccessToken.find(1).token_digest }.from(nil).to(Gitlab::CryptoHelper.sha256('token-01')))
+          change { PersonalAccessToken.find(1).read_attribute(:token_digest) }.from(nil).to(Gitlab::CryptoHelper.sha256('token-01')))
       end
 
       it 'erases token' do
         expect { subject.perform(PersonalAccessToken, :token, :token_digest, 1, 2) }.to(
-          change { PersonalAccessToken.find(1).token }.from('token-01').to(nil))
+          change { PersonalAccessToken.find(1).read_attribute(:token) }.from('token-01').to(nil))
       end
     end
 
@@ -34,12 +34,12 @@ describe Gitlab::BackgroundMigration::DigestColumn, :migration, schema: 20180913
 
       it 'does not change existing token digest' do
         expect { subject.perform(PersonalAccessToken, :token, :token_digest, 1, 2) }.not_to(
-          change { PersonalAccessToken.find(1).token_digest })
+          change { PersonalAccessToken.find(1).read_attribute(:token_digest) })
       end
 
       it 'leaves token empty' do
         expect { subject.perform(PersonalAccessToken, :token, :token_digest, 1, 2) }.not_to(
-          change { PersonalAccessToken.find(1).token }.from(nil))
+          change { PersonalAccessToken.find(1).read_attribute(:token) }.from(nil))
       end
     end
   end
