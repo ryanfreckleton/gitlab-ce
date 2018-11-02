@@ -104,6 +104,20 @@ RSpec.configure do |config|
       RspecFlaky::Listener.new,
       :example_passed,
       :dump_summary)
+
+    `git remote add ce https://gitlab.com/gitlab-org/gitlab-ce.git`
+    `git fetch ce master`
+    puts 'changed_backend_files:'
+    changed_backend_files = `git diff ce/master... --diff-filter=d --name-only --`.lines
+    changed_backend_files = changed_backend_files.select do |file|
+      file.strip.match?(/\.rb\z/) && !file.match?(/\Aspec\/(features|javascripts\/fixtures)\//)
+    end
+
+    changed_backend_files.delete("spec/spec_helper.rb\n") # TODO: remove before merging
+
+    if changed_backend_files.empty?
+      config.pattern = 'spec/features/*_spec.rb,spec/javascripts/fixtures/*.rb'
+    end
   end
 
   config.before(:suite) do
