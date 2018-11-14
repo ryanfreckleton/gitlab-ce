@@ -10,7 +10,7 @@ production:
   pool: 10
   username: git
   password: "secure password"
-  host: localhost
+  host: 127.0.0.1
   # socket: /tmp/mysql.sock
 
 #
@@ -25,7 +25,7 @@ development:
   pool: 5
   username: root
   password: "secure password"
-  host: localhost
+  host: 127.0.0.1
   # socket: /tmp/mysql.sock
 
 #
@@ -40,7 +40,7 @@ staging:
   pool: 10
   username: git
   password: "secure password"
-  host: localhost
+  host: 127.0.0.1
   # socket: /tmp/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
@@ -55,6 +55,6 @@ test: &test
   pool: 5
   username: root
   password:
-  host: localhost
+  host: 127.0.0.1
   # socket: /tmp/mysql.sock
   prepared_statements: false
