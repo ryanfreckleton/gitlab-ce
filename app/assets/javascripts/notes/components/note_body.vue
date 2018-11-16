@@ -1,10 +1,12 @@
 <script>
 import $ from 'jquery';
+import { mapActions } from 'vuex';
 import noteEditedText from './note_edited_text.vue';
 import noteAwardsList from './note_awards_list.vue';
 import noteAttachment from './note_attachment.vue';
 import noteForm from './note_form.vue';
 import autosave from '../mixins/autosave';
+import suggestion from '~/vue_shared/components/markdown/suggestion.vue';
 
 export default {
   components: {
@@ -12,12 +14,18 @@ export default {
     noteAwardsList,
     noteAttachment,
     noteForm,
+    suggestion,
   },
   mixins: [autosave],
   props: {
     note: {
       type: Object,
       required: true,
+    },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
     },
     canEdit: {
       type: Boolean,
@@ -32,6 +40,9 @@ export default {
   computed: {
     noteBody() {
       return this.note.note;
+    },
+    isSuggestion() {
+      return this.note.note_html.includes('js-render-suggestion');
     },
   },
   mounted() {
@@ -53,6 +64,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['submitSuggestion']),
     renderGFM() {
       $(this.$refs['note-body']).renderGFM();
     },
@@ -62,19 +74,34 @@ export default {
     formCancelHandler(shouldConfirm, isDirty) {
       this.$emit('cancelForm', shouldConfirm, isDirty);
     },
+    applySuggestion({ suggestionId, flashContainer, callback }) {
+      const discussionId = this.note.discussion_id;
+      const noteId = this.note.id;
+
+      this.submitSuggestion({ discussionId, noteId, suggestionId, flashContainer, callback });
+    },
   },
 };
 </script>
 
 <template>
   <div ref="note-body" :class="{ 'js-task-list-container': canEdit }" class="note-body">
-    <div class="note-text md" v-html="note.note_html"></div>
+    <suggestion
+      v-if="isSuggestion"
+      :can-apply="true"
+      :old-line-number="note.position.new_line || note.position.old_line"
+      :suggestions="note.suggestions"
+      :suggestion-html="note.note_html"
+      @apply="applySuggestion"
+    />
+    <div v-else class="note-text md" v-html="note.note_html"></div>
     <note-form
       v-if="isEditing"
       ref="noteForm"
       :is-editing="isEditing"
       :note-body="noteBody"
       :note-id="note.id"
+      :line="line"
       :markdown-version="note.cached_markdown_version"
       @handleFormUpdate="handleFormUpdate"
       @cancelForm="formCancelHandler"

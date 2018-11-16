@@ -6,12 +6,14 @@ import GLForm from '../../../gl_form';
 import markdownHeader from './header.vue';
 import markdownToolbar from './toolbar.vue';
 import icon from '../icon.vue';
+import suggestion from '~/vue_shared/components/markdown/suggestion.vue';
 
 export default {
   components: {
     markdownHeader,
     markdownToolbar,
     icon,
+    suggestion,
   },
   props: {
     markdownPreviewPath: {
@@ -48,6 +50,11 @@ export default {
       required: false,
       default: true,
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -62,6 +69,20 @@ export default {
     shouldShowReferencedUsers() {
       const referencedUsersThreshold = 10;
       return this.referencedUsers.length >= referencedUsersThreshold;
+    },
+    isSuggestion() {
+      return this.markdownPreview.includes('js-render-suggestion');
+    },
+    lineContent() {
+      return this.line && this.line.line_code ? $(`#${this.line.line_code} .line`).text() : '';
+    },
+    lineNumber() {
+      const newLine = this.line ? this.line.new_line : null;
+      const oldLine = this.line ? this.line.old_line : '';
+      return newLine || oldLine;
+    },
+    canSuggest() {
+      return gon.features.diffSuggestions && this.line && this.line.type !== 'old';
     },
   },
   mounted() {
@@ -146,6 +167,8 @@ export default {
   >
     <markdown-header
       :preview-markdown="previewMarkdown"
+      :line-content="lineContent"
+      :can-suggest="canSuggest"
       @preview-markdown="showPreviewTab"
       @write-markdown="showWriteTab"
     />
@@ -163,7 +186,13 @@ export default {
       </div>
     </div>
     <div v-show="previewMarkdown" class="md md-preview-holder md-preview js-vue-md-preview">
-      <div ref="markdown-preview" v-html="markdownPreview"></div>
+      <suggestion
+        v-if="isSuggestion"
+        :suggestion-html="markdownPreview"
+        :old-line-number="lineNumber"
+        :old-line-content="lineContent"
+      />
+      <div v-else ref="markdown-preview" v-html="markdownPreview"></div>
       <span v-if="markdownPreviewLoading"> Loading... </span>
     </div>
     <template v-if="previewMarkdown && !markdownPreviewLoading">
