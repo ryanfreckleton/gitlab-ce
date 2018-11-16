@@ -33,6 +33,16 @@ export default {
     noteBody() {
       return this.note.note;
     },
+    fileName() {
+      return this.note.position ? this.note.position.new_path : '';
+    },
+    mockSuggestion() {
+      // temporary: this will be generated on the backend and returned via api call in parent
+      return `
+          <p dir="auto">I suggest we do the following</p><pre class="code js-render-suggestion white"><code><span id="LC1" class="line">- &lt;p&gt;Foo&lt;/p&gt;</span>&#x000A;<span id="LC2" class="line">+ &lt;p&gt;Bar&lt;/p&gt;</span></code></pre>
+
+          <p dir="auto">Or this</p><pre class="code js-render-suggestion white"><code><span id="LC1" class="line">- &lt;p&gt;Foo&lt;/p&gt;</span>&#x000A;<span id="LC2" class="line">+ &lt;p&gt;Baz&lt;/p&gt;</span></code></pre>`;
+    },
   },
   mounted() {
     this.renderGFM();
@@ -54,7 +64,8 @@ export default {
   },
   methods: {
     renderGFM() {
-      $(this.$refs['note-body']).renderGFM();
+      const { fileName } = this;
+      $(this.$refs['note-body']).renderGFM({ fileName, canApply: true });
     },
     handleFormUpdate(note, parentElement, callback) {
       this.$emit('handleFormUpdate', note, parentElement, callback);
@@ -73,13 +84,14 @@ export default {
     class="note-body">
     <div
       class="note-text md"
-      v-html="note.note_html"></div>
+      v-html="mockSuggestion"></div>
     <note-form
       v-if="isEditing"
       ref="noteForm"
       :is-editing="isEditing"
       :note-body="noteBody"
       :note-id="note.id"
+      :note-file-name="noteFileName"
       :markdown-version="note.cached_markdown_version"
       @handleFormUpdate="handleFormUpdate"
       @cancelForm="formCancelHandler"

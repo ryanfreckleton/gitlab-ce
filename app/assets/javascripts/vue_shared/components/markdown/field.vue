@@ -38,6 +38,11 @@ export default {
       required: false,
       default: '',
     },
+    fileName: {
+      type: String,
+      required: false,
+      default: '',
+    },
     canAttachFile: {
       type: Boolean,
       required: false,
@@ -62,6 +67,13 @@ export default {
     shouldShowReferencedUsers() {
       const referencedUsersThreshold = 10;
       return this.referencedUsers.length >= referencedUsersThreshold;
+    },
+    mockSuggestion() {
+      // temporary: this will be generated on the backend and returned via api call in parent
+      return `
+        <p dir="auto">I suggest we do the following</p><pre class="code js-render-suggestion white"><code><span id="LC1" class="line">- &lt;p&gt;Foo&lt;/p&gt;</span>&#x000A;<span id="LC2" class="line">+ &lt;p&gt;Bar&lt;/p&gt;</span></code></pre>
+
+        <p dir="auto">Or this</p><pre class="code js-render-suggestion white"><code><span id="LC1" class="line">- &lt;p&gt;Foo&lt;/p&gt;</span>&#x000A;<span id="LC2" class="line">+ &lt;p&gt;Baz&lt;/p&gt;</span></code></pre>`;
     },
   },
   mounted() {
@@ -124,7 +136,8 @@ export default {
       }
 
       this.$nextTick(() => {
-        $(this.$refs['markdown-preview']).renderGFM();
+        const { fileName } = this;
+        $(this.$refs['markdown-preview']).renderGFM({ fileName });
       });
     },
 
@@ -177,7 +190,7 @@ export default {
     >
       <div
         ref="markdown-preview"
-        v-html="markdownPreview"
+        v-html="mockSuggestion"
       >
       </div>
       <span v-if="markdownPreviewLoading">
