@@ -16,7 +16,7 @@ retry() {
 setup_db_user_only() {
     if [ "$GITLAB_DATABASE" = "postgresql" ]; then
         . scripts/create_postgres_user.sh
-    else
+    elif [ "$GITLAB_DATABASE" = "mysql" ]; then
         . scripts/create_mysql_user.sh
     fi
 }
