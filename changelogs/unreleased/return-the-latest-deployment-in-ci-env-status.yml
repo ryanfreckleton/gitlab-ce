@@ -1,0 +1,5 @@
+---
+title: Return the latest deployment in ci_environments_status endpoint
+merge_request: 22980
+author:
+type: fixed
