@@ -23,9 +23,9 @@ No matter how you use GitLab, we have documentation for you.
         Discover features and concepts for GitLab users.
       </td>
       <td width="50%">
-        <a href="administration/index.md"><strong>Administrator documentation</strong></a> **[CORE ONLY]**
+        <a href="administration/index.md"><strong>Administrator documentation</strong></a>
         <br/>
-        Everything GitLab administrators need to know.
+        Everything GitLab self-managed administrators need to know.
       </td>
     </tr>
     <tr>
