@@ -64,8 +64,8 @@ export default {
   },
   methods: {
     renderGFM() {
-      const { fileName } = this;
-      $(this.$refs['note-body']).renderGFM({ fileName, canApply: true });
+      const { fileName, note } = this;
+      $(this.$refs['note-body']).renderGFM({ fileName, note, canApply: true });
     },
     handleFormUpdate(note, parentElement, callback) {
       this.$emit('handleFormUpdate', note, parentElement, callback);

@@ -10,19 +10,25 @@ import suggestionHeader from '~/vue_shared/components/markdown/suggestion-header
 // ```suggestion
 //  const foo = 'bar';
 // ```
-//
 
 export default function renderSuggestion($els, metadata) {
   if (!$els.length || !metadata.fileName) return;
 
-  const { fileName, canApply } = metadata;
+  const { fileName, note } = metadata;
 
   const applySuggestion = () => {
-    // TODO - Apply suggestion
+    const { position } = note;
+    const lineNumber = position.new_line || position.old_line;
+
+    // TODO - Get/Set new line content
+    // TODO - Dispatch > Apply suggestion
   };
 
-  const generateHeader = () =>
-    new Vue({
+  const generateHeader = () => {
+
+    const canApply = (typeof note !== 'undefined');
+
+    return new Vue({
       components: {
         suggestionHeader,
       },
@@ -40,10 +46,11 @@ export default function renderSuggestion($els, metadata) {
         @apply="applySuggestion"
       />`,
     }).$mount().$el;
+  };
 
   $els.each((i, el) => {
     const prevSibling = el.previousElementSibling;
-    if (prevSibling.classList.contains('suggestion-header')) {
+    if (prevSibling.classList.contains('md-suggestion-header')) {
       prevSibling.remove();
     }
     el.parentNode.insertBefore(generateHeader(), el);
