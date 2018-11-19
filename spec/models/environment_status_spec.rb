@@ -33,6 +33,14 @@ describe EnvironmentStatus do
     subject { environment_status.deployment }
 
     it { is_expected.to eq(deployment) }
+
+    context 'when there are two deployments with the same SHA' do
+      let!(:latest_deployment) { create(:deployment, :success, :review_app, sha: sha, environment: environment) }
+
+      it 'returns the latest deployment' do
+        is_expected.to eq(latest_deployment)
+      end
+    end
   end
 
   # $ git diff --stat pages-deploy-target...pages-deploy
