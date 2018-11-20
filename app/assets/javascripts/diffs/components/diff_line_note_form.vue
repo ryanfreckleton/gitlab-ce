@@ -96,7 +96,6 @@ export default {
       :line-code="line.line_code"
       save-button-title="Comment"
       class="diff-comment-form"
-      :note-file-name="formData.diffFile.file_path"
       @cancelForm="handleCancelCommentForm"
       @handleFormUpdate="handleSaveNote"
     />
