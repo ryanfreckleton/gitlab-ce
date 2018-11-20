@@ -40,11 +40,6 @@ export default {
       required: false,
       default: '',
     },
-    fileName: {
-      type: String,
-      required: false,
-      default: '',
-    },
     canAttachFile: {
       type: Boolean,
       required: false,
@@ -73,9 +68,14 @@ export default {
     mockSuggestion() {
       // temporary: this will be generated on the backend and returned via api call in parent
       return `
-        <p dir="auto">I suggest we do the following</p><pre class="code js-render-suggestion white"><code><span id="LC1" class="line">- &lt;p&gt;Foo&lt;/p&gt;</span>&#x000A;<span id="LC2" class="line">+ &lt;p&gt;Bar&lt;/p&gt;</span></code></pre>
+        <p dir="auto">I suggest</p>
+        &#x000A;
+        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Foo&lt;/p&gt;</span></code></pre>
+        &#x000A;
 
-        <p dir="auto">Or this</p><pre class="code js-render-suggestion white"><code><span id="LC1" class="line">- &lt;p&gt;Foo&lt;/p&gt;</span>&#x000A;<span id="LC2" class="line">+ &lt;p&gt;Baz&lt;/p&gt;</span></code></pre>`;
+        <p dir="auto">Or this</p>
+        &#x000A;
+        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Bar&lt;/p&gt;</span></code></pre>`;
     },
   },
   mounted() {
@@ -189,9 +189,7 @@ export default {
       v-show="previewMarkdown"
       class="md md-preview-holder md-preview js-vue-md-preview"
     >
-      <suggestion
-        :file-name="fileName"
-      >
+      <suggestion>
         <div
           ref="markdown-preview"
           v-html="mockSuggestion"

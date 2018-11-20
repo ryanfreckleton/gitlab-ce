@@ -35,16 +35,18 @@ export default {
     noteBody() {
       return this.note.note;
     },
-    fileName() {
-      return this.note.position ? this.note.position.new_path : '';
-    },
     mockSuggestion() {
       // temporary: this will be generated on the backend and returned via api call in parent
       return `
-          <p dir="auto">I suggest we do the following</p><pre class="code js-render-suggestion white"><code><span id="LC1" class="line">- &lt;p&gt;Foo&lt;/p&gt;</span>&#x000A;<span id="LC2" class="line">+ &lt;p&gt;Bar&lt;/p&gt;</span></code></pre>
+        <p dir="auto">I suggest</p>
+        &#x000A;
+        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Foo&lt;/p&gt;</span></code></pre>
+        &#x000A;
 
-          <p dir="auto">Or this</p><pre class="code js-render-suggestion white"><code><span id="LC1" class="line">- &lt;p&gt;Foo&lt;/p&gt;</span>&#x000A;<span id="LC2" class="line">+ &lt;p&gt;Baz&lt;/p&gt;</span></code></pre>`;
-    },
+        <p dir="auto">Or this</p>
+        &#x000A;
+        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Bar&lt;/p&gt;</span></code></pre>`;
+      },
   },
   mounted() {
     this.renderGFM();
@@ -85,7 +87,6 @@ export default {
     class="note-body">
     <suggestion
       :note="note"
-      :file-name="fileName"
     >
       <div
         class="note-text md"
@@ -97,7 +98,6 @@ export default {
       :is-editing="isEditing"
       :note-body="noteBody"
       :note-id="note.id"
-      :note-file-name="noteFileName"
       :markdown-version="note.cached_markdown_version"
       @handleFormUpdate="handleFormUpdate"
       @cancelForm="formCancelHandler"
