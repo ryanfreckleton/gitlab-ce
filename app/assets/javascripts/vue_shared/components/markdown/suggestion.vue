@@ -11,14 +11,9 @@ import suggestionHeader from './suggestion_header.vue';
 // ```suggestion
 //  const foo = 'bar';
 // ```
-
+// TODO - Add unit tests
 export default {
   props: {
-    fileName: {
-      type: String,
-      required: false,
-      default: '',
-    },
     note: {
       type: Object,
       required: false,
@@ -31,46 +26,62 @@ export default {
     },
   },
   mounted() {
-    this.renderHeaders();
+    this.renderSuggestions();
   },
   methods: {
-    renderHeaders() {
-      if(!this.fileName) return;
-
+    renderSuggestions() {
       const container = this.$slots.default[0].elm;
-      const suggestions = container.getElementsByClassName('js-render-suggestion');
-      [...suggestions].forEach(suggestion => container.insertBefore(this.generateHeader(), suggestion));
+      const suggestions = container.getElementsByClassName('suggestion');
+
+      [...suggestions].forEach(suggestionEl => {
+        const newLine = this.extractNewLine(suggestionEl);
+        container.insertBefore(this.generateHeader(newLine), suggestionEl)
+      });
     },
-    generateHeader() {
-      const { fileName, canApply } = this;
+    extractNewLine(suggestionEl) {
+      const newLine = suggestionEl.getElementsByClassName('line');
+      return (newLine && newLine[0]) ? newLine[0].innerHTML : '';
+    },
+    generateHeader(newLine) {
+      const { canApply } = this;
+
       return new Vue({
         components: {
           suggestionHeader,
         },
         data: {
-          fileName,
           canApply,
         },
         methods: {
-          applySuggestion: this.applySuggestion
+          applySuggestion: () => this.applySuggestion(newLine)
         },
         template: `
           <suggestion-header
-            :file-name="fileName"
             :can-apply="canApply"
             @apply="applySuggestion"
           />`,
       }).$mount().$el;
     },
-    applySuggestion() {
+    applySuggestion(newLine) {
+      // see https://docs.gitlab.com/ce/api/repository_files.html
+
+      const commitPayload = this.createCommitPayload(newLine);
+      console.log('applying suggestion > ', commitPayload);
+      // TODO - filePath
+      // TODO - Dispatch > Apply suggestion
+    },
+    createCommitPayload(newLine) {
       const { position } = this.note;
       const lineNumber = position.new_line || position.old_line;
 
-      console.log('applying suggestion > ', {lineNumber});
-
-      // TODO - Get/Set new line content
-      // TODO - Dispatch > Apply suggestion
-    },
+      return {
+        branch: 'TODO', // TODO - branchName
+        content: newLine,
+        commit_message: 'Aplying suggestion', // TODO - make this user-defined?
+        from_line: lineNumber,
+        to_line: lineNumber,
+      };
+    }
   },
 };
 
