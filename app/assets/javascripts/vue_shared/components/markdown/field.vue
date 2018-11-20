@@ -6,12 +6,14 @@ import GLForm from '../../../gl_form';
 import markdownHeader from './header.vue';
 import markdownToolbar from './toolbar.vue';
 import icon from '../icon.vue';
+import suggestion from '~/vue_shared/components/markdown/suggestion.vue';
 
 export default {
   components: {
     markdownHeader,
     markdownToolbar,
     icon,
+    suggestion,
   },
   props: {
     markdownPreviewPath: {
@@ -136,8 +138,7 @@ export default {
       }
 
       this.$nextTick(() => {
-        const { fileName } = this;
-        $(this.$refs['markdown-preview']).renderGFM({ fileName });
+        $(this.$refs['markdown-preview']).renderGFM();
       });
     },
 
@@ -188,11 +189,14 @@ export default {
       v-show="previewMarkdown"
       class="md md-preview-holder md-preview js-vue-md-preview"
     >
-      <div
-        ref="markdown-preview"
-        v-html="mockSuggestion"
+      <suggestion
+        :file-name="fileName"
       >
-      </div>
+        <div
+          ref="markdown-preview"
+          v-html="mockSuggestion"
+        ></div>
+      </suggestion>
       <span v-if="markdownPreviewLoading">
         Loading...
       </span>

@@ -5,6 +5,7 @@ import noteAwardsList from './note_awards_list.vue';
 import noteAttachment from './note_attachment.vue';
 import noteForm from './note_form.vue';
 import autosave from '../mixins/autosave';
+import suggestion from '~/vue_shared/components/markdown/suggestion.vue';
 
 export default {
   components: {
@@ -12,6 +13,7 @@ export default {
     noteAwardsList,
     noteAttachment,
     noteForm,
+    suggestion
   },
   mixins: [autosave],
   props: {
@@ -64,8 +66,7 @@ export default {
   },
   methods: {
     renderGFM() {
-      const { fileName, note } = this;
-      $(this.$refs['note-body']).renderGFM({ fileName, note, canApply: true });
+      $(this.$refs['note-body']).renderGFM();
     },
     handleFormUpdate(note, parentElement, callback) {
       this.$emit('handleFormUpdate', note, parentElement, callback);
@@ -82,9 +83,14 @@ export default {
     ref="note-body"
     :class="{ 'js-task-list-container': canEdit }"
     class="note-body">
-    <div
-      class="note-text md"
-      v-html="mockSuggestion"></div>
+    <suggestion
+      :note="note"
+      :file-name="fileName"
+    >
+      <div
+        class="note-text md"
+        v-html="mockSuggestion"></div>
+    </suggestion>
     <note-form
       v-if="isEditing"
       ref="noteForm"
