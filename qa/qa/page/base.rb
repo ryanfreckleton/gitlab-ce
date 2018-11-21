@@ -103,13 +103,17 @@ module QA
       def select_element(name, value)
         element = find_element(name)
 
-        return if element.text.downcase.to_s == value.to_s
+        return if element.text == value
 
-        element.select value.to_s.capitalize
+        element.select value
       end
 
       def has_element?(name)
         has_css?(element_selector_css(name))
+      end
+
+      def assert_no_element(name)
+        assert_no_selector(element_selector_css(name))
       end
 
       def within_element(name)

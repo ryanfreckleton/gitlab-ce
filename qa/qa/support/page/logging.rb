@@ -85,6 +85,12 @@ module QA
           found
         end
 
+        def assert_no_element(name)
+          log("asserting no element :#{name}")
+
+          super
+        end
+
         def within_element(name)
           log("within element :#{name}")
 
