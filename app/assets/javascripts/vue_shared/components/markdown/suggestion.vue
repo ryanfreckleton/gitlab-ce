@@ -102,7 +102,6 @@ export default {
   <div>
     <div
       ref="container"
-      class="md-suggestion-diff"
       v-html="suggestionHtml"
     ></div>
   </div>

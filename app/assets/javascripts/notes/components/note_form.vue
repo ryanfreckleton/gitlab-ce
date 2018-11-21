@@ -48,6 +48,11 @@ export default {
       required: false,
       default: '',
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -166,6 +171,7 @@ export default {
         :markdown-version="markdownVersion"
         :quick-actions-docs-path="quickActionsDocsPath"
         :add-spacing-classes="false"
+        :line="line"
       >
         <textarea
           id="note_note"

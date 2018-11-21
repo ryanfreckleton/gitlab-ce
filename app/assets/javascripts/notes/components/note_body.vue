@@ -5,6 +5,7 @@ import noteAwardsList from './note_awards_list.vue';
 import noteAttachment from './note_attachment.vue';
 import noteForm from './note_form.vue';
 import autosave from '../mixins/autosave';
+import suggestion from '~/vue_shared/components/markdown/suggestion.vue';
 
 export default {
   components: {
@@ -12,12 +13,18 @@ export default {
     noteAwardsList,
     noteAttachment,
     noteForm,
+    suggestion,
   },
   mixins: [autosave],
   props: {
     note: {
       type: Object,
       required: true,
+    },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
     },
     canEdit: {
       type: Boolean,
@@ -32,6 +39,21 @@ export default {
   computed: {
     noteBody() {
       return this.note.note;
+    },
+    mockSuggestion() {
+      // temporary: this will be generated on the backend and returned via api call in parent
+      return `
+        <p dir="auto">I suggest</p>
+        &#x000A;
+        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Foo&lt;/p&gt;</span></code></pre>
+        &#x000A;
+
+        <p dir="auto">Or this</p>
+        &#x000A;
+        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Bar&lt;/p&gt;</span></code></pre>`;
+    },
+    isSuggestion() {
+      return this.mockSuggestion.includes('js-render-suggestion');
     },
   },
   mounted() {
@@ -68,7 +90,17 @@ export default {
 
 <template>
   <div ref="note-body" :class="{ 'js-task-list-container': canEdit }" class="note-body">
-    <div class="note-text md" v-html="note.note_html"></div>
+    <suggestion
+      v-if="isSuggestion"
+      :note="note"
+      :line="line"
+      :suggestion-html="mockSuggestion"
+    />
+    <div
+      v-else
+      class="note-text md"
+      v-html="mockSuggestion"
+    ></div>
     <note-form
       v-if="isEditing"
       ref="noteForm"

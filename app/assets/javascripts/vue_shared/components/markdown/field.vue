@@ -6,12 +6,14 @@ import GLForm from '../../../gl_form';
 import markdownHeader from './header.vue';
 import markdownToolbar from './toolbar.vue';
 import icon from '../icon.vue';
+import suggestion from '~/vue_shared/components/markdown/suggestion.vue';
 
 export default {
   components: {
     markdownHeader,
     markdownToolbar,
     icon,
+    suggestion,
   },
   props: {
     markdownPreviewPath: {
@@ -48,6 +50,11 @@ export default {
       required: false,
       default: true,
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -62,6 +69,21 @@ export default {
     shouldShowReferencedUsers() {
       const referencedUsersThreshold = 10;
       return this.referencedUsers.length >= referencedUsersThreshold;
+    },
+    mockSuggestion() {
+      // temporary: this will be generated on the backend and returned via api call in parent
+      return `
+        <p dir="auto">I suggest</p>
+        &#x000A;
+        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Foo&lt;/p&gt;</span></code></pre>
+        &#x000A;
+
+        <p dir="auto">Or this</p>
+        &#x000A;
+        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Bar&lt;/p&gt;</span></code></pre>`;
+    },
+    isSuggestion() {
+      return this.mockSuggestion.includes('js-render-suggestion');
     },
   },
   mounted() {
@@ -163,7 +185,16 @@ export default {
       </div>
     </div>
     <div v-show="previewMarkdown" class="md md-preview-holder md-preview js-vue-md-preview">
-      <div ref="markdown-preview" v-html="markdownPreview"></div>
+      <suggestion
+        v-if="isSuggestion"
+        :suggestion-html="mockSuggestion"
+        :line="line"
+      />
+      <div
+        v-else
+        ref="markdown-preview"
+        v-html="mockSuggestion"
+      ></div>
       <span v-if="markdownPreviewLoading"> Loading... </span>
     </div>
     <template v-if="previewMarkdown && !markdownPreviewLoading">

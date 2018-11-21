@@ -37,6 +37,11 @@ export default {
       required: false,
       default: false,
     },
+    cursorOffset: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
   },
 };
 </script>
@@ -45,6 +50,7 @@ export default {
   <button
     v-gl-tooltip
     :data-md-tag="tag"
+    :data-md-cursor-offset="cursorOffset"
     :data-md-select="tagSelect"
     :data-md-block="tagBlock"
     :data-md-prepend="prepend"
