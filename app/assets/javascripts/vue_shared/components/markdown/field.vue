@@ -6,14 +6,12 @@ import GLForm from '../../../gl_form';
 import markdownHeader from './header.vue';
 import markdownToolbar from './toolbar.vue';
 import icon from '../icon.vue';
-import suggestion from '~/vue_shared/components/markdown/suggestion.vue';
 
 export default {
   components: {
     markdownHeader,
     markdownToolbar,
     icon,
-    suggestion,
   },
   props: {
     markdownPreviewPath: {
@@ -50,11 +48,6 @@ export default {
       required: false,
       default: true,
     },
-    line: {
-      type: Object,
-      required: false,
-      default: null,
-    },
   },
   data() {
     return {
@@ -69,21 +62,6 @@ export default {
     shouldShowReferencedUsers() {
       const referencedUsersThreshold = 10;
       return this.referencedUsers.length >= referencedUsersThreshold;
-    },
-    mockSuggestion() {
-      // temporary: this will be generated on the backend and returned via api call in parent
-      return `
-        <p dir="auto">I suggest</p>
-        &#x000A;
-        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Foo&lt;/p&gt;</span></code></pre>
-        &#x000A;
-
-        <p dir="auto">Or this</p>
-        &#x000A;
-        <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Bar&lt;/p&gt;</span></code></pre>`;
-    },
-    isSuggestion() {
-      return this.mockSuggestion.includes('js-render-suggestion');
     },
   },
   mounted() {
@@ -164,27 +142,18 @@ export default {
   <div
     ref="gl-form"
     :class="{ 'prepend-top-default append-bottom-default': addSpacingClasses }"
-    class="md-area js-vue-markdown-field">
+    class="md-area js-vue-markdown-field"
+  >
     <markdown-header
       :preview-markdown="previewMarkdown"
       @preview-markdown="showPreviewTab"
       @write-markdown="showWriteTab"
     />
-    <div
-      v-show="!previewMarkdown"
-      class="md-write-holder"
-    >
+    <div v-show="!previewMarkdown" class="md-write-holder">
       <div class="zen-backdrop">
         <slot name="textarea"></slot>
-        <a
-          class="zen-control zen-control-leave js-zen-leave"
-          href="#"
-          aria-label="Enter zen mode"
-        >
-          <icon
-            :size="32"
-            name="screen-normal"
-          />
+        <a class="zen-control zen-control-leave js-zen-leave" href="#" aria-label="Enter zen mode">
+          <icon :size="32" name="screen-normal" />
         </a>
         <markdown-toolbar
           :markdown-docs-path="markdownDocsPath"
@@ -193,47 +162,19 @@ export default {
         />
       </div>
     </div>
-    <div
-      v-show="previewMarkdown"
-      class="md md-preview-holder md-preview js-vue-md-preview"
-    >
-      <suggestion
-        v-if="isSuggestion"
-        :suggestion-html="mockSuggestion"
-        :line="line"
-      />
-      <div
-        v-else
-        ref="markdown-preview"
-        v-html="mockSuggestion"
-      ></div>
-      <span v-if="markdownPreviewLoading">
-        Loading...
-      </span>
+    <div v-show="previewMarkdown" class="md md-preview-holder md-preview js-vue-md-preview">
+      <div ref="markdown-preview" v-html="markdownPreview"></div>
+      <span v-if="markdownPreviewLoading"> Loading... </span>
     </div>
     <template v-if="previewMarkdown && !markdownPreviewLoading">
-      <div
-        v-if="referencedCommands"
-        class="referenced-commands"
-        v-html="referencedCommands"
-      >
-      </div>
-      <div
-        v-if="shouldShowReferencedUsers"
-        class="referenced-users"
-      >
+      <div v-if="referencedCommands" class="referenced-commands" v-html="referencedCommands"></div>
+      <div v-if="shouldShowReferencedUsers" class="referenced-users">
         <span>
-          <i
-            class="fa fa-exclamation-triangle"
-            aria-hidden="true"
-          >
-          </i>
-          You are about to add
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"> </i> You are about to add
           <strong>
-            <span class="js-referenced-users-count">
-              {{ referencedUsers.length }}
-            </span>
-          </strong> people to the discussion. Proceed with caution.
+            <span class="js-referenced-users-count"> {{ referencedUsers.length }} </span>
+          </strong>
+          people to the discussion. Proceed with caution.
         </span>
       </div>
     </template>
