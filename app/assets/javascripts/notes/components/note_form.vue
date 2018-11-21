@@ -172,6 +172,7 @@ export default {
         :quick-actions-docs-path="quickActionsDocsPath"
         :line="line"
         :add-spacing-classes="false"
+        :line="line"
       >
         <textarea
           id="note_note"

@@ -29,12 +29,12 @@ export default {
 </script>
 
 <template>
-  <div class="md-suggestion-diff-content">
+  <div>
     <suggestion-diff-header
       :can-apply="canApply"
       @apply="applySuggestion"
     />
-    <table class="mb-3">
+    <table class="mb-3 md-suggestion-diff">
       <tbody>
         <!-- New Line -->
         <tr class="line_holder new">

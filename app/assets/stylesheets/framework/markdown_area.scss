@@ -277,10 +277,17 @@
   }
 }
 
+.md-suggestion-diff {
+  border: 1px solid $border-color !important;
+}
+
 .md-suggestion-header {
   border: 1px solid $border-color;
   font-weight: $gl-font-weight-bold;
   height: 45px;
+  svg {
+    color: $blue-600;
+  }
 }
 
 @include media-breakpoint-down(xs) {

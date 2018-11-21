@@ -119,6 +119,13 @@ export default {
           :button-title="__('Add a table')"
           icon="table"
         />
+        <toolbar-button
+          tag="```suggestion {text} ```"
+          :prepend="true"
+          :button-title="__('Insert suggestion')"
+          :cursor-offset="4"
+          icon="doc-code"
+        />
         <button
           v-gl-tooltip
           aria-label="Go full screen"

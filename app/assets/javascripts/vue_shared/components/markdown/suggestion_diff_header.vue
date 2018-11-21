@@ -1,5 +1,8 @@
 <script>
+import Icon from '~/vue_shared/components/icon.vue';
+
 export default {
+  components: { Icon },
   props: {
     canApply: {
       type: Boolean,
@@ -17,7 +20,10 @@ export default {
 
 <template>
   <div class="file-title-flex-parent md-suggestion-header border-bottom-0 mt-2">
-    Suggested change
+    <div>
+      Suggested change
+      <icon name="question-o" css-classes="link-highlight" />
+    </div>
     <button
       v-if="canApply"
       type="button"
