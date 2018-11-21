@@ -1,94 +1,109 @@
 <script>
 import Vue from 'vue';
-import suggestionHeader from './suggestion_header.vue';
+import { mapGetters, mapActions } from 'vuex';
+import suggestionDiff from './suggestion_diff.vue';
 
-// Renders suggestions from element with the
-// `js-render-suggestion` class.
-//
-// Example markup:
-//
-// I suggest we do the following:
-// ```suggestion
-//  const foo = 'bar';
-// ```
 // TODO - Add unit tests
 export default {
+  components: { suggestionDiff },
   props: {
     note: {
       type: Object,
       required: false,
       default: null,
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    suggestionHtml: {
+      type: String,
+      required: true
+    },
   },
   computed: {
+    ...mapGetters(['getNoteableData']),
     canApply() {
-      return Boolean(this.note);
+      return Boolean(this.note && this.note.position);
     },
+    lineNumber() {
+      let lineNumber = '';
+
+      if(this.note && this.note.position) {
+        lineNumber =  this.note.position.new_line || this.note.position.old_line;
+      } else if(this.line) {
+        lineNumber = this.line.new_line || this.line.old_line;;
+      }
+      return lineNumber;
+    }
   },
   mounted() {
     this.renderSuggestions();
   },
   methods: {
     renderSuggestions() {
-      const container = this.$slots.default[0].elm;
+      const { container } = this.$refs;
       const suggestions = container.getElementsByClassName('suggestion');
 
       [...suggestions].forEach(suggestionEl => {
-        const newLine = this.extractNewLine(suggestionEl);
-        container.insertBefore(this.generateHeader(newLine), suggestionEl)
+         const newLine = this.extractNewLine(suggestionEl);
+         container.insertBefore(this.generateDiff(newLine), suggestionEl);
+         container.removeChild(suggestionEl);
       });
     },
     extractNewLine(suggestionEl) {
       const newLine = suggestionEl.getElementsByClassName('line');
-      return (newLine && newLine[0]) ? newLine[0].innerHTML : '';
+      const content = (newLine && newLine[0]) ? newLine[0].innerHTML : '';
+      const number = this.lineNumber;
+      return { content, number };
     },
-    generateHeader(newLine) {
+    generateDiff(newLine) {
       const { canApply } = this;
 
       return new Vue({
-        components: {
-          suggestionHeader,
-        },
-        data: {
-          canApply,
-        },
+        components: { suggestionDiff },
+        data: { newLine, canApply },
         methods: {
-          applySuggestion: () => this.applySuggestion(newLine)
+          applySuggestion: content => this.applySuggestion(content)
         },
         template: `
-          <suggestion-header
+          <suggestion-diff
+            :new-line="newLine"
             :can-apply="canApply"
-            @apply="applySuggestion"
-          />`,
+            @apply="applySuggestion"/>`,
       }).$mount().$el;
     },
-    applySuggestion(newLine) {
+    applySuggestion(content) {
       // see https://docs.gitlab.com/ce/api/repository_files.html
+      const position = (this.note && this.note.position) ? this.note.position : {};
+      const fileName = position.new_path || position.old_path;
+      const commitPayload = this.createCommitPayload(content, fileName);
+      console.log('applying suggestion > ', commitPayload, fileName);
 
-      const commitPayload = this.createCommitPayload(newLine);
-      console.log('applying suggestion > ', commitPayload);
-      // TODO - filePath
       // TODO - Dispatch > Apply suggestion
     },
-    createCommitPayload(newLine) {
-      const { position } = this.note;
-      const lineNumber = position.new_line || position.old_line;
+    createCommitPayload(content, fileName) {
+      const { lineNumber } = this;
 
       return {
-        branch: 'TODO', // TODO - branchName
-        content: newLine,
-        commit_message: 'Aplying suggestion', // TODO - make this user-defined?
+        content,
+        branch: this.getNoteableData.source_branch,
+        commit_message: `Apply suggestion to ${fileName}`, // TODO - make this user-defined?
         from_line: lineNumber,
         to_line: lineNumber,
       };
-    }
+    },
   },
 };
-
 </script>
 
 <template>
   <div>
-    <slot></slot>
+    <div
+      ref="container"
+      class="md-suggestion-diff"
+      v-html="suggestionHtml"
+    ></div>
   </div>
 </template>

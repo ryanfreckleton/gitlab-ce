@@ -25,6 +25,11 @@ export default {
       type: Object,
       required: true,
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -219,6 +224,7 @@ export default {
         <note-body
           ref="noteBody"
           :note="note"
+          :line="line"
           :can-edit="note.current_user.can_edit"
           :is-editing="isEditing"
           @handleFormUpdate="formUpdateHandler"

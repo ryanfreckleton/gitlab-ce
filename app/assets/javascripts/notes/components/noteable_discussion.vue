@@ -46,6 +46,11 @@ export default {
       type: Object,
       required: true,
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
     renderDiffFile: {
       type: Boolean,
       required: false,
@@ -337,6 +342,7 @@ Please check your network connection and try again.`;
                     <component
                       :is="componentName(initialDiscussion)"
                       :note="componentData(initialDiscussion)"
+                      :line="line"
                       @handleDeleteNote="deleteNoteHandler"
                     >
                       <slot slot="avatar-badge" name="avatar-badge"></slot>
@@ -353,6 +359,7 @@ Please check your network connection and try again.`;
                         v-for="note in replies"
                         :key="note.id"
                         :note="componentData(note)"
+                        :line="line"
                         @handleDeleteNote="deleteNoteHandler"
                       />
                     </template>
@@ -363,6 +370,7 @@ Please check your network connection and try again.`;
                       v-for="(note, index) in discussion.notes"
                       :key="note.id"
                       :note="componentData(note)"
+                      :line="line"
                       @handleDeleteNote="deleteNoteHandler"
                     >
                       <slot v-if="index === 0" slot="avatar-badge" name="avatar-badge"></slot>

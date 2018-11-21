@@ -38,7 +38,10 @@ export default {
   <tr v-if="shouldRender" :class="className" class="notes_holder">
     <td class="notes_content" colspan="3">
       <div class="content">
-        <diff-discussions v-if="line.discussions.length" :discussions="line.discussions" />
+        <diff-discussions
+          v-if="line.discussions.length"
+          :line="line"
+          :discussions="line.discussions" />
         <diff-line-note-form
           v-if="line.hasForm"
           :diff-file-hash="diffFileHash"
