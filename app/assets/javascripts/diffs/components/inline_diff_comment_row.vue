@@ -45,6 +45,7 @@ export default {
       <div class="content">
         <diff-discussions
           v-if="line.discussions.length"
+          :line="line"
           :discussions="line.discussions"
         />
         <diff-line-note-form

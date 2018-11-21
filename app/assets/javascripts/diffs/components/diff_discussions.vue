@@ -13,6 +13,11 @@ export default {
       type: Array,
       required: true,
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
     shouldCollapseDiscussions: {
       type: Boolean,
       required: false,
@@ -79,6 +84,7 @@ export default {
           :render-diff-file="false"
           :always-expanded="true"
           :discussions-by-diff-order="true"
+          :line="line"
           @noteDeleted="deleteNoteHandler"
         >
           <span

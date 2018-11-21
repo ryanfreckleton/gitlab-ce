@@ -50,6 +50,11 @@ export default {
       required: false,
       default: true,
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -76,6 +81,9 @@ export default {
         <p dir="auto">Or this</p>
         &#x000A;
         <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Bar&lt;/p&gt;</span></code></pre>`;
+    },
+    isSuggestion() {
+      return this.mockSuggestion.includes('js-render-suggestion');
     },
   },
   mounted() {
@@ -189,12 +197,16 @@ export default {
       v-show="previewMarkdown"
       class="md md-preview-holder md-preview js-vue-md-preview"
     >
-      <suggestion>
-        <div
-          ref="markdown-preview"
-          v-html="mockSuggestion"
-        ></div>
-      </suggestion>
+      <suggestion
+        v-if="isSuggestion"
+        :suggestion-html="mockSuggestion"
+        :line="line"
+      />
+      <div
+        v-else
+        ref="markdown-preview"
+        v-html="mockSuggestion"
+      ></div>
       <span v-if="markdownPreviewLoading">
         Loading...
       </span>

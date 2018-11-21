@@ -21,6 +21,11 @@ export default {
       type: Object,
       required: true,
     },
+    line: {
+      type: Object,
+      required: false,
+      default: null,
+    },
     canEdit: {
       type: Boolean,
       required: true,
@@ -47,6 +52,9 @@ export default {
         &#x000A;
         <pre class="code highlight js-syntax-highlight suggestion" lang="suggestion" v-pre="true"><code class="js-render-suggestion"><span id="LC1" class="line" lang="suggestion">&lt;p&gt;Bar&lt;/p&gt;</span></code></pre>`;
       },
+    isSuggestion() {
+      return this.mockSuggestion.includes('js-render-suggestion');
+    },
   },
   mounted() {
     this.renderGFM();
@@ -86,12 +94,14 @@ export default {
     :class="{ 'js-task-list-container': canEdit }"
     class="note-body">
     <suggestion
+      v-if="isSuggestion"
       :note="note"
-    >
-      <div
-        class="note-text md"
-        v-html="mockSuggestion"></div>
-    </suggestion>
+      :line="line"
+      :suggestion-html="mockSuggestion"/>
+    <div
+      v-else
+      class="note-text md"
+      v-html="mockSuggestion"></div>
     <note-form
       v-if="isEditing"
       ref="noteForm"
