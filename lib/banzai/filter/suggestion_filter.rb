@@ -22,11 +22,40 @@ module Banzai
       # - Add a data-outdated-comment
       #
       def call
-        doc.css('pre.code.suggestion > code').each do |el|
-          el.add_class(TAG_CLASS)
+        # Temporary:
+        diff_note = DiffNote.last
+        blob_lines = diff_note.diff_file.new_blob.lines
+        changed_lines = Array.wrap(blob_lines[diff_note.diff_line.new_pos - 1])
+        #
+
+        suggestion_nodes = doc.search('pre.suggestion')
+        suggestion_nodes.wrap(wrapper)
+
+        suggestion_nodes.search('> code').each do |node|
+          additions = doc.document.create_element(
+            'div',
+            class: 'js-blob-code-addition'
+          )
+          deletions = doc.document.create_element(
+            'div',
+            class: 'js-blob-code-deletion'
+          )
+
+          additions.content = changed_lines.join("\n")
+          deletions.content = node.text
+
+          node.parent.parent.add_child(additions)
+          node.parent.parent.add_child(deletions)
+
+          node.add_class(TAG_CLASS)
         end
 
         doc
+      end
+
+      def wrapper(outdated: false)
+        %(<div class='suggestion-wrapper'
+               data-suggestion> </div>)
       end
     end
   end
