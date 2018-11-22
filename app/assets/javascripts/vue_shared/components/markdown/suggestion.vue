@@ -75,21 +75,21 @@ export default {
       }).$mount().$el;
     },
     applySuggestion(content) {
-      // see https://docs.gitlab.com/ce/api/repository_files.html
       const position = (this.note && this.note.position) ? this.note.position : {};
       const fileName = position.new_path || position.old_path;
-      const commitPayload = this.createCommitPayload(content, fileName);
-      console.log('applying suggestion > ', commitPayload, fileName);
+      const payload = this.createCommitPayload(content, fileName);
 
-      // TODO - Dispatch > Apply suggestion
+      this.$emit('apply', payload);
     },
     createCommitPayload(content, fileName) {
       const { lineNumber } = this;
 
       return {
         content,
+        fileName,
         branch: this.getNoteableData.source_branch,
-        commit_message: `Apply suggestion to ${fileName}`, // TODO - make this user-defined?
+        projectPath: this.getNoteableData.source_project_full_path,
+        commit_message: `Apply suggestion to ${fileName}`,
         from_line: lineNumber,
         to_line: lineNumber,
       };

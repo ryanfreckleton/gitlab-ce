@@ -17,12 +17,14 @@ export default {
     },
   },
   methods: {
-    extractNewLine(suggestionEl) {
-      const newLine = suggestionEl.getElementsByClassName('line');
-      return (newLine && newLine[0]) ? newLine[0].innerHTML : '';
+    htmlDecode(html) {
+      // converts sanitised html into readable html
+      const el = document.createElement('div');
+      el.innerHTML = html;
+      return el.childNodes[0] ? el.childNodes[0].nodeValue : '';
     },
     applySuggestion() {
-      this.$emit('apply', this.newLine.content);
+      this.$emit('apply', this.htmlDecode(this.newLine.content));
     },
   },
 };

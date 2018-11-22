@@ -27,6 +27,15 @@ export default {
         '| cell | cell |',
       ].join('\n');
     },
+    mdSuggestion() {
+      return [
+        '```suggestion',
+
+        '{text}',
+
+        '```',
+      ].join('\n');
+    },
   },
   mounted() {
     $(document).on('markdown-preview:show.vue', this.previewMarkdownTab);
@@ -120,7 +129,7 @@ export default {
           icon="table"
         />
         <toolbar-button
-          tag="```suggestion {text} ```"
+          :tag="mdSuggestion"
           :prepend="true"
           :button-title="__('Insert suggestion')"
           :cursor-offset="4"

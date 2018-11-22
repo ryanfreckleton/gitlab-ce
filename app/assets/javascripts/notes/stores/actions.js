@@ -399,5 +399,26 @@ export const startTaskList = ({ dispatch }) =>
 export const updateResolvableDiscussonsCounts = ({ commit }) =>
   commit(types.UPDATE_RESOLVABLE_DISCUSSIONS_COUNTS);
 
+export const submitSuggestion = (
+  { commit },
+  { discussionId, noteId, suggestionId, flashContainer, callback },
+) => {
+  service
+    .applySuggestion(suggestionId)
+    .then(() => {
+      Flash('Suggestion applied.', 'notice', flashContainer);
+      commit(types.APPLY_SUGGESTION, { discussionId, noteId });
+      callback(true);
+    })
+    .catch(() => {
+      Flash(
+        'Something went wrong while applying the suggestion. Please try again.',
+        'alert',
+        flashContainer,
+      );
+      callback(false);
+    });
+};
+
 // prevent babel-plugin-rewire from generating an invalid default during karma tests
 export default () => {};

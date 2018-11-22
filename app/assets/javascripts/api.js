@@ -21,6 +21,7 @@ const Api = {
   usersPath: '/api/:version/users.json',
   userStatusPath: '/api/:version/user/status',
   commitPath: '/api/:version/projects/:id/repository/commits',
+  filePath: '/api/:version/projects/:id/repository/files/:file',
   commitPipelinesPath: '/:project_id/commit/:sha/pipelines',
   branchSinglePath: '/api/:version/projects/:id/repository/branches/:branch',
   createBranchPath: '/api/:version/projects/:id/repository/branches',
@@ -170,6 +171,15 @@ const Api = {
         'Content-Type': 'application/json; charset=utf-8',
       },
     });
+  },
+
+  updateFile(id, file, data) {
+    // see https://docs.gitlab.com/ce/api/repository_files.html
+    const url = Api.buildUrl(Api.filePath)
+      .replace(':id', encodeURIComponent(id))
+      .replace(':file', encodeURIComponent(file));
+
+    return axios.put(url, data);
   },
 
   commitPipelines(projectId, sha) {
