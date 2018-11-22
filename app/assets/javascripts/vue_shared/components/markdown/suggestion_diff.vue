@@ -3,7 +3,7 @@ import suggestionDiffHeader from './suggestion_diff_header.vue';
 
 export default {
   components: {
-    suggestionDiffHeader
+    suggestionDiffHeader,
   },
   props: {
     canApply: {
@@ -32,25 +32,16 @@ export default {
 
 <template>
   <div>
-    <suggestion-diff-header
-      :can-apply="canApply"
-      @apply="applySuggestion"
-    />
+    <suggestion-diff-header :can-apply="canApply" @apply="applySuggestion" />
     <table class="mb-3 md-suggestion-diff">
       <tbody>
         <!-- New Line -->
         <tr class="line_holder new">
           <td class="diff-line-num old_line new"></td>
           <td class="diff-line-num new_line qa-new-diff-line new">
-            <div>
-              {{ newLine.number }}
-            </div>
+            <div>{{ newLine.number }}</div>
           </td>
-          <td class="line_content new">
-            <span
-              class="line"
-              v-html="newLine.content"></span>
-          </td>
+          <td class="line_content new"><span class="line" v-html="newLine.content"></span></td>
         </tr>
       </tbody>
     </table>

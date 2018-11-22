@@ -39,7 +39,14 @@ function blockTagText(text, textArea, blockTag, selected) {
   }
 }
 
-function moveCursor({ textArea, tag, cursorOffset, positionBetweenTags, removedLastNewLine, select }) {
+function moveCursor({
+  textArea,
+  tag,
+  cursorOffset,
+  positionBetweenTags,
+  removedLastNewLine,
+  select,
+}) {
   var pos;
   if (!textArea.setSelectionRange) {
     return;
@@ -61,7 +68,7 @@ function moveCursor({ textArea, tag, cursorOffset, positionBetweenTags, removedL
       pos -= 1;
     }
 
-    if(cursorOffset) {
+    if (cursorOffset) {
       pos -= cursorOffset;
     }
 
@@ -69,7 +76,16 @@ function moveCursor({ textArea, tag, cursorOffset, positionBetweenTags, removedL
   }
 }
 
-export function insertMarkdownText({ textArea, text, tag, cursorOffset, blockTag, selected, wrap, select }) {
+export function insertMarkdownText({
+  textArea,
+  text,
+  tag,
+  cursorOffset,
+  blockTag,
+  selected,
+  wrap,
+  select,
+}) {
   var textToInsert,
     selectedSplit,
     startChar,
@@ -172,7 +188,16 @@ function updateText({ textArea, tag, cursorOffset, blockTag, wrap, select }) {
   text = $textArea.val();
   selected = selectedText(text, textArea);
   $textArea.focus();
-  return insertMarkdownText({ textArea, text, tag, cursorOffset, blockTag, selected, wrap, select });
+  return insertMarkdownText({
+    textArea,
+    text,
+    tag,
+    cursorOffset,
+    blockTag,
+    selected,
+    wrap,
+    select,
+  });
 }
 
 export function addMarkdownListeners(form) {
