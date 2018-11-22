@@ -28,6 +28,7 @@ describe('Markdown field header component', () => {
       'Add a numbered list',
       'Add a task list',
       'Add a table',
+      'Insert suggestion',
       'Go full screen',
     ];
     const elements = vm.$el.querySelectorAll('.toolbar-btn');
@@ -91,6 +92,12 @@ describe('Markdown field header component', () => {
   it('renders markdown table template', () => {
     expect(vm.mdTable).toEqual(
       '| header | header |\n| ------ | ------ |\n| cell | cell |\n| cell | cell |',
+    );
+  });
+
+  it('renders suggestion template', () => {
+    expect(vm.mdSuggestion).toEqual(
+      '```suggestion\n{text}\n```',
     );
   });
 });

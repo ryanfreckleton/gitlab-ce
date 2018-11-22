@@ -28,13 +28,7 @@ export default {
       ].join('\n');
     },
     mdSuggestion() {
-      return [
-        '```suggestion',
-
-        '{text}',
-
-        '```',
-      ].join('\n');
+      return ['```suggestion', '{text}', '```'].join('\n');
     },
   },
   mounted() {
