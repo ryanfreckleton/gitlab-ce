@@ -3,9 +3,13 @@
 class UserCallout < ActiveRecord::Base
   belongs_to :user
 
-  # We use `UserCalloutEnums.feature_names` here so that EE can more easily
-  # extend this `Hash` with new values.
-  enum feature_name: ::UserCalloutEnums.feature_names
+  # All EE-only enums has to be backported to CE
+  enum feature_name: {
+    gke_cluster_integration: 1,
+    gcp_signup_offer: 2,
+    cluster_security_warning: 3,
+    gold_trial: 4 # EE-only
+  }
 
   validates :user, presence: true
   validates :feature_name,

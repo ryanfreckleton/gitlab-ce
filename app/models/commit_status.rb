@@ -42,9 +42,20 @@ class CommitStatus < ActiveRecord::Base
   scope :retried_ordered, -> { retried.ordered.includes(project: :namespace) }
   scope :after_stage, -> (index) { where('stage_idx > ?', index) }
 
-  # We use `CommitStatusEnums.failure_reasons` here so that EE can more easily
-  # extend this `Hash` with new values.
-  enum_with_nil failure_reason: ::CommitStatusEnums.failure_reasons
+  # All EE-only enums has to be backported to CE
+  enum_with_nil failure_reason: {
+    unknown_failure: nil,
+    script_failure: 1,
+    api_failure: 2,
+    stuck_or_timeout_failure: 3,
+    runner_system_failure: 4,
+    missing_dependency_failure: 5,
+    runner_unsupported: 6,
+    stale_schedule: 7,
+    job_execution_timeout: 8,
+    archived_failure: 9,
+    protected_environment_failure: 1_000 # EE-only
+  }
 
   ##
   # We still create some CommitStatuses outside of CreatePipelineService.

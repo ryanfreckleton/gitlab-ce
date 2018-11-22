@@ -58,19 +58,33 @@ module Ci
 
     after_create :keep_around_commits, unless: :importing?
 
-    # We use `Ci::PipelineEnums.sources` here so that EE can more easily extend
-    # this `Hash` with new values.
-    enum_with_nil source: ::Ci::PipelineEnums.sources
+    # All EE-only enums has to be backported to CE
+    enum_with_nil source: {
+      unknown: nil,
+      push: 1,
+      web: 2,
+      trigger: 3,
+      schedule: 4,
+      api: 5,
+      external: 6,
+      pipeline: 7, # EE-only
+      chat: 8 # EE-only
+    }
 
+    # All EE-only enums has to be backported to CE
     enum_with_nil config_source: {
       unknown_source: nil,
       repository_source: 1,
       auto_devops_source: 2
     }
 
-    # We use `Ci::PipelineEnums.failure_reasons` here so that EE can more easily
-    # extend this `Hash` with new values.
-    enum failure_reason: ::Ci::PipelineEnums.failure_reasons
+    # All EE-only enums has to be backported to CE
+    enum failure_reason: {
+      unknown_failure: 0,
+      config_error: 1,
+      activity_limit_exceeded: 20, # EE-only
+      size_limit_exceeded: 21 # EE-only
+    }
 
     state_machine :status, initial: :created do
       event :enqueue do

@@ -75,6 +75,7 @@ module Ci
 
     delegate :filename, :exists?, :open, to: :file
 
+    # All EE-only enums has to be backported to CE
     enum file_type: {
       archive: 1,
       metadata: 2,
