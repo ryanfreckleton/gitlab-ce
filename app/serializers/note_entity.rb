@@ -36,6 +36,10 @@ class NoteEntity < API::Entities::Note
     end
   end
 
+  expose :suggestions do |note|
+    []
+  end
+
   expose :resolved?, as: :resolved
   expose :resolvable?, as: :resolvable
 
