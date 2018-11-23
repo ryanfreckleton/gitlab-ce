@@ -4,7 +4,10 @@ class CreateSuggestions < ActiveRecord::Migration[5.0]
       t.text :changing, null: false
       t.text :suggestion, null: false
       t.integer :position, null: false
-      t.references :note, foreign_key: { on_delete: :cascade }, index: true
+      t.references :note,
+        foreign_key: { on_delete: :cascade },
+        index: true,
+        null: false
     end
   end
 end

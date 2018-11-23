@@ -15,10 +15,9 @@ module Notes
       end
 
       if note.is_a?(DiffNote)
-        Suggestion.transaction do
-          note.suggestions.delete_all
-          Suggestions::CreateService.new(note).execute
-        end
+        # TODO: understand why delete_all does not work here.
+        note.suggestions.destroy_all
+        Suggestions::CreateService.new(note).execute
       end
 
       note
