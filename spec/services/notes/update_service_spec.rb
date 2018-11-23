@@ -20,6 +20,33 @@ describe Notes::UpdateService do
       @note.reload
     end
 
+    context 'suggestions' do
+      let(:markdown) do
+        <<-MARKDOWN.strip_heredoc
+          ```suggestion
+            foo
+          ```
+
+          ```suggestion
+            bar
+          ```
+        MARKDOWN
+      end
+
+      it 'refreshes note suggestions' do
+        note = create(:diff_note_on_merge_request)
+        create(:suggestion, note: note, position: 0)
+
+        expect { Notes::UpdateService.new(project, user, note: markdown).execute(note) }
+          .to change { note.suggestions.count }.from(1).to(2)
+
+        note.reload
+
+        expect(note.suggestions.order(:position).map(&:suggestion))
+          .to eq(['  foo', '  bar'])
+      end
+    end
+
     context 'todos' do
       let!(:todo) { create(:todo, :assigned, user: user, project: project, target: issue, author: user2) }
 

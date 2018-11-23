@@ -58,8 +58,10 @@ describe Suggestions::CreateService do
       it 'persists original changing lines and suggested lines' do
         subject.execute
 
-        suggestion_1 = diff_note.suggestions.first
-        suggestion_2 = diff_note.suggestions.last
+        suggestions = diff_note.suggestions.order(:position)
+
+        suggestion_1 = suggestions.first
+        suggestion_2 = suggestions.last
 
         expect(suggestion_1).to have_attributes(changing: "    vars = {",
                                                 suggestion: "  foo\n  bar")

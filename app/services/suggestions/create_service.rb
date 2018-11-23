@@ -17,11 +17,12 @@ module Suggestions
       comment_index = @diff_note.position.new_line - 1
 
       rows =
-        suggestions.map do |suggestion|
+        suggestions.map.with_index do |suggestion, index|
           {
             note_id: @diff_note.id,
             changing: changing_lines(comment_index, comment_index),
-            suggestion: suggestion
+            suggestion: suggestion,
+            position: index
           }
         end
 

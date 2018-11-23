@@ -14,6 +14,13 @@ module Notes
         TodoService.new.update_note(note, current_user, old_mentioned_users)
       end
 
+      if note.is_a?(DiffNote)
+        Suggestion.transaction do
+          note.suggestions.delete_all
+          Suggestions::CreateService.new(note).execute
+        end
+      end
+
       note
     end
   end
