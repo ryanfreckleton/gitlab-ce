@@ -1,16 +1,16 @@
 <script>
 import $ from 'jquery';
-import Tooltip from '../../directives/tooltip';
+import { GlTooltipDirective } from '@gitlab/ui';
 import ToolbarButton from './toolbar_button.vue';
 import Icon from '../icon.vue';
 
 export default {
-  directives: {
-    Tooltip,
-  },
   components: {
     ToolbarButton,
     Icon,
+  },
+  directives: {
+    GlTooltip: GlTooltipDirective,
   },
   props: {
     previewMarkdown: {
@@ -64,58 +64,31 @@ export default {
 <template>
   <div class="md-header">
     <ul class="nav-links clearfix">
-      <li
-        :class="{ active: !previewMarkdown }"
-        class="md-header-tab"
-      >
+      <li :class="{ active: !previewMarkdown }" class="md-header-tab">
         <button
           class="js-write-link"
           tabindex="-1"
           type="button"
-          @click="writeMarkdownTab($event)"
+          @click="writeMarkdownTab($event);"
         >
           Write
         </button>
       </li>
-      <li
-        :class="{ active: previewMarkdown }"
-        class="md-header-tab"
-      >
+      <li :class="{ active: previewMarkdown }" class="md-header-tab">
         <button
           class="js-preview-link js-md-preview-button"
           tabindex="-1"
           type="button"
-          @click="previewMarkdownTab($event)"
+          @click="previewMarkdownTab($event);"
         >
           Preview
         </button>
       </li>
-      <li
-        :class="{ active: !previewMarkdown }"
-        class="md-header-toolbar"
-      >
-        <toolbar-button
-          tag="**"
-          button-title="Add bold text"
-          icon="bold"
-        />
-        <toolbar-button
-          tag="*"
-          button-title="Add italic text"
-          icon="italic"
-        />
-        <toolbar-button
-          :prepend="true"
-          tag="> "
-          button-title="Insert a quote"
-          icon="quote"
-        />
-        <toolbar-button
-          tag="`"
-          tag-block="```"
-          button-title="Insert code"
-          icon="code"
-        />
+      <li :class="{ active: !previewMarkdown }" class="md-header-toolbar">
+        <toolbar-button tag="**" button-title="Add bold text" icon="bold" />
+        <toolbar-button tag="*" button-title="Add italic text" icon="italic" />
+        <toolbar-button :prepend="true" tag="> " button-title="Insert a quote" icon="quote" />
+        <toolbar-button tag="`" tag-block="```" button-title="Insert code" icon="code" />
         <toolbar-button
           tag="[{text}](url)"
           tag-select="url"
@@ -147,7 +120,7 @@ export default {
           icon="table"
         />
         <button
-          v-tooltip
+          v-gl-tooltip
           aria-label="Go full screen"
           class="toolbar-btn toolbar-fullscreen-btn js-zen-enter"
           data-container="body"
@@ -155,9 +128,7 @@ export default {
           title="Go full screen"
           type="button"
         >
-          <icon
-            name="screen-full"
-          />
+          <icon name="screen-full" />
         </button>
       </li>
     </ul>

@@ -121,6 +121,7 @@ export default {
     draw() {
       const breakpointSize = bp.getBreakpointSize();
       const query = this.graphData.queries[0];
+      const svgWidth = this.$refs.baseSvg.getBoundingClientRect().width;
       this.margin = measurements.large.margin;
       if (this.smallGraph || breakpointSize === 'xs' || breakpointSize === 'sm') {
         this.graphHeight = 300;
@@ -130,13 +131,13 @@ export default {
       this.unitOfDisplay = query.unit || '';
       this.yAxisLabel = this.graphData.y_label || 'Values';
       this.legendTitle = query.label || 'Average';
-      this.graphWidth = this.$refs.baseSvg.clientWidth - this.margin.left - this.margin.right;
+      this.graphWidth = svgWidth - this.margin.left - this.margin.right;
       this.graphHeight = this.graphHeight - this.margin.top - this.margin.bottom;
       this.baseGraphHeight = this.graphHeight - 50;
       this.baseGraphWidth = this.graphWidth;
 
       // pixel offsets inside the svg and outside are not 1:1
-      this.realPixelRatio = this.$refs.baseSvg.clientWidth / this.baseGraphWidth;
+      this.realPixelRatio = svgWidth / this.baseGraphWidth;
 
       this.renderAxesPaths();
       this.formatDeployments();
@@ -246,33 +247,17 @@ export default {
 <template>
   <div
     class="prometheus-graph"
-    @mouseover="showFlagContent = true"
-    @mouseleave="showFlagContent = false"
+    @mouseover="showFlagContent = true;"
+    @mouseleave="showFlagContent = false;"
   >
     <div class="prometheus-graph-header">
-      <h5 class="prometheus-graph-title">
-        {{ graphData.title }}
-      </h5>
-      <div class="prometheus-graph-widgets">
-        <slot></slot>
-      </div>
+      <h5 class="prometheus-graph-title">{{ graphData.title }}</h5>
+      <div class="prometheus-graph-widgets"><slot></slot></div>
     </div>
-    <div
-      :style="paddingBottomRootSvg"
-      class="prometheus-svg-container"
-    >
-      <svg
-        ref="baseSvg"
-        :viewBox="outerViewBox"
-      >
-        <g
-          :transform="axisTransform"
-          class="x-axis"
-        />
-        <g
-          class="y-axis"
-          transform="translate(70, 20)"
-        />
+    <div :style="paddingBottomRootSvg" class="prometheus-svg-container">
+      <svg ref="baseSvg" :viewBox="outerViewBox">
+        <g :transform="axisTransform" class="x-axis" />
+        <g class="y-axis" transform="translate(70, 20)" />
         <graph-axis
           :graph-width="graphWidth"
           :graph-height="graphHeight"
@@ -281,15 +266,8 @@ export default {
           :y-axis-label="yAxisLabel"
           :unit-of-display="unitOfDisplay"
         />
-        <svg
-          ref="graphData"
-          :viewBox="innerViewBox"
-          class="graph-data"
-        >
-          <slot
-            name="additionalSvgContent"
-            :graphDrawData="graphDrawData"
-          />
+        <svg ref="graphData" :viewBox="innerViewBox" class="graph-data">
+          <slot name="additionalSvgContent" :graphDrawData="graphDrawData" />
           <graph-path
             v-for="(path, index) in timeSeries"
             :key="index"
@@ -308,11 +286,11 @@ export default {
           />
           <rect
             ref="graphOverlay"
-            :width="(graphWidth - 70)"
-            :height="(graphHeight - 100)"
+            :width="graphWidth - 70"
+            :height="graphHeight - 100"
             class="prometheus-graph-overlay"
             transform="translate(-5, 20)"
-            @mousemove="handleMouseOverGraph($event)"
+            @mousemove="handleMouseOverGraph($event);"
           />
         </svg>
       </svg>
@@ -330,10 +308,6 @@ export default {
         :current-coordinates="currentCoordinates"
       />
     </div>
-    <graph-legend
-      v-if="showLegend"
-      :legend-title="legendTitle"
-      :time-series="timeSeries"
-    />
+    <graph-legend v-if="showLegend" :legend-title="legendTitle" :time-series="timeSeries" />
   </div>
 </template>

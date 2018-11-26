@@ -61,6 +61,7 @@ following locations:
 - [Protected Tags](protected_tags.md)
 - [Repositories](repositories.md)
 - [Repository Files](repository_files.md)
+- [Repository Submodules](repository_submodules.md)
 - [Runners](runners.md)
 - [Search](search.md)
 - [Services](services.md)
@@ -104,7 +105,7 @@ not explicit. This allows for a stable API endpoint, but also means new
 features can be added to the API in the same version number.
 
 New features and bug fixes are released in tandem with a new GitLab, and apart
-from incidental patch and security releases, are released on the 22nd each
+from incidental patch and security releases, are released on the 22nd of each
 month. Backward incompatible changes (e.g. endpoints removal, parameters
 removal etc.), as well as removal of entire API versions are done in tandem
 with a major point release of GitLab itself. All deprecations and changes
@@ -234,7 +235,7 @@ provided you are authenticated as an administrator with an OAuth or Personal Acc
 
 You need to pass the `sudo` parameter either via query string or a header with an ID/username of
 the user you want to perform the operation as. If passed as a header, the
-header name must be `Sudo`. 
+header name must be `Sudo`.
 
 NOTE: **Note:**
 Usernames are case insensitive.

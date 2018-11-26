@@ -178,6 +178,7 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
 
       resource :mirror, only: [:show, :update] do
         member do
+          get :ssh_host_keys, constraints: { format: :json }
           post :update_now
         end
       end
@@ -206,20 +207,7 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
         end
       end
 
-      resources :clusters, except: [:edit, :create] do
-        collection do
-          post :create_gcp
-          post :create_user
-        end
-
-        member do
-          get :status, format: :json
-
-          scope :applications do
-            post '/:application', to: 'clusters/applications#create', as: :install_applications
-          end
-        end
-      end
+      concerns :clusterable
 
       resources :environments, except: [:destroy] do
         member do

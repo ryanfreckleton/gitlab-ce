@@ -2,6 +2,8 @@
 import $ from 'jquery';
 import { insertText } from '~/lib/utils/common_utils';
 
+const LINK_TAG_PATTERN = '[{text}](url)';
+
 function selectedText(text, textarea) {
   return text.substring(textarea.selectionStart, textarea.selectionEnd);
 }
@@ -37,7 +39,7 @@ function blockTagText(text, textArea, blockTag, selected) {
   }
 }
 
-function moveCursor({ textArea, tag, wrapped, removedLastNewLine, select }) {
+function moveCursor({ textArea, tag, positionBetweenTags, removedLastNewLine, select }) {
   var pos;
   if (!textArea.setSelectionRange) {
     return;
@@ -49,7 +51,7 @@ function moveCursor({ textArea, tag, wrapped, removedLastNewLine, select }) {
     return textArea.setSelectionRange(startPosition, endPosition);
   }
   if (textArea.selectionStart === textArea.selectionEnd) {
-    if (wrapped) {
+    if (positionBetweenTags) {
       pos = textArea.selectionStart - tag.length;
     } else {
       pos = textArea.selectionStart;
@@ -65,7 +67,6 @@ function moveCursor({ textArea, tag, wrapped, removedLastNewLine, select }) {
 
 export function insertMarkdownText({ textArea, text, tag, blockTag, selected, wrap, select }) {
   var textToInsert,
-    inserted,
     selectedSplit,
     startChar,
     removedLastNewLine,
@@ -75,6 +76,21 @@ export function insertMarkdownText({ textArea, text, tag, blockTag, selected, wr
   removedLastNewLine = false;
   removedFirstNewLine = false;
   currentLineEmpty = false;
+
+  // check for link pattern and selected text is an URL
+  // if so fill in the url part instead of the text part of the pattern.
+  if (tag === LINK_TAG_PATTERN) {
+    if (URL) {
+      try {
+        const ignoredUrl = new URL(selected);
+        // valid url
+        tag = '[text]({text})';
+        select = 'text';
+      } catch (e) {
+        // ignore - no valid url
+      }
+    }
+  }
 
   // Remove the first newline
   if (selected.indexOf('\n') === 0) {
@@ -138,7 +154,7 @@ export function insertMarkdownText({ textArea, text, tag, blockTag, selected, wr
   return moveCursor({
     textArea,
     tag: tag.replace(textPlaceholder, selected),
-    wrap,
+    positionBetweenTags: wrap && selected.length === 0,
     removedLastNewLine,
     select,
   });
@@ -152,10 +168,6 @@ function updateText({ textArea, tag, blockTag, wrap, select }) {
   selected = selectedText(text, textArea);
   $textArea.focus();
   return insertMarkdownText({ textArea, text, tag, blockTag, selected, wrap, select });
-}
-
-function replaceRange(s, start, end, substitute) {
-  return s.substring(0, start) + substitute + s.substring(end);
 }
 
 export function addMarkdownListeners(form) {

@@ -650,7 +650,7 @@ describe ApplicationController do
   describe '#access_denied' do
     controller(described_class) do
       def index
-        access_denied!(params[:message])
+        access_denied!(params[:message], params[:status])
       end
     end
 
@@ -668,6 +668,12 @@ describe ApplicationController do
       get :index, message: 'None shall pass'
 
       expect(response).to have_gitlab_http_status(403)
+    end
+
+    it 'renders a status passed to access denied' do
+      get :index, status: 401
+
+      expect(response).to have_gitlab_http_status(401)
     end
   end
 
@@ -789,6 +795,32 @@ describe ApplicationController do
         get :index
 
         expect(response.headers['X-GitLab-Custom-Error']).to be_nil
+      end
+    end
+  end
+
+  context 'control headers' do
+    controller(described_class) do
+      def index
+        render json: :ok
+      end
+    end
+
+    context 'user not logged in' do
+      it 'sets the default headers' do
+        get :index
+
+        expect(response.headers['Cache-Control']).to be_nil
+      end
+    end
+
+    context 'user logged in' do
+      it 'sets the default headers' do
+        sign_in(user)
+
+        get :index
+
+        expect(response.headers['Cache-Control']).to eq 'max-age=0, private, must-revalidate, no-store'
       end
     end
   end

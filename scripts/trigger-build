@@ -32,32 +32,32 @@ module Trigger
 
     private
 
-    # Must be overriden
+    # Must be overridden
     def downstream_project_path
       raise NotImplementedError
     end
 
-    # Must be overriden
+    # Must be overridden
     def ref
       raise NotImplementedError
     end
 
-    # Must be overriden
+    # Must be overridden
     def trigger_token
       raise NotImplementedError
     end
 
-    # Must be overriden
+    # Must be overridden
     def access_token
       raise NotImplementedError
     end
 
-    # Can be overriden
+    # Can be overridden
     def extra_variables
       {}
     end
 
-    # Can be overriden
+    # Can be overridden
     def version_param_value(version_file)
       File.read(version_file).strip
     end
@@ -106,8 +106,10 @@ module Trigger
     def extra_variables
       {
         'GITLAB_VERSION' => ENV['CI_COMMIT_SHA'],
+        'GITLAB_REF_SLUG' => ENV['CI_COMMIT_REF_SLUG'],
         'ALTERNATIVE_SOURCES' => 'true',
-        'ee' => Trigger.ee? ? 'true' : 'false'
+        'ee' => Trigger.ee? ? 'true' : 'false',
+        'QA_BRANCH' => ENV['QA_BRANCH'] || 'master'
       }
     end
   end

@@ -160,13 +160,27 @@ module API
         # (fixed in https://github.com/rails/rails/pull/25976).
         project.tags.map(&:name).sort
       end
+
       expose :ssh_url_to_repo, :http_url_to_repo, :web_url, :readme_url
+
+      expose :license_url, if: :license do |project|
+        license = project.repository.license_blob
+
+        if license
+          Gitlab::Routing.url_helpers.project_blob_url(project, File.join(project.default_branch, license.path))
+        end
+      end
+
+      expose :license, with: 'API::Entities::LicenseBasic', if: :license do |project|
+        project.repository.license
+      end
+
       expose :avatar_url do |project, options|
         project.avatar_url(only_path: false)
       end
+
       expose :star_count, :forks_count
       expose :last_activity_at
-
       expose :namespace, using: 'API::Entities::NamespaceBasic'
       expose :custom_attributes, using: 'API::Entities::CustomAttribute', if: :with_custom_attributes
 
@@ -593,6 +607,22 @@ module API
     end
 
     class MergeRequestBasic < ProjectEntity
+      expose :merged_by, using: Entities::UserBasic do |merge_request, _options|
+        merge_request.metrics&.merged_by
+      end
+
+      expose :merged_at do |merge_request, _options|
+        merge_request.metrics&.merged_at
+      end
+
+      expose :closed_by, using: Entities::UserBasic do |merge_request, _options|
+        merge_request.metrics&.latest_closed_by
+      end
+
+      expose :closed_at do |merge_request, _options|
+        merge_request.metrics&.latest_closed_at
+      end
+
       expose :title_html, if: -> (_, options) { options[:render_html] } do |entity|
         MarkupHelper.markdown_field(entity, :title)
       end
@@ -660,22 +690,6 @@ module API
 
       expose :changes_count do |merge_request, _options|
         merge_request.merge_request_diff.real_size
-      end
-
-      expose :merged_by, using: Entities::UserBasic do |merge_request, _options|
-        merge_request.metrics&.merged_by
-      end
-
-      expose :merged_at do |merge_request, _options|
-        merge_request.metrics&.merged_at
-      end
-
-      expose :closed_by, using: Entities::UserBasic do |merge_request, _options|
-        merge_request.metrics&.latest_closed_by
-      end
-
-      expose :closed_at do |merge_request, _options|
-        merge_request.metrics&.latest_closed_at
       end
 
       expose :latest_build_started_at, if: -> (_, options) { build_available?(options) } do |merge_request, _options|
@@ -1128,7 +1142,8 @@ module API
     end
 
     class JobArtifactFile < Grape::Entity
-      expose :filename, :size
+      expose :filename
+      expose :cached_size, as: :size
     end
 
     class JobArtifact < Grape::Entity
@@ -1208,11 +1223,14 @@ module API
       expose :deployable,  using: Entities::Job
     end
 
-    class License < Grape::Entity
+    class LicenseBasic < Grape::Entity
       expose :key, :name, :nickname
-      expose :popular?, as: :popular
       expose :url, as: :html_url
       expose(:source_url) { |license| license.meta['source'] }
+    end
+
+    class License < LicenseBasic
+      expose :popular?, as: :popular
       expose(:description) { |license| license.meta['description'] }
       expose(:conditions) { |license| license.meta['conditions'] }
       expose(:permissions) { |license| license.meta['permissions'] }
@@ -1246,7 +1264,11 @@ module API
       expose :token
     end
 
-    class ImpersonationToken < PersonalAccessTokenWithToken
+    class ImpersonationToken < PersonalAccessToken
+      expose :impersonation
+    end
+
+    class ImpersonationTokenWithToken < PersonalAccessTokenWithToken
       expose :impersonation
     end
 

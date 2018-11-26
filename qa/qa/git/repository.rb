@@ -109,25 +109,43 @@ module QA
         known_hosts_file.close(true)
       end
 
+      def push_with_git_protocol(version, file_name, file_content, commit_message = 'Initial commit')
+        self.git_protocol = version
+        add_file(file_name, file_content)
+        commit(commit_message)
+        push_changes
+
+        fetch_supported_git_protocol
+      end
+
+      def git_protocol=(value)
+        raise ArgumentError, "Please specify the protocol you would like to use: 0, 1, or 2" unless %w[0 1 2].include?(value.to_s)
+
+        run("git config protocol.version #{value}")
+      end
+
+      def fetch_supported_git_protocol
+        # ls-remote is one command known to respond to Git protocol v2 so we use
+        # it to get output including the version reported via Git tracing
+        output = run("git ls-remote #{uri}", "GIT_TRACE_PACKET=1")
+        output[/git< version (\d+)/, 1] || 'unknown'
+      end
+
       private
 
       attr_reader :uri, :username, :password, :known_hosts_file, :private_key_file
-
-      def debug?
-        Runtime::Env.respond_to?(:verbose?) && Runtime::Env.verbose?
-      end
 
       def ssh_key_set?
         !private_key_file.nil?
       end
 
-      def run(command_str)
-        command = [env_vars, command_str, '2>&1'].compact.join(' ')
-        warn "DEBUG: command=[#{command}]" if debug?
+      def run(command_str, *extra_env)
+        command = [env_vars, *extra_env, command_str, '2>&1'].compact.join(' ')
+        Runtime::Logger.debug "Git: command=[#{command}]"
 
         output, _ = Open3.capture2(command)
         output = output.chomp.gsub(/\s+$/, '')
-        warn "DEBUG: output=[#{output}]" if debug?
+        Runtime::Logger.debug "Git: output=[#{output}]"
 
         output
       end

@@ -46,6 +46,8 @@ class ApplicationController < ActionController::Base
     :git_import_enabled?, :gitlab_project_import_enabled?,
     :manifest_import_enabled?
 
+  DEFAULT_GITLAB_CACHE_CONTROL = "#{ActionDispatch::Http::Cache::Response::DEFAULT_CACHE_CONTROL}, no-store".freeze
+
   rescue_from Encoding::CompatibilityError do |exception|
     log_exception(exception)
     render "errors/encoding", layout: "errors", status: 500
@@ -161,7 +163,7 @@ class ApplicationController < ActionController::Base
   def log_exception(exception)
     Raven.capture_exception(exception) if sentry_enabled?
 
-    backtrace_cleaner = Gitlab.rails5? ? env["action_dispatch.backtrace_cleaner"] : env
+    backtrace_cleaner = Gitlab.rails5? ? request.env["action_dispatch.backtrace_cleaner"] : env
     application_trace = ActionDispatch::ExceptionWrapper.new(backtrace_cleaner, exception).application_trace
     application_trace.map! { |t| "  #{t}\n" }
     logger.error "\n#{exception.class.name} (#{exception.message}):\n#{application_trace.join}"
@@ -179,11 +181,11 @@ class ApplicationController < ActionController::Base
     Ability.allowed?(object, action, subject)
   end
 
-  def access_denied!(message = nil)
+  def access_denied!(message = nil, status = nil)
     # If we display a custom access denied message to the user, we don't want to
     # hide existence of the resource, rather tell them they cannot access it using
     # the provided message
-    status = message.present? ? :forbidden : :not_found
+    status ||= message.present? ? :forbidden : :not_found
 
     respond_to do |format|
       format.any { head status }
@@ -244,6 +246,13 @@ class ApplicationController < ActionController::Base
     headers['X-XSS-Protection'] = '1; mode=block'
     headers['X-UA-Compatible'] = 'IE=edge'
     headers['X-Content-Type-Options'] = 'nosniff'
+
+    if current_user
+      # Adds `no-store` to the DEFAULT_CACHE_CONTROL, to prevent security
+      # concerns due to caching private data.
+      headers['Cache-Control'] = DEFAULT_GITLAB_CACHE_CONTROL
+      headers["Pragma"] = "no-cache" # HTTP 1.0 compatibility
+    end
   end
 
   def validate_user_service_ticket!

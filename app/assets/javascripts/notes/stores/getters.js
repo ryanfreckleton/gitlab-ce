@@ -1,6 +1,5 @@
 import _ from 'underscore';
 import * as constants from '../constants';
-import { reduceDiscussionsToLineCodes } from './utils';
 import { collapseSystemNotes } from './collapse_utils';
 
 export const discussions = state => collapseSystemNotes(state.discussions);
@@ -30,9 +29,6 @@ export const notesById = state =>
     note.notes.every(n => Object.assign(acc, { [n.id]: n }));
     return acc;
   }, {});
-
-export const discussionsStructuredByLineCode = state =>
-  reduceDiscussionsToLineCodes(state.discussions);
 
 export const noteableType = state => {
   const { ISSUE_NOTEABLE_TYPE, MERGE_REQUEST_NOTEABLE_TYPE, EPIC_NOTEABLE_TYPE } = constants;
@@ -85,15 +81,17 @@ export const allResolvableDiscussions = (state, getters) =>
 export const resolvedDiscussionsById = state => {
   const map = {};
 
-  state.discussions.filter(d => d.resolvable).forEach(n => {
-    if (n.notes) {
-      const resolved = n.notes.filter(note => note.resolvable).every(note => note.resolved);
+  state.discussions
+    .filter(d => d.resolvable)
+    .forEach(n => {
+      if (n.notes) {
+        const resolved = n.notes.filter(note => note.resolvable).every(note => note.resolved);
 
-      if (resolved) {
-        map[n.id] = n;
+        if (resolved) {
+          map[n.id] = n;
+        }
       }
-    }
-  });
+    });
 
   return map;
 };
@@ -195,6 +193,8 @@ export const firstUnresolvedDiscussionId = (state, getters) => diffOrder => {
   }
   return getters.unresolvedDiscussionsIdsByDate[0];
 };
+
+export const commentsDisabled = state => state.commentsDisabled;
 
 // prevent babel-plugin-rewire from generating an invalid default during karma tests
 export default () => {};
