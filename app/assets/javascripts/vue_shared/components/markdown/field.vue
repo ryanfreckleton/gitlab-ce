@@ -71,6 +71,7 @@ export default {
       return this.referencedUsers.length >= referencedUsersThreshold;
     },
     isSuggestion() {
+
       return this.markdownPreview.includes('js-render-suggestion');
     },
     lineContent() {
