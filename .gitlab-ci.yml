@@ -254,7 +254,7 @@ package-and-qa:
   retry: 0
   script:
     - gem install gitlab --no-document
-    - ./$SCRIPT_NAME omnibus
+    - CI_COMMIT_REF_SLUG=master ./$SCRIPT_NAME omnibus
   when: manual
   only:
     - //@gitlab-org/gitlab-ce
