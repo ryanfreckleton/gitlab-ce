@@ -1,6 +1,8 @@
 class Suggestion < ApplicationRecord
   belongs_to :note
 
+  delegate :project, to: :note
+
   def from_line
     position_new_line
   end

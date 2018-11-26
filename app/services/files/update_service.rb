@@ -2,8 +2,6 @@
 
 module Files
   class UpdateService < Files::BaseService
-    PatchUpdateError = Class.new(StandardError)
-
     def create_commit!
       repository.update_file(current_user, @file_path, @file_content,
                              message: @commit_message,

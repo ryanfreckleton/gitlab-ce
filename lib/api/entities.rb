@@ -1491,5 +1491,15 @@ module API
       expose :label, using: Entities::LabelBasic
       expose :action
     end
+
+    class Suggestion < Grape::Entity
+      expose :id
+      expose :from_line
+      expose :to_line
+      expose :appliable?, as: :appliable
+      expose :applied
+      expose :changing
+      expose :suggestion
+    end
   end
 end

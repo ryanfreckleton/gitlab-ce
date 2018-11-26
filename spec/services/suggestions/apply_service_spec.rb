@@ -1,15 +1,8 @@
 require 'spec_helper'
 
 describe Suggestions::ApplyService do
-  subject { described_class.new(project, user, commit_params) }
-
   let(:project) { create(:project, :repository) }
   let(:user) { create(:user, :commit_email) }
-  let(:file_path) { 'files/ruby/popen.rb' }
-  let(:new_contents) { 'New Content' }
-  let(:branch_name) { project.default_branch }
-  let(:last_commit_sha) { nil }
-  let(:commit) { project.repository.commit }
 
   let(:merge_request) do
     create(:merge_request, source_project: project,
