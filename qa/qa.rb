@@ -61,6 +61,7 @@ module QA
     autoload :File, 'qa/resource/file'
     autoload :Fork, 'qa/resource/fork'
     autoload :SSHKey, 'qa/resource/ssh_key'
+    autoload :IssueBoard, 'qa/resource/issue_board'
 
     module Repository
       autoload :Push, 'qa/resource/repository/push'
