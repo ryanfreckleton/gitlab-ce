@@ -46,6 +46,9 @@ export default {
   },
   methods: {
     renderSuggestions() {
+      // swaps out suggestion markdown with rich diff components
+      // (while still keeping non-suggestion markdown in place)
+
       const { container } = this.$refs;
       const suggestionElements = container.getElementsByClassName('suggestion');
 
@@ -59,7 +62,7 @@ export default {
       let { lineNumber } = this;
       const lines = [];
       [...newLines].forEach(line => {
-        const content = `${line.innerHTML} \n`;
+        const content = `${line.innerHTML}\n`;
         lines.push({ content, lineNumber });
         lineNumber += 1;
       });
@@ -72,7 +75,7 @@ export default {
         components: { suggestionDiff },
         data: { newLines, oldLine, canApply, lineNumber },
         methods: {
-          applySuggestion: content => this.applySuggestion(content),
+          applySuggestion: data => this.applySuggestion(data),
         },
         template: `
           <suggestion-diff
@@ -83,14 +86,14 @@ export default {
             @apply="applySuggestion"/>`,
       }).$mount().$el;
     },
-    applySuggestion(content) {
+    applySuggestion({ content, lineSpan }) {
       const position = this.note && this.note.position ? this.note.position : {};
       const fileName = position.new_path || position.old_path;
-      const payload = this.createCommitPayload(content, fileName);
+      const payload = this.createCommitPayload(content, lineSpan, fileName);
 
       this.$emit('apply', payload);
     },
-    createCommitPayload(content, fileName) {
+    createCommitPayload(content, lineSpan, fileName) {
       const { lineNumber } = this;
 
       return {
@@ -100,7 +103,7 @@ export default {
         projectPath: this.getNoteableData.source_project_full_path,
         commit_message: `Apply suggestion to ${fileName}`,
         from_line: lineNumber,
-        to_line: lineNumber,
+        to_line: lineNumber + lineSpan,
       };
     },
   },

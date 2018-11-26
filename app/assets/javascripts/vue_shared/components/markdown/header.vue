@@ -17,6 +17,11 @@ export default {
       type: Boolean,
       required: true,
     },
+    lineCode: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   computed: {
     mdTable() {
@@ -28,7 +33,8 @@ export default {
       ].join('\n');
     },
     mdSuggestion() {
-      return ['```suggestion', '{text}', '```'].join('\n');
+      const suggestionLine = $(`#${this.lineCode} .line`).text();
+      return ['```suggestion', suggestionLine, '{text}', '```'].join('\n');
     },
   },
   mounted() {

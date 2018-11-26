@@ -28,14 +28,14 @@ export default {
   methods: {
 
     applySuggestion() {
-
       let content = '';
+      const lineSpan = this.newLines.length -1;
 
       this.newLines.forEach(line => {
         content += line.content;
       });
 
-      this.$emit('apply', content);
+      this.$emit('apply', { content, lineSpan });
     },
   },
 };
