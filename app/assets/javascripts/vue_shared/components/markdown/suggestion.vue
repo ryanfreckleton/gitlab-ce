@@ -1,6 +1,6 @@
 <script>
 import Vue from 'vue';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import suggestionDiff from './suggestion_diff.vue';
 
 // TODO - Add unit tests
@@ -37,6 +37,9 @@ export default {
       }
       return lineNumber;
     },
+    oldLine() {
+      return this.line && this.line.rich_text ? this.line.rich_text : '';
+    },
   },
   mounted() {
     this.renderSuggestions();
@@ -44,32 +47,38 @@ export default {
   methods: {
     renderSuggestions() {
       const { container } = this.$refs;
-      const suggestions = container.getElementsByClassName('suggestion');
+      const suggestionElements = container.getElementsByClassName('suggestion');
 
-      [...suggestions].forEach(suggestionEl => {
-        const newLine = this.extractNewLine(suggestionEl);
-        container.insertBefore(this.generateDiff(newLine), suggestionEl);
+      [...suggestionElements].forEach(suggestionEl => {
+        container.insertBefore(this.generateDiff(this.extractNewLines(suggestionEl)), suggestionEl);
         container.removeChild(suggestionEl);
       });
     },
-    extractNewLine(suggestionEl) {
-      const newLine = suggestionEl.getElementsByClassName('line');
-      const content = newLine && newLine[0] ? newLine[0].innerHTML : '';
-      const number = this.lineNumber;
-      return { content, number };
+    extractNewLines(suggestionEl) {
+      const newLines = suggestionEl.getElementsByClassName('line');
+      let { lineNumber } = this;
+      const lines = [];
+      [...newLines].forEach(line => {
+        const content = `${line.innerHTML} \n`;
+        lines.push({ content, lineNumber });
+        lineNumber += 1;
+      });
+      return lines;
     },
-    generateDiff(newLine) {
-      const { canApply } = this;
+    generateDiff(newLines) {
+      const { canApply, oldLine, lineNumber } = this;
 
       return new Vue({
         components: { suggestionDiff },
-        data: { newLine, canApply },
+        data: { newLines, oldLine, canApply, lineNumber },
         methods: {
           applySuggestion: content => this.applySuggestion(content),
         },
         template: `
           <suggestion-diff
-            :new-line="newLine"
+            :new-lines="newLines"
+            :old-line-content="oldLine"
+            :old-line-number="lineNumber"
             :can-apply="canApply"
             @apply="applySuggestion"/>`,
       }).$mount().$el;

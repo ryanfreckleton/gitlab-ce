@@ -96,8 +96,6 @@ describe('Markdown field header component', () => {
   });
 
   it('renders suggestion template', () => {
-    expect(vm.mdSuggestion).toEqual(
-      '```suggestion\n{text}\n```',
-    );
+    expect(vm.mdSuggestion).toEqual('```suggestion\n{text}\n```');
   });
 });
