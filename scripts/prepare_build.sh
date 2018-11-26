@@ -23,6 +23,8 @@ export GITLAB_DATABASE=$(echo $CI_JOB_NAME | cut -f1 -d' ' | cut -f2 -d-)
 # pg to mean postgresql.
 if [ "$GITLAB_DATABASE" != 'mysql' ]; then
   export GITLAB_DATABASE='postgresql'
+else
+  echo '127.0.0.1	mysql' >> /etc/hosts
 fi
 
 cp config/database.yml.$GITLAB_DATABASE config/database.yml
