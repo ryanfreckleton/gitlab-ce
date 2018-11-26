@@ -18,6 +18,7 @@ module Notes
         # TODO: understand why delete_all does not work here.
         note.suggestions.destroy_all
         Suggestions::CreateService.new(note).execute
+        note.reload
       end
 
       note
