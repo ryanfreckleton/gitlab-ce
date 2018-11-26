@@ -36,7 +36,7 @@ describe SuggestionEntity do
     subject { entity.as_json }
 
     it 'exposes attributes' do
-      expect(subject).to include(:from_line, :to_line,
+      expect(subject).to include(:id, :from_line, :to_line,
                                  :appliable, :changing,
                                  :suggestion)
     end

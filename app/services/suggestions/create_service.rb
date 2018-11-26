@@ -22,7 +22,7 @@ module Suggestions
             note_id: @diff_note.id,
             changing: changing_lines(comment_index, comment_index),
             suggestion: suggestion,
-            position: index
+            relative_order: index
           }
         end
 

@@ -58,7 +58,7 @@ describe Suggestions::CreateService do
       it 'persists original changing lines and suggested lines' do
         subject.execute
 
-        suggestions = diff_note.suggestions.order(:position)
+        suggestions = diff_note.suggestions.order(:relative_order)
 
         suggestion_1 = suggestions.first
         suggestion_2 = suggestions.last
