@@ -25,7 +25,7 @@ describe SuggestionEntity do
     create(:suggestion, note: diff_note,
                         changing: '    vars = {',
                         suggestion: 'bar',
-                        position: 0)
+                        relative_order: 0)
   end
 
   let(:entity) do
@@ -37,7 +37,7 @@ describe SuggestionEntity do
 
     it 'exposes attributes' do
       expect(subject).to include(:id, :from_line, :to_line,
-                                 :appliable, :changing,
+                                 :appliable, :applied, :changing,
                                  :suggestion)
     end
   end

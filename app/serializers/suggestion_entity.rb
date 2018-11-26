@@ -5,6 +5,7 @@ class SuggestionEntity < Grape::Entity
   expose :from_line
   expose :to_line
   expose :appliable?, as: :appliable
+  expose :applied
   expose :changing
   expose :suggestion
   expose :relative_order
