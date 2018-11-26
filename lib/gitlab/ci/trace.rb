@@ -215,6 +215,8 @@ module Gitlab
       end
 
       def deprecated_path
+        return unless Feature.enabled?(:ci_enable_legacy_traces, job.project)
+
         File.join(
           Settings.gitlab_ci.builds_path,
           job.created_at.utc.strftime("%Y_%m"),

@@ -500,7 +500,7 @@ module Ci
     end
 
     def has_old_trace?
-      old_trace.present?
+      Feature.enabled?(:ci_enable_legacy_traces, project) && old_trace.present?
     end
 
     def trace=(data)
@@ -508,6 +508,8 @@ module Ci
     end
 
     def old_trace
+      return unless Feature.enabled?(:ci_enable_legacy_traces, project)
+
       read_attribute(:trace)
     end
 
