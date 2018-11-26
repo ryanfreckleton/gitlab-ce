@@ -24,6 +24,11 @@ export default {
       required: false,
       default: '',
     },
+    note: {
+      type: Object,
+      required: false,
+      default: null,
+    },
     markdownVersion: {
       type: Number,
       required: false,
@@ -173,6 +178,7 @@ export default {
         :line="line"
         :add-spacing-classes="false"
         :line="line"
+        :note="note"
       >
         <textarea
           id="note_note"

@@ -62,8 +62,10 @@ export default {
       const { container } = this.$refs;
       const suggestionElements = container.getElementsByClassName('suggestion');
 
-      [...suggestionElements].forEach(suggestionEl => {
-        container.insertBefore(this.generateDiff(this.extractNewLines(suggestionEl)), suggestionEl);
+      [...suggestionElements].forEach((suggestionEl, i) => {
+        const newLines = this.extractNewLines(suggestionEl);
+        const diffComponent = this.generateDiff(newLines, i);
+        container.insertBefore(diffComponent, suggestionEl);
         container.removeChild(suggestionEl);
       });
     },
@@ -78,8 +80,13 @@ export default {
       });
       return lines;
     },
-    generateDiff(newLines) {
-      const { canApply, oldLine, lineNumber } = this;
+    generateDiff(newLines, suggestionIndex) {
+      const { oldLine, lineNumber } = this;
+      let { canApply } = this;
+
+      if(this.note && this.note.suggestions && this.note.suggestions.length) {
+        canApply = canApply && this.note.suggestions[suggestionIndex].appliable;
+      }
 
       return new Vue({
         components: { suggestionDiff },
