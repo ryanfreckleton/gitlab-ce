@@ -38,7 +38,17 @@ export default {
       return lineNumber;
     },
     oldLine() {
-      return this.line && this.line.rich_text ? this.line.rich_text : '';
+      let oldLine = '';
+
+      if(this.line && this.line.rich_text) {
+        oldLine = this.line.rich_text;
+      }
+
+      if(this.note && this.note.suggestions && this.note.suggestions.length) {
+        oldLine = this.note.suggestions[0].changing;
+      }
+
+      return oldLine;
     },
   },
   mounted() {

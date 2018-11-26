@@ -26,10 +26,9 @@ export default {
     },
   },
   methods: {
-
     applySuggestion() {
       let content = '';
-      const lineSpan = this.newLines.length -1;
+      const lineSpan = this.newLines.length - 1;
 
       this.newLines.forEach(line => {
         content += line.content;
@@ -48,28 +47,15 @@ export default {
       <tbody>
         <!-- Old Line -->
         <tr class="line_holder old">
-          <td class="diff-line-num old_line old">
-            {{ oldLineNumber }}
-          </td>
+          <td class="diff-line-num old_line old">{{ oldLineNumber }}</td>
           <td class="diff-line-num new_line qa-new-diff-line old"></td>
-          <td
-            class="line_content old"
-            v-html="oldLineContent">
-          </td>
+          <td class="line_content old" v-html="oldLineContent"></td>
         </tr>
         <!-- New Line -->
-        <tr
-          v-for="(line, key) of newLines"
-          :key="key"
-          class="line_holder new">
+        <tr v-for="(line, key) of newLines" :key="key" class="line_holder new">
           <td class="diff-line-num old_line new"></td>
-          <td class="diff-line-num new_line qa-new-diff-line new">
-            {{ line.lineNumber }}
-          </td>
-          <td
-            class="line_content new"
-            v-html="line.content">
-          </td>
+          <td class="diff-line-num new_line qa-new-diff-line new">{{ line.lineNumber }}</td>
+          <td class="line_content new" v-html="line.content"></td>
         </tr>
       </tbody>
     </table>
