@@ -1,0 +1,5 @@
+---
+title: Disable support for legacy traces and artifacts
+merge_request:
+author:
+type: removed
