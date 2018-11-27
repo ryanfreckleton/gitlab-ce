@@ -194,14 +194,19 @@ export default {
     }
   },
 
-  [types.APPLY_SUGGESTION](state, {noteId, discussionId, suggestion}) {
+  [types.APPLY_SUGGESTION](state, {noteId, discussionId}) {
     const noteObj = utils.findNoteObjectById(state.discussions, discussionId);
     const comment = utils.findNoteObjectById(noteObj.notes, noteId);
-    const appliedSuggestion = suggestion;
 
-    appliedSuggestion.appliable = false;
-    comment.suggestions.splice(comment.suggestions.indexOf(suggestion), 1, appliedSuggestion);
+    comment.suggestions.forEach((sug, i)=> {
+      const updatedSuggestion = sug;
+      updatedSuggestion.applied = true;
+      updatedSuggestion.appliable = false;
+      comment.suggestions.splice(i, 1, updatedSuggestion);
+    });
+
     noteObj.notes.splice(noteObj.notes.indexOf(comment), 1, comment);
+    state.discussions.splice(state.discussions.indexOf(noteObj), 1, noteObj);
   },
 
   [types.UPDATE_DISCUSSION](state, noteData) {

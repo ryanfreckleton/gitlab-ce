@@ -24,11 +24,6 @@ export default {
       required: false,
       default: '',
     },
-    note: {
-      type: Object,
-      required: false,
-      default: null,
-    },
     markdownVersion: {
       type: Number,
       required: false,
@@ -177,8 +172,6 @@ export default {
         :quick-actions-docs-path="quickActionsDocsPath"
         :line="line"
         :add-spacing-classes="false"
-        :line="line"
-        :note="note"
       >
         <textarea
           id="note_note"

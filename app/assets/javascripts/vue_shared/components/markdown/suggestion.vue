@@ -1,21 +1,24 @@
 <script>
 import Vue from 'vue';
-import $ from 'jquery';
 import suggestionDiff from './suggestion_diff.vue';
 
 // TODO - Add unit tests
 export default {
   components: { suggestionDiff },
   props: {
-    note: {
-      type: Object,
-      required: false,
-      default: null,
+    oldLineNumber: {
+      type: Number,
+      required: true,
     },
-    line: {
-      type: Object,
+    oldLineContent: {
+      type: String,
       required: false,
-      default: null,
+      default: '',
+    },
+    suggestions: {
+      type: Array,
+      required: false,
+      default: () => [],
     },
     suggestionHtml: {
       type: String,
@@ -27,36 +30,10 @@ export default {
       default: false,
     },
   },
-  computed: {
-    oldLineNumber() {
-      let lineNumber = '';
-
-      if (this.note && this.note.position) {
-        lineNumber = this.note.position.new_line || this.note.position.old_line;
-      } else if (this.line) {
-        lineNumber = this.line.new_line || this.line.old_line;
-      }
-
-      return lineNumber;
-    },
-    oldLineContent() {
-      let oldLine = '';
-
-      if (this.line && this.line.line_code) {
-        oldLine = $(`#${this.line.line_code} .line`).text();
-      }
-
-      if (this.note && this.note.suggestions && this.note.suggestions.length) {
-        oldLine = this.note.suggestions[0].changing;
-      }
-
-      return oldLine;
-    },
+  watch: {
     suggestions() {
-      return this.note && this.note.suggestions && this.note.suggestions.length
-        ? this.note.suggestions
-        : [];
-    },
+      console.log('suggestions updated > ', this.suggestions);
+    }
   },
   mounted() {
     this.renderSuggestions();
@@ -95,7 +72,7 @@ export default {
       // generates the diff <suggestion-diff /> component
       // all `suggestion` markdown will be swapped out by this component
 
-      const { oldLineNumber, oldLineContent, note, suggestions, canApply } = this;
+      const { oldLineNumber, oldLineContent, suggestions, canApply } = this;
 
       return new Vue({
         components: { suggestionDiff },
@@ -104,14 +81,15 @@ export default {
           suggestion() {
             return suggestions && suggestions[suggestionIndex] ? suggestions[suggestionIndex] : {};
           },
+          hasApplied() {
+            return suggestions.find(suggestion => suggestion.applied === true);
+          }
         },
         methods: {
-          applySuggestion: ({ suggestion, callback }) => {
+          applySuggestion: (suggestionId, callback) => {
             const payload = {
-              discussionId: note.discussion_id,
               flashContainer: this.$el,
-              noteId: note.id,
-              suggestion,
+              suggestionId,
               callback,
             };
 
@@ -121,10 +99,10 @@ export default {
         template: `
           <suggestion-diff
             :new-lines="newLines"
-            :old-line-content="oldLineContent"
+            :old-line-content="suggestion.changing || oldLineContent"
             :old-line-number="oldLineNumber"
             :suggestion="suggestion"
-            :can-apply="canApply"
+            :can-apply="canApply && !hasApplied"
             @apply="applySuggestion"/>`,
       }).$mount().$el;
     },

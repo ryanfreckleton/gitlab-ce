@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     applySuggestion(callback) {
-      this.$emit('apply', {callback, suggestion: this.suggestion});
+      this.$emit('apply', this.suggestion.id, callback);
     },
   },
 };

@@ -121,7 +121,6 @@ export default {
     />
     <note-awards-list
       v-if="note.award_emoji && note.award_emoji.length"
-      :note="note"
       :note-id="note.id"
       :note-author-id="note.author.id"
       :awards="note.award_emoji"
