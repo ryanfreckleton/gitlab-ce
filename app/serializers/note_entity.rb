@@ -36,7 +36,10 @@ class NoteEntity < API::Entities::Note
     end
   end
 
-  expose :suggestions, using: SuggestionEntity
+  expose :suggestions, using: SuggestionEntity do |note|
+    note.suggestions.order(:relative_order)
+  end
+
   expose :resolved?, as: :resolved
   expose :resolvable?, as: :resolvable
 
