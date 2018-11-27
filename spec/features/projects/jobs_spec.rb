@@ -596,7 +596,7 @@ describe 'Jobs', :clean_gitlab_redis_shared_state do
 
       it 'shows delayed job', :js do
         expect(page).to have_content('This is a delayed job to run in')
-        expect(page).to have_content("This job will automatically run after it's timer finishes.")
+        expect(page).to have_content("This job will automatically run after its timer finishes.")
         expect(page).to have_link('Unschedule job')
       end
 
@@ -719,7 +719,7 @@ describe 'Jobs', :clean_gitlab_redis_shared_state do
     context 'on mobile', :js do
       let(:job) { create(:ci_build, pipeline: pipeline) }
 
-      it 'renders collpased sidebar' do
+      it 'renders collapsed sidebar' do
         page.current_window.resize_to(600, 800)
 
         visit project_job_path(project, job)
@@ -738,7 +738,7 @@ describe 'Jobs', :clean_gitlab_redis_shared_state do
         wait_for_requests
 
         expect(page).to have_css('.js-job-sidebar.right-sidebar-expanded')
-        expect(page).not_to have_css('.js-job-sidebar.right-sidebar-collpased')
+        expect(page).not_to have_css('.js-job-sidebar.right-sidebar-collapsed')
       end
     end
 

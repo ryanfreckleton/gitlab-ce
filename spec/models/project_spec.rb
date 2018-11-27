@@ -33,6 +33,7 @@ describe Project do
     it { is_expected.to have_one(:asana_service) }
     it { is_expected.to have_many(:boards) }
     it { is_expected.to have_one(:campfire_service) }
+    it { is_expected.to have_one(:discord_service) }
     it { is_expected.to have_one(:drone_ci_service) }
     it { is_expected.to have_one(:emails_on_push_service) }
     it { is_expected.to have_one(:pipelines_email_service) }
@@ -105,22 +106,6 @@ describe Project do
 
         expect(project.ci_cd_settings).to be_an_instance_of(ProjectCiCdSetting)
         expect(project.ci_cd_settings).to be_persisted
-      end
-    end
-
-    context 'Site Statistics' do
-      context 'when creating a new project' do
-        it 'tracks project in SiteStatistic' do
-          expect { create(:project) }.to change { SiteStatistic.fetch.repositories_count }.by(1)
-        end
-      end
-
-      context 'when deleting a project' do
-        it 'untracks project in SiteStatistic' do
-          project = create(:project)
-
-          expect { project.destroy }.to change { SiteStatistic.fetch.repositories_count }.by(-1)
-        end
       end
     end
 
@@ -2202,12 +2187,6 @@ describe Project do
       project.change_head(project.default_branch)
     end
 
-    it 'creates the new reference with rugged' do
-      expect(project.repository.raw_repository).to receive(:write_ref).with('HEAD', "refs/heads/#{project.default_branch}", shell: false)
-
-      project.change_head(project.default_branch)
-    end
-
     it 'copies the gitattributes' do
       expect(project.repository).to receive(:copy_gitattributes).with(project.default_branch)
       project.change_head(project.default_branch)
@@ -2414,7 +2393,7 @@ describe Project do
       end
 
       context 'when user configured kubernetes from CI/CD > Clusters and KubernetesNamespace migration has been executed' do
-        let!(:kubernetes_namespace) { create(:cluster_kubernetes_namespace) }
+        let!(:kubernetes_namespace) { create(:cluster_kubernetes_namespace, :with_token) }
         let!(:cluster) { kubernetes_namespace.cluster }
         let(:project) { kubernetes_namespace.project }
 
@@ -3085,6 +3064,14 @@ describe Project do
 
       it 'does not flag as read-only' do
         expect { project.migrate_to_hashed_storage! }.not_to change { project.repository_read_only }
+      end
+
+      context 'when partially migrated' do
+        it 'returns true' do
+          project = create(:project, storage_version: 1, skip_disk_validation: true)
+
+          expect(project.migrate_to_hashed_storage!).to be_truthy
+        end
       end
     end
   end

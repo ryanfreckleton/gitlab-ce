@@ -88,9 +88,6 @@ class Project < ActiveRecord::Base
 
   after_create :create_project_feature, unless: :project_feature
 
-  after_create -> { SiteStatistic.track(STATISTICS_ATTRIBUTE) }
-  before_destroy -> { SiteStatistic.untrack(STATISTICS_ATTRIBUTE) }
-
   after_create :create_ci_cd_settings,
     unless: :ci_cd_settings,
     if: proc { ProjectCiCdSetting.available? }
@@ -135,6 +132,7 @@ class Project < ActiveRecord::Base
 
   # Project services
   has_one :campfire_service
+  has_one :discord_service
   has_one :drone_ci_service
   has_one :emails_on_push_service
   has_one :pipelines_email_service
@@ -1393,7 +1391,7 @@ class Project < ActiveRecord::Base
   def change_head(branch)
     if repository.branch_exists?(branch)
       repository.before_change_head
-      repository.raw_repository.write_ref('HEAD', "refs/heads/#{branch}", shell: false)
+      repository.raw_repository.write_ref('HEAD', "refs/heads/#{branch}")
       repository.copy_gitattributes(branch)
       repository.after_change_head
       reload_default_branch
@@ -1902,10 +1900,6 @@ class Project < ActiveRecord::Base
     false
   end
 
-  def issue_board_milestone_available?(user = nil)
-    feature_available?(:issue_board_milestone, user)
-  end
-
   def full_path_was
     File.join(namespace.full_path, previous_changes['path'].first)
   end
@@ -1967,7 +1961,7 @@ class Project < ActiveRecord::Base
   end
 
   def migrate_to_hashed_storage!
-    return if hashed_storage?(:repository)
+    return unless storage_upgradable?
 
     update!(repository_read_only: true)
 

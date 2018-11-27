@@ -1,5 +1,4 @@
 import _ from 'underscore';
-import { convertObjectPropsToCamelCase } from '~/lib/utils/common_utils';
 import { diffModes } from '~/ide/constants';
 import {
   LINE_POSITION_LEFT,
@@ -17,7 +16,7 @@ import {
 } from '../constants';
 
 export function findDiffFile(files, hash) {
-  return files.filter(file => file.fileHash === hash)[0];
+  return files.filter(file => file.file_hash === hash)[0];
 }
 
 export const getReversePosition = linePosition => {
@@ -41,14 +40,14 @@ export function getFormData(params) {
   } = params;
 
   const position = JSON.stringify({
-    base_sha: diffFile.diffRefs.baseSha,
-    start_sha: diffFile.diffRefs.startSha,
-    head_sha: diffFile.diffRefs.headSha,
-    old_path: diffFile.oldPath,
-    new_path: diffFile.newPath,
+    base_sha: diffFile.diff_refs.base_sha,
+    start_sha: diffFile.diff_refs.start_sha,
+    head_sha: diffFile.diff_refs.head_sha,
+    old_path: diffFile.old_path,
+    new_path: diffFile.new_path,
     position_type: positionType || TEXT_DIFF_POSITION_TYPE,
-    old_line: noteTargetLine ? noteTargetLine.oldLine : null,
-    new_line: noteTargetLine ? noteTargetLine.newLine : null,
+    old_line: noteTargetLine ? noteTargetLine.old_line : null,
+    new_line: noteTargetLine ? noteTargetLine.new_line : null,
     x: params.x,
     y: params.y,
     width: params.width,
@@ -58,7 +57,7 @@ export function getFormData(params) {
   const postData = {
     view: diffViewType,
     line_type: linePosition === LINE_POSITION_RIGHT ? NEW_LINE_TYPE : OLD_LINE_TYPE,
-    merge_request_diff_head_sha: diffFile.diffRefs.headSha,
+    merge_request_diff_head_sha: diffFile.diff_refs.head_sha,
     in_reply_to_discussion_id: '',
     note_project_id: '',
     target_type: noteableData.targetType,
@@ -71,10 +70,10 @@ export function getFormData(params) {
       noteable_id: noteableData.id,
       commit_id: '',
       type:
-        diffFile.diffRefs.startSha && diffFile.diffRefs.headSha
+        diffFile.diff_refs.start_sha && diffFile.diff_refs.head_sha
           ? DIFF_NOTE_TYPE
           : LEGACY_DIFF_NOTE_TYPE,
-      line_code: noteTargetLine ? noteTargetLine.lineCode : null,
+      line_code: noteTargetLine ? noteTargetLine.line_code : null,
     },
   };
 
@@ -95,7 +94,7 @@ export const findIndexInInlineLines = (lines, lineNumbers) => {
 
   return _.findIndex(
     lines,
-    line => line.oldLine === oldLineNumber && line.newLine === newLineNumber,
+    line => line.old_line === oldLineNumber && line.new_line === newLineNumber,
   );
 };
 
@@ -107,18 +106,18 @@ export const findIndexInParallelLines = (lines, lineNumbers) => {
     line =>
       line.left &&
       line.right &&
-      line.left.oldLine === oldLineNumber &&
-      line.right.newLine === newLineNumber,
+      line.left.old_line === oldLineNumber &&
+      line.right.new_line === newLineNumber,
   );
 };
 
 export function removeMatchLine(diffFile, lineNumbers, bottom) {
-  const indexForInline = findIndexInInlineLines(diffFile.highlightedDiffLines, lineNumbers);
-  const indexForParallel = findIndexInParallelLines(diffFile.parallelDiffLines, lineNumbers);
+  const indexForInline = findIndexInInlineLines(diffFile.highlighted_diff_lines, lineNumbers);
+  const indexForParallel = findIndexInParallelLines(diffFile.parallel_diff_lines, lineNumbers);
   const factor = bottom ? 1 : -1;
 
-  diffFile.highlightedDiffLines.splice(indexForInline + factor, 1);
-  diffFile.parallelDiffLines.splice(indexForParallel + factor, 1);
+  diffFile.highlighted_diff_lines.splice(indexForInline + factor, 1);
+  diffFile.parallel_diff_lines.splice(indexForParallel + factor, 1);
 }
 
 export function addLineReferences(lines, lineNumbers, bottom) {
@@ -127,18 +126,16 @@ export function addLineReferences(lines, lineNumbers, bottom) {
   let matchLineIndex = -1;
 
   const linesWithNumbers = lines.map((l, index) => {
-    const line = convertObjectPropsToCamelCase(l);
-
-    if (line.type === MATCH_LINE_TYPE) {
+    if (l.type === MATCH_LINE_TYPE) {
       matchLineIndex = index;
     } else {
-      Object.assign(line, {
-        oldLine: bottom ? oldLineNumber + index + 1 : oldLineNumber + index - lineCount,
-        newLine: bottom ? newLineNumber + index + 1 : newLineNumber + index - lineCount,
+      Object.assign(l, {
+        old_line: bottom ? oldLineNumber + index + 1 : oldLineNumber + index - lineCount,
+        new_line: bottom ? newLineNumber + index + 1 : newLineNumber + index - lineCount,
       });
     }
 
-    return line;
+    return l;
   });
 
   if (matchLineIndex > -1) {
@@ -148,9 +145,9 @@ export function addLineReferences(lines, lineNumbers, bottom) {
       : linesWithNumbers[matchLineIndex + 1];
 
     Object.assign(line, {
-      metaData: {
-        oldPos: targetLine.oldLine,
-        newPos: targetLine.newLine,
+      meta_data: {
+        old_pos: targetLine.old_line,
+        new_pos: targetLine.new_line,
       },
     });
   }
@@ -189,11 +186,11 @@ export function trimFirstCharOfLineContent(line = {}) {
 
   const parsedLine = Object.assign({}, line);
 
-  if (line.richText) {
-    const firstChar = parsedLine.richText.charAt(0);
+  if (line.rich_text) {
+    const firstChar = parsedLine.rich_text.charAt(0);
 
     if (firstChar === ' ' || firstChar === '+' || firstChar === '-') {
-      parsedLine.richText = line.richText.substring(1);
+      parsedLine.rich_text = line.rich_text.substring(1);
     }
   }
 
@@ -268,15 +265,15 @@ export function parallelize(highlightedDiffLines = []) {
 // This prepares and optimizes the incoming diff data from the server
 // by setting up incremental rendering and removing unneeded data
 export function prepareDiffData(diffData) {
-  const filesLength = diffData.diffFiles.length;
+  const filesLength = diffData.diff_files.length;
   let showingLines = 0;
   for (let i = 0; i < filesLength; i += 1) {
-    const file = diffData.diffFiles[i];
+    const file = diffData.diff_files[i];
 
     if (file.highlightedDiffLines) {
       const linesLength = file.highlightedDiffLines.length;
       for (let u = 0; u < linesLength; u += 1) {
-        const line = file.highlightedDiffLines[u];
+        const line = file.highlighted_diff_lines[u];
         Object.assign(line, { ...trimFirstCharOfLineContent(line) });
       }
 
@@ -294,26 +291,21 @@ export function prepareDiffData(diffData) {
 
 export function getDiffPositionByLineCode(diffFiles) {
   return diffFiles.reduce((acc, diffFile) => {
-    const { baseSha, headSha, startSha } = diffFile.diffRefs;
-    const { newPath, oldPath } = diffFile;
-
     // We can only use highlightedDiffLines to create the map of diff lines because
     // highlightedDiffLines will also include every parallel diff line in it.
-    if (diffFile.highlightedDiffLines) {
-      diffFile.highlightedDiffLines.forEach(line => {
-        const { lineCode, oldLine, newLine } = line;
-
-        if (lineCode) {
-          acc[lineCode] = {
-            baseSha,
-            headSha,
-            startSha,
-            newPath,
-            oldPath,
-            oldLine,
-            newLine,
-            lineCode,
-            positionType: 'text',
+    if (diffFile.highlighted_diff_lines) {
+      diffFile.highlighted_diff_lines.forEach(line => {
+        if (line.line_code) {
+          acc[line.line_code] = {
+            base_sha: diffFile.diff_refs.base_sha,
+            head_sha: diffFile.diff_refs.head_sha,
+            start_sha: diffFile.diff_refs.start_sha,
+            new_path: diffFile.new_path,
+            old_path: diffFile.old_path,
+            old_line: line.old_line,
+            new_line: line.new_line,
+            line_code: line.line_code,
+            position_type: 'text',
           };
         }
       });
@@ -326,30 +318,30 @@ export function getDiffPositionByLineCode(diffFiles) {
 // This method will check whether the discussion is still applicable
 // to the diff line in question regarding different versions of the MR
 export function isDiscussionApplicableToLine({ discussion, diffPosition, latestDiff }) {
-  const { lineCode, ...diffPositionCopy } = diffPosition;
+  const { line_code, ...diffPositionCopy } = diffPosition;
 
   if (discussion.original_position && discussion.position) {
-    const originalRefs = convertObjectPropsToCamelCase(discussion.original_position);
-    const refs = convertObjectPropsToCamelCase(discussion.position);
+    const originalRefs = discussion.original_position;
+    const refs = discussion.position;
 
     return _.isEqual(refs, diffPositionCopy) || _.isEqual(originalRefs, diffPositionCopy);
   }
 
-  return latestDiff && discussion.active && lineCode === discussion.line_code;
+  // eslint-disable-next-line
+  return latestDiff && discussion.active && line_code === discussion.line_code;
 }
 
 export const generateTreeList = files =>
   files.reduce(
     (acc, file) => {
-      const { fileHash, addedLines, removedLines, newFile, deletedFile, newPath } = file;
-      const split = newPath.split('/');
+      const split = file.new_path.split('/');
 
       split.forEach((name, i) => {
         const parent = acc.treeEntries[split.slice(0, i).join('/')];
         const path = `${parent ? `${parent.path}/` : ''}${name}`;
 
         if (!acc.treeEntries[path]) {
-          const type = path === newPath ? 'blob' : 'tree';
+          const type = path === file.new_path ? 'blob' : 'tree';
           acc.treeEntries[path] = {
             key: path,
             path,
@@ -363,11 +355,11 @@ export const generateTreeList = files =>
           if (type === 'blob') {
             Object.assign(entry, {
               changed: true,
-              tempFile: newFile,
-              deleted: deletedFile,
-              fileHash,
-              addedLines,
-              removedLines,
+              tempFile: file.new_file,
+              deleted: file.deleted_file,
+              fileHash: file.file_hash,
+              addedLines: file.added_lines,
+              removedLines: file.removed_lines,
             });
           } else {
             Object.assign(entry, {
@@ -385,6 +377,6 @@ export const generateTreeList = files =>
   );
 
 export const getDiffMode = diffFile => {
-  const diffModeKey = Object.keys(diffModes).find(key => diffFile[`${key}File`]);
+  const diffModeKey = Object.keys(diffModes).find(key => diffFile[`${key}_file`]);
   return diffModes[diffModeKey] || diffModes.replaced;
 };
