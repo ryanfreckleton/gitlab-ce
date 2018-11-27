@@ -18,10 +18,13 @@ module Suggestions
 
       rows =
         suggestions.map.with_index do |suggestion, index|
+          from_content = changing_lines(comment_index, comment_index)
+          to_content = suggestion
+
           {
             note_id: @diff_note.id,
-            changing: changing_lines(comment_index, comment_index),
-            suggestion: suggestion,
+            changing: with_break_line(from_content),
+            suggestion: with_break_line(to_content),
             relative_order: index
           }
         end
@@ -30,6 +33,10 @@ module Suggestions
     end
 
     private
+
+    def with_break_line(lines)
+      lines.ends_with?("\n") ? lines : "#{lines}\n"
+    end
 
     def changing_lines(from_index, to_index)
       new_blob_lines[from_index..to_index].join("\n")

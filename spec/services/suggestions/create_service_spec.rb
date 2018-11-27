@@ -63,11 +63,11 @@ describe Suggestions::CreateService do
         suggestion_1 = suggestions.first
         suggestion_2 = suggestions.last
 
-        expect(suggestion_1).to have_attributes(changing: "    vars = {",
-                                                suggestion: "  foo\n  bar")
+        expect(suggestion_1).to have_attributes(changing: "    vars = {\n",
+                                                suggestion: "  foo\n  bar\n")
 
-        expect(suggestion_2).to have_attributes(changing: "    vars = {",
-                                                suggestion: "  xpto\n  baz")
+        expect(suggestion_2).to have_attributes(changing: "    vars = {\n",
+                                                suggestion: "  xpto\n  baz\n")
       end
     end
   end
