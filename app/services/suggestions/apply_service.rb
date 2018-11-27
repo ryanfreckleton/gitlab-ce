@@ -13,7 +13,7 @@ module Suggestions
         return error('Suggestion is not appliable')
       end
 
-      diff_note = suggestion.note
+      diff_note = suggestion.diff_note
       diff_file = diff_note.diff_file
 
       file_path = diff_file.file_path

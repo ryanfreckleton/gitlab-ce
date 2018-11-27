@@ -1,7 +1,8 @@
 class Suggestion < ApplicationRecord
-  belongs_to :note
+  belongs_to :diff_note, inverse_of: :suggestions
+  validates :diff_note, presence: true
 
-  delegate :project, to: :note
+  delegate :project, to: :diff_note
 
   def from_line
     position_new_line
@@ -13,7 +14,7 @@ class Suggestion < ApplicationRecord
 
   def appliable?
     !applied? &&
-      note.active? &&
+      diff_note.active? &&
       different_content? &&
       !original_lines_changed?
   end
@@ -36,10 +37,10 @@ class Suggestion < ApplicationRecord
   end
 
   def new_blob_lines
-    @new_blob_lines ||= note.diff_file.new_blob.lines
+    @new_blob_lines ||= diff_note.diff_file.new_blob.lines
   end
 
   def position_new_line
-    note.position.new_line
+    diff_note.position.new_line
   end
 end

@@ -24,7 +24,7 @@ describe Suggestions::ApplyService do
   end
 
   let!(:suggestion) do
-    create(:suggestion, note: diff_note,
+    create(:suggestion, diff_note: diff_note,
                         changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
                         suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n",
                         relative_order: 0)

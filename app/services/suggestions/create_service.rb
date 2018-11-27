@@ -22,7 +22,7 @@ module Suggestions
           to_content = suggestion
 
           {
-            note_id: @diff_note.id,
+            diff_note_id: @diff_note.id,
             changing: with_break_line(from_content),
             suggestion: with_break_line(to_content),
             relative_order: index

@@ -133,54 +133,6 @@ describe Files::UpdateService do
             expect(result.data).to eq(expected_content)
           end
         end
-
-        context 'invalid range' do
-          context 'when range surpasses file lines size' do
-            let(:from_line) { 8 }
-            let(:to_line) { 999 }
-
-            it 'raises PatchUpdateError' do
-              expect { subject.execute }
-                .to raise_error(described_class::PatchUpdateError, 'Given line surpasses the scope of the file.')
-            end
-          end
-
-          context 'when lines does not have positive value' do
-            let(:from_line) { -1 }
-            let(:to_line) { 20 }
-
-            it 'raises PatchUpdateError' do
-              expect { subject.execute }
-                .to raise_error(described_class::PatchUpdateError, 'Invalid range.')
-            end
-          end
-
-          context 'when from_line value is higher than to_line' do
-            let(:from_line) { 20 }
-            let(:to_line) { 10 }
-
-            it 'raises PatchUpdateError' do
-              expect { subject.execute }
-                .to raise_error(described_class::PatchUpdateError, 'Invalid range.')
-            end
-          end
-
-          context 'when blob is not found' do
-            before do
-              expect_next_instance_of(Repository) do |repo|
-                allow(repo).to receive(:blob_at_branch) { nil }
-              end
-            end
-
-            let(:from_line) { 3 }
-            let(:to_line) { 3 }
-
-            it 'raises PatchUpdateError' do
-              expect { subject.execute }
-                .to raise_error(described_class::PatchUpdateError, 'Blob not found.')
-            end
-          end
-        end
       end
     end
 
