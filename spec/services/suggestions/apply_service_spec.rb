@@ -102,6 +102,16 @@ describe Suggestions::ApplyService do
         .to change(suggestion, :applied)
         .from(false).to(true)
     end
+
+    it 'created commit has users email and name' do
+      subject.execute(suggestion)
+
+      commit = project.repository.commit
+
+      expect(user.commit_email).not_to eq(user.email)
+      expect(commit.author_email).to eq(user.commit_email)
+      expect(commit.committer_email).to eq(user.commit_email)
+    end
   end
 
   context 'no permission' do

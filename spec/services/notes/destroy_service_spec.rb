@@ -22,16 +22,6 @@ describe Notes::DestroyService do
         .to change { user.todos_pending_count }.from(1).to(0)
     end
 
-    context 'suggestions' do
-      it 'destroys note suggestions' do
-        note = create(:note, project: project, noteable: issue)
-        create(:suggestion, note: note)
-
-        expect { described_class.new(project, user).execute(note) }
-          .to change { note.suggestions.count }.from(1).to(0)
-      end
-    end
-
     context 'noteable highlight cache clearing' do
       let(:repo_project) { create(:project, :repository) }
       let(:merge_request) do

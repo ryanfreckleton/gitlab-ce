@@ -24,52 +24,80 @@ describe Suggestions::CreateService do
                                         note: markdown)
   end
 
+  let(:markdown) do
+    <<-MARKDOWN.strip_heredoc
+        ```suggestion
+          foo
+          bar
+        ```
+
+        ```
+          nothing
+        ```
+
+        ```suggestion
+          xpto
+          baz
+        ```
+
+        ```thing
+          this is not a suggestion, it's a thing
+        ```
+    MARKDOWN
+  end
+
   subject { described_class.new(diff_note) }
 
   describe '#execute' do
-    context 'single line suggestions' do
-      let(:markdown) do
-        <<-MARKDOWN.strip_heredoc
-          ```suggestion
-            foo
-            bar
-          ```
+    context 'should not try to parse suggestions' do
+      context 'when diff note is not for text' do
+        before do
+          allow(diff_note).to receive(:on_text?) { false }
+        end
 
-          ```
-            nothing
-          ```
+        it 'does not try to parse suggestions' do
+          expect(Banzai::SuggestionsParser).not_to receive(:parse)
 
-          ```suggestion
-            xpto
-            baz
-          ```
-
-          ```thing
-            this is not a suggestion, it's a thing
-          ```
-        MARKDOWN
+          subject.execute
+        end
       end
 
-      it 'persists suggestion records' do
-        expect { subject.execute }
-          .to change { diff_note.suggestions.count }
-          .from(0)
-          .to(2)
+      context 'when diff file new blob does not exists' do
+        before do
+          allow(diff_note).to receive(:new_blob) { nil }
+        end
+
+        it 'does not try to parse suggestions' do
+          expect(Banzai::SuggestionsParser).not_to receive(:parse)
+
+          subject.execute
+        end
       end
+    end
 
-      it 'persists original changing lines and suggested lines' do
-        subject.execute
+    context 'should create suggestions' do
+      context 'single line suggestions' do
+        it 'persists suggestion records' do
+          expect { subject.execute }
+            .to change { diff_note.suggestions.count }
+            .from(0)
+            .to(2)
+        end
 
-        suggestions = diff_note.suggestions.order(:relative_order)
+        it 'persists original changing lines and suggested lines' do
+          subject.execute
 
-        suggestion_1 = suggestions.first
-        suggestion_2 = suggestions.last
+          suggestions = diff_note.suggestions.order(:relative_order)
 
-        expect(suggestion_1).to have_attributes(changing: "    vars = {\n",
-                                                suggestion: "  foo\n  bar\n")
+          suggestion_1 = suggestions.first
+          suggestion_2 = suggestions.last
 
-        expect(suggestion_2).to have_attributes(changing: "    vars = {\n",
-                                                suggestion: "  xpto\n  baz\n")
+          expect(suggestion_1).to have_attributes(changing: "    vars = {\n",
+                                                  suggestion: "  foo\n  bar\n")
+
+          expect(suggestion_2).to have_attributes(changing: "    vars = {\n",
+                                                  suggestion: "  xpto\n  baz\n")
+        end
       end
     end
   end

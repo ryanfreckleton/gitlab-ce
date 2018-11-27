@@ -8,6 +8,8 @@ class DiffNote < Note
   include DiffPositionableNote
   include Gitlab::Utils::StrongMemoize
 
+  delegate :new_blob, to: :diff_file, allow_nil: true
+
   def self.noteable_types
     %w(MergeRequest Commit)
   end

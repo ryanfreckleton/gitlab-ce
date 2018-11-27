@@ -2,8 +2,6 @@
 
 module Suggestions
   class ApplyService < ::BaseService
-    PatchError = Class.new(StandardError)
-
     def initialize(current_user)
       @current_user = current_user
     end
@@ -19,7 +17,7 @@ module Suggestions
       file_path = diff_file.file_path
       branch_name = diff_note.noteable.source_branch
       file_content = new_file_content(suggestion, diff_file)
-      author_email = @current_user.email
+      author_email = @current_user.commit_email
       author_name = @current_user.name
       commit_message = "Applies suggestion to #{file_path}"
 

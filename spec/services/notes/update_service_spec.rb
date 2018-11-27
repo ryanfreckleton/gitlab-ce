@@ -34,16 +34,14 @@ describe Notes::UpdateService do
       end
 
       it 'refreshes note suggestions' do
-        note = create(:diff_note_on_merge_request)
-        create(:suggestion, note: note, position: 0)
+        suggestion = create(:suggestion, relative_order: 0)
+        diff_note = suggestion.diff_note
 
-        expect { Notes::UpdateService.new(project, user, note: markdown).execute(note) }
-          .to change { note.suggestions.count }.from(1).to(2)
+        expect { Notes::UpdateService.new(project, user, note: markdown).execute(diff_note) }
+          .to change { diff_note.suggestions.count }.from(1).to(2)
 
-        note.reload
-
-        expect(note.suggestions.order(:position).map(&:suggestion))
-          .to eq(['  foo', '  bar'])
+        expect(diff_note.suggestions.order(:relative_order).map(&:suggestion))
+          .to eq(["  foo\n", "  bar\n"])
       end
     end
 

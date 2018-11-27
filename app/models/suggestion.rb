@@ -6,6 +6,7 @@ class Suggestion < ApplicationRecord
 
   delegate :project, to: :diff_note
   delegate :position, to: :diff_note
+  delegate :diff_file, to: :diff_note
 
   def from_line
     position.new_line
@@ -18,7 +19,7 @@ class Suggestion < ApplicationRecord
   def appliable?
     !applied? &&
       diff_note.active? &&
-      new_blob.present? &&
+      diff_file.new_blob.present? &&
       different_content? &&
       !original_lines_changed?
   end
@@ -34,13 +35,7 @@ class Suggestion < ApplicationRecord
   end
 
   def current_changing_lines
-    from_index = from_line - 1
-    to_index = to_line - 1
-
-    new_blob.lines[from_index..to_index]
-  end
-
-  def new_blob
-    @new_blob ||= diff_note.diff_file.new_blob
+    @current_changing_lines ||=
+      diff_file.new_blob_lines_between(from_line, to_line)
   end
 end
