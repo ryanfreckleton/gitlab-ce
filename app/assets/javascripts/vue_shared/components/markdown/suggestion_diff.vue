@@ -28,10 +28,14 @@ export default {
       type: Number,
       required: true,
     },
+    suggestion: {
+      type: Object,
+      required: true
+    },
   },
   methods: {
     applySuggestion(callback) {
-      this.$emit('apply', callback);
+      this.$emit('apply', {callback, suggestion: this.suggestion});
     },
   },
 };
@@ -40,7 +44,7 @@ export default {
 <template>
   <div>
     <suggestion-diff-header
-      :can-apply="canApply"
+      :can-apply="canApply && suggestion.appliable"
       @apply="applySuggestion" />
     <table class="mb-3 md-suggestion-diff">
       <tbody>

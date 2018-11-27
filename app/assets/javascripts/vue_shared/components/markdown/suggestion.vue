@@ -1,7 +1,6 @@
 <script>
 import Vue from 'vue';
 import $ from 'jquery';
-import { mapGetters } from 'vuex';
 import suggestionDiff from './suggestion_diff.vue';
 
 // TODO - Add unit tests
@@ -22,12 +21,13 @@ export default {
       type: String,
       required: true,
     },
+    canApply: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   computed: {
-    ...mapGetters(['getNoteableData']),
-    canApply() {
-      return Boolean(this.note && this.note.position);
-    },
     oldLineNumber() {
       let lineNumber = '';
 
@@ -36,20 +36,26 @@ export default {
       } else if (this.line) {
         lineNumber = this.line.new_line || this.line.old_line;
       }
+
       return lineNumber;
     },
     oldLineContent() {
       let oldLine = '';
 
-      if(this.line && this.line.line_code) {
+      if (this.line && this.line.line_code) {
         oldLine = $(`#${this.line.line_code} .line`).text();
       }
 
-      if(this.note && this.note.suggestions && this.note.suggestions.length) {
+      if (this.note && this.note.suggestions && this.note.suggestions.length) {
         oldLine = this.note.suggestions[0].changing;
       }
 
       return oldLine;
+    },
+    suggestions() {
+      return this.note && this.note.suggestions && this.note.suggestions.length
+        ? this.note.suggestions
+        : [];
     },
   },
   mounted() {
@@ -57,7 +63,7 @@ export default {
   },
   methods: {
     renderSuggestions() {
-      // swaps out suggestion markdown with rich diff components
+      // swaps out suggestion(s) markdown with rich diff components
       // (while still keeping non-suggestion markdown in place)
 
       const { container } = this.$refs;
@@ -71,37 +77,53 @@ export default {
       });
     },
     extractNewLines(suggestionEl) {
+      // extracts the suggested lines from the markdown
+      // calculates a line number for each line
+
       const newLines = suggestionEl.getElementsByClassName('line');
-      let lineNumber = this.oldLineNumber;
       const lines = [];
-      [...newLines].forEach(line => {
+
+      [...newLines].forEach((line, i) => {
         const content = `${line.innerHTML}\n`;
+        const lineNumber = this.oldLineNumber + i;
         lines.push({ content, lineNumber });
-        lineNumber += 1;
       });
+
       return lines;
     },
     generateDiff(newLines, suggestionIndex) {
-      const { oldLineNumber, oldLineContent } = this;
-      let { canApply } = this;
-      let suggestionId;
+      // generates the diff <suggestion-diff /> component
+      // all `suggestion` markdown will be swapped out by this component
 
-      if(this.note && this.note.suggestions && this.note.suggestions.length) {
-        canApply = canApply && this.note.suggestions[suggestionIndex].appliable;
-        suggestionId = this.note.suggestions[suggestionIndex].id;
-      }
+      const { oldLineNumber, oldLineContent, note, suggestions, canApply } = this;
 
       return new Vue({
         components: { suggestionDiff },
         data: { newLines, oldLineNumber, oldLineContent, canApply },
+        computed: {
+          suggestion() {
+            return suggestions && suggestions[suggestionIndex] ? suggestions[suggestionIndex] : {};
+          },
+        },
         methods: {
-          applySuggestion: callback => this.$emit('apply', {id: suggestionId, flashContainer: this.$el, callback}),
+          applySuggestion: ({ suggestion, callback }) => {
+            const payload = {
+              discussionId: note.discussion_id,
+              flashContainer: this.$el,
+              noteId: note.id,
+              suggestion,
+              callback,
+            };
+
+            this.$emit('apply', payload);
+          },
         },
         template: `
           <suggestion-diff
             :new-lines="newLines"
             :old-line-content="oldLineContent"
             :old-line-number="oldLineNumber"
+            :suggestion="suggestion"
             :can-apply="canApply"
             @apply="applySuggestion"/>`,
       }).$mount().$el;

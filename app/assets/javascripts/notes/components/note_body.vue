@@ -100,11 +100,9 @@ export default {
       ref="noteForm"
       :is-editing="isEditing"
       :note-body="noteBody"
-      :line="line"
       :note-id="note.id"
       :line="line"
       :markdown-version="note.cached_markdown_version"
-      :note="note"
       @handleFormUpdate="handleFormUpdate"
       @cancelForm="formCancelHandler"
     />

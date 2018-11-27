@@ -194,6 +194,16 @@ export default {
     }
   },
 
+  [types.APPLY_SUGGESTION](state, {noteId, discussionId, suggestion}) {
+    const noteObj = utils.findNoteObjectById(state.discussions, discussionId);
+    const comment = utils.findNoteObjectById(noteObj.notes, noteId);
+    const appliedSuggestion = suggestion;
+
+    appliedSuggestion.appliable = false;
+    comment.suggestions.splice(comment.suggestions.indexOf(suggestion), 1, appliedSuggestion);
+    noteObj.notes.splice(noteObj.notes.indexOf(comment), 1, comment);
+  },
+
   [types.UPDATE_DISCUSSION](state, noteData) {
     const note = noteData;
     const selectedDiscussion = state.discussions.find(disc => disc.id === note.id);
