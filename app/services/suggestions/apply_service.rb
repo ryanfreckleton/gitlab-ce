@@ -21,7 +21,7 @@ module Suggestions
       file_content = new_file_content(suggestion, diff_file)
       author_email = @current_user.email
       author_name = @current_user.name
-      commit_message = "Apply suggestion to #{file_path}"
+      commit_message = "Applies suggestion to #{file_path}"
 
       params = {
         file_path: file_path,
