@@ -10,8 +10,6 @@ describe Files::UpdateService do
   let(:branch_name) { project.default_branch }
   let(:last_commit_sha) { nil }
   let(:commit) { project.repository.commit }
-  let(:from_line) { nil }
-  let(:to_line) { nil }
 
   let(:commit_params) do
     {
@@ -22,9 +20,7 @@ describe Files::UpdateService do
       last_commit_sha: last_commit_sha,
       start_project: project,
       start_branch: project.default_branch,
-      branch_name: branch_name,
-      from_line: from_line,
-      to_line: to_line
+      branch_name: branch_name
     }
   end
 
@@ -66,73 +62,6 @@ describe Files::UpdateService do
         expect(user.commit_email).not_to eq(user.email)
         expect(commit.author_email).to eq(user.commit_email)
         expect(commit.committer_email).to eq(user.commit_email)
-      end
-
-      context 'when should apply content as patch' do
-        context 'valid range' do
-          let(:from_line) { 8 }
-          let(:to_line) { 10 }
-
-          let(:new_contents) do
-            <<-CONTENT
-    if !cmd.is_a?(Array)
-      raise RuntimeError,
-        "System commands must be given as an array of strings"
-    end
-            CONTENT
-          end
-
-          let(:expected_content) do
-            <<-CONTENT.strip_heredoc
-            require 'fileutils'
-            require 'open3'
-
-            module Popen
-              extend self
-
-              def popen(cmd, path=nil)
-                if !cmd.is_a?(Array)
-                  raise RuntimeError,
-                    "System commands must be given as an array of strings"
-                end
-
-                path ||= Dir.pwd
-
-                vars = {
-                  "PWD" => path
-                }
-
-                options = {
-                  chdir: path
-                }
-
-                unless File.directory?(path)
-                  FileUtils.mkdir_p(path)
-                end
-
-                @cmd_output = ""
-                @cmd_status = 0
-
-                Open3.popen3(vars, *cmd, options) do |stdin, stdout, stderr, wait_thr|
-                  @cmd_output << stdout.read
-                  @cmd_output << stderr.read
-                  @cmd_status = wait_thr.value.exitstatus
-                end
-
-                return @cmd_output, @cmd_status
-              end
-            end
-            CONTENT
-          end
-
-          it 'updates the file with the new contents' do
-            subject.execute
-
-            result = project.repository.blob_at_branch(project.default_branch, file_path)
-
-            expect(result.data).to eq(expected_content)
-          end
-        end
       end
     end
 

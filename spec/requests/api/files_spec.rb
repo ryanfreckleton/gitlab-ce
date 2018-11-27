@@ -455,57 +455,6 @@ describe API::Files do
         expect(last_commit.author_name).to eq(author_name)
       end
     end
-
-    context 'when line range is given' do
-      context 'valid params' do
-        let(:params) do
-          {
-            branch: 'master',
-            content: "# A comment with line break.\n",
-            from_line: 1,
-            to_line: 3,
-            commit_message: 'Changing a few lines'
-          }
-        end
-
-        def fetch_blob
-          project.repository.blob_at_branch('master', 'files/ruby/popen.rb')
-        end
-
-        it 'updates existing file in project repo' do
-          expect { put api(route(file_path), user), params }
-            .to change { fetch_blob.data.lines.size }
-            .from(37)
-            .to(35)
-
-          expect(response).to have_gitlab_http_status(200)
-          expect(json_response['file_path']).to eq(CGI.unescape(file_path))
-          last_commit = project.repository.commit.raw
-          expect(last_commit.author_email).to eq(user.email)
-          expect(last_commit.author_name).to eq(user.name)
-        end
-      end
-
-      context 'invalid params' do
-        context 'out of range line' do
-          let(:params) do
-            {
-              branch: 'master',
-              content: 'puts 8',
-              from_line: 1,
-              to_line: 999,
-              commit_message: 'Changing a few lines'
-            }
-          end
-
-          it 'returns a 400' do
-            put api(route(file_path), user), params
-
-            expect(response).to have_gitlab_http_status(400)
-          end
-        end
-      end
-    end
   end
 
   describe "DELETE /projects/:id/repository/files" do

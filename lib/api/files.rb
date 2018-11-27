@@ -24,13 +24,6 @@ module API
         }
       end
 
-      def patch_params(attrs)
-        {
-          from_line: attrs[:from_line],
-          to_line: attrs[:to_line]
-        }
-      end
-
       def assign_file_vars!
         authorize! :download_code, user_project
 
@@ -157,23 +150,15 @@ module API
       desc 'Update existing file in repository'
       params do
         use :extended_file_params
-        optional :from_line, type: Integer, desc: 'Starting line where the file lines will be replaced'
-        optional :to_line, type: Integer, desc: 'Finishing line where the file lines will be replaced'
-        all_or_none_of :from_line, :to_line
       end
       put ":id/repository/files/:file_path", requirements: FILE_ENDPOINT_REQUIREMENTS do
         authorize! :push_code, user_project
 
         file_params = declared_params(include_missing: false)
 
-        patch_params = patch_params(file_params)
-        commit_params = commit_params(file_params)
-
         begin
-          result = ::Files::UpdateService.new(user_project, current_user, commit_params.merge(patch_params)).execute
-        rescue ::Files::UpdateService::FileChangedError,
-          ::Files::UpdateService::PatchUpdateError => e
-
+          result = ::Files::UpdateService.new(user_project, current_user, commit_params(file_params)).execute
+        rescue ::Files::UpdateService::FileChangedError => e
           render_api_error!(e.message, 400)
         end
 
