@@ -10,10 +10,21 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      isApplied: false,
+      isApplying: false,
+    }
+  },
   methods: {
     applySuggestion() {
-      this.$emit('apply');
+      this.isApplying = true;
+      this.$emit('apply', isSuccess => this.suggestionApplied(isSuccess));
     },
+    suggestionApplied(isSuccess) {
+      this.isApplied = isSuccess;
+      this.isApplying = false;
+    }
   },
 };
 </script>
@@ -21,7 +32,12 @@ export default {
 <template>
   <div class="file-title-flex-parent md-suggestion-header border-bottom-0 mt-2">
     <div>Suggested change <icon name="question-o" css-classes="link-highlight" /></div>
-    <button v-if="canApply" type="button" class="btn" @click="applySuggestion">
+    <button
+      v-if="canApply && !isApplied"
+      type="button"
+      class="btn"
+      :disabled="isApplying"
+      @click="applySuggestion">
       Apply suggestion
     </button>
   </div>

@@ -1,5 +1,6 @@
 <script>
 import Vue from 'vue';
+import $ from 'jquery';
 import { mapGetters } from 'vuex';
 import suggestionDiff from './suggestion_diff.vue';
 
@@ -27,7 +28,7 @@ export default {
     canApply() {
       return Boolean(this.note && this.note.position);
     },
-    lineNumber() {
+    oldLineNumber() {
       let lineNumber = '';
 
       if (this.note && this.note.position) {
@@ -37,11 +38,11 @@ export default {
       }
       return lineNumber;
     },
-    oldLine() {
+    oldLineContent() {
       let oldLine = '';
 
-      if(this.line && this.line.rich_text) {
-        oldLine = this.line.rich_text;
+      if(this.line && this.line.line_code) {
+        oldLine = $(`#${this.line.line_code} .line`).text();
       }
 
       if(this.note && this.note.suggestions && this.note.suggestions.length) {
@@ -71,7 +72,7 @@ export default {
     },
     extractNewLines(suggestionEl) {
       const newLines = suggestionEl.getElementsByClassName('line');
-      let { lineNumber } = this;
+      let lineNumber = this.oldLineNumber;
       const lines = [];
       [...newLines].forEach(line => {
         const content = `${line.innerHTML}\n`;
@@ -81,52 +82,37 @@ export default {
       return lines;
     },
     generateDiff(newLines, suggestionIndex) {
-      const { oldLine, lineNumber } = this;
+      const { oldLineNumber, oldLineContent } = this;
       let { canApply } = this;
+      let suggestionId;
 
       if(this.note && this.note.suggestions && this.note.suggestions.length) {
         canApply = canApply && this.note.suggestions[suggestionIndex].appliable;
+        suggestionId = this.note.suggestions[suggestionIndex].id;
       }
 
       return new Vue({
         components: { suggestionDiff },
-        data: { newLines, oldLine, canApply, lineNumber },
+        data: { newLines, oldLineNumber, oldLineContent, canApply },
         methods: {
-          applySuggestion: data => this.applySuggestion(data),
+          applySuggestion: callback => this.$emit('apply', {id: suggestionId, flashContainer: this.$el, callback}),
         },
         template: `
           <suggestion-diff
             :new-lines="newLines"
-            :old-line-content="oldLine"
-            :old-line-number="lineNumber"
+            :old-line-content="oldLineContent"
+            :old-line-number="oldLineNumber"
             :can-apply="canApply"
             @apply="applySuggestion"/>`,
       }).$mount().$el;
-    },
-    applySuggestion({ content, lineSpan }) {
-      const position = this.note && this.note.position ? this.note.position : {};
-      const fileName = position.new_path || position.old_path;
-      const payload = this.createCommitPayload(content, lineSpan, fileName);
-
-      this.$emit('apply', payload);
-    },
-    createCommitPayload(content, lineSpan, fileName) {
-      const { lineNumber } = this;
-
-      return {
-        content,
-        fileName,
-        branch: this.getNoteableData.source_branch,
-        projectPath: this.getNoteableData.source_project_full_path,
-        commit_message: `Apply suggestion to ${fileName}`,
-        from_line: lineNumber,
-        to_line: lineNumber + lineSpan,
-      };
     },
   },
 };
 </script>
 
 <template>
-  <div><div ref="container" v-html="suggestionHtml"></div></div>
+  <div>
+    <div class="flash-container mt-3"></div>
+    <div ref="container" v-html="suggestionHtml"></div>
+  </div>
 </template>

@@ -21,7 +21,7 @@ const Api = {
   usersPath: '/api/:version/users.json',
   userStatusPath: '/api/:version/user/status',
   commitPath: '/api/:version/projects/:id/repository/commits',
-  filePath: '/api/:version/projects/:id/repository/files/:file',
+  applySuggestionPath: '/api/:version/suggestions/:id/apply',
   commitPipelinesPath: '/:project_id/commit/:sha/pipelines',
   branchSinglePath: '/api/:version/projects/:id/repository/branches/:branch',
   createBranchPath: '/api/:version/projects/:id/repository/branches',
@@ -173,13 +173,11 @@ const Api = {
     });
   },
 
-  updateFile(id, file, data) {
-    // see https://docs.gitlab.com/ce/api/repository_files.html
-    const url = Api.buildUrl(Api.filePath)
+  applySuggestion(id) {
+    const url = Api.buildUrl(Api.applySuggestionPath)
       .replace(':id', encodeURIComponent(id))
-      .replace(':file', encodeURIComponent(file));
 
-    return axios.put(url, data);
+    return axios.put(url);
   },
 
   commitPipelines(projectId, sha) {

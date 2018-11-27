@@ -1,9 +1,13 @@
 <script>
+import _ from 'underscore';
 import suggestionDiffHeader from './suggestion_diff_header.vue';
 
 export default {
   components: {
     suggestionDiffHeader,
+  },
+  filters: {
+    unescape: value => _.unescape(value)
   },
   props: {
     canApply: {
@@ -26,15 +30,8 @@ export default {
     },
   },
   methods: {
-    applySuggestion() {
-      let content = '';
-      const lineSpan = this.newLines.length - 1;
-
-      this.newLines.forEach(line => {
-        content += line.content;
-      });
-
-      this.$emit('apply', { content, lineSpan });
+    applySuggestion(callback) {
+      this.$emit('apply', callback);
     },
   },
 };
@@ -42,20 +39,33 @@ export default {
 
 <template>
   <div>
-    <suggestion-diff-header :can-apply="canApply" @apply="applySuggestion" />
+    <suggestion-diff-header
+      :can-apply="canApply"
+      @apply="applySuggestion" />
     <table class="mb-3 md-suggestion-diff">
       <tbody>
         <!-- Old Line -->
         <tr class="line_holder old">
-          <td class="diff-line-num old_line old">{{ oldLineNumber }}</td>
+          <td class="diff-line-num old_line old">
+            {{ oldLineNumber }}
+          </td>
           <td class="diff-line-num new_line qa-new-diff-line old"></td>
-          <td class="line_content old" v-html="oldLineContent"></td>
+          <td class="line_content old">
+            <span>{{ oldLineContent | unescape }}</span>
+          </td>
         </tr>
         <!-- New Line -->
-        <tr v-for="(line, key) of newLines" :key="key" class="line_holder new">
+        <tr
+          v-for="(line, key) of newLines"
+          :key="key"
+          class="line_holder new">
           <td class="diff-line-num old_line new"></td>
-          <td class="diff-line-num new_line qa-new-diff-line new">{{ line.lineNumber }}</td>
-          <td class="line_content new" v-html="line.content"></td>
+          <td class="diff-line-num new_line qa-new-diff-line new">
+            {{ line.lineNumber }}
+          </td>
+          <td class="line_content new">
+            <span>{{ line.content | unescape }}</span>
+          </td>
         </tr>
       </tbody>
     </table>

@@ -45,8 +45,7 @@ export default {
   toggleIssueState(endpoint, data) {
     return Vue.http.put(endpoint, data);
   },
-  applySuggestion(data) {
-    const { projectPath, fileName } = data;
-    Api.updateFile(projectPath, fileName, data);
+  applySuggestion(id) {
+    return Api.applySuggestion(id);
   },
 };

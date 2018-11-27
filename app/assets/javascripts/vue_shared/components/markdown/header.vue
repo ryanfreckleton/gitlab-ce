@@ -34,7 +34,7 @@ export default {
     },
     mdSuggestion() {
       const suggestionLine = $(`#${this.lineCode} .line`).text();
-      return ['```suggestion', suggestionLine, '{text}', '```'].join('\n');
+      return ['```suggestion', `${suggestionLine}{text}`, '```'].join('\n');
     },
   },
   mounted() {
