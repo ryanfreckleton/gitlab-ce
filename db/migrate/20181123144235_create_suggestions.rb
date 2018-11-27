@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSuggestions < ActiveRecord::Migration
   DOWNTIME = false
 

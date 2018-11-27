@@ -2,7 +2,7 @@
 
 module API
   class Suggestions < Grape::API
-    # before { authenticate! }
+    before { authenticate! }
 
     resource :suggestions do
       desc 'Apply suggestion patch in the Merge Request it was created' do

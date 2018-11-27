@@ -19,31 +19,71 @@ describe API::Suggestions do
                                diff_refs: merge_request.diff_refs)
   end
 
-  let!(:diff_note) do
+  let(:diff_note) do
     create(:diff_note_on_merge_request, noteable: merge_request,
                                         position: position,
                                         project: project)
   end
 
-  let!(:suggestion) do
-    create(:suggestion, note: diff_note,
-                        changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
-                        suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n",
-                        relative_order: 0)
-  end
-
-  # TODO: Add more tests
   describe "PUT /suggestions/:id/apply" do
-    before do
-      project.add_maintainer(user)
-    end
-
     let(:url) { "/suggestions/#{suggestion.id}/apply" }
 
-    it 'applies suggestion patch' do
-      put api(url, user), id: suggestion.id
+    context 'when successfully applies patch' do
+      let(:suggestion) do
+        create(:suggestion, diff_note: diff_note,
+               changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
+               suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n",
+               relative_order: 0)
+      end
 
-      expect(response).to have_gitlab_http_status(200)
+      before do
+        project.add_maintainer(user)
+      end
+
+      it 'returns 200 with json content' do
+        put api(url, user), id: suggestion.id
+
+        expect(response).to have_gitlab_http_status(200)
+        expect(json_response)
+          .to include('id', 'from_line', 'to_line', 'appliable', 'applied', 'changing', 'suggestion')
+      end
+    end
+
+    context 'when unauthorized' do
+      let(:suggestion) do
+        create(:suggestion, diff_note: diff_note,
+               changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
+               suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n",
+               relative_order: 0)
+      end
+
+      before do
+        project.add_reporter(user)
+      end
+
+      it 'returns 403 with json content' do
+        put api(url, user), id: suggestion.id
+
+        expect(response).to have_gitlab_http_status(403)
+        expect(json_response).to eq({ 'message' => '403 Forbidden' })
+      end
+    end
+
+    context 'when not able to apply patch' do
+      let(:suggestion) do
+        create(:suggestion, :unappliable, diff_note: diff_note, relative_order: 0)
+      end
+
+      before do
+        project.add_maintainer(user)
+      end
+
+      it 'returns 400 with json content' do
+        put api(url, user), id: suggestion.id
+
+        expect(response).to have_gitlab_http_status(400)
+        expect(json_response).to eq({ 'message' => 'Suggestion is not appliable' })
+      end
     end
   end
 end
