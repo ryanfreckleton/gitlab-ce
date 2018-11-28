@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import Vue from 'vue';
 import suggestionComponent from '~/vue_shared/components/markdown/suggestion.vue';
 
@@ -18,7 +17,7 @@ const MOCK_DATA = {
   canApply: false,
 };
 
-const generateLine = (content) => {
+const generateLine = content => {
   const line = document.createElement('div');
   line.className = 'line';
   line.innerHTML = content;
@@ -41,6 +40,8 @@ const generateMockLines = () => {
 
 describe('Suggestion component', () => {
   let vm;
+  let extractedLines;
+  let diffTable;
 
   beforeEach(done => {
     const Component = Vue.extend(suggestionComponent);
@@ -49,13 +50,15 @@ describe('Suggestion component', () => {
       propsData: MOCK_DATA,
     }).$mount();
 
+    extractedLines = vm.extractNewLines(generateMockLines());
+    diffTable = vm.generateDiff(extractedLines);
+
     spyOn(vm, 'renderSuggestions');
     vm.renderSuggestions();
     Vue.nextTick(done);
   });
 
   describe('mounted', () => {
-
     it('renders a flash container', () => {
       expect(vm.$el.querySelector('.flash-container')).not.toBeNull();
     });
@@ -72,19 +75,17 @@ describe('Suggestion component', () => {
   });
 
   describe('extractNewLines', () => {
-
     it('extracts suggested lines', () => {
-      const expectedReturn =  [
-        {content: 'Line 1\n', lineNumber: 1},
-        {content: 'Line 2\n', lineNumber: 2},
-        {content: 'Line 3\n', lineNumber: 3}];
+      const expectedReturn = [
+        { content: 'Line 1\n', lineNumber: 1 },
+        { content: 'Line 2\n', lineNumber: 2 },
+        { content: 'Line 3\n', lineNumber: 3 },
+      ];
 
       expect(vm.extractNewLines(generateMockLines())).toEqual(expectedReturn);
     });
 
     it('increments line number for each extracted line', () => {
-      const extractedLines = vm.extractNewLines(generateMockLines());
-
       expect(extractedLines[0].lineNumber).toEqual(1);
       expect(extractedLines[1].lineNumber).toEqual(2);
       expect(extractedLines[2].lineNumber).toEqual(3);
@@ -92,16 +93,32 @@ describe('Suggestion component', () => {
 
     it('returns empty array if no lines are found', () => {
       const el = document.createElement('div');
+
       expect(vm.extractNewLines(el)).toEqual([]);
     });
   });
 
   describe('generateDiff', () => {
+    it('generates a diff table', () => {
+      expect(diffTable.querySelector('.md-suggestion-diff')).not.toBeNull();
+    });
 
-    xit('generates a diff component', () => {
-      const extractedLines = vm.extractNewLines(generateMockLines());
-      expect(vm.generateDiff(extractedLines)).toEqual(1);
+    it('generates a diff table that contains contents of `oldLineContent`', () => {
+      expect(diffTable.innerHTML.includes(vm.oldLineContent)).toBe(true);
+    });
+
+    it('generates a diff table that contains contents the suggested lines', () => {
+      expect(diffTable.innerHTML.includes(extractedLines[0].content)).toBe(true);
+      expect(diffTable.innerHTML.includes(extractedLines[1].content)).toBe(true);
+      expect(diffTable.innerHTML.includes(extractedLines[2].content)).toBe(true);
+    });
+
+    it('generates a diff table with the correct line number for each suggested line', () => {
+      const lines = diffTable.getElementsByClassName('qa-new-diff-line-number');
+
+      expect([...lines][0].innerHTML).toBe('1');
+      expect([...lines][1].innerHTML).toBe('2');
+      expect([...lines][2].innerHTML).toBe('3');
     });
   });
-
 });

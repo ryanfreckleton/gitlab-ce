@@ -35,6 +35,7 @@ export default {
   },
   methods: {
     applySuggestion(callback) {
+      if(!this.canApply) return;
       this.$emit('apply', this.suggestion.id, callback);
     },
   },
@@ -44,6 +45,7 @@ export default {
 <template>
   <div>
     <suggestion-diff-header
+      class="qa-suggestion-diff-header"
       :can-apply="canApply && suggestion.appliable"
       @apply="applySuggestion"
     />
@@ -51,8 +53,8 @@ export default {
       <tbody>
         <!-- Old Line -->
         <tr class="line_holder old">
-          <td class="diff-line-num old_line old">{{ oldLineNumber }}</td>
-          <td class="diff-line-num new_line qa-new-diff-line old"></td>
+          <td class="diff-line-num old_line qa-old-diff-line-number old">{{ oldLineNumber }}</td>
+          <td class="diff-line-num new_line old"></td>
           <td class="line_content old">
             <span>{{ oldLineContent | unescape }}</span>
           </td>
@@ -60,7 +62,7 @@ export default {
         <!-- New Line -->
         <tr v-for="(line, key) of newLines" :key="key" class="line_holder new">
           <td class="diff-line-num old_line new"></td>
-          <td class="diff-line-num new_line qa-new-diff-line new">{{ line.lineNumber }}</td>
+          <td class="diff-line-num new_line qa-new-diff-line-number new">{{ line.lineNumber }}</td>
           <td class="line_content new">
             <span>{{ line.content | unescape }}</span>
           </td>
