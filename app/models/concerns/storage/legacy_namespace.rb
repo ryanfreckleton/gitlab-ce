@@ -38,7 +38,7 @@ module Storage
         write_projects_repository_config
       rescue => e
         # Raise if development/test environment, else just notify Sentry
-        Gitlab::Sentry.track_exception(e, extra: { full_path_was: full_path_was, full_path: full_path, action: 'move_dir' })
+        Gitlab::Sentry.handle_exception(e, extra: { full_path_was: full_path_was, full_path: full_path, action: 'move_dir' })
       end
 
       true # false would cancel later callbacks but not rollback

@@ -52,7 +52,7 @@ module GroupDescendant
       }
       issue_url = 'https://gitlab.com/gitlab-org/gitlab-ce/issues/40785'
 
-      Gitlab::Sentry.track_exception(exception, issue_url: issue_url, extra: extras)
+      Gitlab::Sentry.handle_exception(exception, issue_url: issue_url, extra: extras)
     end
 
     if parent.nil? && hierarchy_top.present?

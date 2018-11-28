@@ -80,7 +80,7 @@ describe GroupDescendant, :nested_groups do
       end
 
       it 'tracks the exception when a parent was not preloaded' do
-        expect(Gitlab::Sentry).to receive(:track_exception).and_call_original
+        expect(Gitlab::Sentry).to receive(:handle_exception).and_call_original
 
         expect { GroupDescendant.build_hierarchy([subsub_group]) }.to raise_error(ArgumentError)
       end
@@ -89,7 +89,7 @@ describe GroupDescendant, :nested_groups do
         expected_hierarchy = { parent => { subgroup => subsub_group } }
 
         # this does not raise in production, so stubbing it here.
-        allow(Gitlab::Sentry).to receive(:track_exception)
+        allow(Gitlab::Sentry).to receive(:handle_exception)
 
         expect(GroupDescendant.build_hierarchy([subsub_group])).to eq(expected_hierarchy)
       end

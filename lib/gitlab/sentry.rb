@@ -1,67 +1,113 @@
 # frozen_string_literal: true
 
 module Gitlab
-  module Sentry
-    def self.enabled?
-      (Rails.env.production? || Rails.env.development?) &&
-        Gitlab::CurrentSettings.sentry_enabled?
-    end
+  class Sentry
+    class << self
+      attr_reader :sentry_enabled, :program
+      attr_accessor :user_context
 
-    def self.context(current_user = nil)
-      return unless enabled?
+      def configure!(sentry_dsn:, program:)
+        @sentry_enabled = sentry_dsn.present?
+        @program = program
 
-      Raven.tags_context(locale: I18n.locale)
-
-      if current_user
-        Raven.user_context(
-          id: current_user.id,
-          email: current_user.email,
-          username: current_user.username
-        )
+        Raven.configure do |config|
+          config.dsn = dsn
+          config.release = Gitlab.revision
+    
+          # Sanitize fields based on those sanitized from Rails.
+          config.sanitize_fields = Rails.application.config.filter_parameters.map(&:to_s)
+          # Sanitize authentication headers
+          config.sanitize_http_headers = %w[Authorization Private-Token]
+          config.tags = { program: program }
+        end if sentry_enabled
       end
-    end
 
-    # This can be used for investigating exceptions that can be recovered from in
-    # code. The exception will still be raised in development and test
-    # environments.
-    #
-    # That way we can track down these exceptions with as much information as we
-    # need to resolve them.
-    #
-    # Provide an issue URL for follow up.
-    def self.track_exception(exception, issue_url: nil, extra: {})
-      track_acceptable_exception(exception, issue_url: issue_url, extra: extra)
+      def in_context(current_user = nil)
+        last_context = self.user_context
 
-      raise exception if should_raise_for_dev?
-    end
+        begin
+          self.user_context = {
+            id: current_user.id,
+            email: current_user.email,
+            username: current_user.username
+          } if current_user
 
-    # This should be used when you do not want to raise an exception in
-    # development and test. If you need development and test to behave
-    # just the same as production you can use this instead of
-    # track_exception.
-    def self.track_acceptable_exception(exception, issue_url: nil, extra: {})
-      if enabled?
+          yield
+        ensure
+          self.user_context = last_context
+        end
+      end
+
+      # This can be used for investigating exceptions that can be recovered from in
+      # code. The exception will still be raised in development and test
+      # environments.
+      #
+      # That way we can track down these exceptions with as much information as we
+      # need to resolve them.
+      #
+      # Provide an issue URL for follow up.
+      def handle_exception(exception, issue_url: nil, extra: {})
+        report_exception(exception, issue_url: issue_url, extra: extra)
+
+        raise exception if should_raise_for_dev?
+      end
+
+      # This should be used when you do not want to raise an exception in
+      # development and test. If you need development and test to behave
+      # just the same as production you can use this instead of
+      # handle_exception.
+      def report_exception(exception, issue_url: nil, extra: {})
         extra[:issue_url] = issue_url if issue_url
-        context # Make sure we've set everything we know in the context
 
-        tags = {
-          Gitlab::CorrelationId::LOG_KEY.to_sym => Gitlab::CorrelationId.current_id
+        if sentry_enabled
+          tags = {
+            Gitlab::CorrelationId::LOG_KEY.to_sym => Gitlab::CorrelationId.current_id
+          }
+
+          Raven.capture_exception(exception, tags: tags, extra: extra)
+        else
+          # otherwise, send it to log file
+          details = extra.merge(user_context.to_h).merge(
+            exception_details(exception))
+
+          logger.error(details)
+        end
+      end
+
+      private
+
+      def user_context= (value)
+        @user_context = value
+
+        if sentry_enabled
+          Raven.tags_context(locale: I18n.locale)
+          Raven.user_context(*value)
+        end
+      end
+
+      def should_raise_for_dev?
+        Rails.env.development? || Rails.env.test?
+      end
+
+      def logger
+        Gitlab::Sentry::Logger.build
+      end
+
+      def exception_details(exception)
+        { class: exception.class.to_s,
+          message: exception.message,
+          backtrace: filter_backtrace(exception.backtrace)
         }
-
-        Raven.capture_exception(exception, tags: tags, extra: extra)
       end
-    end
 
-    def self.program_context
-      if Sidekiq.server?
-        'sidekiq'
-      else
-        'rails'
+      # filter backtrace to only include GitLab directories
+      def filter_backtrace(backtrace, limit: 5)
+        root_path = Rails.root.to_s + '/'
+
+        backtrace.select do |line|
+          line.start_with?(root_path)
+        end.first(limit)
       end
-    end
-
-    def self.should_raise_for_dev?
-      Rails.env.development? || Rails.env.test?
     end
   end
 end

@@ -23,7 +23,7 @@ module Clusters
         }
 
         logger.error(meta)
-        Gitlab::Sentry.track_acceptable_exception(error, extra: meta)
+        Gitlab::Sentry.report_exception(error, extra: meta)
       end
 
       def logger

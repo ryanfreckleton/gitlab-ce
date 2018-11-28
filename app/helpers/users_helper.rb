@@ -57,7 +57,7 @@ module UsersHelper
 
     unless user.association(:status).loaded?
       exception = RuntimeError.new("Status was not preloaded")
-      Gitlab::Sentry.track_exception(exception, extra: { user: user.inspect })
+      Gitlab::Sentry.handle_exception(exception, extra: { user: user.inspect })
     end
 
     return unless user.status

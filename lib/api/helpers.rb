@@ -372,8 +372,9 @@ module API
     def handle_api_exception(exception)
       if report_exception?(exception)
         define_params_for_grape_middleware
-        Gitlab::Sentry.context(current_user)
-        Gitlab::Sentry.track_acceptable_exception(exception, extra: params)
+        Gitlab::Sentry.in_context(current_user) do
+          Gitlab::Sentry.report_exception(exception, extra: params)
+        end
       end
 
       # lifted from https://github.com/rails/rails/blob/master/actionpack/lib/action_dispatch/middleware/debug_exceptions.rb#L60

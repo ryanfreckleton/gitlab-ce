@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   before_action :validate_user_service_ticket!
   before_action :check_password_expiration
   before_action :ldap_security_check
-  before_action :sentry_context
+  around_action :sentry_context
   before_action :default_headers
   before_action :add_gon_variables, unless: [:peek_request?, :json_request?]
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -152,7 +152,7 @@ class ApplicationController < ActionController::Base
   end
 
   def log_exception(exception)
-    Gitlab::Sentry.track_acceptable_exception(exception)
+    Gitlab::Sentry.report_exception(exception)
 
     backtrace_cleaner = request.env["action_dispatch.backtrace_cleaner"]
     application_trace = ActionDispatch::ExceptionWrapper.new(backtrace_cleaner, exception).application_trace
