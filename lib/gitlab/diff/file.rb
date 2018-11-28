@@ -128,7 +128,7 @@ module Gitlab
         from_index = from_line - 1
         to_index = to_line - 1
 
-        new_blob.lines[from_index..to_index]
+        new_blob.data.lines[from_index..to_index]
       end
 
       def content_sha

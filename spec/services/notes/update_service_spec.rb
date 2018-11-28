@@ -34,7 +34,7 @@ describe Notes::UpdateService do
       end
 
       it 'refreshes note suggestions' do
-        suggestion = create(:suggestion, relative_order: 0)
+        suggestion = create(:suggestion)
         diff_note = suggestion.diff_note
 
         expect { described_class.new(project, user, note: markdown).execute(diff_note) }

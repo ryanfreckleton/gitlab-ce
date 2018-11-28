@@ -11,27 +11,9 @@ module Suggestions
         return error('Suggestion is not appliable')
       end
 
-      diff_note = suggestion.diff_note
-      diff_file = diff_note.diff_file
+      params = file_update_params(suggestion)
 
-      file_path = diff_file.file_path
-      branch_name = diff_note.noteable.source_branch
-      file_content = new_file_content(suggestion, diff_file)
-      author_email = @current_user.commit_email
-      author_name = @current_user.name
-      commit_message = "Applies suggestion to #{file_path}"
-
-      params = {
-        file_path: file_path,
-        branch_name: branch_name,
-        start_branch: branch_name,
-        commit_message: commit_message,
-        file_content: file_content,
-        author_email: author_email,
-        author_name: author_name
-      }
-
-      result = ::Files::UpdateService.new(diff_note.project, @current_user, params).execute
+      result = ::Files::UpdateService.new(suggestion.project, @current_user, params).execute
 
       suggestion.update(applied: true) if result[:status] == :success
 
@@ -40,13 +22,32 @@ module Suggestions
 
     private
 
-    def new_file_content(suggestion, diff_file)
-      from_index = suggestion.from_line - 1
-      to_index = suggestion.to_line - 1
-      blob = diff_file.new_blob
+    def file_update_params(suggestion)
+      diff_file = suggestion.diff_file
 
+      file_path = diff_file.file_path
+      branch_name = suggestion.noteable.source_branch
+      file_content = new_file_content(suggestion)
+      author_email = @current_user.commit_email
+      author_name = @current_user.name
+      commit_message = "Applies suggestion to #{file_path}"
+
+      {
+        file_path: file_path,
+        branch_name: branch_name,
+        start_branch: branch_name,
+        commit_message: commit_message,
+        file_content: file_content,
+        author_email: author_email,
+        author_name: author_name
+      }
+    end
+
+    def new_file_content(suggestion)
+      range = suggestion.from_line_index..suggestion.to_line_index
+      blob = suggestion.diff_file.new_blob
       content = blob.data.lines
-      content[from_index..to_index] = suggestion.suggestion
+      content[range] = suggestion.suggestion
 
       content.join
     end

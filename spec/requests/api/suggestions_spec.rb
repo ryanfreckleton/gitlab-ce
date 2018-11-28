@@ -69,7 +69,7 @@ describe API::Suggestions do
 
     context 'when not able to apply patch' do
       let(:suggestion) do
-        create(:suggestion, :unappliable, diff_note: diff_note, relative_order: 0)
+        create(:suggestion, :unappliable, diff_note: diff_note)
       end
 
       before do

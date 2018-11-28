@@ -28,8 +28,7 @@ describe Suggestions::ApplyService do
   let!(:suggestion) do
     create(:suggestion, diff_note: diff_note,
                         changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
-                        suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n",
-                        relative_order: 0)
+                        suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n")
   end
 
   subject { described_class.new(user) }
@@ -111,6 +110,7 @@ describe Suggestions::ApplyService do
       expect(user.commit_email).not_to eq(user.email)
       expect(commit.author_email).to eq(user.commit_email)
       expect(commit.committer_email).to eq(user.commit_email)
+      expect(commit.author_name).to eq(user.name)
     end
   end
 

@@ -25,8 +25,8 @@ module Suggestions
 
           {
             diff_note_id: @diff_note.id,
-            changing: with_break_line(from_content),
-            suggestion: with_break_line(to_content),
+            changing: from_content,
+            suggestion: "#{to_content}\n",
             relative_order: index
           }
         end
@@ -37,15 +37,11 @@ module Suggestions
     private
 
     def should_try_creation?
-      @diff_note.on_text? && @diff_note.new_blob.present?
+      @diff_note.on_text? && @diff_note.diff_file&.new_blob.present?
     end
 
     def changing_lines(from_line, to_line)
       @diff_note.diff_file.new_blob_lines_between(from_line, to_line).join("\n")
-    end
-
-    def with_break_line(lines)
-      lines.ends_with?("\n") ? lines : "#{lines}\n"
     end
   end
 end

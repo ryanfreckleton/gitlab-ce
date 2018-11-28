@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Suggestion do
-  let(:suggestion) { create(:suggestion, relative_order: 0) }
+  let(:suggestion) { create(:suggestion) }
 
   describe 'associations' do
     it { is_expected.to belong_to(:diff_note) }
