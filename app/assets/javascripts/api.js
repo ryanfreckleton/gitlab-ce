@@ -174,8 +174,7 @@ const Api = {
   },
 
   applySuggestion(id) {
-    const url = Api.buildUrl(Api.applySuggestionPath)
-      .replace(':id', encodeURIComponent(id))
+    const url = Api.buildUrl(Api.applySuggestionPath).replace(':id', encodeURIComponent(id));
 
     return axios.put(url);
   },

@@ -33,7 +33,7 @@ export default {
   watch: {
     suggestions() {
       console.log('suggestions updated > ', this.suggestions);
-    }
+    },
   },
   mounted() {
     this.renderSuggestions();
@@ -83,7 +83,7 @@ export default {
           },
           hasApplied() {
             return suggestions.find(suggestion => suggestion.applied === true);
-          }
+          },
         },
         methods: {
           applySuggestion: (suggestionId, callback) => {

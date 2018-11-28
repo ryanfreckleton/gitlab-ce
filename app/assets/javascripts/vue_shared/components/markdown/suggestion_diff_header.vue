@@ -14,7 +14,7 @@ export default {
     return {
       isApplied: false,
       isApplying: false,
-    }
+    };
   },
   methods: {
     applySuggestion() {
@@ -24,7 +24,7 @@ export default {
     suggestionApplied(isSuccess) {
       this.isApplied = isSuccess;
       this.isApplying = false;
-    }
+    },
   },
 };
 </script>
@@ -37,7 +37,8 @@ export default {
       type="button"
       class="btn"
       :disabled="isApplying"
-      @click="applySuggestion">
+      @click="applySuggestion"
+    >
       Apply suggestion
     </button>
   </div>

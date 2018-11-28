@@ -194,11 +194,11 @@ export default {
     }
   },
 
-  [types.APPLY_SUGGESTION](state, {noteId, discussionId}) {
+  [types.APPLY_SUGGESTION](state, { noteId, discussionId }) {
     const noteObj = utils.findNoteObjectById(state.discussions, discussionId);
     const comment = utils.findNoteObjectById(noteObj.notes, noteId);
 
-    comment.suggestions.forEach((sug, i)=> {
+    comment.suggestions.forEach((sug, i) => {
       const updatedSuggestion = sug;
       updatedSuggestion.applied = true;
       updatedSuggestion.appliable = false;
