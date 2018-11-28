@@ -69,7 +69,8 @@ class Note < ActiveRecord::Base
   belongs_to :last_edited_by, class_name: 'User'
 
   has_many :todos
-  has_many :suggestions, inverse_of: :diff_note, foreign_key: :diff_note_id
+  has_many :suggestions, -> { order(:diff_note_id, :relative_order) },
+    inverse_of: :diff_note, foreign_key: :diff_note_id
   has_many :events, as: :target, dependent: :destroy # rubocop:disable Cop/ActiveRecordDependent
   has_one :system_note_metadata
   has_one :note_diff_file, inverse_of: :diff_note, foreign_key: :diff_note_id

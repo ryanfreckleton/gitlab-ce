@@ -12,7 +12,7 @@ module API
         requires :id, type: String, desc: 'The suggestion ID'
       end
       put ':id/apply' do
-        suggestion = Suggestion.find_by(id: params[:id])
+        suggestion = Suggestion.find_by(id: params[:id]) # rubocop: disable CodeReuse/ActiveRecord
 
         not_found! unless suggestion
         authorize! :push_code, suggestion.project

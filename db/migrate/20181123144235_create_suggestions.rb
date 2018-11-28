@@ -15,6 +15,7 @@ class CreateSuggestions < ActiveRecord::Migration
         null: false
     end
 
+    # rubocop:disable Migration/AddConcurrentForeignKey
     add_foreign_key :suggestions, :notes,
       column: :diff_note_id,
       on_delete: :cascade

@@ -37,7 +37,7 @@ describe Notes::UpdateService do
         suggestion = create(:suggestion, relative_order: 0)
         diff_note = suggestion.diff_note
 
-        expect { Notes::UpdateService.new(project, user, note: markdown).execute(diff_note) }
+        expect { described_class.new(project, user, note: markdown).execute(diff_note) }
           .to change { diff_note.suggestions.count }.from(1).to(2)
 
         expect(diff_note.suggestions.order(:relative_order).map(&:suggestion))

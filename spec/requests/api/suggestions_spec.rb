@@ -31,9 +31,8 @@ describe API::Suggestions do
     context 'when successfully applies patch' do
       let(:suggestion) do
         create(:suggestion, diff_note: diff_note,
-               changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
-               suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n",
-               relative_order: 0)
+                            changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
+                            suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n")
       end
 
       before do
@@ -52,9 +51,8 @@ describe API::Suggestions do
     context 'when unauthorized' do
       let(:suggestion) do
         create(:suggestion, diff_note: diff_note,
-               changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
-               suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n",
-               relative_order: 0)
+                            changing: "      raise RuntimeError, \"System commands must be given as an array of strings\"\n",
+                            suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n")
       end
 
       before do

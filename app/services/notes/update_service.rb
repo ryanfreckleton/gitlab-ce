@@ -16,7 +16,7 @@ module Notes
 
       if note.is_a?(DiffNote)
         Suggestion.transaction do
-          Suggestion.where(diff_note: note).delete_all
+          Suggestion.where(diff_note: note).delete_all # rubocop:disable CodeReuse/ActiveRecord
           Suggestions::CreateService.new(note).execute
         end
       end

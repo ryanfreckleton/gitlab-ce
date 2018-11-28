@@ -24,7 +24,7 @@ describe SuggestionEntity do
   end
 
   let!(:suggestion) do
-    create(:suggestion, note: diff_note,
+    create(:suggestion, diff_note: diff_note,
                         changing: '    vars = {',
                         suggestion: 'bar',
                         relative_order: 0)
