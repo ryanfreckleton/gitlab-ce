@@ -193,6 +193,10 @@ module QA
         autoload :Index, 'qa/page/project/issue/index'
       end
 
+      module IssueBoard
+        autoload :Show, 'qa/page/project/issue_board/show'
+      end
+
       module Fork
         autoload :New, 'qa/page/project/fork/new'
       end

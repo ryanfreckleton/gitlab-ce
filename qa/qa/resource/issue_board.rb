@@ -3,7 +3,7 @@
 module QA
   module Resource
     class IssueBoard < Base
-      attr_writer :issues_count
+      attr_writer :issues
 
       attribute :project do
         Project.fabricate! do |resource|
@@ -13,14 +13,14 @@ module QA
       end
 
       def fabricate!
-        for i in 1..@issues_count
+        @issues.each do |issue|
           project.visit!
 
           Page::Project::Show.perform(&:go_to_new_issue)
 
           Page::Project::Issue::New.perform do |page|
-            page.add_title("issue title #{i}")
-            page.add_description("My awesome issue #{i}")
+            page.add_title(issue[:title])
+            page.add_description(issue[:description])
             page.create_new_issue
           end
         end

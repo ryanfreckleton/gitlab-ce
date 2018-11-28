@@ -23,6 +23,7 @@ module QA
           element :wiki_link_text, "Wiki" # rubocop:disable QA/ElementWithPattern
           element :milestones_link
           element :labels_link
+          element :boards_link
         end
 
         view 'app/assets/javascripts/fly_out_nav.js' do
@@ -78,6 +79,12 @@ module QA
         def go_to_settings
           within_sidebar do
             click_on 'Settings'
+          end
+        end
+
+        def go_to_boards
+          within_sidebar do
+            click_element :boards_link
           end
         end
 

@@ -40,7 +40,7 @@ export default function initNewListDropdown() {
         const active = boardsStore.findList('title', label.title);
         const $li = $('<li />');
         const $a = $('<a />', {
-          class: active ? `is-active js-board-list-${active.id}` : '',
+          class: active ? `is-active js-board-list-${active.id}` : 'qa-inactive-board',
           text: label.title,
           href: '#',
         });

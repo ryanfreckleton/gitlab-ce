@@ -73,7 +73,7 @@ export default {
       your board.
     </p>
     <button
-      class="btn btn-success btn-inverted btn-block"
+      class="btn btn-success btn-inverted btn-block qa-default-lists-button"
       type="button"
       @click.stop="addDefaultLists"
     >

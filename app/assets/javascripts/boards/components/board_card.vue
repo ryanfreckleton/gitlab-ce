@@ -83,7 +83,7 @@ export default {
     }"
     :index="index"
     :data-issue-id="issue.id"
-    class="board-card"
+    class="board-card qa-board-card"
     @mousedown="mouseDown"
     @mousemove="mouseMove"
     @mouseup="showIssue($event);"
