@@ -120,6 +120,10 @@ description: 'Learn how to contribute to GitLab.'
 
 - [Building a package for testing purposes](build_test_package.md)
 
+## Security
+
+- [Storing secrets](security_handling_secrets.md)
+
 ## Compliance
 
 - [Licensing](licensing.md) for ensuring license compliance
