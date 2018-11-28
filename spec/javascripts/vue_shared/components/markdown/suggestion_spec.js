@@ -72,6 +72,12 @@ describe('Suggestion component', () => {
       expect(vm.$el.innerHTML.includes('Suggestion 1')).toBe(true);
       expect(vm.$el.innerHTML.includes('Suggestion 2')).toBe(true);
     });
+
+    /*it('renders a flash message if old line is deleted', () => {
+      expect(vm.renderSuggestions).toHaveBeenCalled();
+      expect(vm.$el.innerHTML.includes('Suggestion 1')).toBe(true);
+      expect(vm.$el.innerHTML.includes('Suggestion 2')).toBe(true);
+    });*/
   });
 
   describe('extractNewLines', () => {

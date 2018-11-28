@@ -20,7 +20,12 @@ export default {
     lineContent: {
       type: String,
       required: false,
-      default: null,
+      default: '',
+    },
+    canSuggest: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   computed: {
@@ -128,11 +133,13 @@ export default {
           icon="table"
         />
         <toolbar-button
+          v-if="canSuggest"
           :tag="mdSuggestion"
           :prepend="true"
           :button-title="__('Insert suggestion')"
           :cursor-offset="4"
           icon="doc-code"
+          class="qa-suggestion-btn"
         />
         <button
           v-gl-tooltip

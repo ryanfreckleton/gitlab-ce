@@ -87,6 +87,7 @@ export default {
         <diff-discussions
           v-if="line.left.discussions.length"
           :discussions="line.left.discussions"
+          :line="line.left"
         />
       </div>
       <diff-line-note-form
@@ -102,6 +103,7 @@ export default {
         <diff-discussions
           v-if="line.right.discussions.length"
           :discussions="line.right.discussions"
+          :line="line.right"
         />
       </div>
       <diff-line-note-form

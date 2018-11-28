@@ -47,6 +47,14 @@ describe('Suggestion Diff component', () => {
       expect(oldLineContent.includes(vm.oldLineContent)).toBe(true);
     });
 
+    it('does not render old diff if `oldContent` is not defined', () => {
+      vm.oldLineContent = null;
+
+      Vue.nextTick(() => {
+        expect(vm.$el.querySelector('.line_content.old')).toBe(null);
+      });
+    });
+
     it('renders the contents of newLines', () => {
       const newLines = vm.$el.getElementsByClassName('line_holder new');
 

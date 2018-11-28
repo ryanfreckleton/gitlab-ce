@@ -1,13 +1,13 @@
 <script>
 import Vue from 'vue';
 import suggestionDiff from './suggestion_diff.vue';
+import Flash from '~/flash';
 
-// TODO - Add unit tests
 export default {
   components: { suggestionDiff },
   props: {
     oldLineNumber: {
-      type: Number,
+      type: [Number, String],
       required: true,
     },
     oldLineContent: {
@@ -40,6 +40,10 @@ export default {
 
       const { container } = this.$refs;
       const suggestionElements = container.getElementsByClassName('suggestion');
+
+      if(!this.oldLineContent && !this.suggestions.length) {
+        Flash('Unable to apply suggestions to a deleted line.', 'alert', this.$el);
+      }
 
       [...suggestionElements].forEach((suggestionEl, i) => {
         const newLines = this.extractNewLines(suggestionEl);
@@ -107,7 +111,7 @@ export default {
 
 <template>
   <div>
-    <div class="flash-container mt-3"></div>
+    <div ref="flash" class="flash-container mt-3"></div>
     <div ref="container" v-html="suggestionHtml"></div>
   </div>
 </template>

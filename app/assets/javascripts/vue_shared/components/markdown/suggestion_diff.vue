@@ -25,7 +25,7 @@ export default {
       default: '',
     },
     oldLineNumber: {
-      type: Number,
+      type: [Number, String],
       required: true,
     },
     suggestion: {
@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     applySuggestion(callback) {
-      if(!this.canApply) return;
+      if (!this.canApply) return;
       this.$emit('apply', this.suggestion.id, callback);
     },
   },
@@ -52,7 +52,7 @@ export default {
     <table class="mb-3 md-suggestion-diff">
       <tbody>
         <!-- Old Line -->
-        <tr class="line_holder old">
+        <tr v-if="oldLineContent" class="line_holder old">
           <td class="diff-line-num old_line qa-old-diff-line-number old">{{ oldLineNumber }}</td>
           <td class="diff-line-num new_line old"></td>
           <td class="line_content old">

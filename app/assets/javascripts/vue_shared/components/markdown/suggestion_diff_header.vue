@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     applySuggestion() {
-      if(!this.canApply) return;
+      if (!this.canApply) return;
       this.isApplying = true;
       this.$emit('apply', isSuccess => this.suggestionApplied(isSuccess));
     },
@@ -32,7 +32,9 @@ export default {
 
 <template>
   <div class="file-title-flex-parent md-suggestion-header border-bottom-0 mt-2">
-    <div class="qa-suggestion-diff-header">Suggested change <icon name="question-o" css-classes="link-highlight" /></div>
+    <div class="qa-suggestion-diff-header">
+      Suggested change <icon name="question-o" css-classes="link-highlight" />
+    </div>
     <button
       v-if="canApply && !isApplied"
       type="button"

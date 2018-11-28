@@ -98,4 +98,17 @@ describe('Markdown field header component', () => {
   it('renders suggestion template', () => {
     expect(vm.mdSuggestion).toEqual('```suggestion\n{text}\n```');
   });
+
+  it('renders suggestion template with content', () => {
+    vm.lineContent = 'Some content';
+    expect(vm.mdSuggestion).toEqual('```suggestion\nSome content{text}\n```');
+  });
+
+  it('does not render suggestion button if `canSuggest` is set to false', () => {
+    vm.canSuggest = false;
+
+    Vue.nextTick(() => {
+      expect(vm.$el.querySelector('.qa-suggestion-btn')).toBe(null);
+    });
+  });
 });
