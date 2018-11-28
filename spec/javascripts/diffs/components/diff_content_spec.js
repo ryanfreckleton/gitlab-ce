@@ -14,7 +14,7 @@ describe('DiffContent', () => {
 
   const mockDiffFile = {
     ...diffFileMockData,
-    parallelDiffLines: parallelize(diffFileMockData.highlightedDiffLines),
+    parallel_diff_lines: parallelize(diffFileMockData.highlighted_diff_lines),
   };
 
   beforeEach(() => {

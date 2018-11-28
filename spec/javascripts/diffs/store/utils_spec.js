@@ -18,7 +18,7 @@ import { noteableDataMock } from '../../notes/mock_data';
 
 const getDiffFileMock = () =>
   Object.assign({}, diffFileMockData, {
-    parallelDiffLines: utils.parallelize(diffFileMockData.highlightedDiffLines),
+    parallel_diff_lines: utils.parallelize(diffFileMockData.highlighted_diff_lines),
   });
 
 describe('DiffsStoreUtils', () => {

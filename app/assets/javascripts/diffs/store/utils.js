@@ -270,15 +270,15 @@ export function prepareDiffData(diffData) {
   for (let i = 0; i < filesLength; i += 1) {
     const file = diffData.diff_files[i];
 
-    if (file.highlightedDiffLines) {
-      const linesLength = file.highlightedDiffLines.length;
+    if (file.highlighted_diff_lines) {
+      const linesLength = file.highlighted_diff_lines.length;
       for (let u = 0; u < linesLength; u += 1) {
         const line = file.highlighted_diff_lines[u];
         Object.assign(line, { ...trimFirstCharOfLineContent(line) });
       }
 
-      file.parallelDiffLines = parallelize(file.highlightedDiffLines);
-      showingLines += file.parallelDiffLines.length;
+      file.parallel_diff_lines = parallelize(file.highlighted_diff_lines);
+      showingLines += file.parallel_diff_lines.length;
     }
 
     Object.assign(file, {
@@ -291,8 +291,8 @@ export function prepareDiffData(diffData) {
 
 export function getDiffPositionByLineCode(diffFiles) {
   return diffFiles.reduce((acc, diffFile) => {
-    // We can only use highlightedDiffLines to create the map of diff lines because
-    // highlightedDiffLines will also include every parallel diff line in it.
+    // We can only use highlighted_diff_lines to create the map of diff lines because
+    // highlighted_diff_lines will also include every parallel diff line in it.
     if (diffFile.highlighted_diff_lines) {
       diffFile.highlighted_diff_lines.forEach(line => {
         if (line.line_code) {

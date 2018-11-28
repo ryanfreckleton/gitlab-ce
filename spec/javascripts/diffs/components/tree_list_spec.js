@@ -81,7 +81,7 @@ describe('Diffs tree list component', () => {
     });
 
     it('filters tree list to blobs matching search', done => {
-      vm.search = 'app/index';
+      vm.search = 'index';
 
       vm.$nextTick(() => {
         expect(vm.$el.querySelectorAll('.file-row').length).toBe(1);

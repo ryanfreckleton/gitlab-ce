@@ -33,7 +33,12 @@ describe('DiffsStoreMutations', () => {
     it('should set diff data type properly', () => {
       const state = {};
       const diffMock = {
-        diff_files: [diffFileMockData],
+        diff_files: [
+          {
+            ...diffFileMockData,
+            parallel_diff_lines: parallelize(diffFileMockData.highlighted_diff_lines),
+          },
+        ],
       };
 
       mutations[types.SET_DIFF_DATA](state, diffMock);
@@ -134,8 +139,8 @@ describe('DiffsStoreMutations', () => {
       );
 
       expect(addContextLinesSpy).toHaveBeenCalledWith({
-        inlineLines: diffFile.highlightedDiffLines,
-        parallelLines: parallelize(diffFile.highlightedDiffLines),
+        inlineLines: diffFile.highlighted_diff_lines,
+        parallelLines: parallelize(diffFile.highlighted_diff_lines),
         contextLines: options.contextLines,
         bottom: options.params.bottom,
         lineNumbers: options.lineNumbers,
