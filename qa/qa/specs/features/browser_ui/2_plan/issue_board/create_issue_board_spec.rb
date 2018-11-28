@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module QA
-  context 'Plan', :smoke do
+  context 'Plan' do
     describe 'Issue Board creation' do
       it 'user creates an issue board' do
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
