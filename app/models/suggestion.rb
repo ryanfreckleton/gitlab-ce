@@ -1,10 +1,16 @@
 # frozen_string_literal: true
 
 class Suggestion < ApplicationRecord
+  FEATURE_FLAG = :diff_suggestions
+
   belongs_to :diff_note, inverse_of: :suggestions
   validates :diff_note, presence: true
 
   delegate :project, :position, :diff_file, :noteable, to: :diff_note
+
+  def self.feature_enabled?
+    Feature.enabled?(FEATURE_FLAG)
+  end
 
   def from_line
     position.new_line
@@ -19,6 +25,8 @@ class Suggestion < ApplicationRecord
   alias_method :to_line_index, :from_line_index
 
   def appliable?
+    return false unless self.class.feature_enabled?
+
     !applied? &&
       diff_note.active? &&
       diff_file.new_blob &&

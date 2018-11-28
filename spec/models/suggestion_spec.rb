@@ -14,6 +14,14 @@ describe Suggestion do
   end
 
   describe '#appliable?' do
+    context 'when feature is disabled' do
+      it 'returns false' do
+        stub_feature_flags(Suggestion::FEATURE_FLAG => false)
+
+        expect(suggestion).not_to be_appliable
+      end
+    end
+
     context 'when new blob does not exists' do
       it 'returns false' do
         expect_next_instance_of(DiffNote) do |diff_note|

@@ -6,6 +6,10 @@ class Projects::ApplicationController < ApplicationController
   include ProjectUnauthorized
   include ChecksCollaboration
 
+  before_action do
+    push_frontend_feature_flag(Suggestion::FEATURE_FLAG)
+  end
+
   skip_before_action :authenticate_user!
   before_action :project
   before_action :repository
