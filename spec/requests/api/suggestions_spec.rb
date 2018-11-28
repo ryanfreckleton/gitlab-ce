@@ -35,16 +35,29 @@ describe API::Suggestions do
                             suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n")
       end
 
-      before do
-        project.add_maintainer(user)
-      end
-
       it 'returns 200 with json content' do
+        project.add_maintainer(user)
+
         put api(url, user), id: suggestion.id
 
         expect(response).to have_gitlab_http_status(200)
         expect(json_response)
           .to include('id', 'from_line', 'to_line', 'appliable', 'applied', 'changing', 'suggestion')
+      end
+    end
+
+    context 'when not able to apply patch' do
+      let(:suggestion) do
+        create(:suggestion, :unappliable, diff_note: diff_note)
+      end
+
+      it 'returns 400 with json content' do
+        project.add_maintainer(user)
+
+        put api(url, user), id: suggestion.id
+
+        expect(response).to have_gitlab_http_status(400)
+        expect(json_response).to eq({ 'message' => 'Suggestion is not appliable' })
       end
     end
 
@@ -55,32 +68,13 @@ describe API::Suggestions do
                             suggestion: "      raise RuntimeError, 'Explosion'\n      # explosion?\n")
       end
 
-      before do
-        project.add_reporter(user)
-      end
-
       it 'returns 403 with json content' do
+        project.add_reporter(user)
+
         put api(url, user), id: suggestion.id
 
         expect(response).to have_gitlab_http_status(403)
         expect(json_response).to eq({ 'message' => '403 Forbidden' })
-      end
-    end
-
-    context 'when not able to apply patch' do
-      let(:suggestion) do
-        create(:suggestion, :unappliable, diff_note: diff_note)
-      end
-
-      before do
-        project.add_maintainer(user)
-      end
-
-      it 'returns 400 with json content' do
-        put api(url, user), id: suggestion.id
-
-        expect(response).to have_gitlab_http_status(400)
-        expect(json_response).to eq({ 'message' => 'Suggestion is not appliable' })
       end
     end
   end

@@ -51,11 +51,9 @@ describe Suggestions::CreateService do
   describe '#execute' do
     context 'should not try to parse suggestions' do
       context 'when diff note is not for text' do
-        before do
-          allow(diff_note).to receive(:on_text?) { false }
-        end
-
         it 'does not try to parse suggestions' do
+          allow(diff_note).to receive(:on_text?) { false }
+
           expect(Banzai::SuggestionsParser).not_to receive(:parse)
 
           subject.execute
@@ -63,11 +61,9 @@ describe Suggestions::CreateService do
       end
 
       context 'when diff file new blob does not exists' do
-        before do
-          allow(diff_note).to receive(:new_blob) { nil }
-        end
-
         it 'does not try to parse suggestions' do
+          allow(diff_note).to receive_message_chain(:diff_file, :new_blob) { nil }
+
           expect(Banzai::SuggestionsParser).not_to receive(:parse)
 
           subject.execute
