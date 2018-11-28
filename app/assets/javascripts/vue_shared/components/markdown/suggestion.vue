@@ -30,11 +30,6 @@ export default {
       default: false,
     },
   },
-  watch: {
-    suggestions() {
-      console.log('suggestions updated > ', this.suggestions);
-    },
-  },
   mounted() {
     this.renderSuggestions();
   },
