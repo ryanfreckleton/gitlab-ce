@@ -1,0 +1,5 @@
+---
+title: Reduce size of diffs endpoint to speed up MRs
+merge_request: 22937
+author:
+type: performance

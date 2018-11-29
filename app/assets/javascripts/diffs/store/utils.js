@@ -274,7 +274,7 @@ export function prepareDiffData(diffData) {
       const linesLength = file.highlighted_diff_lines.length;
       for (let u = 0; u < linesLength; u += 1) {
         const line = file.highlighted_diff_lines[u];
-        Object.assign(line, { ...trimFirstCharOfLineContent(line) });
+        Object.assign(line, { ...trimFirstCharOfLineContent(line), hasForm: false });
       }
 
       file.parallel_diff_lines = parallelize(file.highlighted_diff_lines);
