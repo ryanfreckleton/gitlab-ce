@@ -6,7 +6,7 @@
 
 ### Proposal
 
-### What does success look like, and how can we measure that?
+### What business outcomes will the success of this feature have, How can we measure that?
 
 (If no way to measure success, link to an issue that will implement a way to measure this)
 
