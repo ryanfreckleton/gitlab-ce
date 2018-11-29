@@ -29,6 +29,12 @@ module QA
           element :fly_out, "classList.add('fly-out-list')" # rubocop:disable QA/ElementWithPattern
         end
 
+        def click_project
+          within_sidebar do
+            click_link('Project')
+          end
+        end
+
         def click_repository_settings
           hover_settings do
             within_submenu do
