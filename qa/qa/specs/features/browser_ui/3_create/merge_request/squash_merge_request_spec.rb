@@ -10,6 +10,7 @@ module QA
         project = Resource::Project.fabricate! do |project|
           project.name = "squash-before-merge"
         end
+        project.populate(:repository_http_location)
 
         merge_request = Resource::MergeRequest.fabricate! do |merge_request|
           merge_request.project = project
@@ -17,7 +18,7 @@ module QA
         end
 
         Resource::Repository::ProjectPush.fabricate! do |push|
-          push.project = project
+          push.repository_http_uri = project.repository_http_location.uri
           push.commit_message = 'to be squashed'
           push.branch_name = merge_request.source_branch
           push.new_branch = false
@@ -34,16 +35,9 @@ module QA
           merge_request_page.mark_to_squash
           merge_request_page.merge!
 
-          merge_request.project.visit!
-
           Git::Repository.perform do |repository|
-            repository.uri = Page::Project::Show.act do
-              choose_repository_clone_http
-              repository_location.uri
-            end
-
+            repository.uri = project.repository_http_location.uri
             repository.use_default_credentials
-
             repository.act { clone }
 
             expect(repository.commits.size).to eq 3
