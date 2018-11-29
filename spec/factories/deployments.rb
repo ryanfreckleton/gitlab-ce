@@ -7,6 +7,7 @@ FactoryBot.define do
     project nil
     deployable factory: :ci_build
     environment factory: :environment
+    track { Deployment.tracks[:stable] }
 
     after(:build) do |deployment, evaluator|
       deployment.project ||= deployment.environment.project

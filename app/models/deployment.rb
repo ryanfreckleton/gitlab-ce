@@ -16,6 +16,11 @@ class Deployment < ActiveRecord::Base
 
   validates :sha, presence: true
   validates :ref, presence: true
+  validates :track, presence: true
+  validates :rollout, presence: true, if: :rollout?,
+    numericality: { greater_than: 0, less_than: 100 }
+  validates :rollout, presence: true, unless: :rollout?,
+    numericality: { equal_to: 100 }
 
   delegate :name, to: :environment, prefix: true
 
@@ -64,6 +69,15 @@ class Deployment < ActiveRecord::Base
       .group(:environment_id)
       .map(&:id)
     find(ids)
+  end
+
+  enum track: {
+    stable: 0,
+    rollout: 1
+  }
+
+  def incremental_rollout?
+    rollout? && rollout.to_i < 100
   end
 
   def commit

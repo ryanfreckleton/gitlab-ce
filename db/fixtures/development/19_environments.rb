@@ -51,7 +51,9 @@ class Gitlab::Seeder::Environments
       ref: ref,
       sha: sha,
       tag: false,
-      deployable: find_deployable(project, name)
+      deployable: find_deployable(project, name),
+      track: 'stable',
+      rollout: 100
     )
   end
 

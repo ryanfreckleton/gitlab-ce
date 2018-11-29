@@ -61,6 +61,9 @@ future GitLab releases.**
 | **CI_ENVIRONMENT_NAME**                   | 8.15   | all    | The name of the environment for this job |
 | **CI_ENVIRONMENT_SLUG**                   | 8.15   | all    | A simplified version of the environment name, suitable for inclusion in DNS, URLs, Kubernetes labels, etc. |
 | **CI_ENVIRONMENT_URL**                    | 9.3    | all    | The URL of the environment for this job |
+| **CI_ENVIRONMENT_TRACK**        | 11.6   | all    | The environment deployment track, default `stable` |
+| **CI_ENVIRONMENT_ROLLOUT**      | 11.6   | all    | The environment deployment rollout percentage, when track==rollout |
+| **CI_ENVIRONMENT_ACTION**       | 11.6   | all    | The environment deployment action: `start` or `stop` |
 | **CI_JOB_ID**                             | 9.0    | all    | The unique id of the current job that GitLab CI uses internally |
 | **CI_JOB_MANUAL**                         | 8.12   | all    | The flag to indicate that job was manually started |
 | **CI_JOB_NAME**                           | 9.0    | 0.5    | The name of the job as defined in `.gitlab-ci.yml` |

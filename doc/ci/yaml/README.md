@@ -787,6 +787,36 @@ The `stop_review_app` job is **required** to have the following keywords defined
 - `stage` should be the same as the `review_app` in order for the environment
   to stop automatically when the branch is deleted
 
+### `environment:rollout`
+
+> [Introduced][ce-21554] in GitLab 11.7.
+
+The `rollout` keyword defines the rollout deployment percentage.
+The `rollout` accepts values between 1 and 99 (%).
+
+For values between 1 and 99 the `CI_ENVIRONMENT_TRACK=rollout` track is being deployed.
+The value of `rollout` is passed as `CI_ENVIRONMENT_ROLLOUT` variable to CI job.
+
+Otherwise, when the `rollout:` is not defined the `CI_ENVIRONMENT_TRACK=stable`
+is being deployed with `CI_ENVIRONMENT_ROLLOUT=100` set.
+
+```
+rollout 10%:
+  stage: incremental-deploy
+  script: echo "Rolling out $CI_ENVIRONMENT_TRACK / $CI_ENVIRONMENT_ROLLOUT ..."
+  environment:
+    name: production
+    rollout: 10
+
+rollout 100%:
+  stage: deploy
+  script: echo "Rolling out $CI_ENVIRONMENT_TRACK / $CI_ENVIRONMENT_ROLLOUT ..."
+  environment:
+    name: production
+    rollout: 100
+```
+
+
 ### Dynamic environments
 
 > **Notes:**
@@ -2351,6 +2381,7 @@ GitLab CI/CD with various languages.
 [ce-7983]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/7983
 [ce-7447]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/7447
 [ce-12909]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/12909
+[ce-21554]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/21554
 [environment]: ../environments.md "CI/CD environments"
 [schedules]: ../../user/project/pipelines/schedules.md "Pipelines schedules"
 [variables]: ../variables/README.md "CI/CD variables"

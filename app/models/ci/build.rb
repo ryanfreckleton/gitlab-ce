@@ -377,7 +377,15 @@ module Ci
     end
 
     def environment_action
-      self.options.fetch(:environment, {}).fetch(:action, 'start') if self.options
+      self.options.dig(:environment, :action) || 'start'
+    end
+
+    def environment_track
+      self.options.dig(:environment, :track) || 'stable'
+    end
+
+    def environment_rollout
+      self.options.dig(:environment, :rollout) || 100
     end
 
     def has_deployment?
@@ -881,6 +889,9 @@ module Ci
         variables.append(key: "CI_JOB_MANUAL", value: 'true') if action?
         variables.append(key: "CI_NODE_INDEX", value: self.options[:instance].to_s) if self.options&.include?(:instance)
         variables.append(key: "CI_NODE_TOTAL", value: (self.options&.dig(:parallel) || 1).to_s)
+        variables.append(key: "CI_ENVIRONMENT_TRACK", value: self.environment_track) if self.environment_track
+        variables.append(key: "CI_ENVIRONMENT_ROLLOUT", value: self.environment_rollout.to_s) if self.environment_rollout
+        variables.append(key: "CI_ENVIRONMENT_ACTION", value: self.environment_action) if self.environment_action
         variables.concat(legacy_variables)
       end
     end

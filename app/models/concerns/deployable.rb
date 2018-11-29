@@ -24,7 +24,9 @@ module Deployable
         tag: tag,
         sha: sha,
         user: user,
-        on_stop: on_stop)
+        on_stop: on_stop,
+        track: environment_track,
+        rollout: environment_rollout)
     end
   end
 end

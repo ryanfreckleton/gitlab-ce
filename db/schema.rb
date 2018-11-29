@@ -833,6 +833,8 @@ ActiveRecord::Schema.define(version: 20190115054216) do
     t.string "on_stop"
     t.integer "status", limit: 2, null: false
     t.datetime_with_timezone "finished_at"
+    t.integer "rollout", limit: 2, default: 100, null: false
+    t.integer "track", limit: 2, null: false
     t.index ["created_at"], name: "index_deployments_on_created_at", using: :btree
     t.index ["deployable_type", "deployable_id"], name: "index_deployments_on_deployable_type_and_deployable_id", using: :btree
     t.index ["environment_id", "id"], name: "index_deployments_on_environment_id_and_id", using: :btree

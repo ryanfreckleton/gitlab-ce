@@ -87,6 +87,30 @@ describe Gitlab::Ci::Config::Entry::Environment do
         expect(entry.url).to eq 'https://example.gitlab.com'
       end
     end
+
+    describe '#rollout' do
+      context 'when rollout is defined' do
+        before do
+          config.merge!(rollout: 50)
+        end
+
+        it { expect(entry.rollout).to eq(50) }
+        it { expect(entry.track).to eq('rollout') }
+      end
+
+      context 'when rollout is 100%' do
+        before do
+          config.merge!(rollout: 100)
+        end
+
+        it { expect(entry.track).to eq('stable') }
+      end
+
+      context 'when rollout is not defined' do
+        it { expect(entry.rollout).to eq(100) }
+        it { expect(entry.track).to eq('stable') }
+      end
+    end
   end
 
   context 'when valid action is used' do
