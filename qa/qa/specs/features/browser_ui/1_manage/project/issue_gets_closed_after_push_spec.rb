@@ -35,27 +35,18 @@ module QA
         Page::Project::Issue::Show.act {issue_id}
       end
 
-
-      def switch_to_issues
-
-      end
-
       it 'does something' do
 
         issue_id = create_issue
         deactivate_auto_devops
-        sleep(7)
         push_file(issue_id)
 
         Page::Project::Menu.act {click_issues}
 
         Page::Project::Issue::Index.act {
           click_on_closed
-          sleep(200)
           go_to_issue(issue_title)
         }
-
-        sleep(5000)
 
       end
 
