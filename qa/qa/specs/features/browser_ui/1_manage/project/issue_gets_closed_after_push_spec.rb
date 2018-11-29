@@ -6,10 +6,22 @@ module QA
 
 
       def push_file(issue_id)
-        Resource::Repository::ProjectPush.fabricate! do |push|
-          push.file_name = 'README.md'
-          push.file_content = '# This is a test project'
-          push.commit_message = "Closes ##{issue_id}"
+        Page::Project::Menu.act {click_project}
+        Page::Project::Show.act { create_new_file! }
+        Page::File::Form.perform do |page|
+          page.add_name('dummy')
+          page.add_content('Enable the Web IDE')
+          page.add_commit_message("Closes ##{issue_id}")
+          page.commit_changes
+        end
+      end
+
+      def deactivate_auto_devops
+        Page::Project::Menu.act do
+          click_ci_cd_settings
+        end
+        Page::Project::Settings::CICD.act do
+          disable_auto_devops
         end
       end
 
@@ -20,18 +32,31 @@ module QA
         Resource::Issue.fabricate! do |issue|
           issue.title = issue_title
         end
+        Page::Project::Issue::Show.act {issue_id}
       end
 
-      def issue_id
-        Page::Project::Issue::Show.act {
-          issue_id
-        }
+
+      def switch_to_issues
+
       end
 
       it 'does something' do
-        create_issue
 
-        puts issue_id
+        issue_id = create_issue
+        deactivate_auto_devops
+        sleep(7)
+        push_file(issue_id)
+
+        Page::Project::Menu.act {click_issues}
+
+        Page::Project::Issue::Index.act {
+          click_on_closed
+          sleep(200)
+          go_to_issue(issue_title)
+        }
+
+        sleep(5000)
+
       end
 
 
