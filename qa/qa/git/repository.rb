@@ -10,6 +10,7 @@ module QA
   module Git
     class Repository
       include Scenario::Actable
+      RepositoryCommandError = Class.new(StandardError)
 
       attr_writer :password
       attr_accessor :env_vars
@@ -143,9 +144,13 @@ module QA
         command = [env_vars, *extra_env, command_str, '2>&1'].compact.join(' ')
         Runtime::Logger.debug "Git: command=[#{command}]"
 
-        output, _ = Open3.capture2(command)
+        output, status = Open3.capture2(command)
         output = output.chomp.gsub(/\s+$/, '')
         Runtime::Logger.debug "Git: output=[#{output}]"
+
+        unless status.success?
+          raise RepositoryCommandError, "The command #{command} failed (#{status.exitstatus}) with the following output:\n#{output}"
+        end
 
         output
       end
