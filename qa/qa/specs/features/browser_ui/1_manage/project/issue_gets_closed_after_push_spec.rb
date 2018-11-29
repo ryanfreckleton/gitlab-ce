@@ -2,8 +2,22 @@ module QA
   context 'Manage' do
     let(:issue_title) {'issue for to close'}
 
-    describe 'e' do
+    describe 'Issues' do
 
+      it 'closes the issue after pushing a commit' do
+
+        issue_id = create_issue
+        deactivate_auto_devops
+        push_file(issue_id)
+
+        Page::Project::Menu.act {click_issues}
+
+        Page::Project::Issue::Index.act {
+          click_on_closed
+          go_to_issue(issue_title)
+        }
+
+      end
 
       def push_file(issue_id)
         Page::Project::Menu.act {click_project}
@@ -33,21 +47,6 @@ module QA
           issue.title = issue_title
         end
         Page::Project::Issue::Show.act {issue_id}
-      end
-
-      it 'does something' do
-
-        issue_id = create_issue
-        deactivate_auto_devops
-        push_file(issue_id)
-
-        Page::Project::Menu.act {click_issues}
-
-        Page::Project::Issue::Index.act {
-          click_on_closed
-          go_to_issue(issue_title)
-        }
-
       end
 
 
