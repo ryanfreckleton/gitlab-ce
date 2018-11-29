@@ -49,6 +49,10 @@ module QA
             click_element :discussion_filter
             all_elements(:filter_options).first.click
           end
+
+          def issue_id
+            current_url.split('/').last
+          end
         end
       end
     end
