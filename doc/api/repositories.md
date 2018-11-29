@@ -119,7 +119,8 @@ would send an archive in ZIP format.
 Parameters:
 
 - `id` (required) - The ID or [URL-encoded path of the project](README.md#namespaced-path-encoding) owned by the authenticated user
-- `sha` (optional) - The commit SHA to download. A tag, branch reference or sha can be used. This defaults to the tip of the default branch if not specified
+- `sha` (optional) - The commit SHA to download. A tag, branch reference or sha can be used. This defaults to the tip of the default branch if not specified. For example: `curl --header "PRIVATE-TOKEN: <private_token>" https://gitlab.com/api/v4/projects/<project_id>/repository/archive?sha=abcdef `
+- `format` (optional) - The archive format. Default is `tar.gz`. Options are `tar.gz`, `tar.bz2`, `tbz`, `tbz2`, `tb2`, `bz2`, `tar`, `zip`
 
 ## Compare branches, tags or commits
 
