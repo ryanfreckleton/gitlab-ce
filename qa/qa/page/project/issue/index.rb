@@ -11,7 +11,7 @@ module QA
             element :closed_elements_link
           end
 
-          def click_on_closed
+          def show_closed_issues
             click_element :closed_elements_link
           end
 

@@ -42,7 +42,7 @@ module QA
       def navigate_to_created_issue
         Page::Project::Menu.act {click_issues}
         Page::Project::Issue::Index.perform do |page|
-          page.click_on_closed
+          page.show_closed_issues
           page.go_to_issue(issue_title)
         end
       end
