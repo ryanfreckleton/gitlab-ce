@@ -29,7 +29,7 @@ module QA
 
             unless attachment.nil?
               QA::Page::Component::Dropzone.new(self, '.new-note')
-                .attach_file(attachment)
+                  .attach_file(attachment)
             end
 
             click_element :comment_button
@@ -52,6 +52,15 @@ module QA
 
           def issue_id
             current_url.split('/').last
+          end
+
+          def first_note_text
+            page.within("ul#notes-list") do
+              wait(max: 5) do
+                !all("li div.note-header-info").empty?
+              end
+              all("li div.note-header-info").first.text
+            end
           end
         end
       end
