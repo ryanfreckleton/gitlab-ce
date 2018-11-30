@@ -17,9 +17,9 @@ module Gitlab
       when 'notes'
         notes.page(page).per(per_page)
       when 'blobs'
-        Kaminari.paginate_array(blobs).page(page).per(per_page)
+        blobs(page: page)
       when 'wiki_blobs'
-        Kaminari.paginate_array(wiki_blobs).page(page).per(per_page)
+        wiki_blobs(page: page)
       when 'commits'
         Kaminari.paginate_array(commits).page(page).per(per_page)
       else
@@ -28,7 +28,7 @@ module Gitlab
     end
 
     def blobs_count
-      @blobs_count ||= blobs.count
+      @blobs_count ||= blobs.total_count
     end
 
     # rubocop: disable CodeReuse/ActiveRecord
@@ -48,7 +48,7 @@ module Gitlab
     # rubocop: enable CodeReuse/ActiveRecord
 
     def wiki_blobs_count
-      @wiki_blobs_count ||= wiki_blobs.count
+      @wiki_blobs_count ||= wiki_blobs.total_count
     end
 
     def commits_count
@@ -97,24 +97,22 @@ module Gitlab
 
     private
 
-    def blobs
-      return [] unless Ability.allowed?(@current_user, :download_code, @project)
+    def blobs(page: nil)
+      return Kaminari.paginate_array([]) unless Ability.allowed?(@current_user, :download_code, @project)
 
-      @blobs ||= Gitlab::FileFinder.new(project, repository_project_ref).find(query)
+      @blobs ||= Gitlab::FileFinder.new(project, repository_project_ref, page: page, per_page: per_page).find(query)
     end
 
-    def wiki_blobs
-      return [] unless Ability.allowed?(@current_user, :read_wiki, @project)
+    def wiki_blobs(page: nil)
+      unless Ability.allowed?(@current_user, :read_wiki, @project)
+        return Kaminari.paginate_array([])
+      end
 
       @wiki_blobs ||= begin
-        if project.wiki_enabled? && query.present?
-          unless project.wiki.empty?
-            Gitlab::WikiFileFinder.new(project, repository_wiki_ref).find(query)
-          else
-            []
-          end
+        if project.wiki_enabled? && query.present? && !project.wiki.empty?
+          Gitlab::WikiFileFinder.new(project, repository_wiki_ref, page: page, per_page: per_page, limit: count_limit).find(query)
         else
-          []
+          Kaminari.paginate_array([])
         end
       end
     end
