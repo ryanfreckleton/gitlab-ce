@@ -3,39 +3,18 @@ module QA
     let(:issue_title) {'issue for to close'}
 
     describe 'Issues' do
-
       it 'closes the issue after pushing a commit' do
-
         issue_id = create_issue
         deactivate_auto_devops
-        push_file(issue_id)
+        push_file(issue_id, "firstfile")
+        # It is necessary to push a second file as the issue is not closed with the first file
+        
+        commit_sha = push_file(issue_id, "secondfile")
 
-        Page::Project::Menu.act {click_issues}
-
-        Page::Project::Issue::Index.act {
-          click_on_closed
-          go_to_issue(issue_title)
-        }
-
-      end
-
-      def push_file(issue_id)
-        Page::Project::Menu.act {click_project}
-        Page::Project::Show.act { create_new_file! }
-        Page::File::Form.perform do |page|
-          page.add_name('dummy')
-          page.add_content('Enable the Web IDE')
-          page.add_commit_message("Closes ##{issue_id}")
-          page.commit_changes
-        end
-      end
-
-      def deactivate_auto_devops
-        Page::Project::Menu.act do
-          click_ci_cd_settings
-        end
-        Page::Project::Settings::CICD.act do
-          disable_auto_devops
+        navigate_to_created_issue
+        Page::Project::Issue::Show.perform do |page|
+          expect(page.first_note_text).to have_content("Administrator")
+          expect(page.first_note_text).to have_content(commit_sha)
         end
       end
 
@@ -49,7 +28,30 @@ module QA
         Page::Project::Issue::Show.act {issue_id}
       end
 
+      def push_file(issue_id, filename)
+        Page::Project::Menu.act {click_project}
+        Page::Project::Show.act {create_new_file!}
+        Page::File::Form.perform do |page|
+          page.add_name(filename)
+          page.add_content('Enable the Web IDE')
+          page.add_commit_message("Closes ##{issue_id}")
+          page.commit_changes
+        end
+        Page::File::Created.act {commit_sha}
+      end
 
+      def deactivate_auto_devops
+        Page::Project::Menu.act {click_ci_cd_settings}
+        Page::Project::Settings::CICD.act {disable_auto_devops}
+      end
+
+      def navigate_to_created_issue
+        Page::Project::Menu.act {click_issues}
+        Page::Project::Issue::Index.perform do |page|
+          page.click_on_closed
+          page.go_to_issue(issue_title)
+        end
+      end
     end
   end
 end
