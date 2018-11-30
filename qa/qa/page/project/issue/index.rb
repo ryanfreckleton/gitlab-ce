@@ -7,8 +7,12 @@ module QA
             element :issue_link, 'link_to issue.title' # rubocop:disable QA/ElementWithPattern
           end
 
+          view 'app/views/shared/issuable/_nav.html.haml' do
+            element :closed_elements_link
+          end
+
           def click_on_closed
-            click_link('state-closed')
+            click_element :closed_elements_link
           end
 
           def go_to_issue(title)
