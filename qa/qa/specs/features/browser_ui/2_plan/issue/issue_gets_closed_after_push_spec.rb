@@ -1,5 +1,5 @@
 module QA
-  context 'Manage' do
+  context 'Plan' do
     let(:issue_title) {'issue for to close'}
 
     describe 'Issues' do
