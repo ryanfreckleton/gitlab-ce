@@ -22,6 +22,10 @@ module QA
             element :filter_options
           end
 
+          view 'app/assets/javascripts/notes/components/note_header.vue' do
+            element :note_header
+          end
+
           # Adds a comment to an issue
           # attachment option should be an absolute path
           def comment(text, attachment: nil)
@@ -55,12 +59,10 @@ module QA
           end
 
           def first_note_text
-            page.within("ul#notes-list") do
-              wait(max: 5) do
-                !all("li div.note-header-info").empty?
-              end
-              all("li div.note-header-info").first.text
+            wait(max: 5) do
+              !all_elements(:note_header).empty?
             end
+            find_element(:note_header).text
           end
         end
       end
