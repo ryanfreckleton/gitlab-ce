@@ -5,12 +5,12 @@ module QA
     describe 'Issues' do
       it 'closes the issue after pushing a commit' do
         issue_id = create_issue
-        deactivate_auto_devops
         push_file("initial commit", "firstfile")
+
         # It is necessary to push a second file as the issue is not closed with the initial commit
         commit_sha = push_file("Closes ##{issue_id}", "secondfile")
-
         navigate_to_created_issue
+
         Page::Project::Issue::Show.perform do |page|
           expect(page.first_note_text).to have_content("Administrator")
           expect(page.first_note_text).to have_content(commit_sha)
@@ -37,11 +37,6 @@ module QA
           page.commit_changes
         end
         Page::File::Created.act {commit_sha}
-      end
-
-      def deactivate_auto_devops
-        Page::Project::Menu.act {click_ci_cd_settings}
-        Page::Project::Settings::CICD.act {disable_auto_devops}
       end
 
       def navigate_to_created_issue
