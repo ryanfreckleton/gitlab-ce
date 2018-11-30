@@ -1,4 +1,5 @@
 import { jasmineReporter } from './helpers/test_file';
+import { destroyComponentWrapper } from './helpers/component_wrapper';
 
 const testTimeoutInMs = 300;
 jest.setTimeout(testTimeoutInMs);
@@ -18,3 +19,5 @@ afterEach(() => {
 });
 
 jasmine.getEnv().addReporter(jasmineReporter);
+
+afterEach(destroyComponentWrapper);
