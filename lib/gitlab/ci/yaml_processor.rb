@@ -32,7 +32,7 @@ module Gitlab
         job = @jobs.fetch(name.to_sym, {})
         
         job.merge(
-          stage_index: @stages.index(job[:stage])
+          stage_index: @stages.index(job[:stage]))
       end
 
       def stages_attributes
