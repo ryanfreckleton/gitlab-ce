@@ -50,7 +50,7 @@
 
       .js-commit-pipeline-status{ data: { endpoint: pipelines_project_commit_path(project, commit.id, ref: ref) } }
 
-      .commit-sha-group
+      .commit-sha-group.qa-commit-sha-group
         .label.label-monospace
           = commit.short_id
         = clipboard_button(text: commit.id, title: _("Copy commit SHA to clipboard"), class: "btn btn-default", container: "body")
