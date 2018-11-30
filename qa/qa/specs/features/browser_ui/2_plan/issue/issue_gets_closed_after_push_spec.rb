@@ -5,15 +5,14 @@ module QA
     describe 'Issues' do
       it 'closes the issue after pushing a commit' do
         issue_id = create_issue
+        # It is necessary to initiate an initial commit - as the first push into a repository doesn't trigger the closing
         push_file("initial commit", "firstfile")
 
-        # It is necessary to push a second file as the issue is not closed with the initial commit
         commit_sha = push_file("Closes ##{issue_id}", "secondfile")
         navigate_to_created_issue
 
         Page::Project::Issue::Show.perform do |page|
-          expect(page.first_note_text).to have_content("Administrator")
-          expect(page.first_note_text).to have_content(commit_sha)
+          expect(page.first_note_text).to have_content("@#{Runtime::User.username} closed via commit #{commit_sha}")
         end
       end
 
