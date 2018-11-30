@@ -218,6 +218,27 @@ describe Gitlab::Ci::Config::Entry::Job do
       end
     end
 
+    context 'when global config defines variables' do
+      before do
+        allow(deps).to receive('[]').with(:variables).and_return(variables)
+        entry.compose!(deps)
+      end
+
+      let(:variables) do
+        double('specified', 'specified?' => true, value: { 'GLOBAL_KEY' => 'VALUE', 'KEY' => 'VALUE' })
+      end
+
+      let(:config) do
+        { script: 'rspec', variables: { 'KEY' => 'LOCAL_VALUE' } }
+      end
+
+      it 'job merges with local variables' do
+        expect(entry.value[:variables]).to eq(
+          'GLOBAL_KEY' => 'VALUE',
+          'KEY' => 'LOCAL_VALUE')
+      end
+    end
+
     context 'when job config does not override global config' do
       before do
         allow(deps).to receive('[]').with(:image).and_return(specified)
@@ -252,12 +273,12 @@ describe Gitlab::Ci::Config::Entry::Job do
 
         it 'returns correct value' do
           expect(entry.value)
-            .to eq(name: :rspec,
+            .to eq(name: 'rspec',
                    before_script: %w[ls pwd],
                    script: %w[rspec],
                    commands: "ls\npwd\nrspec",
                    stage: 'test',
-                   ignore: false,
+                   allow_failure: false,
                    after_script: %w[cleanup])
         end
       end

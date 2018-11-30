@@ -19,19 +19,12 @@ module Gitlab
           it 'returns valid build attributes' do
             expect(subject).to eq({
               stage: "test",
-              stage_idx: 1,
+              stage_index: 1,
               name: "rspec",
               commands: "pwd\nrspec",
-              coverage_regex: nil,
-              tag_list: [],
-              options: {
-                before_script: ["pwd"],
-                script: ["rspec"]
-              },
-              allow_failure: false,
-              when: "on_success",
-              environment: nil,
-              yaml_variables: []
+              before_script: ["pwd"],
+              script: ["rspec"],
+              allow_failure: false
             })
           end
         end
@@ -57,7 +50,7 @@ module Gitlab
             end
 
             it 'includes retry count in build options attribute' do
-              expect(subject[:options]).to include(retry: { max: 1 })
+              expect(subject).to include(retry: { max: 1 })
             end
           end
 
@@ -67,7 +60,7 @@ module Gitlab
             end
 
             it 'does not persist retry count in the database' do
-              expect(subject[:options]).not_to have_key(:retry)
+              expect(subject).not_to have_key(:retry)
             end
           end
         end
@@ -132,7 +125,7 @@ module Gitlab
 
             it 'has the attributes' do
               expect(subject[:when]).to eq 'delayed'
-              expect(subject[:options][:start_in]).to eq '1 day'
+              expect(subject[:start_in]).to eq '1 day'
             end
           end
         end
@@ -153,35 +146,23 @@ module Gitlab
            { name: "test",
              index: 1,
              builds:
-               [{ stage_idx: 1,
+               [{ stage_index: 1,
                   stage: "test",
                   commands: "rspec",
-                  tag_list: [],
                   name: "rspec",
                   allow_failure: false,
-                  when: "on_success",
-                  environment: nil,
-                  coverage_regex: nil,
-                  yaml_variables: [],
-                  options: { script: ["rspec"] },
-                  only: { refs: ["branches"] },
-                  except: {} }] },
+                  script: ["rspec"],
+                  only: { refs: ["branches"] } }] },
            { name: "deploy",
              index: 2,
              builds:
-               [{ stage_idx: 2,
+               [{ stage_index: 2,
                   stage: "deploy",
                   commands: "cap prod",
-                  tag_list: [],
                   name: "prod",
                   allow_failure: false,
-                  when: "on_success",
-                  environment: nil,
-                  coverage_regex: nil,
-                  yaml_variables: [],
-                  options: { script: ["cap prod"] },
-                  only: { refs: ["tags"] },
-                  except: {} }] }]
+                  script: ["cap prod"],
+                  only: { refs: ["tags"] }}] }]
         end
 
         it 'returns stages seed attributes' do
@@ -311,7 +292,7 @@ module Gitlab
             end
 
             it "return after_script in options" do
-              expect(subject[:options][:after_script]).to eq(["after_script"])
+              expect(subject[:after_script]).to eq(["after_script"])
             end
           end
 
@@ -324,7 +305,7 @@ module Gitlab
             end
 
             it "return after_script in options" do
-              expect(subject[:options][:after_script]).to eq(["local after_script"])
+              expect(subject[:after_script]).to eq(["local after_script"])
             end
           end
         end
@@ -345,23 +326,16 @@ module Gitlab
             expect(config_processor.stage_builds_attributes("test").size).to eq(1)
             expect(config_processor.stage_builds_attributes("test").first).to eq({
               stage: "test",
-              stage_idx: 1,
+              stage_index: 1,
               name: "rspec",
               commands: "pwd\nrspec",
-              coverage_regex: nil,
-              tag_list: [],
-              options: {
-                before_script: ["pwd"],
-                script: ["rspec"],
-                image: { name: "ruby:2.1", entrypoint: ["/usr/local/bin/init", "run"] },
-                services: [{ name: "mysql" },
-                           { name: "docker:dind", alias: "docker", entrypoint: ["/usr/local/bin/init", "run"],
-                             command: ["/usr/local/bin/init", "run"] }]
-              },
-              allow_failure: false,
-              when: "on_success",
-              environment: nil,
-              yaml_variables: []
+              before_script: ["pwd"],
+              script: ["rspec"],
+              image: { name: "ruby:2.1", entrypoint: ["/usr/local/bin/init", "run"] },
+              services: [{ name: "mysql" },
+                          { name: "docker:dind", alias: "docker", entrypoint: ["/usr/local/bin/init", "run"],
+                            command: ["/usr/local/bin/init", "run"] }],
+              allow_failure: false
             })
           end
 
@@ -380,23 +354,16 @@ module Gitlab
             expect(config_processor.stage_builds_attributes("test").size).to eq(1)
             expect(config_processor.stage_builds_attributes("test").first).to eq({
               stage: "test",
-              stage_idx: 1,
+              stage_index: 1,
               name: "rspec",
               commands: "pwd\nrspec",
-              coverage_regex: nil,
-              tag_list: [],
-              options: {
-                before_script: ["pwd"],
-                script: ["rspec"],
-                image: { name: "ruby:2.5", entrypoint: ["/usr/local/bin/init", "run"] },
-                services: [{ name: "postgresql", alias: "db-pg", entrypoint: ["/usr/local/bin/init", "run"],
-                             command: ["/usr/local/bin/init", "run"] },
-                           { name: "docker:dind" }]
-              },
-              allow_failure: false,
-              when: "on_success",
-              environment: nil,
-              yaml_variables: []
+              before_script: ["pwd"],
+              script: ["rspec"],
+              image: { name: "ruby:2.5", entrypoint: ["/usr/local/bin/init", "run"] },
+              services: [{ name: "postgresql", alias: "db-pg", entrypoint: ["/usr/local/bin/init", "run"],
+                            command: ["/usr/local/bin/init", "run"] },
+                          { name: "docker:dind" }],
+              allow_failure: false
             })
           end
         end
@@ -413,21 +380,14 @@ module Gitlab
             expect(config_processor.stage_builds_attributes("test").size).to eq(1)
             expect(config_processor.stage_builds_attributes("test").first).to eq({
               stage: "test",
-              stage_idx: 1,
+              stage_index: 1,
               name: "rspec",
               commands: "pwd\nrspec",
-              coverage_regex: nil,
-              tag_list: [],
-              options: {
-                before_script: ["pwd"],
-                script: ["rspec"],
-                image: { name: "ruby:2.1" },
-                services: [{ name: "mysql" }, { name: "docker:dind" }]
-              },
-              allow_failure: false,
-              when: "on_success",
-              environment: nil,
-              yaml_variables: []
+              before_script: ["pwd"],
+              script: ["rspec"],
+              image: { name: "ruby:2.1" },
+              services: [{ name: "mysql" }, { name: "docker:dind" }],
+              allow_failure: false
             })
           end
 
@@ -442,21 +402,14 @@ module Gitlab
             expect(config_processor.stage_builds_attributes("test").size).to eq(1)
             expect(config_processor.stage_builds_attributes("test").first).to eq({
               stage: "test",
-              stage_idx: 1,
+              stage_index: 1,
               name: "rspec",
               commands: "pwd\nrspec",
-              coverage_regex: nil,
-              tag_list: [],
-              options: {
-                before_script: ["pwd"],
-                script: ["rspec"],
-                image: { name: "ruby:2.5" },
-                services: [{ name: "postgresql" }, { name: "docker:dind" }]
-              },
-              allow_failure: false,
-              when: "on_success",
-              environment: nil,
-              yaml_variables: []
+              before_script: ["pwd"],
+              script: ["rspec"],
+              image: { name: "ruby:2.5" },
+              services: [{ name: "postgresql" }, { name: "docker:dind" }],
+              allow_failure: false
             })
           end
         end
@@ -465,7 +418,7 @@ module Gitlab
       describe 'Variables' do
         let(:config_processor) { Gitlab::Ci::YamlProcessor.new(YAML.dump(config)) }
 
-        subject { config_processor.builds.first[:yaml_variables] }
+        subject { config_processor.builds.first[:variables] }
 
         context 'when global variables are defined' do
           let(:variables) do
@@ -480,10 +433,8 @@ module Gitlab
           end
 
           it 'returns global variables' do
-            expect(subject).to contain_exactly(
-              { key: 'VAR1', value: 'value1', public: true },
-              { key: 'VAR2', value: 'value2', public: true }
-            )
+            expect(subject).to eq(
+              { 'VAR1' => 'value1', 'VAR2' => 'value2' })
           end
         end
 
@@ -503,11 +454,8 @@ module Gitlab
           end
 
           it 'returns all unique variables' do
-            expect(subject).to contain_exactly(
-              { key: 'VAR3', value: 'global3', public: true },
-              { key: 'VAR1', value: 'value1', public: true },
-              { key: 'VAR2', value: 'value2', public: true }
-            )
+            expect(subject).to eq(
+              { 'VAR3' => 'global3', 'VAR1' => 'value1', 'VAR2' => 'value2' })
           end
         end
 
@@ -525,10 +473,8 @@ module Gitlab
             end
 
             it 'returns job variables' do
-              expect(subject).to contain_exactly(
-                { key: 'VAR1', value: 'value1', public: true },
-                { key: 'VAR2', value: 'value2', public: true }
-              )
+              expect(subject).to eq(
+                { 'VAR1' => 'value1', 'VAR2' => 'value2' })
             end
           end
 
@@ -550,13 +496,12 @@ module Gitlab
                 nil
               end
 
-              it 'returns empty array' do
+              it 'returns be empty' do
                 ##
                 # When variables config is empty, we assume this is a valid
                 # configuration, see issue #18775
                 #
-                expect(subject).to be_an_instance_of(Array)
-                expect(subject).to be_empty
+                expect(subject).to be_nil
               end
             end
           end
@@ -570,9 +515,8 @@ module Gitlab
             }
           end
 
-          it 'returns empty array' do
-            expect(subject).to be_an_instance_of(Array)
-            expect(subject).to be_empty
+          it 'returns be empty' do
+            expect(subject).to be_nil
           end
         end
       end
@@ -597,7 +541,7 @@ module Gitlab
           it 'correctly extends rspec job' do
             expect(config_processor.builds).to be_one
             expect(subject.dig(:commands)).to eq 'test'
-            expect(subject.dig(:options, :image, :name)).to eq 'ruby:alpine'
+            expect(subject.dig(:image, :name)).to eq 'ruby:alpine'
           end
         end
 
@@ -623,7 +567,7 @@ module Gitlab
           it 'correctly extends rspec job' do
             expect(config_processor.builds).to be_one
             expect(subject.dig(:commands)).to eq "bundle install\nrspec"
-            expect(subject.dig(:options, :image, :name)).to eq 'image:test'
+            expect(subject.dig(:image, :name)).to eq 'image:test'
             expect(subject.dig(:when)).to eq 'always'
           end
         end
@@ -657,10 +601,9 @@ module Gitlab
           it 'returns parallelized jobs' do
             config_processor = Gitlab::Ci::YamlProcessor.new(config)
             builds = config_processor.stage_builds_attributes('test')
-            build_options = builds.map { |build| build[:options] }
 
             expect(builds.size).to eq(5)
-            expect(build_options).to all(include(:instance, parallel: parallel))
+            expect(builds).to all(include(:instance, parallel: parallel))
           end
 
           it 'does not have the original job' do
@@ -697,7 +640,7 @@ module Gitlab
           config_processor = Gitlab::Ci::YamlProcessor.new(config)
 
           expect(config_processor.stage_builds_attributes("test").size).to eq(1)
-          expect(config_processor.stage_builds_attributes("test").first[:options][:cache]).to eq(
+          expect(config_processor.stage_builds_attributes("test").first[:cache]).to eq(
             paths: ["logs/", "binaries/"],
             untracked: true,
             key: 'key',
@@ -716,7 +659,7 @@ module Gitlab
           config_processor = Gitlab::Ci::YamlProcessor.new(config)
 
           expect(config_processor.stage_builds_attributes("test").size).to eq(1)
-          expect(config_processor.stage_builds_attributes("test").first[:options][:cache]).to eq(
+          expect(config_processor.stage_builds_attributes("test").first[:cache]).to eq(
             paths: ["logs/", "binaries/"],
             untracked: true,
             key: 'key',
@@ -736,7 +679,7 @@ module Gitlab
           config_processor = Gitlab::Ci::YamlProcessor.new(config)
 
           expect(config_processor.stage_builds_attributes("test").size).to eq(1)
-          expect(config_processor.stage_builds_attributes("test").first[:options][:cache]).to eq(
+          expect(config_processor.stage_builds_attributes("test").first[:cache]).to eq(
             paths: ["test/"],
             untracked: false,
             key: 'local',
@@ -767,27 +710,20 @@ module Gitlab
           expect(config_processor.stage_builds_attributes("test").size).to eq(1)
           expect(config_processor.stage_builds_attributes("test").first).to eq({
             stage: "test",
-            stage_idx: 1,
+            stage_index: 1,
             name: "rspec",
             commands: "pwd\nrspec",
-            coverage_regex: nil,
-            tag_list: [],
-            options: {
-              before_script: ["pwd"],
-              script: ["rspec"],
-              image: { name: "ruby:2.1" },
-              services: [{ name: "mysql" }],
-              artifacts: {
-                name: "custom_name",
-                paths: ["logs/", "binaries/"],
-                untracked: true,
-                expire_in: "7d"
-              }
+            before_script: ["pwd"],
+            script: ["rspec"],
+            image: { name: "ruby:2.1" },
+            services: [{ name: "mysql" }],
+            artifacts: {
+              name: "custom_name",
+              paths: ["logs/", "binaries/"],
+              untracked: true,
+              expire_in: "7d"
             },
-            when: "on_success",
-            allow_failure: false,
-            environment: nil,
-            yaml_variables: []
+            allow_failure: false
           })
         end
 
@@ -804,7 +740,7 @@ module Gitlab
             builds = config_processor.stage_builds_attributes("test")
 
             expect(builds.size).to eq(1)
-            expect(builds.first[:options][:artifacts][:when]).to eq(when_state)
+            expect(builds.first[:artifacts][:when]).to eq(when_state)
           end
         end
       end
@@ -824,8 +760,7 @@ module Gitlab
 
           it 'does return production' do
             expect(builds.size).to eq(1)
-            expect(builds.first[:environment]).to eq(environment)
-            expect(builds.first[:options]).to include(environment: { name: environment, action: "start" })
+            expect(builds.first).to include(environment: { name: environment, action: "start" })
           end
         end
 
@@ -837,8 +772,7 @@ module Gitlab
 
           it 'does return production and URL' do
             expect(builds.size).to eq(1)
-            expect(builds.first[:environment]).to eq(environment[:name])
-            expect(builds.first[:options]).to include(environment: environment)
+            expect(builds.first).to include(environment: environment)
           end
 
           context 'the url has a port as variable' do
@@ -849,8 +783,7 @@ module Gitlab
 
             it 'allows a variable for the port' do
               expect(builds.size).to eq(1)
-              expect(builds.first[:environment]).to eq(environment[:name])
-              expect(builds.first[:options]).to include(environment: environment)
+              expect(builds.first).to include(environment: environment)
             end
           end
         end
@@ -890,7 +823,7 @@ module Gitlab
 
             it 'does return a list of builds' do
               expect(builds.size).to eq(2)
-              expect(builds.first[:environment]).to eq('review')
+              expect(builds.first.dig(:environment, :name)).to eq('review')
             end
           end
 
@@ -981,18 +914,11 @@ module Gitlab
             expect(subject.size).to eq(1)
             expect(subject.first).to eq({
               stage: "test",
-              stage_idx: 1,
+              stage_index: 1,
               name: "normal_job",
               commands: "test",
-              coverage_regex: nil,
-              tag_list: [],
-              options: {
-                script: ["test"]
-              },
-              when: "on_success",
-              allow_failure: false,
-              environment: nil,
-              yaml_variables: []
+              script: ["test"],
+              allow_failure: false
             })
           end
         end
@@ -1029,33 +955,19 @@ module Gitlab
             expect(subject.size).to eq(2)
             expect(subject.first).to eq({
               stage: "build",
-              stage_idx: 0,
+              stage_index: 0,
               name: "job1",
               commands: "execute-script-for-job",
-              coverage_regex: nil,
-              tag_list: [],
-              options: {
-                script: ["execute-script-for-job"]
-              },
-              when: "on_success",
-              allow_failure: false,
-              environment: nil,
-              yaml_variables: []
+              script: ["execute-script-for-job"],
+              allow_failure: false
             })
             expect(subject.second).to eq({
               stage: "build",
-              stage_idx: 0,
+              stage_index: 0,
               name: "job2",
               commands: "execute-script-for-job",
-              coverage_regex: nil,
-              tag_list: [],
-              options: {
-                script: ["execute-script-for-job"]
-              },
-              when: "on_success",
-              allow_failure: false,
-              environment: nil,
-              yaml_variables: []
+              script: ["execute-script-for-job"],
+              allow_failure: false
             })
           end
         end

@@ -135,6 +135,8 @@ module Gitlab
           def inherit!(deps)
             return unless deps
 
+            @global_variables = deps[:variables]
+
             self.class.nodes.each_key do |key|
               global_entry = deps[key]
               job_entry = self[key]
@@ -146,7 +148,7 @@ module Gitlab
           end
 
           def to_hash
-            { name: name,
+            { name: name.to_s,
               before_script: before_script_value,
               script: script_value,
               commands: commands,
@@ -156,15 +158,22 @@ module Gitlab
               cache: cache_value,
               only: only_value,
               except: except_value,
-              variables: variables_defined? ? variables_value : nil,
+              variables: merged_variables,
               environment: environment_defined? ? environment_value : nil,
-              environment_name: environment_defined? ? environment_value[:name] : nil,
-              coverage: coverage_defined? ? coverage_value : nil,
+              coverage_regex: coverage_defined? ? coverage_value : nil,
               retry: retry_defined? ? retry_value : nil,
               parallel: parallel_defined? ? parallel_value.to_i : nil,
               artifacts: artifacts_value,
               after_script: after_script_value,
-              ignore: ignored? }
+              allow_failure: ignored? }
+          end
+
+          private
+
+          def merged_variables
+            variables_value
+              .reverse_merge(@global_variables ? @global_variables.value : {})
+              .presence
           end
         end
       end

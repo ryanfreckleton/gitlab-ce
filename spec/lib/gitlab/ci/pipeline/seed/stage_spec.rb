@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Gitlab::Ci::Pipeline::Seed::Stage do
   let(:pipeline) { create(:ci_empty_pipeline) }
 
-  let(:attributes) do
+  let(:options) do
     { name: 'test',
       index: 0,
       builds: [{ name: 'rspec' },
@@ -12,12 +12,31 @@ describe Gitlab::Ci::Pipeline::Seed::Stage do
   end
 
   subject do
-    described_class.new(pipeline, attributes)
+    described_class.new(pipeline, options)
+  end
+
+  describe '#initialize' do
+    context 'when passing invalid option' do
+      let(:options) do
+        { invalid: 'true' }
+      end
+
+      it 'raises exception' do
+        expect { subject }.to raise_error NameError
+      end
+    end
   end
 
   describe '#size' do
     it 'returns a number of jobs in the stage' do
       expect(subject.size).to eq 2
+    end
+  end
+
+  describe '#builds' do
+    it 'returns array of build seeds' do
+      expect(subject.builds).to be_a Array
+      expect(subject.builds.size).to eq 3
     end
   end
 
@@ -31,7 +50,7 @@ describe Gitlab::Ci::Pipeline::Seed::Stage do
 
   describe '#included?' do
     context 'when it contains builds seeds' do
-      let(:attributes) do
+      let(:options) do
         { name: 'test',
           index: 0,
           builds: [{ name: 'deploy', only: { refs: ['master'] } }] }
@@ -41,7 +60,7 @@ describe Gitlab::Ci::Pipeline::Seed::Stage do
     end
 
     context 'when it does not contain build seeds' do
-      let(:attributes) do
+      let(:options) do
         { name: 'test',
           index: 0,
           builds: [{ name: 'deploy', only: { refs: ['feature'] } }] }
@@ -52,6 +71,8 @@ describe Gitlab::Ci::Pipeline::Seed::Stage do
   end
 
   describe '#seeds' do
+    let!(:trigger_request) { create(:ci_trigger_request, pipeline: pipeline) }
+
     it 'returns build seeds' do
       expect(subject.seeds).to all(be_a Gitlab::Ci::Pipeline::Seed::Build)
     end
@@ -62,7 +83,7 @@ describe Gitlab::Ci::Pipeline::Seed::Stage do
       expect(subject.seeds.map(&:attributes)).to all(include(tag: false))
       expect(subject.seeds.map(&:attributes)).to all(include(project: pipeline.project))
       expect(subject.seeds.map(&:attributes))
-        .to all(include(trigger_request: pipeline.trigger_requests.first))
+        .to all(include(trigger_request: trigger_request))
     end
 
     context 'when a ref is protected' do

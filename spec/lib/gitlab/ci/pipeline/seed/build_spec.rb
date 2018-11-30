@@ -3,21 +3,30 @@ require 'spec_helper'
 describe Gitlab::Ci::Pipeline::Seed::Build do
   let(:pipeline) { create(:ci_empty_pipeline) }
 
-  let(:attributes) do
+  let(:options) do
     { name: 'rspec',
       ref: 'master',
       commands: 'rspec' }
   end
 
   subject do
-    described_class.new(pipeline, attributes)
+    described_class.new(pipeline, options)
   end
 
   describe '#attributes' do
     it 'returns hash attributes of a build' do
       expect(subject.attributes).to be_a Hash
-      expect(subject.attributes)
-        .to include(:name, :project, :ref, :commands)
+      expect(subject.attributes).to eq(
+        { commands: 'rspec',
+          name: 'rspec',
+          options: { },
+          pipeline: pipeline,
+          project: pipeline.project,
+          ref: 'master', 
+          stage_idx: 0,
+          tag: false,
+          tag_list: [],
+          when: 'on_success' })
     end
   end
 
@@ -44,20 +53,20 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
 
   describe 'applying only/except policies' do
     context 'when no branch policy is specified' do
-      let(:attributes) { { name: 'rspec' } }
+      let(:options) { { name: 'rspec' } }
 
       it { is_expected.to be_included }
     end
 
     context 'when branch policy does not match' do
       context 'when using only' do
-        let(:attributes) { { name: 'rspec', only: { refs: ['deploy'] } } }
+        let(:options) { { name: 'rspec', only: { refs: ['deploy'] } } }
 
         it { is_expected.not_to be_included }
       end
 
       context 'when using except' do
-        let(:attributes) { { name: 'rspec', except: { refs: ['deploy'] } } }
+        let(:options) { { name: 'rspec', except: { refs: ['deploy'] } } }
 
         it { is_expected.to be_included }
       end
@@ -65,13 +74,13 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
 
     context 'when branch regexp policy does not match' do
       context 'when using only' do
-        let(:attributes) { { name: 'rspec', only: { refs: ['/^deploy$/'] } } }
+        let(:options) { { name: 'rspec', only: { refs: ['/^deploy$/'] } } }
 
         it { is_expected.not_to be_included }
       end
 
       context 'when using except' do
-        let(:attributes) { { name: 'rspec', except: { refs: ['/^deploy$/'] } } }
+        let(:options) { { name: 'rspec', except: { refs: ['/^deploy$/'] } } }
 
         it { is_expected.to be_included }
       end
@@ -79,13 +88,13 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
 
     context 'when branch policy matches' do
       context 'when using only' do
-        let(:attributes) { { name: 'rspec', only: { refs: %w[deploy master] } } }
+        let(:options) { { name: 'rspec', only: { refs: %w[deploy master] } } }
 
         it { is_expected.to be_included }
       end
 
       context 'when using except' do
-        let(:attributes) { { name: 'rspec', except: { refs: %w[deploy master] } } }
+        let(:options) { { name: 'rspec', except: { refs: %w[deploy master] } } }
 
         it { is_expected.not_to be_included }
       end
@@ -93,13 +102,13 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
 
     context 'when keyword policy matches' do
       context 'when using only' do
-        let(:attributes) { { name: 'rspec', only: { refs: ['branches'] } } }
+        let(:options) { { name: 'rspec', only: { refs: ['branches'] } } }
 
         it { is_expected.to be_included }
       end
 
       context 'when using except' do
-        let(:attributes) { { name: 'rspec', except: { refs: ['branches'] } } }
+        let(:options) { { name: 'rspec', except: { refs: ['branches'] } } }
 
         it { is_expected.not_to be_included }
       end
@@ -107,13 +116,13 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
 
     context 'when keyword policy does not match' do
       context 'when using only' do
-        let(:attributes) { { name: 'rspec', only: { refs: ['tags'] } } }
+        let(:options) { { name: 'rspec', only: { refs: ['tags'] } } }
 
         it { is_expected.not_to be_included }
       end
 
       context 'when using except' do
-        let(:attributes) { { name: 'rspec', except: { refs: ['tags'] } } }
+        let(:options) { { name: 'rspec', except: { refs: ['tags'] } } }
 
         it { is_expected.to be_included }
       end
@@ -134,7 +143,7 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
               build(:ci_empty_pipeline, ref: 'deploy', tag: false, source: source)
             end
 
-            let(:attributes) { { name: 'rspec', only: { refs: [keyword] } } }
+            let(:options) { { name: 'rspec', only: { refs: [keyword] } } }
 
             it { is_expected.to be_included }
           end
@@ -148,7 +157,7 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
               build(:ci_empty_pipeline, ref: 'deploy', tag: false, source: source)
             end
 
-            let(:attributes) { { name: 'rspec', except: { refs: [keyword] } } }
+            let(:options) { { name: 'rspec', except: { refs: [keyword] } } }
 
             it { is_expected.not_to be_included }
           end
@@ -171,7 +180,7 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
               build(:ci_empty_pipeline, ref: 'deploy', tag: false, source: source)
             end
 
-            let(:attributes) { { name: 'rspec', only: { refs: [keyword] } } }
+            let(:options) { { name: 'rspec', only: { refs: [keyword] } } }
 
             it { is_expected.not_to be_included }
           end
@@ -185,7 +194,7 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
               build(:ci_empty_pipeline, ref: 'deploy', tag: false, source: source)
             end
 
-            let(:attributes) { { name: 'rspec', except: { refs: [keyword] } } }
+            let(:options) { { name: 'rspec', except: { refs: [keyword] } } }
 
             it { is_expected.to be_included }
           end
@@ -195,7 +204,7 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
 
     context 'when repository path matches' do
       context 'when using only' do
-        let(:attributes) do
+        let(:options) do
           { name: 'rspec', only: { refs: ["branches@#{pipeline.project_full_path}"] } }
         end
 
@@ -203,7 +212,7 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
       end
 
       context 'when using except' do
-        let(:attributes) do
+        let(:options) do
           { name: 'rspec', except: { refs: ["branches@#{pipeline.project_full_path}"] } }
         end
 
@@ -213,7 +222,7 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
 
     context 'when repository path does not matches' do
       context 'when using only' do
-        let(:attributes) do
+        let(:options) do
           { name: 'rspec', only: { refs: ['branches@fork'] } }
         end
 
@@ -221,12 +230,29 @@ describe Gitlab::Ci::Pipeline::Seed::Build do
       end
 
       context 'when using except' do
-        let(:attributes) do
+        let(:options) do
           { name: 'rspec', except: { refs: ['branches@fork'] } }
         end
 
         it { is_expected.to be_included }
       end
+    end
+  end
+
+  context 'expands variables' do
+    let(:options) do
+      { name: 'rspec',
+        variables: {
+          'GLOBAL_KEY' => 'value',
+          'KEY' => 'value'
+        } }
+    end
+
+    it 'returns variables array' do
+      expect(subject.attributes[:yaml_variables]).to be_a Array
+      expect(subject.attributes[:yaml_variables]).to eq(
+        [ { key: 'GLOBAL_KEY', value: 'value', public: true },
+          { key: 'KEY', value: 'value', public: true } ])
     end
   end
 end

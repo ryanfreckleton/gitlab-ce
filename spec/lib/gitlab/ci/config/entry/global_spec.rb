@@ -24,12 +24,12 @@ describe Gitlab::Ci::Config::Entry::Global do
         { before_script: %w(ls pwd),
           image: 'ruby:2.2',
           services: ['postgres:9.1', 'mysql:5.5'],
-          variables: { VAR: 'value' },
+          variables: { GLOBAL_VAR: 'value', VAR: 'value' },
           after_script: ['make clean'],
           stages: %w(build pages),
           cache: { key: 'k', untracked: true, paths: ['public/'] },
           rspec: { script: %w[rspec ls] },
-          spinach: { before_script: [], variables: {}, script: 'spinach' } }
+          spinach: { before_script: [], variables: { VAR: 'local_value' }, script: 'spinach' } }
       end
 
       describe '#compose!' do
@@ -117,7 +117,7 @@ describe Gitlab::Ci::Config::Entry::Global do
 
         describe '#variables_value' do
           it 'returns variables' do
-            expect(global.variables_value).to eq('VAR' => 'value')
+            expect(global.variables_value).to eq('GLOBAL_VAR' => 'value', 'VAR' => 'value')
           end
         end
 
@@ -150,7 +150,7 @@ describe Gitlab::Ci::Config::Entry::Global do
         describe '#jobs_value' do
           it 'returns jobs configuration' do
             expect(global.jobs_value).to eq(
-              rspec: { name: :rspec,
+              rspec: { name: 'rspec',
                        script: %w[rspec ls],
                        before_script: %w(ls pwd),
                        commands: "ls\npwd\nrspec\nls",
@@ -158,10 +158,10 @@ describe Gitlab::Ci::Config::Entry::Global do
                        services: [{ name: 'postgres:9.1' }, { name: 'mysql:5.5' }],
                        stage: 'test',
                        cache: { key: 'k', untracked: true, paths: ['public/'], policy: 'pull-push' },
-                       variables: { 'VAR' => 'value' },
-                       ignore: false,
+                       variables: { 'GLOBAL_VAR' => 'value', 'VAR' => 'value' },
+                       allow_failure: false,
                        after_script: ['make clean'] },
-              spinach: { name: :spinach,
+              spinach: { name: 'spinach',
                          before_script: [],
                          script: %w[spinach],
                          commands: 'spinach',
@@ -169,8 +169,8 @@ describe Gitlab::Ci::Config::Entry::Global do
                          services: [{ name: 'postgres:9.1' }, { name: 'mysql:5.5' }],
                          stage: 'test',
                          cache: { key: 'k', untracked: true, paths: ['public/'], policy: 'pull-push' },
-                         variables: {},
-                         ignore: false,
+                         variables: { 'GLOBAL_VAR' => 'value', 'VAR' => 'local_value' },
+                         allow_failure: false,
                          after_script: ['make clean'] }
             )
           end

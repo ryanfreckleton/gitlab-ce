@@ -30,52 +30,23 @@ module Gitlab
 
       def build_attributes(name)
         job = @jobs.fetch(name.to_sym, {})
+        
+        job.merge(
+          stage_index: @stages.index(job[:stage])
+      end
 
-        { stage_idx: @stages.index(job[:stage]),
-          stage: job[:stage],
-          commands: job[:commands],
-          tag_list: job[:tags] || [],
-          name: job[:name].to_s,
-          allow_failure: job[:ignore],
-          when: job[:when] || 'on_success',
-          environment: job[:environment_name],
-          coverage_regex: job[:coverage],
-          yaml_variables: yaml_variables(name),
-          options: {
-            image: job[:image],
-            services: job[:services],
-            artifacts: job[:artifacts],
-            cache: job[:cache],
-            dependencies: job[:dependencies],
-            before_script: job[:before_script],
-            script: job[:script],
-            after_script: job[:after_script],
-            environment: job[:environment],
-            retry: job[:retry],
-            parallel: job[:parallel],
-            instance: job[:instance],
-            start_in: job[:start_in]
-          }.compact }
+      def stages_attributes
+        @stages.uniq.map do |stage|
+          { name: stage,
+            index: @stages.index(stage),
+            builds: stage_builds_attributes(stage) }
+        end
       end
 
       def stage_builds_attributes(stage)
         @jobs.values
           .select { |job| job[:stage] == stage }
           .map { |job| build_attributes(job[:name]) }
-      end
-
-      def stages_attributes
-        @stages.uniq.map do |stage|
-          seeds = stage_builds_attributes(stage).map do |attributes|
-            job = @jobs.fetch(attributes[:name].to_sym)
-
-            attributes
-              .merge(only: job.fetch(:only, {}))
-              .merge(except: job.fetch(:except, {}))
-          end
-
-          { name: stage, index: @stages.index(stage), builds: seeds }
-        end
       end
 
       def self.validation_message(content, opts = {})
@@ -95,13 +66,7 @@ module Gitlab
         ##
         # Global config
         #
-        @before_script = @ci_config.before_script
-        @image = @ci_config.image
-        @after_script = @ci_config.after_script
-        @services = @ci_config.services
-        @variables = @ci_config.variables
         @stages = @ci_config.stages
-        @cache = @ci_config.cache
 
         ##
         # Jobs
@@ -117,21 +82,6 @@ module Gitlab
         end
       end
 
-      def yaml_variables(name)
-        variables = (@variables || {})
-          .merge(job_variables(name))
-
-        variables.map do |key, value|
-          { key: key.to_s, value: value, public: true }
-        end
-      end
-
-      def job_variables(name)
-        job = @jobs[name.to_sym]
-        return {} unless job
-
-        job[:variables] || {}
-      end
 
       def validate_job_stage!(name, job)
         return unless job[:stage]

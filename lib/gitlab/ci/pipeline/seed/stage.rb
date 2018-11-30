@@ -7,28 +7,41 @@ module Gitlab
         class Stage < Seed::Base
           include Gitlab::Utils::StrongMemoize
 
+          attr_reader :pipeline, :options
+
           delegate :size, to: :seeds
           delegate :dig, to: :seeds
 
-          def initialize(pipeline, attributes)
-            @pipeline = pipeline
-            @attributes = attributes
+          Options = Struct.new(:name, :index, :builds)
 
-            @builds = attributes.fetch(:builds).map do |attributes|
-              Seed::Build.new(@pipeline, attributes)
+          def initialize(pipeline, options_hash)
+            @pipeline = pipeline
+            @options = Options.new
+
+            options_hash.to_h.each do |key, value|
+              @options[key] = value
+            end
+          end
+
+          def builds
+            strong_memoize(:builds) do
+              options.builds.map do |attributes|
+                Seed::Build.new(@pipeline, attributes.merge(
+                  stage: options.name, stage_index: options.index))
+              end
             end
           end
 
           def attributes
-            { name: @attributes.fetch(:name),
-              position: @attributes.fetch(:index),
+            { name: @options.name,
+              position: @options.index,
               pipeline: @pipeline,
               project: @pipeline.project }
           end
 
           def seeds
             strong_memoize(:seeds) do
-              @builds.select(&:included?)
+              builds.select(&:included?)
             end
           end
 

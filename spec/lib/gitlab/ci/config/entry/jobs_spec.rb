@@ -63,15 +63,15 @@ describe Gitlab::Ci::Config::Entry::Jobs do
     describe '#value' do
       it 'returns key value' do
         expect(entry.value).to eq(
-          rspec: { name: :rspec,
+          rspec: { name: 'rspec',
                    script: %w[rspec],
                    commands: 'rspec',
-                   ignore: false,
+                   allow_failure: false,
                    stage: 'test' },
-          spinach: { name: :spinach,
+          spinach: { name: 'spinach',
                      script: %w[spinach],
                      commands: 'spinach',
-                     ignore: false,
+                     allow_failure: false,
                      stage: 'test' })
       end
     end
