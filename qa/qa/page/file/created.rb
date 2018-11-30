@@ -3,13 +3,11 @@ module QA
     module File
       class Created < Page::Base
         view 'app/views/projects/commits/_commit.html.haml' do
-          element :commit_sha_group
+          element :commit_sha
         end
 
         def commit_sha
-          within_element(:commit_sha_group) do
-            find('div.label').text
-          end
+          find_element(:commit_sha).text
         end
       end
     end
