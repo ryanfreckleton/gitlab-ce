@@ -27,6 +27,7 @@ module Ci
     }.freeze
 
     has_one :deployment, as: :deployable, class_name: 'Deployment'
+    has_one :environment, through: :deployment, class_name: 'Environment'
     has_many :trace_sections, class_name: 'Ci::BuildTraceSection'
     has_many :trace_chunks, class_name: 'Ci::BuildTraceChunk', foreign_key: :build_id
 
@@ -46,17 +47,6 @@ module Ci
     delegate :terminal_specification, to: :runner_session, allow_nil: true
     delegate :gitlab_deploy_token, to: :project
     delegate :trigger_short_token, to: :trigger_request, allow_nil: true
-
-    ##
-    # The "environment" field for builds is a String, and is the unexpanded name!
-    #
-    def persisted_environment
-      return unless has_environment?
-
-      strong_memoize(:persisted_environment) do
-        Environment.find_by(name: expanded_environment_name, project: project)
-      end
-    end
 
     serialize :options # rubocop:disable Cop/ActiveRecordSerialize
     serialize :yaml_variables, Gitlab::Serializer::Ci::Variables # rubocop:disable Cop/ActiveRecordSerialize
@@ -353,12 +343,12 @@ module Ci
       return unless has_environment?
 
       strong_memoize(:expanded_environment_name) do
-        ExpandVariables.expand(environment, simple_variables)
+        ExpandVariables.expand(environment_value, simple_variables)
       end
     end
 
     def has_environment?
-      environment.present?
+      environment_value.present?
     end
 
     def starts_environment?
@@ -894,9 +884,9 @@ module Ci
 
     def persisted_environment_variables
       Gitlab::Ci::Variables::Collection.new.tap do |variables|
-        break variables unless persisted? && persisted_environment.present?
+        break variables unless persisted? && environment.present?
 
-        variables.concat(persisted_environment.predefined_variables)
+        variables.concat(environment.predefined_variables)
 
         # Here we're passing unexpanded environment_url for runner to expand,
         # and we need to make sure that CI_ENVIRONMENT_NAME and
@@ -915,7 +905,7 @@ module Ci
     end
 
     def environment_url
-      options&.dig(:environment, :url) || persisted_environment&.external_url
+      options&.dig(:environment, :url) || environment&.external_url
     end
 
     # The format of the retry option changed in GitLab 11.5: Before it was
@@ -966,6 +956,10 @@ module Ci
         write_attribute(legacy_key, value)
         metadata&.write_attribute(metadata_key, nil)
       end
+    end
+
+    def environment_value
+      read_attribute(:environment)
     end
   end
 end
