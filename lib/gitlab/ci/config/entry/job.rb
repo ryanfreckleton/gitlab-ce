@@ -111,7 +111,7 @@ module Gitlab
           end
 
           def value
-            @config.merge(to_hash.compact)
+            to_hash.compact
           end
 
           def commands
@@ -159,6 +159,11 @@ module Gitlab
               only: only_value,
               except: except_value,
               variables: merged_variables,
+              tags: config[:tags],
+              when: config[:when],
+              start_in: config[:start_in],
+              dependencies: config[:dependencies],
+              extends: config[:extends],
               environment: environment_defined? ? environment_value : nil,
               coverage_regex: coverage_defined? ? coverage_value : nil,
               retry: retry_defined? ? retry_value : nil,
