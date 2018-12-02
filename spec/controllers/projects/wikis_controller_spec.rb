@@ -105,6 +105,15 @@ describe Projects::WikisController do
       end
     end
 
+    context 'when page does not exist' do
+      it 'shows the edit page' do
+        get(:edit, namespace_id: project.namespace, project_id: project, id: 'no page')
+
+        expect(response).to have_http_status(302)
+        expect(response.body).to include('Edit Page')
+      end
+    end
+
     context 'when page content encoding is valid' do
       render_views
 

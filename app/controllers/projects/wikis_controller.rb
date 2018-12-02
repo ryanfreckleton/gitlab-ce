@@ -39,6 +39,9 @@ class Projects::WikisController < Projects::ApplicationController
   end
 
   def edit
+    unless @page&.valid?
+      redirect_to(project_wiki_path(@project, params[:id]))
+    end
   end
 
   def update
@@ -150,6 +153,8 @@ class Projects::WikisController < Projects::ApplicationController
 
   def valid_encoding?
     strong_memoize(:valid_encoding) do
+      next true unless @page&.content
+
       @page.content.encoding == Encoding::UTF_8
     end
   end
