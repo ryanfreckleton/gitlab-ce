@@ -1062,9 +1062,9 @@ class MergeRequest < ActiveRecord::Base
 
   def set_head_pipeline
     pipeline = source_project.pipelines
-      .where(sha: diff_head_sha, ref: source_branch)
+      .where(ref: source_branch)
       .order(id: :desc)
-      .first
+      .find_by_sha(diff_head_sha)
 
     return false unless pipeline
 
