@@ -27,7 +27,7 @@ module QA
           end
 
           def create_default_lists
-            click_element :default_lists_button
+            click_element :default_lists_button if has_element?(:default_lists_button)
           end
 
           def delete_list
