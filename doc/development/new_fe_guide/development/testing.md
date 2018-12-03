@@ -298,6 +298,33 @@ testAction(
 
 Check an example in [spec/javascripts/ide/stores/actions_spec.jsspec/javascripts/ide/stores/actions_spec.js](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/spec/javascripts/ide/stores/actions_spec.js).
 
+### Component test helper (`createComponentWrapper`)
+
+`createComponentWrapper` makes mounting and cleaning up a Vue component easier and more readable.
+It uses [Vue test utils] internally to provide a [`factory` function] for a component instance as described in the [Vue cookbook].
+The path to the component is taken from the outer most `describe()` block in the test file.
+
+Please note that this helper is only available in Jest.
+
+Examples of usage:
+
+```javascript
+import { createComponentWrapper } from 'helpers/component_wrapper';
+
+describe('~/path/to/some_component.vue', () => {
+  it('renders correctly', () => {
+    const wrapper = createComponentWrapper();
+
+    expect(wrapper.is('.some-component')).toBe(true);
+    expect(wrapper.contains('button')).toBe(true);
+  });
+});
+```
+
+[Vue test utils]: https://vue-test-utils.vuejs.org/
+[`factory` function]: https://en.wikipedia.org/wiki/Factory_(object-oriented_programming)
+[Vue cookbook]: https://vuejs.org/v2/cookbook/unit-testing-vue-components.html
+
 ### Vue Helper: `mountComponent`
 
 To make mounting a Vue component easier and more readable, we have a few helpers available in `spec/helpers/vue_mount_component_helper`.
