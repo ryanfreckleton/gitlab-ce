@@ -1208,6 +1208,36 @@ describe MergeRequest do
     end
   end
 
+  describe '#set_head_pipeline' do
+    subject { merge_request.set_head_pipeline }
+
+    let(:merge_request) { create(:merge_request) }
+
+    context 'when there is a pipeline with the diff head sha' do
+      let!(:pipeline) do
+        create(:ci_empty_pipeline,
+               project: merge_request.project,
+               sha: merge_request.diff_head_sha,
+               ref: merge_request.source_branch)
+      end
+
+      it 'updates the head pipeline' do
+        expect { subject }
+          .to change { merge_request.reload.head_pipeline }
+          .from(nil).to(pipeline)
+      end
+    end
+
+    context 'when there are no pipelines with the diff head sha' do
+      it 'does not update head pipeline' do
+        expect { subject }
+          .not_to change { merge_request.reload.head_pipeline }
+
+        expect(subject).to be_falsy
+      end
+    end
+  end
+
   describe '#has_test_reports?' do
     subject { merge_request.has_test_reports? }
 

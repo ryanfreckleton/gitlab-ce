@@ -22,16 +22,16 @@ describe UpdateHeadPipelineForMergeRequestWorker do
         end
 
         it 'does not update head_pipeline_id' do
-          expect { subject.perform(merge_request.id) }.not_to raise_error
-
-          expect(merge_request.reload.head_pipeline_id).to eq(nil)
+          expect { subject.perform(merge_request.id) }
+            .not_to change { merge_request.reload.head_pipeline_id }
         end
       end
     end
 
     context 'when pipeline does not exist for the source project and branch' do
       it 'does not update the head_pipeline_id of the merge_request' do
-        expect { subject.perform(merge_request.id) }.not_to change { merge_request.reload.head_pipeline_id }
+        expect { subject.perform(merge_request.id) }
+          .not_to change { merge_request.reload.head_pipeline_id }
       end
     end
   end

@@ -134,20 +134,6 @@ describe Ci::CreatePipelineService do
           end
         end
 
-        context 'when the pipeline is not the latest for the branch' do
-          it 'does not update merge request head pipeline' do
-            merge_request = create(:merge_request, source_branch: 'master',
-                                                   target_branch: "branch_1",
-                                                   source_project: project)
-
-            allow_any_instance_of(Ci::Pipeline).to receive(:latest?).and_return(false)
-
-            execute_service
-
-            expect(merge_request.reload.head_pipeline).to be_nil
-          end
-        end
-
         context 'when pipeline has errors' do
           before do
             stub_ci_pipeline_yaml_file('some invalid syntax')

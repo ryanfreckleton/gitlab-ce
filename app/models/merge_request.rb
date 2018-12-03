@@ -1060,6 +1060,17 @@ class MergeRequest < ActiveRecord::Base
       .order(id: :desc)
   end
 
+  def set_head_pipeline
+    pipeline = source_project.pipelines
+      .where(sha: diff_head_sha, ref: source_branch)
+      .order(id: :desc)
+      .first
+
+    return false unless pipeline
+
+    update(head_pipeline: pipeline)
+  end
+
   def has_test_reports?
     actual_head_pipeline&.has_test_reports?
   end
