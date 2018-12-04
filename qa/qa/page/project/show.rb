@@ -61,6 +61,12 @@ module QA
           end
         end
 
+        def go_to_commit(commit_msg)
+          within_element(:file_tree) do
+            click_on commit_msg
+          end
+        end
+
         def switch_to_branch(branch_name)
           find_element(:branches_select).click
 
