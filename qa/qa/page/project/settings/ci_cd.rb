@@ -30,14 +30,7 @@ module QA # rubocop:disable Naming/FileName
               Settings::CiVariables.perform(&block)
             end
           end
-
-          def disable_auto_devops
-            expand_section(:autodevops_settings) do
-              uncheck 'Default to Auto DevOps pipeline'
-              click_on 'Save changes'
-            end
-          end
-
+          
           def enable_auto_devops_with_domain(domain)
             expand_section(:autodevops_settings) do
               check 'Default to Auto DevOps pipeline'
