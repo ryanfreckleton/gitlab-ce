@@ -144,7 +144,6 @@ module QA
     end
 
     module File
-      autoload :Created, 'qa/page/file/created'
       autoload :Form, 'qa/page/file/form'
       autoload :Show, 'qa/page/file/show'
 

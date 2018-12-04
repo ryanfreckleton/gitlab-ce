@@ -8,7 +8,8 @@ module QA
         # It is necessary to initiate an initial commit - as the first push into a repository doesn't trigger the closing
         push_file("initial commit", "firstfile")
 
-        commit_sha = push_file("Closes ##{issue_id}", "secondfile")
+        push_file("Closes ##{issue_id}", "secondfile")
+        commit_sha = Page::File::Show.act {commit_sha}
         navigate_to_created_issue
 
         Page::Project::Issue::Show.perform do |page|
@@ -35,7 +36,6 @@ module QA
           page.add_commit_message(commit_message)
           page.commit_changes
         end
-        Page::File::Created.act {commit_sha}
       end
 
       def navigate_to_created_issue

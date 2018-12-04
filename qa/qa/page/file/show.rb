@@ -13,6 +13,14 @@ module QA
           element :delete_file_button, "button_tag 'Delete file'" # rubocop:disable QA/ElementWithPattern
         end
 
+        view 'app/views/projects/commits/_commit.html.haml' do
+          element :commit_sha
+        end
+
+        def commit_sha
+          find_element(:commit_sha).text
+        end
+
         def click_edit
           click_on 'Edit'
         end
