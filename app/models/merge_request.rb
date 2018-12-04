@@ -63,7 +63,7 @@ class MergeRequest < ActiveRecord::Base
     dependent: :delete_all # rubocop:disable Cop/ActiveRecordDependent
 
   has_many :cached_closes_issues, through: :merge_requests_closing_issues, source: :issue
-  has_many :merge_request_pipelines, class_name: 'Ci::Pipeline'
+  has_many :merge_request_pipelines, foreign_key: 'merge_request_id', class_name: 'Ci::Pipeline'
 
   belongs_to :assignee, class_name: "User"
 
