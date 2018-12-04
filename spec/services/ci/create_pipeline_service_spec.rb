@@ -705,7 +705,7 @@ describe Ci::CreatePipelineService do
               expect(pipeline).to be_persisted
               expect(pipeline).to be_merge_request
               expect(pipeline.merge_request).to eq(merge_request)
-              expect(pipeline.builds.order(:stage_id).map(&:name)).to eq(%w[build test])
+              expect(pipeline.builds.order(:stage_id).map(&:name)).to eq(%w[test])
             end
 
             context 'when ref is tag' do
@@ -795,8 +795,7 @@ describe Ci::CreatePipelineService do
               expect(pipeline).not_to be_persisted
 
               expect(pipeline.errors[:base])
-                .to eq(["Merge request pipelines cannot be created " \
-                        "unless .gitlab-ci.yml contains \"only/except: merge_requests\""])
+                .to eq(['No stages / jobs for this pipeline.'])
             end
           end
 
@@ -807,8 +806,7 @@ describe Ci::CreatePipelineService do
               expect(pipeline).not_to be_persisted
 
               expect(pipeline.errors[:base])
-                .to eq(["Merge request pipelines cannot be created " \
-                        "unless .gitlab-ci.yml contains \"only/except: merge_requests\""])
+                .to eq(['No stages / jobs for this pipeline.'])
             end
           end
         end
