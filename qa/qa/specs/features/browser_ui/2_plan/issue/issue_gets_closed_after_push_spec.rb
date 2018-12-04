@@ -13,7 +13,7 @@ module QA
         navigate_to_created_issue
 
         Page::Project::Issue::Show.perform do |page|
-          expect(page.first_note_text).to have_content("@#{Runtime::User.username} closed via commit #{commit_sha}")
+          expect(page.first_note_header).to have_content("@#{Runtime::User.username} closed via commit #{commit_sha}")
         end
       end
 

@@ -58,11 +58,17 @@ module QA
             current_url.split('/').last
           end
 
-          def first_note_text
-            wait(max: 5) do
-              !all_elements(:note_header).empty?
+          def first_note_header
+            wait_for_notes_to_be_displayed
+            all_elements(:note_header).first.text
+          end
+
+          private
+
+          def wait_for_notes_to_be_displayed
+            wait(reload: false) do
+              all_elements(:note_header).count > 0
             end
-            find_element(:note_header).text
           end
         end
       end
