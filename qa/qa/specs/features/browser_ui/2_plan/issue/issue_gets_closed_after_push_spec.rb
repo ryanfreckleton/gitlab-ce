@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'ffaker'
 
 module QA
   context 'Plan' do
@@ -34,7 +35,7 @@ module QA
         Page::Project::Show.act {create_new_file!}
         Page::File::Form.perform do |page|
           page.add_name(filename)
-          page.add_content('Lorem ipsum dolor sit amet, consectetur adipiscing elit')
+          page.add_content(FFaker::Lorem.phrase)
           page.add_commit_message(commit_message)
           page.commit_changes
         end

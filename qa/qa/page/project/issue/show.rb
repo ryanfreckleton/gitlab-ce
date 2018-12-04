@@ -62,7 +62,7 @@ module QA
           def first_note_header
             wait_for_notes_to_be_displayed
             notes = all_elements(:note_header)
-            raise ElementNotFound if notes.count.zero?
+            raise ElementNotFound, "Couldn't find any notes on the issue page" if notes.count.zero?
 
             notes.first.text
           end
