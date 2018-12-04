@@ -55,7 +55,9 @@ module MergeRequests
     end
 
     def create_merge_request_pipeline(merge_request, user)
-      return unless Feature.enabled?(:ci_merge_request_pipeline, merge_request.source_project, default_enabled: true)
+      return unless Feature.enabled?(:ci_merge_request_pipeline,
+                                     merge_request.source_project,
+                                     default_enabled: true)
 
       ##
       # UpdateMergeRequestsWorker could be retried by an exception.
