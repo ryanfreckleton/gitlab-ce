@@ -881,23 +881,81 @@ describe Ci::Pipeline, :mailer do
   describe '#branch?' do
     subject { pipeline.branch? }
 
-    context 'is not a tag' do
+    context 'when ref is not a tag' do
       before do
         pipeline.tag = false
       end
 
-      it 'return true when tag is set to false' do
+      it 'return true' do
         is_expected.to be_truthy
+      end
+
+      context 'when source is merge request' do
+        let(:pipeline) do
+          create(:ci_pipeline, source: :merge_request, merge_request: merge_request)
+        end
+
+        let(:merge_request) do
+          create(:merge_request,
+                 source_project: project,
+                 source_branch: 'feature',
+                 target_project: project,
+                 target_branch: 'master')
+        end
+
+        it 'returns false' do
+          is_expected.to be_falsey
+        end
       end
     end
 
-    context 'is not a tag' do
+    context 'when ref is a tag' do
       before do
         pipeline.tag = true
       end
 
-      it 'return false when tag is set to true' do
+      it 'return false' do
         is_expected.to be_falsey
+      end
+    end
+  end
+
+  describe '#git_ref' do
+    subject { pipeline.send(:git_ref) }
+
+    context 'when ref is branch' do
+      let(:pipeline) { create(:ci_pipeline, tag: false) }
+
+      it 'returns branch ref' do
+        is_expected.to eq(Gitlab::Git::BRANCH_REF_PREFIX + pipeline.ref.to_s)
+      end
+    end
+
+    context 'when ref is tag' do
+      let(:pipeline) { create(:ci_pipeline, tag: true) }
+
+      it 'returns branch ref' do
+        is_expected.to eq(Gitlab::Git::TAG_REF_PREFIX + pipeline.ref.to_s)
+      end
+    end
+
+    context 'when ref is merge request' do
+      let(:pipeline) do
+        create(:ci_pipeline,
+               source: :merge_request,
+               merge_request: merge_request)
+      end
+
+      let(:merge_request) do
+        create(:merge_request,
+               source_project: project,
+               source_branch: 'feature',
+               target_project: project,
+               target_branch: 'master')
+      end
+
+      it 'returns branch ref' do
+        is_expected.to eq(Gitlab::Git::BRANCH_REF_PREFIX + pipeline.ref.to_s)
       end
     end
   end

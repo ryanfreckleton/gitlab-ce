@@ -381,7 +381,7 @@ module Ci
     end
 
     def branch?
-      !tag?
+      !tag? && !merge_request?
     end
 
     def stuck?
@@ -701,6 +701,8 @@ module Ci
 
     def git_ref
       if branch?
+        Gitlab::Git::BRANCH_REF_PREFIX + ref.to_s
+      elsif merge_request?
         Gitlab::Git::BRANCH_REF_PREFIX + ref.to_s
       elsif tag?
         Gitlab::Git::TAG_REF_PREFIX + ref.to_s
