@@ -5,7 +5,7 @@ module Gitlab
     class Config
       module Entry
         ##
-        # Entry that represents an only/except trigger policy for the job.
+        # Base class for OnlyPolicy and ExceptPolicy
         #
         class Policy < ::Gitlab::Config::Entry::Simplifiable
           strategy :RefsPolicy, if: -> (config) { config.is_a?(Array) }
@@ -65,6 +65,13 @@ module Gitlab
           end
 
           def self.default
+          end
+
+          def self.inherited(klass)
+            super
+
+            klass.strategy :RefsPolicy, if: -> (config) { config.is_a?(Array) }
+            klass.strategy :ComplexPolicy, if: -> (config) { config.is_a?(Hash) }
           end
         end
       end
