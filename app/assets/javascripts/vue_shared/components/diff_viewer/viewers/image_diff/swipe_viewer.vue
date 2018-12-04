@@ -25,7 +25,7 @@ export default {
       swipeMaxWidth: undefined,
       swipeMaxHeight: undefined,
       swipeBarPos: 1,
-      swipeWrapWidth: 0,
+      swipeWrapWidth: undefined,
     };
   },
   computed: {
@@ -63,7 +63,7 @@ export default {
         leftValue = clientWidth - spaceLeft;
       }
 
-      this.swipeWrapWidth = (leftValue / clientWidth) * 100;
+      this.swipeWrapWidth = this.swipeMaxWidth - leftValue;
       this.swipeBarPos = leftValue;
     },
     startDrag() {
@@ -81,6 +81,7 @@ export default {
         // Add 2 for border width
         this.swipeMaxWidth =
           Math.max(this.swipeOldImgInfo.renderedWidth, this.swipeNewImgInfo.renderedWidth) + 2;
+        this.swipeWrapWidth = this.swipeMaxWidth;
         this.swipeMaxHeight =
           Math.max(this.swipeOldImgInfo.renderedHeight, this.swipeNewImgInfo.renderedHeight) + 2;
 
@@ -106,6 +107,10 @@ export default {
   <div class="swipe view">
     <div
       ref="swipeFrame"
+      :style="{
+        'width': swipeMaxPixelWidth,
+        'height': swipeMaxPixelHeight,
+      }"
       class="swipe-frame">
       <image-viewer
         key="swipeOldImg"
@@ -118,17 +123,14 @@ export default {
       <div
         ref="swipeWrap"
         :style="{
-          width: `${swipeWrapWidth}%`
+          'width': swipeWrapPixelWidth,
+          'height': swipeMaxPixelHeight,
         }"
-        class="swipe-wrap"
-      >
+        class="swipe-wrap">
         <image-viewer
           key="swipeNewImg"
           :render-info="false"
           :path="newPath"
-          :style="{
-            width: swipeMaxPixelWidth 
-          }"
           class="frame added"
           @imgLoaded="swipeNewImgLoaded"
         >

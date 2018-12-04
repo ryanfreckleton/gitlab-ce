@@ -34,7 +34,14 @@ export default {
     fileSizeReadable() {
       return numberToHumanSize(this.fileSize);
     },
+    dimensionStyles() {
+      if (!this.isLoaded) return {};
 
+      return {
+        width: `${this.width}px`,
+        height: `${this.height}px`,
+      };
+    },
     hasFileSize() {
       return this.fileSize > 0;
     },
@@ -82,6 +89,7 @@ export default {
   <div>
     <div
       :class="innerCssClasses"
+      :style="dimensionStyles"
       class="position-relative"
     >
       <img

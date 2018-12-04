@@ -1263,11 +1263,7 @@ module API
       expose :token
     end
 
-    class ImpersonationToken < PersonalAccessToken
-      expose :impersonation
-    end
-
-    class ImpersonationTokenWithToken < PersonalAccessTokenWithToken
+    class ImpersonationToken < PersonalAccessTokenWithToken
       expose :impersonation
     end
 

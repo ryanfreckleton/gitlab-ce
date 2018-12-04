@@ -44,7 +44,7 @@ export default {
 <template>
   <li
     :class="className"
-    class="replies-toggle js-toggle-replies"
+    class="replies-toggle"
   >
     <template v-if="collapsed">
       <icon

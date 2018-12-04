@@ -20,7 +20,7 @@ describe 'Dropdown emoji', :js do
   end
 
   def dropdown_emoji_size
-    all('gl-emoji[data-name]').size
+    page.all('#js-dropdown-my-reaction .filter-dropdown .filter-dropdown-item').size
   end
 
   def click_emoji(text)
