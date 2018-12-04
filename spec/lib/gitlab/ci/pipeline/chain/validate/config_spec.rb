@@ -106,4 +106,46 @@ describe Gitlab::Ci::Pipeline::Chain::Validate::Config do
       expect(step.break?).to be false
     end
   end
+
+  context 'when pipeline source is merge request' do
+    before do
+      stub_ci_pipeline_yaml_file(YAML.dump(config))
+    end
+
+    let(:pipeline) { build_stubbed(:ci_pipeline, project: project) }
+
+    let(:merge_request_pipeline) do
+      build(:ci_pipeline, source: :merge_request, project: project)
+    end
+
+    let(:chain) { described_class.new(merge_request_pipeline, command).tap(&:perform!) }
+
+    context "when config does not contain 'merge_request' keyword" do
+      let(:config) { { rspec: { script: 'echo' } } }
+
+      it 'breaks this chain and appends validation errors' do
+        expect(chain).to be_break
+
+        expect(merge_request_pipeline.errors.to_a)
+          .to include 'Merge request pipelines cannot be created ' \
+          'unless .gitlab-ci.yml contains "only/except: merge_requests"'
+      end
+    end
+
+    context "when config contains 'merge_requests' keyword" do
+      let(:config) { { rspec: { script: 'echo', only: ['merge_requests'] } } }
+
+      it 'does not break the chain' do
+        expect(chain).not_to be_break
+      end
+    end
+
+    context "when config contains 'merge_request' keyword" do
+      let(:config) { { rspec: { script: 'echo', only: ['merge_request'] } } }
+
+      it 'does not break the chain' do
+        expect(chain).not_to be_break
+      end
+    end
+  end
 end

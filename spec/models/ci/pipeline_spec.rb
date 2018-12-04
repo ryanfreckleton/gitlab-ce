@@ -12,6 +12,7 @@ describe Ci::Pipeline, :mailer do
   it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:auto_canceled_by) }
   it { is_expected.to belong_to(:pipeline_schedule) }
+  it { is_expected.to belong_to(:merge_request) }
 
   it { is_expected.to have_many(:statuses) }
   it { is_expected.to have_many(:trigger_requests) }
@@ -32,6 +33,128 @@ describe Ci::Pipeline, :mailer do
     it 'has a bidirectional relationship with projects' do
       expect(described_class.reflect_on_association(:project).has_inverse?).to eq(:pipelines)
       expect(Project.reflect_on_association(:pipelines).has_inverse?).to eq(:project)
+    end
+  end
+
+  describe '.sort_by_merge_request_pipelines' do
+    subject { described_class.sort_by_merge_request_pipelines }
+
+    context 'when branch pipelines exist' do
+      let!(:branch_pipeline_1) { create(:ci_pipeline, source: :push) }
+      let!(:branch_pipeline_2) { create(:ci_pipeline, source: :push) }
+
+      it 'returns pipelines order by id' do
+        expect(subject).to eq([branch_pipeline_2,
+                               branch_pipeline_1])
+      end
+    end
+
+    context 'when merge request pipelines exist' do
+      let!(:merge_request_pipeline_1) do
+        create(:ci_pipeline, source: :merge_request, merge_request: merge_request)
+      end
+
+      let!(:merge_request_pipeline_2) do
+        create(:ci_pipeline, source: :merge_request, merge_request: merge_request)
+      end
+
+      let(:merge_request) do
+        create(:merge_request,
+               source_project: project,
+               source_branch: 'feature',
+               target_project: project,
+               target_branch: 'master')
+      end
+
+      it 'returns pipelines order by id' do
+        expect(subject).to eq([merge_request_pipeline_2,
+                               merge_request_pipeline_1])
+      end
+    end
+
+    context 'when both branch pipeline and merge request pipeline exist' do
+      let!(:branch_pipeline_1) { create(:ci_pipeline, source: :push) }
+      let!(:branch_pipeline_2) { create(:ci_pipeline, source: :push) }
+
+      let!(:merge_request_pipeline_1) do
+        create(:ci_pipeline, source: :merge_request, merge_request: merge_request)
+      end
+
+      let!(:merge_request_pipeline_2) do
+        create(:ci_pipeline, source: :merge_request, merge_request: merge_request)
+      end
+
+      let(:merge_request) do
+        create(:merge_request,
+               source_project: project,
+               source_branch: 'feature',
+               target_project: project,
+               target_branch: 'master')
+      end
+
+      it 'returns merge request pipeline first' do
+        expect(subject).to eq([merge_request_pipeline_2,
+                               merge_request_pipeline_1,
+                               branch_pipeline_2,
+                               branch_pipeline_1])
+      end
+    end
+  end
+
+  describe '.merge_request' do
+    subject { described_class.merge_request }
+
+    context 'when there is a merge request pipeline' do
+      let!(:pipeline) { create(:ci_pipeline, source: :merge_request, merge_request: merge_request) }
+      let(:merge_request) { create(:merge_request) }
+
+      it 'returns merge request pipeline first' do
+        expect(subject).to eq([pipeline])
+      end
+    end
+
+    context 'when there are no merge request pipelines' do
+      let!(:pipeline) { create(:ci_pipeline, source: :push) }
+
+      it 'returns empty array' do
+        expect(subject).to be_empty
+      end
+    end
+  end
+
+  describe 'Validations for merge request pipelines' do
+    let(:pipeline) { build(:ci_pipeline, source: source, merge_request: merge_request) }
+
+    context 'when source is merge request' do
+      let(:source) { :merge_request }
+
+      context 'when merge request is specified' do
+        let(:merge_request) { create(:merge_request, source_project: project, source_branch: 'feature', target_project: project, target_branch: 'master') }
+
+        it { expect(pipeline).to be_valid }
+      end
+
+      context 'when merge request is empty' do
+        let(:merge_request) { nil }
+
+        it { expect(pipeline).not_to be_valid }
+      end
+    end
+
+    context 'when source is web' do
+      let(:source) { :web }
+
+      context 'when merge request is specified' do
+        let(:merge_request) { create(:merge_request, source_project: project, source_branch: 'feature', target_project: project, target_branch: 'master') }
+
+        it { expect(pipeline).not_to be_valid }
+      end
+
+      context 'when merge request is empty' do
+        let(:merge_request) { nil }
+
+        it { expect(pipeline).to be_valid }
+      end
     end
   end
 
