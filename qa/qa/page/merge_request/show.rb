@@ -59,6 +59,10 @@ module QA
           element :comment_button
         end
 
+        view 'app/views/projects/merge_requests/_mr_title.html.haml' do
+          element :edit_button
+        end
+
         def fast_forward_possible?
           !has_text?('Fast-forward merge is not possible')
         end
@@ -177,6 +181,10 @@ module QA
             page.has_text?("Click to expand it.")
           end
           all_elements(:click_to_expand).last.click
+        end
+
+        def edit!
+          click_element :edit_button
         end
       end
     end

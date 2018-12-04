@@ -10,7 +10,9 @@ class Deployment < ActiveRecord::Base
   belongs_to :user
   belongs_to :deployable, polymorphic: true # rubocop:disable Cop/PolymorphicAssociations
 
-  has_internal_id :iid, scope: :project, init: ->(s) { s&.project&.deployments&.maximum(:iid) }
+  has_internal_id :iid, scope: :project, init: ->(s) do
+    Deployment.where(project: s.project).maximum(:iid) if s&.project
+  end
 
   validates :sha, presence: true
   validates :ref, presence: true
@@ -158,18 +160,18 @@ class Deployment < ActiveRecord::Base
   end
 
   def has_metrics?
-    prometheus_adapter&.can_query?
+    prometheus_adapter&.can_query? && success?
   end
 
   def metrics
-    return {} unless has_metrics? && success?
+    return {} unless has_metrics?
 
     metrics = prometheus_adapter.query(:deployment, self)
     metrics&.merge(deployment_time: finished_at.to_i) || {}
   end
 
   def additional_metrics
-    return {} unless has_metrics? && success?
+    return {} unless has_metrics?
 
     metrics = prometheus_adapter.query(:additional_metrics_deployment, self)
     metrics&.merge(deployment_time: finished_at.to_i) || {}

@@ -1,7 +1,7 @@
 <script>
 import _ from 'underscore';
 import { mapGetters, mapState, mapActions } from 'vuex';
-import { GlLoadingIcon } from '@gitlab-org/gitlab-ui';
+import { GlLoadingIcon } from '@gitlab/ui';
 import { isScrolledToBottom } from '~/lib/utils/scroll_utils';
 import { polyfillSticky } from '~/lib/utils/sticky';
 import bp from '~/breakpoints';
@@ -16,6 +16,8 @@ import Log from './job_log.vue';
 import LogTopBar from './job_log_controllers.vue';
 import StuckBlock from './stuck_block.vue';
 import Sidebar from './sidebar.vue';
+import { sprintf } from '~/locale';
+import delayedJobMixin from '../mixins/delayed_job_mixin';
 
 export default {
   name: 'JobPageApp',
@@ -26,13 +28,14 @@ export default {
     EmptyState,
     EnvironmentsBlock,
     ErasedBlock,
-    GlLoadingIcon,
     Icon,
     Log,
     LogTopBar,
     StuckBlock,
     Sidebar,
+    GlLoadingIcon,
   },
+  mixins: [delayedJobMixin],
   props: {
     runnerSettingsUrl: {
       type: String,
@@ -91,6 +94,17 @@ export default {
 
     shouldRenderContent() {
       return !this.isLoading && !this.hasError;
+    },
+
+    emptyStateTitle() {
+      const { emptyStateIllustration, remainingTime } = this;
+      const { title } = emptyStateIllustration;
+
+      if (this.isDelayedJob) {
+        return sprintf(title, { remainingTime });
+      }
+
+      return title;
     },
   },
   watch: {
@@ -196,10 +210,7 @@ export default {
             />
           </div>
 
-          <callout
-            v-if="shouldRenderCalloutMessage"
-            :message="job.callout_message"
-          />
+          <callout v-if="shouldRenderCalloutMessage" :message="job.callout_message" />
         </header>
         <!-- EO Header Section -->
 
@@ -226,28 +237,22 @@ export default {
           :erased-at="job.erased_at"
         />
 
-        <div 
+        <div
           v-if="job.archived"
           ref="sticky"
           class="js-archived-job prepend-top-default archived-sticky sticky-top"
         >
-          <icon 
-            name="lock"
-            class="align-text-bottom"
-          />
-                
+          <icon name="lock" class="align-text-bottom" />
+
           {{ __('This job is archived. Only the complete pipeline can be retried.') }}
         </div>
-        <!--job log -->
-        <div
-          v-if="hasTrace"
-          class="build-trace-container"
-        >
+        <!-- job log -->
+        <div v-if="hasTrace" class="build-trace-container">
           <log-top-bar
             :class="{
               'sidebar-expanded': isSidebarOpen,
               'sidebar-collapsed': !isSidebarOpen,
-              'has-archived-block': job.archived
+              'has-archived-block': job.archived,
             }"
             :erase-path="job.erase_path"
             :size="traceSize"
@@ -259,26 +264,23 @@ export default {
             @scrollJobLogTop="scrollTop"
             @scrollJobLogBottom="scrollBottom"
           />
-          <log
-            :trace="trace"
-            :is-complete="isTraceComplete"
-          />
+          <log :trace="trace" :is-complete="isTraceComplete" />
         </div>
         <!-- EO job log -->
 
-        <!--empty state -->
+        <!-- empty state -->
         <empty-state
           v-if="!hasTrace"
           class="js-job-empty-state"
           :illustration-path="emptyStateIllustration.image"
           :illustration-size-class="emptyStateIllustration.size"
-          :title="emptyStateIllustration.title"
+          :title="emptyStateTitle"
           :content="emptyStateIllustration.content"
           :action="emptyStateAction"
         />
-      <!-- EO empty state -->
+        <!-- EO empty state -->
 
-      <!-- EO Body Section -->
+        <!-- EO Body Section -->
       </div>
     </template>
 
@@ -287,7 +289,7 @@ export default {
       class="js-job-sidebar"
       :class="{
         'right-sidebar-expanded': isSidebarOpen,
-        'right-sidebar-collapsed': !isSidebarOpen
+        'right-sidebar-collapsed': !isSidebarOpen,
       }"
       :runner-help-url="runnerHelpUrl"
     />

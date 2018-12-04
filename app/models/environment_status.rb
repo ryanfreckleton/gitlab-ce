@@ -12,13 +12,13 @@ class EnvironmentStatus
   delegate :deployed_at, to: :deployment, allow_nil: true
 
   def self.for_merge_request(mr, user)
-    build_environments_status(mr, user, mr.head_pipeline)
+    build_environments_status(mr, user, mr.diff_head_sha)
   end
 
   def self.after_merge_request(mr, user)
     return [] unless mr.merged?
 
-    build_environments_status(mr, user, mr.merge_pipeline)
+    build_environments_status(mr, user, mr.merge_commit_sha)
   end
 
   def initialize(environment, merge_request, sha)
@@ -29,7 +29,7 @@ class EnvironmentStatus
 
   def deployment
     strong_memoize(:deployment) do
-      environment.first_deployment_for(sha)
+      Deployment.where(environment: environment).find_by_sha(sha)
     end
   end
 
@@ -61,21 +61,14 @@ class EnvironmentStatus
     }
   end
 
-  def self.build_environments_status(mr, user, pipeline)
-    return [] unless pipeline.present?
+  def self.build_environments_status(mr, user, sha)
+    Environment.where(project_id: [mr.source_project_id, mr.target_project_id])
+               .available
+               .with_deployment(sha).map do |environment|
+      next unless Ability.allowed?(user, :read_environment, environment)
 
-    find_environments(user, pipeline).map do |environment|
-      EnvironmentStatus.new(environment, mr, pipeline.sha)
-    end
+      EnvironmentStatus.new(environment, mr, sha)
+    end.compact
   end
   private_class_method :build_environments_status
-
-  def self.find_environments(user, pipeline)
-    env_ids = Deployment.where(deployable: pipeline.builds).select(:environment_id)
-
-    Environment.available.where(id: env_ids).select do |environment|
-      Ability.allowed?(user, :read_environment, environment)
-    end
-  end
-  private_class_method :find_environments
 end

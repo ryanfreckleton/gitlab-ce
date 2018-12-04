@@ -22,6 +22,7 @@ import actions, {
   expandAllFiles,
   toggleFileDiscussions,
   saveDiffDiscussion,
+  setHighlightedRow,
   toggleTreeOpen,
   scrollToFile,
   toggleShowTreeList,
@@ -92,51 +93,59 @@ describe('DiffsStoreActions', () => {
     });
   });
 
+  describe('setHighlightedRow', () => {
+    it('should set lineHash and fileHash of highlightedRow', () => {
+      testAction(setHighlightedRow, 'ABC_123', {}, [
+        { type: types.SET_HIGHLIGHTED_ROW, payload: 'ABC_123' },
+      ]);
+    });
+  });
+
   describe('assignDiscussionsToDiff', () => {
     it('should merge discussions into diffs', done => {
       const state = {
         diffFiles: [
           {
-            fileHash: 'ABC',
-            parallelDiffLines: [
+            file_hash: 'ABC',
+            parallel_diff_lines: [
               {
                 left: {
-                  lineCode: 'ABC_1_1',
+                  line_code: 'ABC_1_1',
                   discussions: [],
                 },
                 right: {
-                  lineCode: 'ABC_1_1',
+                  line_code: 'ABC_1_1',
                   discussions: [],
                 },
               },
             ],
-            highlightedDiffLines: [
+            highlighted_diff_lines: [
               {
-                lineCode: 'ABC_1_1',
+                line_code: 'ABC_1_1',
                 discussions: [],
-                oldLine: 5,
-                newLine: null,
+                old_line: 5,
+                new_line: null,
               },
             ],
-            diffRefs: {
-              baseSha: 'abc',
-              headSha: 'def',
-              startSha: 'ghi',
+            diff_refs: {
+              base_sha: 'abc',
+              head_sha: 'def',
+              start_sha: 'ghi',
             },
-            newPath: 'file1',
-            oldPath: 'file2',
+            new_path: 'file1',
+            old_path: 'file2',
           },
         ],
       };
 
       const diffPosition = {
-        baseSha: 'abc',
-        headSha: 'def',
-        startSha: 'ghi',
-        newLine: null,
-        newPath: 'file1',
-        oldLine: 5,
-        oldPath: 'file2',
+        base_sha: 'abc',
+        head_sha: 'def',
+        start_sha: 'ghi',
+        new_line: null,
+        new_path: 'file1',
+        old_line: 5,
+        old_path: 'file2',
       };
 
       const singleDiscussion = {
@@ -145,7 +154,7 @@ describe('DiffsStoreActions', () => {
         diff_file: {
           file_hash: 'ABC',
         },
-        fileHash: 'ABC',
+        file_hash: 'ABC',
         resolvable: true,
         position: diffPosition,
         original_position: diffPosition,
@@ -164,24 +173,22 @@ describe('DiffsStoreActions', () => {
               discussion: singleDiscussion,
               diffPositionByLineCode: {
                 ABC_1_1: {
-                  baseSha: 'abc',
-                  headSha: 'def',
-                  startSha: 'ghi',
-                  newLine: null,
-                  newPath: 'file1',
-                  oldLine: 5,
-                  oldPath: 'file2',
-                  lineCode: 'ABC_1_1',
-                  positionType: 'text',
+                  base_sha: 'abc',
+                  head_sha: 'def',
+                  start_sha: 'ghi',
+                  new_line: null,
+                  new_path: 'file1',
+                  old_line: 5,
+                  old_path: 'file2',
+                  line_code: 'ABC_1_1',
+                  position_type: 'text',
                 },
               },
             },
           },
         ],
         [],
-        () => {
-          done();
-        },
+        done,
       );
     });
   });
@@ -191,11 +198,11 @@ describe('DiffsStoreActions', () => {
       const state = {
         diffFiles: [
           {
-            fileHash: 'ABC',
-            parallelDiffLines: [
+            file_hash: 'ABC',
+            parallel_diff_lines: [
               {
                 left: {
-                  lineCode: 'ABC_1_1',
+                  line_code: 'ABC_1_1',
                   discussions: [
                     {
                       id: 1,
@@ -203,14 +210,14 @@ describe('DiffsStoreActions', () => {
                   ],
                 },
                 right: {
-                  lineCode: 'ABC_1_1',
+                  line_code: 'ABC_1_1',
                   discussions: [],
                 },
               },
             ],
-            highlightedDiffLines: [
+            highlighted_diff_lines: [
               {
-                lineCode: 'ABC_1_1',
+                line_code: 'ABC_1_1',
                 discussions: [],
               },
             ],
@@ -218,7 +225,8 @@ describe('DiffsStoreActions', () => {
         ],
       };
       const singleDiscussion = {
-        fileHash: 'ABC',
+        id: '1',
+        file_hash: 'ABC',
         line_code: 'ABC_1_1',
       };
 
@@ -230,15 +238,14 @@ describe('DiffsStoreActions', () => {
           {
             type: types.REMOVE_LINE_DISCUSSIONS_FOR_FILE,
             payload: {
+              id: '1',
               fileHash: 'ABC',
               lineCode: 'ABC_1_1',
             },
           },
         ],
         [],
-        () => {
-          done();
-        },
+        done,
       );
     });
   });
@@ -312,13 +319,13 @@ describe('DiffsStoreActions', () => {
 
   describe('showCommentForm', () => {
     it('should call mutation to show comment form', done => {
-      const payload = { lineCode: 'lineCode' };
+      const payload = { lineCode: 'lineCode', fileHash: 'hash' };
 
       testAction(
         showCommentForm,
         payload,
         {},
-        [{ type: types.ADD_COMMENT_FORM_LINE, payload }],
+        [{ type: types.TOGGLE_LINE_HAS_FORM, payload: { ...payload, hasForm: true } }],
         [],
         done,
       );
@@ -327,13 +334,13 @@ describe('DiffsStoreActions', () => {
 
   describe('cancelCommentForm', () => {
     it('should call mutation to cancel comment form', done => {
-      const payload = { lineCode: 'lineCode' };
+      const payload = { lineCode: 'lineCode', fileHash: 'hash' };
 
       testAction(
         cancelCommentForm,
         payload,
         {},
-        [{ type: types.REMOVE_COMMENT_FORM_LINE, payload }],
+        [{ type: types.TOGGLE_LINE_HAS_FORM, payload: { ...payload, hasForm: false } }],
         [],
         done,
       );
@@ -418,7 +425,7 @@ describe('DiffsStoreActions', () => {
       const getters = {
         getDiffFileDiscussions: jasmine.createSpy().and.returnValue([{ id: 1 }]),
         diffHasAllExpandedDiscussions: jasmine.createSpy().and.returnValue(true),
-        diffHasAllCollpasedDiscussions: jasmine.createSpy().and.returnValue(false),
+        diffHasAllCollapsedDiscussions: jasmine.createSpy().and.returnValue(false),
       };
 
       const dispatch = jasmine.createSpy('dispatch');
@@ -436,7 +443,7 @@ describe('DiffsStoreActions', () => {
       const getters = {
         getDiffFileDiscussions: jasmine.createSpy().and.returnValue([{ id: 1 }]),
         diffHasAllExpandedDiscussions: jasmine.createSpy().and.returnValue(false),
-        diffHasAllCollpasedDiscussions: jasmine.createSpy().and.returnValue(true),
+        diffHasAllCollapsedDiscussions: jasmine.createSpy().and.returnValue(true),
       };
 
       const dispatch = jasmine.createSpy();
@@ -454,7 +461,7 @@ describe('DiffsStoreActions', () => {
       const getters = {
         getDiffFileDiscussions: jasmine.createSpy().and.returnValue([{ expanded: false, id: 1 }]),
         diffHasAllExpandedDiscussions: jasmine.createSpy().and.returnValue(false),
-        diffHasAllCollpasedDiscussions: jasmine.createSpy().and.returnValue(false),
+        diffHasAllCollapsedDiscussions: jasmine.createSpy().and.returnValue(false),
       };
 
       const dispatch = jasmine.createSpy();
@@ -471,7 +478,7 @@ describe('DiffsStoreActions', () => {
 
   describe('scrollToLineIfNeededInline', () => {
     const lineMock = {
-      lineCode: 'ABC_123',
+      line_code: 'ABC_123',
     };
 
     it('should not call handleLocationHash when there is not hash', () => {
@@ -522,7 +529,7 @@ describe('DiffsStoreActions', () => {
     const lineMock = {
       left: null,
       right: {
-        lineCode: 'ABC_123',
+        line_code: 'ABC_123',
       },
     };
 

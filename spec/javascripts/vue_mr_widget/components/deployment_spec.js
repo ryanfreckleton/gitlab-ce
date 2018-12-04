@@ -41,7 +41,7 @@ describe('Deployment component', () => {
 
   describe('', () => {
     beforeEach(() => {
-      vm = mountComponent(Component, { deployment: { ...deploymentMockData } });
+      vm = mountComponent(Component, { deployment: { ...deploymentMockData }, showMetrics: true });
     });
 
     describe('deployTimeago', () => {
@@ -174,55 +174,31 @@ describe('Deployment component', () => {
     });
   });
 
-  describe('with `features.ciEnvironmentsStatusChanges` enabled', () => {
+  describe('with showMetrics enabled', () => {
     beforeEach(() => {
-      window.gon = window.gon || {};
-      window.gon.features = window.gon.features || {};
-      window.gon.features.ciEnvironmentsStatusChanges = true;
-      vm = mountComponent(Component, { deployment: { ...deploymentMockData } });
+      vm = mountComponent(Component, { deployment: { ...deploymentMockData }, showMetrics: true });
     });
 
-    afterEach(() => {
-      window.gon.features = {};
-    });
-
-    it('renders dropdown with changes', () => {
-      expect(vm.$el.querySelector('.js-mr-wigdet-deployment-dropdown')).not.toBeNull();
-      expect(vm.$el.querySelector('.js-deploy-url-feature-flag')).toBeNull();
+    it('shows metrics', () => {
+      expect(vm.$el).toContainElement('.js-mr-memory-usage');
     });
   });
 
-  describe('with `features.ciEnvironmentsStatusChanges` disabled', () => {
+  describe('with showMetrics disabled', () => {
     beforeEach(() => {
-      window.gon = window.gon || {};
-      window.gon.features = window.gon.features || {};
-      window.gon.features.ciEnvironmentsStatusChanges = false;
-
-      vm = mountComponent(Component, { deployment: { ...deploymentMockData } });
+      vm = mountComponent(Component, { deployment: { ...deploymentMockData }, showMetrics: false });
     });
 
-    afterEach(() => {
-      delete window.gon.features.ciEnvironmentsStatusChanges;
-    });
-
-    it('renders the old link to the review app', () => {
-      expect(vm.$el.querySelector('.js-mr-wigdet-deployment-dropdown')).toBeNull();
-      expect(vm.$el.querySelector('.js-deploy-url-feature-flag')).not.toBeNull();
+    it('hides metrics', () => {
+      expect(vm.$el).not.toContainElement('.js-mr-memory-usage');
     });
   });
 
   describe('without changes', () => {
     beforeEach(() => {
-      window.gon = window.gon || {};
-      window.gon.features = window.gon.features || {};
-      window.gon.features.ciEnvironmentsStatusChanges = true;
       delete deploymentMockData.changes;
 
-      vm = mountComponent(Component, { deployment: { ...deploymentMockData } });
-    });
-
-    afterEach(() => {
-      delete window.gon.features.ciEnvironmentsStatusChanges;
+      vm = mountComponent(Component, { deployment: { ...deploymentMockData }, showMetrics: true });
     });
 
     it('renders the link to the review app without dropdown', () => {
@@ -236,6 +212,7 @@ describe('Deployment component', () => {
       beforeEach(() => {
         vm = mountComponent(Component, {
           deployment: Object.assign({}, deploymentMockData, { status: 'running' }),
+          showMetrics: true,
         });
       });
 
@@ -252,6 +229,7 @@ describe('Deployment component', () => {
       beforeEach(() => {
         vm = mountComponent(Component, {
           deployment: Object.assign({}, deploymentMockData, { status: 'success' }),
+          showMetrics: true,
         });
       });
 
@@ -264,10 +242,39 @@ describe('Deployment component', () => {
       beforeEach(() => {
         vm = mountComponent(Component, {
           deployment: Object.assign({}, deploymentMockData, { status: 'failed' }),
+          showMetrics: true,
         });
       });
 
       it('renders information about finished deployment', () => {
+        expect(vm.$el.querySelector('.js-deployment-info').textContent).toContain(
+          'Failed to deploy to',
+        );
+      });
+    });
+
+    describe('created', () => {
+      beforeEach(() => {
+        vm = mountComponent(Component, {
+          deployment: Object.assign({}, deploymentMockData, { status: 'created' }),
+          showMetrics: true,
+        });
+      });
+
+      it('renders information about created deployment', () => {
+        expect(vm.$el.querySelector('.js-deployment-info').textContent).toContain('Will deploy to');
+      });
+    });
+
+    describe('canceled', () => {
+      beforeEach(() => {
+        vm = mountComponent(Component, {
+          deployment: Object.assign({}, deploymentMockData, { status: 'canceled' }),
+          showMetrics: true,
+        });
+      });
+
+      it('renders information about canceled deployment', () => {
         expect(vm.$el.querySelector('.js-deployment-info').textContent).toContain(
           'Failed to deploy to',
         );

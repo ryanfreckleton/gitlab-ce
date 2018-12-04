@@ -33,6 +33,10 @@ export const fetchDiffFiles = ({ state, commit }) => {
     .then(handleLocationHash);
 };
 
+export const setHighlightedRow = ({ commit }, lineCode) => {
+  commit(types.SET_HIGHLIGHTED_ROW, lineCode);
+};
+
 // This is adding line discussions to the actual lines in the diff tree
 // once for parallel and once for inline mode
 export const assignDiscussionsToDiff = (
@@ -41,17 +45,19 @@ export const assignDiscussionsToDiff = (
 ) => {
   const diffPositionByLineCode = getDiffPositionByLineCode(state.diffFiles);
 
-  discussions.filter(discussion => discussion.diff_discussion).forEach(discussion => {
-    commit(types.SET_LINE_DISCUSSIONS_FOR_FILE, {
-      discussion,
-      diffPositionByLineCode,
+  discussions
+    .filter(discussion => discussion.diff_discussion)
+    .forEach(discussion => {
+      commit(types.SET_LINE_DISCUSSIONS_FOR_FILE, {
+        discussion,
+        diffPositionByLineCode,
+      });
     });
-  });
 };
 
 export const removeDiscussionsFromDiff = ({ commit }, removeDiscussion) => {
-  const { fileHash, line_code } = removeDiscussion;
-  commit(types.REMOVE_LINE_DISCUSSIONS_FOR_FILE, { fileHash, lineCode: line_code });
+  const { file_hash, line_code, id } = removeDiscussion;
+  commit(types.REMOVE_LINE_DISCUSSIONS_FOR_FILE, { fileHash: file_hash, lineCode: line_code, id });
 };
 
 export const startRenderDiffsQueue = ({ state, commit }) => {
@@ -97,12 +103,12 @@ export const setParallelDiffViewType = ({ commit }) => {
   historyPushState(url);
 };
 
-export const showCommentForm = ({ commit }, params) => {
-  commit(types.ADD_COMMENT_FORM_LINE, params);
+export const showCommentForm = ({ commit }, { lineCode, fileHash }) => {
+  commit(types.TOGGLE_LINE_HAS_FORM, { lineCode, fileHash, hasForm: true });
 };
 
-export const cancelCommentForm = ({ commit }, params) => {
-  commit(types.REMOVE_COMMENT_FORM_LINE, params);
+export const cancelCommentForm = ({ commit }, { lineCode, fileHash }) => {
+  commit(types.TOGGLE_LINE_HAS_FORM, { lineCode, fileHash, hasForm: false });
 };
 
 export const loadMoreLines = ({ commit }, options) => {
@@ -125,7 +131,7 @@ export const loadMoreLines = ({ commit }, options) => {
 export const scrollToLineIfNeededInline = (_, line) => {
   const hash = getLocationHash();
 
-  if (hash && line.lineCode === hash) {
+  if (hash && line.line_code === hash) {
     handleLocationHash();
   }
 };
@@ -135,7 +141,7 @@ export const scrollToLineIfNeededParallel = (_, line) => {
 
   if (
     hash &&
-    ((line.left && line.left.lineCode === hash) || (line.right && line.right.lineCode === hash))
+    ((line.left && line.left.line_code === hash) || (line.right && line.right.line_code === hash))
   ) {
     handleLocationHash();
   }
@@ -167,7 +173,7 @@ export const expandAllFiles = ({ commit }) => {
 export const toggleFileDiscussions = ({ getters, dispatch }, diff) => {
   const discussions = getters.getDiffFileDiscussions(diff);
   const shouldCloseAll = getters.diffHasAllExpandedDiscussions(diff);
-  const shouldExpandAll = getters.diffHasAllCollpasedDiscussions(diff);
+  const shouldExpandAll = getters.diffHasAllCollapsedDiscussions(diff);
 
   discussions.forEach(discussion => {
     const data = { discussionId: discussion.id };
@@ -189,6 +195,8 @@ export const saveDiffDiscussion = ({ dispatch }, { note, formData }) => {
   return dispatch('saveNote', postData, { root: true })
     .then(result => dispatch('updateDiscussion', result.discussion, { root: true }))
     .then(discussion => dispatch('assignDiscussionsToDiff', [discussion]))
+    .then(() => dispatch('updateResolvableDiscussonsCounts', null, { root: true }))
+    .then(() => dispatch('closeDiffFileCommentForm', formData.diffFile.file_hash))
     .catch(() => createFlash(s__('MergeRequests|Saving the comment failed')));
 };
 
@@ -208,6 +216,20 @@ export const scrollToFile = ({ state, commit }, path) => {
 export const toggleShowTreeList = ({ commit, state }) => {
   commit(types.TOGGLE_SHOW_TREE_LIST);
   localStorage.setItem(MR_TREE_SHOW_KEY, state.showTreeList);
+};
+
+export const openDiffFileCommentForm = ({ commit, getters }, formData) => {
+  const form = getters.getCommentFormForDiffFile(formData.fileHash);
+
+  if (form) {
+    commit(types.UPDATE_DIFF_FILE_COMMENT_FORM, formData);
+  } else {
+    commit(types.OPEN_DIFF_FILE_COMMENT_FORM, formData);
+  }
+};
+
+export const closeDiffFileCommentForm = ({ commit }, fileHash) => {
+  commit(types.CLOSE_DIFF_FILE_COMMENT_FORM, fileHash);
 };
 
 // prevent babel-plugin-rewire from generating an invalid default during karma tests

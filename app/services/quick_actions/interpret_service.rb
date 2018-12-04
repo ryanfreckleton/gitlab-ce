@@ -23,13 +23,13 @@ module QuickActions
 
     # Takes a text and interprets the commands that are extracted from it.
     # Returns the content without commands, and hash of changes to be applied to a record.
-    def execute(content, issuable)
+    def execute(content, issuable, only: nil)
       return [content, {}] unless current_user.can?(:use_quick_actions)
 
       @issuable = issuable
       @updates = {}
 
-      content, commands = extractor.extract_commands(content)
+      content, commands = extractor.extract_commands(content, only: only)
       extract_updates(commands)
 
       [content, @updates]
@@ -633,6 +633,22 @@ module QuickActions
     command :tag do |tag_name, message|
       @updates[:tag_name] = tag_name
       @updates[:tag_message] = message
+    end
+
+    desc 'Create a merge request.'
+    explanation do |branch_name = nil|
+      branch_text = branch_name ? "branch '#{branch_name}'" : 'a branch'
+      "Creates #{branch_text} and a merge request to resolve this issue"
+    end
+    params "<branch name>"
+    condition do
+      issuable.is_a?(Issue) && current_user.can?(:create_merge_request_in, project) && current_user.can?(:push_code, project)
+    end
+    command :create_merge_request do |branch_name = nil|
+      @updates[:create_merge_request] = {
+        branch_name: branch_name,
+        issue_iid: issuable.iid
+      }
     end
 
     # rubocop: disable CodeReuse/ActiveRecord
