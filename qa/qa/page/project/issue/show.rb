@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'uri'
 
 module QA
   module Page
@@ -55,18 +56,20 @@ module QA
           end
 
           def issue_id
-            current_url.split('/').last
+            URI.parse(current_url).path.split('/').last
           end
 
           def first_note_header
             wait_for_notes_to_be_displayed
-            all_elements(:note_header).first.text
+            notes = all_elements(:note_header)
+            raise ElementNotFound if notes.count.zero?
+            notes.first.text
           end
 
           private
 
           def wait_for_notes_to_be_displayed
-            wait(reload: false) do
+            wait(reload: false, max: 5) do
               all_elements(:note_header).count > 0
             end
           end

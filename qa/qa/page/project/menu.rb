@@ -5,6 +5,7 @@ module QA
     module Project
       class Menu < Page::Base
         view 'app/views/layouts/nav/sidebar/_project.html.haml' do
+          element :project_link
           element :settings_item
           element :settings_link, 'link_to edit_project_path' # rubocop:disable QA/ElementWithPattern
           element :repository_link, "title: _('Repository')" # rubocop:disable QA/ElementWithPattern
@@ -31,7 +32,7 @@ module QA
 
         def click_project
           within_sidebar do
-            click_link('Project')
+            click_element :project_link
           end
         end
 
