@@ -18,6 +18,8 @@ module QA
         Page::Project::IssueBoard::Show.perform do |show_page|
           # Create Default Lists
           show_page.create_default_lists
+          expect(show_page).to have_content("Doing")
+          expect(show_page).to have_content("To Do")
           expect(show_page.list_count).to eq(2)
 
           # Delete List

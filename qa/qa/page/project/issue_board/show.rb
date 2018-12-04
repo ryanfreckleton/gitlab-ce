@@ -27,12 +27,14 @@ module QA
           end
 
           def create_default_lists
-            click_element :default_lists_button if has_element?(:default_lists_button)
+            using_wait_time(Capybara.default_max_wait_time) do
+              click_element :default_lists_button
+            end
           end
 
           def delete_list
             accept_alert do
-              all_elements(:delete_board_button).first.click if has_element?(:delete_board_button)
+              all_elements(:delete_board_button).first.click
             end
           end
 
@@ -42,7 +44,9 @@ module QA
           end
 
           def list_count
-            all_elements(:issue_board).count if has_element?(:issue_board)
+            using_wait_time(Capybara.default_max_wait_time) do
+              all_elements(:issue_board).count
+            end
           end
 
           def drag_and_drop_issue(issue_list_id = 0)
