@@ -27,9 +27,8 @@ module QA
           end
 
           def create_default_lists
-            using_wait_time(Capybara.default_max_wait_time) do
-              click_element :default_lists_button
-            end
+            sleep 2
+            click_element :default_lists_button
           end
 
           def delete_list
