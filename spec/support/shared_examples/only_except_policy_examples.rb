@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'correct only except policy' do
   context 'when using simplified policy' do
     describe 'validations' do
