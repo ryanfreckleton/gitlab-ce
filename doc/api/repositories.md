@@ -119,8 +119,10 @@ would send an archive in ZIP format.
 Parameters:
 
 - `id` (required) - The ID or [URL-encoded path of the project](README.md#namespaced-path-encoding) owned by the authenticated user
-- `sha` (optional) - The commit SHA to download. A tag, branch reference or sha can be used. This defaults to the tip of the default branch if not specified. For example: `curl --header "PRIVATE-TOKEN: <private_token>" https://gitlab.com/api/v4/projects/<project_id>/repository/archive?sha=abcdef `
-
+- `sha` (optional) - The commit SHA to download. A tag, branch reference, or SHA can be used. This defaults to the tip of the default branch if not specified. For example:
+```
+curl --header "PRIVATE-TOKEN: 9koXpg98eAheJpvBs5tK" https://gitlab.com/api/v4/projects/<project_id>/repository/archive?sha=abcdef
+```
 ## Compare branches, tags or commits
 
 This endpoint can be accessed without authentication if the repository is
