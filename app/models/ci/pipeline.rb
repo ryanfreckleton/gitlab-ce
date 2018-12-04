@@ -26,6 +26,8 @@ module Ci
     has_many :builds, foreign_key: :commit_id, inverse_of: :pipeline
     has_many :trigger_requests, dependent: :destroy, foreign_key: :commit_id # rubocop:disable Cop/ActiveRecordDependent
     has_many :variables, class_name: 'Ci::PipelineVariable'
+    has_many :deployments, through: :builds
+    has_many :environments, -> { distinct }, through: :deployments
 
     # Merge requests for which the current pipeline is running against
     # the merge request's latest commit.
@@ -168,6 +170,8 @@ module Ci
     end
 
     scope :internal, -> { where(source: internal_sources) }
+
+    scope :for_user, -> (user) { where(user: user) }
 
     # Returns the pipelines in descending order (= newest first), optionally
     # limited to a number of references.
@@ -494,6 +498,8 @@ module Ci
     end
 
     def ci_yaml_file_path
+      return unless repository_source? || unknown_source?
+
       if project.ci_config_path.blank?
         '.gitlab-ci.yml'
       else
@@ -521,10 +527,6 @@ module Ci
 
     def has_yaml_errors?
       yaml_errors.present?
-    end
-
-    def environments
-      builds.where.not(environment: nil).success.pluck(:environment).uniq
     end
 
     # Manually set the notes for a Ci::Pipeline
@@ -666,6 +668,7 @@ module Ci
     def ci_yaml_from_repo
       return unless project
       return unless sha
+      return unless ci_yaml_file_path
 
       project.repository.gitlab_ci_yml_for(sha, ci_yaml_file_path)
     rescue GRPC::NotFound, GRPC::Internal
