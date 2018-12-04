@@ -63,6 +63,7 @@ module QA
             wait_for_notes_to_be_displayed
             notes = all_elements(:note_header)
             raise ElementNotFound if notes.count.zero?
+
             notes.first.text
           end
 

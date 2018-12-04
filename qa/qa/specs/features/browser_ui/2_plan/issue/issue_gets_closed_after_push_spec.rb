@@ -39,7 +39,6 @@ module QA
           page.commit_changes
         end
       end
-
     end
   end
 end
