@@ -94,7 +94,9 @@ class ProjectMember < Member
   private
 
   def send_invite
-    run_after_commit_or_now { notification_service.invite_project_member(self, @raw_invite_token) }
+    unless skip_notification?
+      run_after_commit_or_now { notification_service.invite_project_member(self, @raw_invite_token) }
+    end
 
     super
   end
@@ -102,14 +104,17 @@ class ProjectMember < Member
   def post_create_hook
     unless owner?
       event_service.join_project(self.project, self.user)
-      run_after_commit_or_now { notification_service.new_project_member(self) }
+
+      unless skip_notification?
+        run_after_commit_or_now { notification_service.new_project_member(self) }
+      end
     end
 
     super
   end
 
   def post_update_hook
-    if access_level_changed?
+    if access_level_changed? && !skip_notification?
       run_after_commit { notification_service.update_project_member(self) }
     end
 
@@ -127,13 +132,13 @@ class ProjectMember < Member
   end
 
   def after_accept_invite
-    notification_service.accept_project_invite(self)
+    notification_service.accept_project_invite(self) unless skip_notification?
 
     super
   end
 
   def after_decline_invite
-    notification_service.decline_project_invite(self)
+    notification_service.decline_project_invite(self) unless skip_notification?
 
     super
   end

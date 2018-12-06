@@ -449,4 +449,11 @@ class Member < ActiveRecord::Base
       errors.add(:access_level, s_("should be higher than %{access} inherited membership from group %{group_name}") % error_parameters)
     end
   end
+
+  def skip_notification?
+    # In EE we want to disable the sending of notifications in certain
+    # scenarios. To allow this, we define this method in CE so EE can easily
+    # redefine it according to its needs.
+    false
+  end
 end
