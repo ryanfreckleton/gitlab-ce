@@ -41,8 +41,9 @@ beforeEach(() => {
 });
 afterEach(() => {
   const now = new Date();
-  if (now.getTime() - testStarted.getTime() > 300) {
-    fail('too long!');
+  const testDuration = now.getTime() - testStarted.getTime();
+  if (testDuration > 300) {
+    fail(`Test is taking too long! ${testDuration}ms`);
   }
 });
 
