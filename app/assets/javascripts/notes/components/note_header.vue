@@ -62,7 +62,7 @@ export default {
 </script>
 
 <template>
-  <div class="note-header-info">
+  <div class="note-header-info qa-note-header">
     <div v-if="includeToggle" class="discussion-actions">
       <button
         class="note-action-button discussion-toggle-button js-vue-toggle-button"
