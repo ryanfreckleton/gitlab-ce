@@ -5,7 +5,7 @@ end
 
 gem_versions = {}
 gem_versions['activerecord_sane_schema_dumper'] = rails5? ? '1.0'    : '0.2'
-gem_versions['rails']                           = rails5? ? '5.0.7'  : '4.2.10'
+gem_versions['rails']                           = rails5? ? '5.0.7'  : '4.2.11'
 gem_versions['rails-i18n']                      = rails5? ? '~> 5.1' : '~> 4.0.9'
 
 # The 2.0.6 version of rack requires monkeypatch to be present in
@@ -82,7 +82,7 @@ gem 'validates_hostname', '~> 1.0.6'
 gem 'browser', '~> 2.5'
 
 # GPG
-gem 'gpgme'
+gem 'gpgme', '~> 2.0.18'
 
 # LDAP Auth
 # GitLab fork with several improvements to original library. For full list of changes
@@ -91,7 +91,7 @@ gem 'gitlab_omniauth-ldap', '~> 2.0.4', require: 'omniauth-ldap'
 gem 'net-ldap'
 
 # API
-gem 'grape', '~> 1.1'
+gem 'grape', '~> 1.1.0'
 gem 'grape-entity', '~> 0.7.1'
 gem 'rack-cors', '~> 1.0.0', require: 'rack/cors'
 
@@ -263,6 +263,9 @@ gem 'ace-rails-ap', '~> 4.1.0'
 # Detect and convert string character encoding
 gem 'charlock_holmes', '~> 0.7.5'
 
+# Detect mime content type from content
+gem 'mimemagic', '~> 0.3.2'
+
 # Faster blank
 gem 'fast_blank'
 
@@ -298,7 +301,7 @@ gem 'gettext_i18n_rails', '~> 1.8.0'
 gem 'gettext_i18n_rails_js', '~> 1.3'
 gem 'gettext', '~> 3.2.2', require: false, group: :development
 
-gem 'batch-loader', '~> 1.2.1'
+gem 'batch-loader', '~> 1.2.2'
 
 # Perf bar
 gem 'peek', '~> 1.0.1'
@@ -432,7 +435,7 @@ group :ed25519 do
 end
 
 # Gitaly GRPC client
-gem 'gitaly-proto', '~> 1.1.0', require: 'gitaly'
+gem 'gitaly-proto', '~> 1.3.0', require: 'gitaly'
 gem 'grpc', '~> 1.15.0'
 
 gem 'google-protobuf', '~> 3.6'

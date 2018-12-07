@@ -205,6 +205,84 @@ describe('DiffsStoreMutations', () => {
       expect(state.diffFiles[0].highlighted_diff_lines[0].discussions[0].id).toEqual(1);
     });
 
+    it('should not duplicate discussions on line', () => {
+      const diffPosition = {
+        base_sha: 'ed13df29948c41ba367caa757ab3ec4892509910',
+        head_sha: 'b921914f9a834ac47e6fd9420f78db0f83559130',
+        new_line: null,
+        new_path: '500-lines-4.txt',
+        old_line: 5,
+        old_path: '500-lines-4.txt',
+        start_sha: 'ed13df29948c41ba367caa757ab3ec4892509910',
+      };
+
+      const state = {
+        latestDiff: true,
+        diffFiles: [
+          {
+            file_hash: 'ABC',
+            parallel_diff_lines: [
+              {
+                left: {
+                  line_code: 'ABC_1',
+                  discussions: [],
+                },
+                right: {
+                  line_code: 'ABC_1',
+                  discussions: [],
+                },
+              },
+            ],
+            highlighted_diff_lines: [
+              {
+                line_code: 'ABC_1',
+                discussions: [],
+              },
+            ],
+          },
+        ],
+      };
+      const discussion = {
+        id: 1,
+        line_code: 'ABC_1',
+        diff_discussion: true,
+        resolvable: true,
+        original_position: diffPosition,
+        position: diffPosition,
+        diff_file: {
+          file_hash: state.diffFiles[0].file_hash,
+        },
+      };
+
+      const diffPositionByLineCode = {
+        ABC_1: diffPosition,
+      };
+
+      mutations[types.SET_LINE_DISCUSSIONS_FOR_FILE](state, {
+        discussion,
+        diffPositionByLineCode,
+      });
+
+      expect(state.diffFiles[0].parallel_diff_lines[0].left.discussions.length).toEqual(1);
+      expect(state.diffFiles[0].parallel_diff_lines[0].left.discussions[0].id).toEqual(1);
+      expect(state.diffFiles[0].parallel_diff_lines[0].right.discussions).toEqual([]);
+
+      expect(state.diffFiles[0].highlighted_diff_lines[0].discussions.length).toEqual(1);
+      expect(state.diffFiles[0].highlighted_diff_lines[0].discussions[0].id).toEqual(1);
+
+      mutations[types.SET_LINE_DISCUSSIONS_FOR_FILE](state, {
+        discussion,
+        diffPositionByLineCode,
+      });
+
+      expect(state.diffFiles[0].parallel_diff_lines[0].left.discussions.length).toEqual(1);
+      expect(state.diffFiles[0].parallel_diff_lines[0].left.discussions[0].id).toEqual(1);
+      expect(state.diffFiles[0].parallel_diff_lines[0].right.discussions).toEqual([]);
+
+      expect(state.diffFiles[0].highlighted_diff_lines[0].discussions.length).toEqual(1);
+      expect(state.diffFiles[0].highlighted_diff_lines[0].discussions[0].id).toEqual(1);
+    });
+
     it('should add legacy discussions to the given line', () => {
       const diffPosition = {
         base_sha: 'ed13df29948c41ba367caa757ab3ec4892509910',
@@ -363,6 +441,16 @@ describe('DiffsStoreMutations', () => {
       mutations[types.UPDATE_CURRENT_DIFF_FILE_ID](state, 'somefileid');
 
       expect(state.currentDiffFileId).toBe('somefileid');
+    });
+  });
+
+  describe('Set highlighted row', () => {
+    it('sets highlighted row', () => {
+      const state = createState();
+
+      mutations[types.SET_HIGHLIGHTED_ROW](state, 'ABC_123');
+
+      expect(state.highlightedRow).toBe('ABC_123');
     });
   });
 

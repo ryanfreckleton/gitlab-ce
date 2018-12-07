@@ -243,6 +243,7 @@ $gl-padding-top: 10px;
 $gl-sidebar-padding: 22px;
 $gl-bar-padding: 3px;
 $input-horizontal-padding: 12px;
+$browserScrollbarSize: 10px;
 
 /*
  * Misc
@@ -331,7 +332,6 @@ $dropdown-max-height: 312px;
 $dropdown-vertical-offset: 4px;
 $dropdown-empty-row-bg: rgba(#000, 0.04);
 $dropdown-shadow-color: rgba(#000, 0.1);
-$dropdown-divider-color: rgba(#000, 0.1);
 $dropdown-title-btn-color: #bfbfbf;
 $dropdown-input-fa-color: #c7c7c7;
 $dropdown-input-focus-shadow: rgba($blue-300, 0.4);

@@ -130,7 +130,7 @@ export default {
 
         if (file.highlighted_diff_lines) {
           file.highlighted_diff_lines = file.highlighted_diff_lines.map(line => {
-            if (lineCheck(line)) {
+            if (!line.discussions.some(({ id }) => discussion.id === id) && lineCheck(line)) {
               return {
                 ...line,
                 discussions: line.discussions.concat(discussion),
@@ -150,11 +150,17 @@ export default {
               return {
                 left: {
                   ...line.left,
-                  discussions: left ? line.left.discussions.concat(discussion) : [],
+                  discussions:
+                    left && !line.left.discussions.some(({ id }) => id === discussion.id)
+                      ? line.left.discussions.concat(discussion)
+                      : (line.left && line.left.discussions) || [],
                 },
                 right: {
                   ...line.right,
-                  discussions: right && !left ? line.right.discussions.concat(discussion) : [],
+                  discussions:
+                    right && !left && !line.right.discussions.some(({ id }) => id === discussion.id)
+                      ? line.right.discussions.concat(discussion)
+                      : (line.right && line.right.discussions) || [],
                 },
               };
             }
@@ -240,5 +246,8 @@ export default {
   },
   [types.CLOSE_DIFF_FILE_COMMENT_FORM](state, fileHash) {
     state.commentForms = state.commentForms.filter(form => form.fileHash !== fileHash);
+  },
+  [types.SET_HIGHLIGHTED_ROW](state, lineCode) {
+    state.highlightedRow = lineCode;
   },
 };
