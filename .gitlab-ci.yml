@@ -210,7 +210,7 @@ stages:
     - git clone https://gitlab.com/gitlab-org/gitlab-test.git
        /home/git/repositories/gitlab-org/gitlab-test.git
     - scripts/gitaly-test-spawn
-    - force=yes SIZE=1 FIXTURE_PATH="db/fixtures/development" bundle exec rake gitlab:setup
+    - force=yes FIXTURE_PATH="db/fixtures/development" bundle exec rake gitlab:setup
   artifacts:
     when: on_failure
     expire_in: 1d
