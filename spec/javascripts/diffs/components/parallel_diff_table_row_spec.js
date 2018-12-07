@@ -1,19 +1,30 @@
 import Vue from 'vue';
 import { createStore } from '~/mr_notes/stores';
 import ParallelDiffTableRow from '~/diffs/components/parallel_diff_table_row.vue';
+import { parallelize } from '~/diffs/store/utils';
 import { createComponentWithStore } from 'spec/helpers/vue_mount_component_helper';
 import diffFileMockData from '../mock_data/diff_file';
 
 describe('ParallelDiffTableRow', () => {
   describe('when one side is empty', () => {
     let vm;
-    const thisLine = diffFileMockData.parallel_diff_lines[0];
-    const rightLine = diffFileMockData.parallel_diff_lines[0].right;
+    let diffFileMock;
+    let thisLine;
+    let rightLine;
 
     beforeEach(() => {
+      diffFileMock = {
+        ...diffFileMockData,
+        parallel_diff_lines: parallelize(diffFileMockData.highlighted_diff_lines),
+      };
+
+      // eslint-disable-next-line prefer-destructuring
+      thisLine = diffFileMock.parallel_diff_lines[0];
+      rightLine = diffFileMock.parallel_diff_lines[0].right;
+
       vm = createComponentWithStore(Vue.extend(ParallelDiffTableRow), createStore(), {
         line: thisLine,
-        fileHash: diffFileMockData.file_hash,
+        fileHash: diffFileMock.file_hash,
         contextLinesPath: 'contextLinesPath',
         isHighlighted: false,
       }).$mount();
@@ -45,13 +56,23 @@ describe('ParallelDiffTableRow', () => {
 
   describe('when both sides have content', () => {
     let vm;
-    const thisLine = diffFileMockData.parallel_diff_lines[2];
-    const rightLine = diffFileMockData.parallel_diff_lines[2].right;
+    let diffFileMock;
+    let thisLine;
+    let rightLine;
 
     beforeEach(() => {
+      diffFileMock = {
+        ...diffFileMockData,
+        parallel_diff_lines: parallelize(diffFileMockData.highlighted_diff_lines),
+      };
+
+      // eslint-disable-next-line prefer-destructuring
+      thisLine = diffFileMock.parallel_diff_lines[2];
+      rightLine = diffFileMock.parallel_diff_lines[2].right;
+
       vm = createComponentWithStore(Vue.extend(ParallelDiffTableRow), createStore(), {
         line: thisLine,
-        fileHash: diffFileMockData.file_hash,
+        fileHash: diffFileMock.file_hash,
         contextLinesPath: 'contextLinesPath',
         isHighlighted: false,
       }).$mount();
