@@ -34,6 +34,18 @@ Vue.config.errorHandler = function(err) {
 Vue.use(VueResource);
 Vue.use(Translate);
 
+let testStarted;
+
+beforeEach(() => {
+  testStarted = new Date();
+});
+afterEach(() => {
+  const now = new Date();
+  if (now.getTime() - testStarted.getTime() > 300) {
+    fail('too long!');
+  }
+});
+
 // enable test fixtures
 jasmine.getFixtures().fixturesPath = FIXTURES_PATH;
 jasmine.getJSONFixtures().fixturesPath = FIXTURES_PATH;
