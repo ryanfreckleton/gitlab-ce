@@ -59,6 +59,8 @@ it('tests apollo component', () => {
 });
 ```
 
+For more advanced testing it's possible to use tests with [mocking GraphQL schema](https://akryum.github.io/vue-apollo/guide/testing.html#tests-with-mocked-graqhql-schema)
+
 ## Usage outside of Vue
 
 It is also possible to use GraphQL outside of Vue by directly importing
