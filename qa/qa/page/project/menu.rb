@@ -5,6 +5,7 @@ module QA
     module Project
       class Menu < Page::Base
         view 'app/views/layouts/nav/sidebar/_project.html.haml' do
+          element :project_link
           element :settings_item
           element :settings_link, 'link_to edit_project_path' # rubocop:disable QA/ElementWithPattern
           element :repository_link, "title: _('Repository')" # rubocop:disable QA/ElementWithPattern
@@ -27,6 +28,12 @@ module QA
 
         view 'app/assets/javascripts/fly_out_nav.js' do
           element :fly_out, "classList.add('fly-out-list')" # rubocop:disable QA/ElementWithPattern
+        end
+
+        def click_project
+          within_sidebar do
+            click_element :project_link
+          end
         end
 
         def click_ci_cd_pipelines

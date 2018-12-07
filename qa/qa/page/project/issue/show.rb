@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'uri'
 
 module QA
   module Page
@@ -22,6 +23,10 @@ module QA
             element :filter_options
           end
 
+          view 'app/assets/javascripts/notes/components/note_header.vue' do
+            element :note_header
+          end
+
           # Adds a comment to an issue
           # attachment option should be an absolute path
           def comment(text, attachment: nil)
@@ -29,7 +34,7 @@ module QA
 
             unless attachment.nil?
               QA::Page::Component::Dropzone.new(self, '.new-note')
-                .attach_file(attachment)
+                  .attach_file(attachment)
             end
 
             click_element :comment_button
@@ -51,7 +56,21 @@ module QA
           end
 
           def issue_id
-            current_url.split('/').last
+            URI.parse(current_url).path.split('/').last
+          end
+
+          def first_note_header
+            wait_for_notes_to_be_displayed
+            all_elements(:note_header).first.text
+          end
+
+          private
+
+          def wait_for_notes_to_be_displayed
+            notes_found = wait(reload: false, max: 5) do
+              all_elements(:note_header).count > 0
+            end
+            raise ElementNotFound, "Couldn't find any notes on the issue page" unless notes_found
           end
         end
       end
