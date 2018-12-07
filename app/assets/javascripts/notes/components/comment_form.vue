@@ -247,19 +247,15 @@ Please check your network connection and try again.`;
       } else {
         this.reopenIssue()
           .then(() => this.enableButton())
-          .catch(({ data }) => {
+          .catch(() => {
             this.enableButton();
             this.toggleStateButtonLoading(false);
-            let errorMessage = sprintf(
-              __('Something went wrong while reopening the %{issuable}. Please try again later'),
-              { issuable: this.noteableDisplayName },
+            Flash(
+              sprintf(
+                __('Something went wrong while reopening the %{issuable}. Please try again later'),
+                { issuable: this.noteableDisplayName },
+              ),
             );
-
-            if (data) {
-              errorMessage = Object.values(data).join('\n');
-            }
-
-            Flash(errorMessage);
           });
       }
     },
