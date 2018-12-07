@@ -95,6 +95,7 @@ followed by any global declarations, then a blank newline prior to any imports o
 #### Modules, Imports, and Exports
 
 1. Use ES module syntax to import modules
+
     ```javascript
       // bad
       const SomeClass = require('some_class');
