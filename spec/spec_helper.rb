@@ -117,6 +117,9 @@ RSpec.configure do |config|
 
     if changed_backend_files.empty?
       config.pattern = 'spec/features/*_spec.rb,spec/javascripts/fixtures/*.rb'
+    else
+      puts "backend changes:"
+      puts changed_backend_files
     end
   end
 
