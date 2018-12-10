@@ -542,7 +542,7 @@ static-analysis:
 docs lint:
   <<: *dedicated-runner
   <<: *except-qa
-  image: "registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-docs-lint"
+  image: "registry.gitlab.com/gitlab-com/gitlab-docs:lint"
   stage: test
   cache: {}
   dependencies: []
@@ -550,13 +550,27 @@ docs lint:
   script:
     - scripts/lint-doc.sh
     - scripts/lint-changelog-yaml
-    - mv doc/ /tmp/gitlab-docs/content/
+    #
+    # Move the doc dir in the equivalent project name directory as it would
+    # be served under https://docs.gitlab.com/<name>.
+    #   - gitlab-ce => ce
+    #   - gitlab-ee => ee
+    #   - onmibus => omnibus
+    #   - gitlab-runner => runner
+    #
+    # We use bash to strip the 'gitlab-' prefix of the variable.
+    #
+    - mv doc/ /tmp/gitlab-docs/content/${CI_PROJECT_NAME#gitlab-}
     - cd /tmp/gitlab-docs
+    #
     # Build HTML from Markdown
+    #
     - bundle exec nanoc
-    # Check the internal links
-    # Disabled until https://gitlab.com/gitlab-com/gitlab-docs/issues/305 is resolved
-    # - bundle exec nanoc check internal_links
+    #
+    # Check the internal links using the environment based on the project name. Read more at
+    # https://gitlab.com/gitlab-com/gitlab-docs/blob/master/README.md#testing-internal-links
+    #
+    - bundle exec nanoc check internal_links --env=$CI_PROJECT_NAME
 
 downtime_check:
   <<: *rake-exec
