@@ -33,6 +33,8 @@ context 'U2F' do
 
     before do
       sign_in(user)
+      allow_any_instance_of(User).to receive(:otp_secret).and_return('otpsecret:coolkids')
+      allow_any_instance_of(Profiles::TwoFactorAuthsController).to receive(:build_qr_code).and_return('qrcode:blackandwhitesquares')
     end
 
     it 'u2f/register.html.raw' do |example|

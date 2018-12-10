@@ -15,6 +15,7 @@ describe Projects::IssuesController, '(JavaScript fixtures)', type: :controller 
 
   before do
     sign_in(admin)
+    allow_any_instance_of(User).to receive(:feed_token).and_return('feedtoken:coldfeed')
   end
 
   after do

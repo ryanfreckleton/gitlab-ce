@@ -15,6 +15,7 @@ describe 'Groups (JavaScript fixtures)', type: :controller do
   before do
     group.add_maintainer(admin)
     sign_in(admin)
+    allow_any_instance_of(Group).to receive(:runners_token).and_return('runnerstoken:intabulasreferre')
   end
 
   describe GroupsController, '(JavaScript fixtures)', type: :controller do

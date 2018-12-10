@@ -35,6 +35,7 @@ describe Projects::MergeRequestsController, '(JavaScript fixtures)', type: :cont
 
   before do
     sign_in(admin)
+    allow(Discussion).to receive(:build_discussion_id).and_return(['discussionid:ceterumcenseo'])
   end
 
   after do
