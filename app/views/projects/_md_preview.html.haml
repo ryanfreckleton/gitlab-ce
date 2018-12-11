@@ -1,4 +1,5 @@
 - referenced_users = local_assigns.fetch(:referenced_users, nil)
+- use_csslab = local_assigns.fetch(:use_csslab, false)
 
 - if defined?(@merge_request) && @merge_request.discussion_locked?
   .issuable-note-warning
@@ -32,7 +33,7 @@
 
   .md-write-holder
     = yield
-  .md-legacy.md-preview-holder.js-md-preview.hide.md-preview{ data: { url: url } }
+  .md-preview-holder.js-md-preview.hide.md-preview{ data: { url: url }, class: (use_csslab ? 'md' : 'md-legacy' ) }
   .referenced-commands.hide
 
   - if referenced_users

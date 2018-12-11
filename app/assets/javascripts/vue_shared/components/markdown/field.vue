@@ -162,7 +162,7 @@ export default {
         />
       </div>
     </div>
-    <div v-show="previewMarkdown" class="md md-preview-holder md-preview js-vue-md-preview">
+    <div v-show="previewMarkdown" class="md-legacy md-preview-holder md-preview js-vue-md-preview">
       <div ref="markdown-preview" v-html="markdownPreview"></div>
       <span v-if="markdownPreviewLoading"> Loading... </span>
     </div>
