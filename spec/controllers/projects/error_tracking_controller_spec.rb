@@ -47,11 +47,11 @@ RSpec.describe Projects::ErrorTrackingController, type: :controller do
   end
 
   describe 'GET #index' do
-    it 'returns an empty list of errors' do
+    it 'responds with matching schema' do
       get :index, project_params
 
       expect(response).to have_gitlab_http_status(:ok)
-      expect(json_response).to eq([])
+      expect(response).to match_response_schema('errors')
     end
 
     context 'with feature flag disabled' do
