@@ -9,15 +9,18 @@ module QA
       it 'closes the issue after pushing a commit' do
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
         Page::Main::Login.act {sign_in_using_credentials}
-        Resource::Issue.fabricate! do |issue|
+        issue = Resource::Issue.fabricate! do |issue|
           issue.title = issue_title
         end
-        issue_id = Page::Project::Issue::Show.perform(&:issue_id)
+        Page::Project::Menu.act {click_project}
+        Page::Project::Show.act {click_add_new_file}
         # It is necessary to initiate an initial commit - as the first push into a repository doesn't trigger the closing
         # https://gitlab.com/gitlab-org/gitlab-ce/issues/54722
         push_file("initial commit", "firstfile")
 
-        push_file("Closes ##{issue_id}", "secondfile")
+        Page::Project::Menu.act {click_project}
+        Page::Project::Show.act {create_new_file!}
+        push_file("Closes ##{issue.id}", "secondfile")
         commit_sha = Page::File::Show.perform(&:commit_sha)
         Page::Project::Menu.act {click_issues}
         Page::Project::Issue::Index.perform do |page|
@@ -31,8 +34,6 @@ module QA
       end
 
       def push_file(commit_message, filename)
-        Page::Project::Menu.act {click_project}
-        Page::Project::Show.act {create_new_file!}
         Page::File::Form.perform do |page|
           page.add_name(filename)
           page.add_content(FFaker::Lorem.phrase)

@@ -51,6 +51,10 @@ module QA
           element :branches_dropdown
         end
 
+        view 'app/presenters/project_presenter.rb' do
+          element :new_file
+        end
+
         def create_first_new_file!
           within_element(:quick_actions) do
             click_link_with_text 'New file'
@@ -110,6 +114,10 @@ module QA
           wait(reload: true) do
             has_css?('.tree-holder')
           end
+        end
+
+        def click_add_new_file
+          click_element :new_file
         end
       end
     end

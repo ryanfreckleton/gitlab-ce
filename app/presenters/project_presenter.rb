@@ -197,7 +197,7 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
       AnchorData.new(false,
                      statistic_icon + _('New file'),
                      project_new_blob_path(project, default_branch || 'master'),
-                     'success')
+                     'success qa-new-file')
     end
   end
 

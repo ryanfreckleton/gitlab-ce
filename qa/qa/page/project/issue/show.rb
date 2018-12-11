@@ -55,10 +55,6 @@ module QA
             all_elements(:filter_options).first.click
           end
 
-          def issue_id
-            URI.parse(current_url).path.split('/').last
-          end
-
           def first_note_header
             wait_for_notes_to_be_displayed
             all_elements(:note_header).first.text

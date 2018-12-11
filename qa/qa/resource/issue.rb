@@ -1,9 +1,11 @@
 # frozen_string_literal: true
+require 'uri'
 
 module QA
   module Resource
     class Issue < Base
       attr_writer :description
+      attribute :id
 
       attribute :project do
         Project.fabricate! do |resource|
@@ -24,6 +26,7 @@ module QA
           page.add_description(@description)
           page.create_new_issue
         end
+        @id = URI.parse(current_url).path.split('/').last
       end
     end
   end
