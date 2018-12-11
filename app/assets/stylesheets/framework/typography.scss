@@ -372,7 +372,7 @@ code {
   @include md-typography;
 }
 
-.md:not(.use-csslab) {
+.md-legacy {
   @include md-typography;
 }
 

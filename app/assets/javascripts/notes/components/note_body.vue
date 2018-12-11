@@ -68,7 +68,7 @@ export default {
 
 <template>
   <div ref="note-body" :class="{ 'js-task-list-container': canEdit }" class="note-body">
-    <div class="note-text md" v-html="note.note_html"></div>
+    <div class="note-text md-legacy" v-html="note.note_html"></div>
     <note-form
       v-if="isEditing"
       ref="noteForm"
