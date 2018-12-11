@@ -1,5 +1,8 @@
 . scripts/utils.sh
 
+# Add host entries for various services pointing to localhost so `getent` works
+echo '127.0.0.1	mysql postgres redis' >> /etc/hosts
+
 export SETUP_DB=${SETUP_DB:-true}
 export USE_BUNDLE_INSTALL=${USE_BUNDLE_INSTALL:-true}
 export BUNDLE_INSTALL_FLAGS="--without=production --jobs=$(nproc) --path=vendor --retry=3 --quiet"
@@ -23,8 +26,6 @@ export GITLAB_DATABASE=$(echo $CI_JOB_NAME | cut -f1 -d' ' | cut -f2 -d-)
 # pg to mean postgresql.
 if [ "$GITLAB_DATABASE" != 'mysql' ]; then
   export GITLAB_DATABASE='postgresql'
-else
-  echo '127.0.0.1	mysql' >> /etc/hosts
 fi
 
 cp config/database.yml.$GITLAB_DATABASE config/database.yml
