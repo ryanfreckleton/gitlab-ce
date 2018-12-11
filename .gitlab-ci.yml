@@ -542,7 +542,7 @@ static-analysis:
 docs lint:
   <<: *dedicated-runner
   <<: *except-qa
-  image: "registry.gitlab.com/gitlab-com/gitlab-docs:lint"
+  image: "registry.gitlab.com/gitlab-com/gitlab-docs/test/docs:lint"
   stage: test
   cache: {}
   dependencies: []
