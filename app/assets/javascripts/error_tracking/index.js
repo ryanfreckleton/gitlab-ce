@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import store from './store'
 import ErrorTrackingList from './components/error_tracking_list.vue';
 
 export default () =>
@@ -7,10 +8,13 @@ export default () =>
     components: {
       ErrorTrackingList,
     },
+    store,
     render(createElement) {
+      const { indexPath } = document.querySelector(this.$options.el).dataset;
+
       return createElement('error-tracking-list', {
         props: {
-
+          indexPath,
         },
       });
     },
