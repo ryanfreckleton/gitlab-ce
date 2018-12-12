@@ -446,6 +446,7 @@ setup-test-env:
   image: registry.gitlab.com/gitlab-org/gitlab-build-images:gitlab-charts-build-base
   stage: test
   cache: {}
+  when: manual
   dependencies: []
   environment: &review-environment
     name: review/${CI_COMMIT_REF_NAME}
