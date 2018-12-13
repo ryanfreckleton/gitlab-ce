@@ -1,12 +1,15 @@
 <script>
 import { mapActions, mapState } from 'vuex';
-import { GlEmptyState, GlLoadingIcon, GlErrorList } from '@gitlab/ui';
+import { GlEmptyState, GlButton, GlLoadingIcon, GlErrorList } from '@gitlab/ui';
+import Icon from '~/vue_shared/components/icon.vue';
 
 export default {
   components: {
     GlEmptyState,
+    GlButton,
     GlLoadingIcon,
-    GlErrorList
+    GlErrorList,
+    Icon,
   },
   props: {
     indexPath: {
@@ -19,7 +22,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['errors', 'loadingErrors']),
+    ...mapState(['errors', 'externalUrl', 'loadingErrors']),
     featureEnabled() {
       return gon.features.errorTracking;
     },
@@ -45,7 +48,18 @@ export default {
             title="No Errors :("
           />
         </div>
-        <gl-error-list :errors="errors" />
+        <div v-else>
+          <gl-button
+            class="float-right m-2"
+            variant="primary"
+            :href="externalUrl"
+            target="_blank"
+          >
+            View in Sentry
+            <icon name="external-link" />
+          </gl-button>
+          <gl-error-list :errors="errors" />
+        </div>
       </div>
     </div>
     <div v-else>

@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export const createStore = () => new Vuex.Store({
   state: {
     errors: [],
+    externalUrl: '',
     loadingErrors: true,
   },
   actions,
