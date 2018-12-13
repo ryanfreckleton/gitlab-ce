@@ -235,7 +235,8 @@ class Project < ActiveRecord::Base
   has_one :project_feature, inverse_of: :project
   has_one :statistics, class_name: 'ProjectStatistics'
 
-  has_one :error_tracking_setting, inverse_of: :project
+  has_one :error_tracking_setting, inverse_of: :project,
+    class_name: 'ErrorTracking::ErrorTrackingSetting'
 
   has_one :cluster_project, class_name: 'Clusters::Project'
   has_many :clusters, through: :cluster_project, class_name: 'Clusters::Cluster'
