@@ -164,7 +164,7 @@ stages:
     - '[[ -f $FLAKY_RSPEC_REPORT_PATH ]] || echo "{}" > ${FLAKY_RSPEC_REPORT_PATH}'
     - '[[ -f $NEW_FLAKY_RSPEC_REPORT_PATH ]] || echo "{}" > ${NEW_FLAKY_RSPEC_REPORT_PATH}'
     - scripts/gitaly-test-spawn
-    - knapsack rspec "--color --format documentation --format RspecJunitFormatter --out junit_rspec.xml"
+    - bundle exec knapsack rspec "--color --format documentation --format RspecJunitFormatter --out junit_rspec.xml"
   artifacts:
     expire_in: 31d
     when: always
