@@ -1,11 +1,12 @@
 <script>
 import { mapActions, mapState } from 'vuex';
-import { GlEmptyState, GlLoadingIcon } from '@gitlab/ui';
+import { GlEmptyState, GlLoadingIcon, GlErrorList } from '@gitlab/ui';
 
 export default {
   components: {
     GlEmptyState,
     GlLoadingIcon,
+    GlErrorList
   },
   props: {
     indexPath: {
@@ -44,7 +45,7 @@ export default {
             title="No Errors :("
           />
         </div>
-        {{ errors }}
+        <gl-error-list :errors="errors" />
       </div>
     </div>
     <div v-else>
