@@ -73,3 +73,40 @@ export default {
     </div>
   </div>
 </template>
+<style>
+  .sentry-description,
+  .sentry-description-header {
+    flex: 1 70%;
+    margin-right: 10px;
+  }
+
+  .sentry-culprit {
+    color: #999;
+    font-weight: 400;
+  }
+
+  .sentry-events,
+  .sentry-events-header,
+  .sentry-users,
+  .sentry-users-header,
+  .sentry-lastseen,
+  .sentry-lastseen-header {
+    flex: 1 10%;
+  }
+
+  .sentry-events,
+  .sentry-users,
+  .sentry-lastseen {
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sentry-header-box {
+    display: flex;
+    margin-right: 10px;
+    padding: 10px 10px 10px 16px;
+    border-bottom: 1px solid #eee;
+  }
+</style>
+
