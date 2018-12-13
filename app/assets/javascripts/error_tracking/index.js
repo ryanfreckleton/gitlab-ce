@@ -10,11 +10,15 @@ export default () =>
     },
     store,
     render(createElement) {
-      const { indexPath } = document.querySelector(this.$options.el).dataset;
+      const {
+        indexPath,
+        enableErrorTrackingLink
+      } = document.querySelector(this.$options.el).dataset;
 
       return createElement('error-tracking-list', {
         props: {
           indexPath,
+          enableErrorTrackingLink,
         },
       });
     },
