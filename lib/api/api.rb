@@ -141,6 +141,7 @@ module API
     mount ::API::ProjectSnapshots
     mount ::API::ProjectSnippets
     mount ::API::ProjectTemplates
+    mount ::API::ProjectTraffics
     mount ::API::ProtectedBranches
     mount ::API::ProtectedTags
     mount ::API::Releases
