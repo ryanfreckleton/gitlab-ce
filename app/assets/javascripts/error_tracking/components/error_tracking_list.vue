@@ -49,15 +49,17 @@ export default {
           />
         </div>
         <div v-else>
-          <gl-button
-            class="float-right m-2"
-            variant="primary"
-            :href="externalUrl"
-            target="_blank"
-          >
-            View in Sentry
-            <icon name="external-link" />
-          </gl-button>
+          <div class="d-flex justify-content-end">
+            <gl-button
+              class="my-3 ml-auto"
+              variant="primary"
+              :href="externalUrl"
+              target="_blank"
+            >
+              View in Sentry
+              <icon name="external-link" />
+            </gl-button>
+          </div>
           <gl-error-list :errors="errors" />
         </div>
       </div>
