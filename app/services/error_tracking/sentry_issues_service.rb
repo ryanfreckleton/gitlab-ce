@@ -56,6 +56,10 @@ module ErrorTracking
       project = issue.fetch('project')
       metadata = issue.fetch('metadata')
 
+      count = issue.fetch('count')
+      frequency = issue.fetch('stats').fetch('24h')
+      count, frequency = fake_freq(frequency)
+
       ErrorTracking::Error.new(
         id: issue.fetch('id'),
         first_seen: issue.fetch('firstSeen'),
@@ -63,17 +67,27 @@ module ErrorTracking
         title: issue.fetch('title'),
         type: issue.fetch('type'),
         user_count: issue.fetch('userCount'),
-        count: issue.fetch('count'),
+        count: count,
         message: metadata.fetch('value', nil),
         culprit: issue.fetch('culprit'),
         external_url: issue.fetch('permalink'),
         short_id: issue.fetch('shortId'),
         status: issue.fetch('status'),
-        frequency: issue.fetch('stats').fetch('24h'),
+        frequency: frequency,
         project_id: project.fetch('id'),
         project_name: project.fetch('name'),
         project_slug: project.fetch('slug'),
       )
+    end
+
+    def fake_freq(frequency)
+      faked = frequency.map do |(time, count)|
+        [time, count == 0 ? 10 + rand(50) : count]
+      end
+
+      count = faked.reduce(0) { |sum, (_, c)| sum + c }
+
+      [count, faked]
     end
   end
 end
