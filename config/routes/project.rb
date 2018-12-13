@@ -446,6 +446,8 @@ constraints(::Constraints::ProjectUrlConstrainer.new) do
         end
       end
 
+      resources :error_tracking_settings, only: [:show, :update]
+
       # Since both wiki and repository routing contains wildcard characters
       # its preferable to keep it below all other project routes
       draw :wiki
