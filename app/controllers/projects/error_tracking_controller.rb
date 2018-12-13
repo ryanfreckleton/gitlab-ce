@@ -7,21 +7,26 @@ class Projects::ErrorTrackingController < Projects::ApplicationController
   end
 
   def index
-    render json: query_errors
+    external_url, errors = errors_for(@project) 
+
+    render json: {
+      external_url: external_url,
+      errors: errors
+    }
   end
 
   private
 
-  def query_errors
-    setting = fetch_settings(@project)
-    return [] unless setting
+  def errors_for(project)
+    settings = settings_for(project)
+    return nil, [] unless settings
 
     ErrorTracking::SentryIssuesService
-      .new(setting.uri, setting.token)
+      .new(settings.uri, settings.token)
       .execute
   end
 
-  def fetch_settings(project)
+  def settings_for(project)
     setting = project.error_tracking_setting
     return setting if setting&.enabled?
   end
