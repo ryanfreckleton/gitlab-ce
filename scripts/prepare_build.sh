@@ -66,5 +66,8 @@ sed -i 's/localhost/redis/g' config/redis.shared_state.yml
 if [ "$SETUP_DB" != "false" ]; then
   setup_db
 elif getent hosts postgres || getent hosts mysql; then
+  # NOTE: Due to adding both of these entries to /etc/hosts, this will always
+  # run. Anything using a database should ensure it's actually accepting
+  # connections!
   setup_db_user_only
 fi
