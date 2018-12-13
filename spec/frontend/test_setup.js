@@ -1,3 +1,5 @@
+import { jasmineReporter } from './helpers/test_file';
+
 const testTimeoutInMs = 300;
 jest.setTimeout(testTimeoutInMs);
 
@@ -14,3 +16,5 @@ afterEach(() => {
     throw new Error(`Test took too long (${elapsedTimeInMs}ms > ${testTimeoutInMs}ms)!`);
   }
 });
+
+jasmine.getEnv().addReporter(jasmineReporter);
