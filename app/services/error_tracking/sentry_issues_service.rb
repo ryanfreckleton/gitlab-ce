@@ -69,6 +69,7 @@ module ErrorTracking
         external_url: issue.fetch('permalink'),
         short_id: issue.fetch('shortId'),
         status: issue.fetch('status'),
+        frequency: issue.fetch('stats').fetch('24h'),
         project_id: project.fetch('id'),
         project_name: project.fetch('name'),
         project_slug: project.fetch('slug'),
