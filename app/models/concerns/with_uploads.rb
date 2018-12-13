@@ -61,6 +61,6 @@ module WithUploads
   end
 
   def fast_destroy_enabled?
-    Feature.enabled?(:fast_destroy_uploads, self)
+    Feature.enabled?(:fast_destroy_uploads)
   end
 end
