@@ -208,7 +208,7 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
                      add_readme_path)
     elsif repository.readme
       AnchorData.new(false,
-                     statistic_icon('doc-text') + _('README'),
+                     _('README'),
                      default_view != 'readme' ? readme_path : '#readme',
                     'default',
                     'doc-text')
@@ -218,7 +218,7 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
   def changelog_anchor_data
     if current_user && can_current_user_push_to_default_branch? && repository.changelog.blank?
       AnchorData.new(false,
-                     statistic_icon + _('Add CHANGELOG'),
+                     _('Add CHANGELOG'),
                      add_changelog_path)
     elsif repository.changelog.present?
       AnchorData.new(false,
@@ -251,7 +251,7 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
   def contribution_guide_anchor_data
     if current_user && can_current_user_push_to_default_branch? && repository.contribution_guide.blank?
       AnchorData.new(false,
-                     statistic_icon + _('Add CONTRIBUTING'),
+                     _('Add CONTRIBUTING'),
                      add_contribution_guide_path)
     elsif repository.contribution_guide.present?
       AnchorData.new(false,
@@ -264,12 +264,12 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
     if current_user && can?(current_user, :admin_pipeline, project) && repository.gitlab_ci_yml.blank? && !show_auto_devops_callout
       if auto_devops_enabled?
         AnchorData.new(false,
-                       statistic_icon('doc-text') + _('Auto DevOps enabled'),
+                       _('Auto DevOps enabled'),
                        project_settings_ci_cd_path(project, anchor: 'autodevops-settings'),
                        'default')
       else
         AnchorData.new(false,
-                       statistic_icon + _('Enable Auto DevOps'),
+                       _('Enable Auto DevOps'),
                        project_settings_ci_cd_path(project, anchor: 'autodevops-settings'))
       end
     elsif auto_devops_enabled?
@@ -284,7 +284,7 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
 
       if clusters.empty?
         AnchorData.new(false,
-                       statistic_icon + _('Add Kubernetes cluster'),
+                       _('Add Kubernetes cluster'),
                        new_project_cluster_path(project))
       else
         cluster_link = clusters.count == 1 ? project_cluster_path(project, clusters.first) : project_clusters_path(project)
@@ -300,11 +300,11 @@ class ProjectPresenter < Gitlab::View::Presenter::Delegated
   def gitlab_ci_anchor_data
     if current_user && can_current_user_push_code? && repository.gitlab_ci_yml.blank? && !auto_devops_enabled?
       AnchorData.new(false,
-                     statistic_icon + _('Set up CI/CD'),
+                     _('Set up CI/CD'),
                      add_ci_yml_path)
     elsif repository.gitlab_ci_yml.present?
       AnchorData.new(false,
-                     statistic_icon('doc-text') + _('CI/CD configuration'),
+                     _('CI/CD configuration'),
                      ci_configuration_path,
                     'default')
     end
