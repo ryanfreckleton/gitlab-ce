@@ -160,6 +160,8 @@ describe Projects::MergeRequestsController do
 
     it_behaves_like "issuables list meta-data", :merge_request
 
+    it_behaves_like 'set sort order from user preference'
+
     context 'when page param' do
       let(:last_page) { project.merge_requests.page().total_pages }
       let!(:merge_request) { create(:merge_request_with_diffs, target_project: project, source_project: project) }
@@ -289,6 +291,20 @@ describe Projects::MergeRequestsController do
       end
 
       it_behaves_like 'update invalid issuable', MergeRequest
+    end
+
+    context 'two merge requests with the same source branch' do
+      it 'does not allow a closed merge request to be reopened if another one is open' do
+        merge_request.close!
+        create(:merge_request, source_project: merge_request.source_project, source_branch: merge_request.source_branch)
+
+        update_merge_request(state_event: 'reopen')
+
+        errors = assigns[:merge_request].errors
+
+        expect(errors[:validate_branches]).to include(/Another open merge request already exists for this source branch/)
+        expect(merge_request.reload).to be_closed
+      end
     end
   end
 

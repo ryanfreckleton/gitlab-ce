@@ -23,6 +23,11 @@ export default {
       type: Object,
       required: true,
     },
+    helpPagePath: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   computed: {
     ...mapState({
@@ -74,11 +79,13 @@ export default {
           v-if="isInlineView"
           :diff-file="diffFile"
           :diff-lines="diffFile.highlighted_diff_lines || []"
+          :help-page-path="helpPagePath"
         />
         <parallel-diff-view
           v-if="isParallelView"
           :diff-file="diffFile"
           :diff-lines="diffFile.parallel_diff_lines || []"
+          :help-page-path="helpPagePath"
         />
       </template>
       <diff-viewer
@@ -90,6 +97,8 @@ export default {
         :old-sha="diffFile.diff_refs.base_sha"
         :file-hash="diffFile.file_hash"
         :project-path="projectPath"
+        :a-mode="diffFile.a_mode"
+        :b-mode="diffFile.b_mode"
       >
         <image-diff-overlay
           slot="image-overlay"

@@ -42,6 +42,8 @@ describe Projects::IssuesController do
 
       it_behaves_like "issuables list meta-data", :issue
 
+      it_behaves_like 'set sort order from user preference'
+
       it "returns index" do
         get :index, namespace_id: project.namespace, project_id: project
 
@@ -1065,6 +1067,42 @@ describe Projects::IssuesController do
 
           expect { get :discussions, namespace_id: project.namespace, project_id: project, id: issue.iid }.not_to exceed_query_limit(control_count)
         end
+      end
+    end
+  end
+
+  context 'private project with token authentication' do
+    let(:private_project) { create(:project, :private) }
+
+    it_behaves_like 'authenticates sessionless user', :index, :atom do
+      before do
+        default_params.merge!(project_id: private_project, namespace_id: private_project.namespace)
+
+        private_project.add_maintainer(user)
+      end
+    end
+
+    it_behaves_like 'authenticates sessionless user', :calendar, :ics do
+      before do
+        default_params.merge!(project_id: private_project, namespace_id: private_project.namespace)
+
+        private_project.add_maintainer(user)
+      end
+    end
+  end
+
+  context 'public project with token authentication' do
+    let(:public_project) { create(:project, :public) }
+
+    it_behaves_like 'authenticates sessionless user', :index, :atom, public: true do
+      before do
+        default_params.merge!(project_id: public_project, namespace_id: public_project.namespace)
+      end
+    end
+
+    it_behaves_like 'authenticates sessionless user', :calendar, :ics, public: true do
+      before do
+        default_params.merge!(project_id: public_project, namespace_id: public_project.namespace)
       end
     end
   end
