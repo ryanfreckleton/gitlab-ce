@@ -78,8 +78,9 @@ export default {
 <style>
   .sentry-description,
   .sentry-description-header {
-    flex: 1 70%;
-    margin-right: 10px;
+    flex: 1 1 0%;
+    width: 50%;
+    margin: 0 8px;
   }
 
   .sentry-culprit {
@@ -92,16 +93,11 @@ export default {
   .sentry-users,
   .sentry-users-header,
   .sentry-lastseen,
-  .sentry-lastseen-header {
-    flex: 1 10%;
-  }
-
-  .sentry-events,
-  .sentry-users,
-  .sentry-lastseen {
-    align-content: center;
-    justify-content: center;
-    text-align: center;
+  .sentry-last-seen-header {
+    width: 96px;
+    margin: 0 8px;
+    text-align: right;
+    text-overflow: ellipsis;
   }
 
   .sentry-header-box {
