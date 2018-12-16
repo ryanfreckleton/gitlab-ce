@@ -220,6 +220,12 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
     head :ok
   end
 
+  def discussions
+    merge_request.discussions_diffs.preload_all
+
+    super
+  end
+
   protected
 
   alias_method :subscribable_resource, :merge_request
