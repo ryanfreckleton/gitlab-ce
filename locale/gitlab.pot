@@ -711,6 +711,9 @@ msgstr ""
 msgid "Ask your group maintainer to set up a group Runner."
 msgstr ""
 
+msgid "Assets"
+msgstr ""
+
 msgid "Assign custom color like #FF0000"
 msgstr ""
 
@@ -2587,6 +2590,9 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
+msgid "Download asset"
+msgstr ""
+
 msgid "Download tar"
 msgstr ""
 
@@ -2660,6 +2666,9 @@ msgid "Emails"
 msgstr ""
 
 msgid "Embed"
+msgstr ""
+
+msgid "Empty file"
 msgstr ""
 
 msgid "Enable"
@@ -6375,6 +6384,9 @@ msgid "System metrics (Custom)"
 msgstr ""
 
 msgid "System metrics (Kubernetes)"
+msgstr ""
+
+msgid "Tag"
 msgstr ""
 
 msgid "Tags"
