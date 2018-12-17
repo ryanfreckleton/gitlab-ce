@@ -3,7 +3,7 @@
 module Gitlab
   module Diff
     class File
-      attr_reader :diff, :repository, :diff_refs, :fallback_diff_refs, :unique_identifier
+      attr_reader :diff, :repository, :diff_refs, :fallback_diff_refs
 
       delegate :new_file?, :deleted_file?, :renamed_file?,
         :old_path, :new_path, :a_mode, :b_mode, :mode_changed?,
@@ -22,20 +22,12 @@ module Gitlab
         DiffViewer::Image
       ].sort_by { |v| v.binary? ? 0 : 1 }.freeze
 
-      def initialize(
-        diff,
-        repository:,
-        diff_refs: nil,
-        fallback_diff_refs: nil,
-        stats: nil,
-        unique_identifier: nil)
-
+      def initialize(diff, repository:, diff_refs: nil, fallback_diff_refs: nil, stats: nil)
         @diff = diff
         @stats = stats
         @repository = repository
         @diff_refs = diff_refs
         @fallback_diff_refs = fallback_diff_refs
-        @unique_identifier = unique_identifier
         @unfolded = false
 
         # Ensure items are collected in the the batch
@@ -75,12 +67,7 @@ module Gitlab
       def line_for_position(pos)
         return nil unless pos.position_type == 'text'
 
-        # The `pos` is more likely to be at the end of the Array
-        # given the persisted discussion notes are a diff hunk, not
-        # the entire diff.
-        diff_lines
-          .reverse_each
-          .find { |line| line.old_line == pos.old_line && line.new_line == pos.new_line }
+        diff_lines.find { |line| line.old_line == pos.old_line && line.new_line == pos.new_line }
       end
 
       def position_for_line_code(code)

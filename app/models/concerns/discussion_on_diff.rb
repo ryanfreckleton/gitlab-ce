@@ -9,7 +9,7 @@ module DiscussionOnDiff
   included do
     delegate  :line_code,
               :original_line_code,
-              :note_diff_file,
+              :diff_file,
               :diff_line,
               :active?,
               :created_at_diff?,
@@ -57,14 +57,6 @@ module DiscussionOnDiff
     end
 
     prev_lines
-  end
-
-  def diff_file
-    if for_merge_request? && context_noteable && note_diff_file
-      context_noteable.discussions_diffs.find_by_id(note_diff_file.id)
-    else
-      first_note.diff_file
-    end
   end
 
   def line_code_in_diffs(diff_refs)
