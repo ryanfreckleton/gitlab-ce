@@ -1,0 +1,5 @@
+---
+title: Remove forced content disposition attachment displaying ssh keys
+merge_request: 23880
+author:
+type: changed
