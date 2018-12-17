@@ -27,7 +27,7 @@ module QA
           end
 
           def create_default_lists
-            sleep 2
+            sleep 10
             click_element :default_lists_button
           end
 
