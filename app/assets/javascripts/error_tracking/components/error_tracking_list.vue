@@ -1,16 +1,26 @@
 <script>
 import { mapActions, mapState } from 'vuex';
-import { GlEmptyState, GlButton, GlLoadingIcon, GlErrorList } from '@gitlab/ui';
+import { GlEmptyState, GlButton, GlLoadingIcon, GlTable } from '@gitlab/ui';
 import Icon from '~/vue_shared/components/icon.vue';
+import timeagoMixin from '~/vue_shared/mixins/timeago';
 
 export default {
+  fields: [
+    'error',
+    'count',
+    'user_count',
+    { key: 'last_seen', formatter: 'timeFormated' },
+  ],
   components: {
     GlEmptyState,
     GlButton,
     GlLoadingIcon,
-    GlErrorList,
+    GlTable,
     Icon,
   },
+  mixins: [
+    timeagoMixin,
+  ],
   props: {
     indexPath: {
       type: String,
@@ -60,7 +70,14 @@ export default {
               <icon name="external-link" />
             </gl-button>
           </div>
-          <gl-error-list :errors="errors" />
+          <gl-table
+            :items="errors"
+            :fields="$options.fields"
+          >
+            <template slot="error" slot-scope="errors">
+              {{ errors.item.title }} {{ errors.item.culprit }} {{ errors.item.external_url }}
+            </template>
+          </gl-table>
         </div>
       </div>
     </div>
