@@ -547,7 +547,7 @@ Actual build machines/containers that [run and execute tests](https://gitlab.com
 
 ### SCLAU
 
-Abbreviation for SQO Count [Large And Up](https://about.gitlab.com/handbook/sales/#market-segmentation). This is the number of opportunities in large and strategic organizations passed from marketing to sales.
+Abbreviation for SQO Count [Large And Up](https://about.gitlab.com/handbook/business-ops/#segmentation). This is the number of opportunities in large and strategic organizations passed from marketing to sales.
 
 ### Sidekiq
 
