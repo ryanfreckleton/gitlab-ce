@@ -1,26 +1,25 @@
 <script>
 import { mapActions, mapState } from 'vuex';
-import { GlEmptyState, GlButton, GlLoadingIcon, GlTable } from '@gitlab/ui';
+import { GlEmptyState, GlButton, GlLink, GlLoadingIcon, GlTable } from '@gitlab/ui';
 import Icon from '~/vue_shared/components/icon.vue';
-import timeagoMixin from '~/vue_shared/mixins/timeago';
+import TimeAgo from '~/vue_shared/components/time_ago_tooltip.vue';
 
 export default {
   fields: [
     'error',
     'count',
     'user_count',
-    { key: 'last_seen', formatter: 'timeFormated' },
+    'lastSeen',
   ],
   components: {
     GlEmptyState,
     GlButton,
+    GlLink,
     GlLoadingIcon,
     GlTable,
     Icon,
+    TimeAgo,
   },
-  mixins: [
-    timeagoMixin,
-  ],
   props: {
     indexPath: {
       type: String,
@@ -75,7 +74,20 @@ export default {
             :fields="$options.fields"
           >
             <template slot="error" slot-scope="errors">
-              {{ errors.item.title }} {{ errors.item.culprit }} {{ errors.item.external_url }}
+              <div class="d-flex flex-column">
+                <div class="d-flex">
+                  <gl-link :href="errors.item.external_url" class="d-flex text-dark">
+                    <strong>{{ errors.item.title.trim() }}</strong>
+                    <icon name="external-link" class="ml-1" />
+                  </gl-link>
+                  <span class="text-secondary ml-2">{{ errors.item.culprit }}</span>
+                </div>
+                {{ errors.item.message }}
+              </div>
+            </template>
+            <template slot="lastSeen" slot-scope="errors">
+              <icon name="calendar" />
+              <time-ago :time="errors.item.last_seen" />
             </template>
           </gl-table>
         </div>
