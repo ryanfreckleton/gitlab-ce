@@ -545,6 +545,10 @@ A route table contains rules (called routes) that determine where network traffi
 
 Actual build machines/containers that [run and execute tests](https://gitlab.com/gitlab-org/gitlab-runner) you have specified to be run on GitLab CI.
 
+### SCLAU
+
+Abbreviation for SQO Count [Large And Up](https://about.gitlab.com/handbook/sales/#market-segmentation). This is the number of opportunities in large and strategic organizations passed from marketing to sales.
+
 ### Sidekiq
 
 The background job processor GitLab [uses](https://docs.gitlab.com/ce/administration/troubleshooting/sidekiq.html) to asynchronously run tasks.
