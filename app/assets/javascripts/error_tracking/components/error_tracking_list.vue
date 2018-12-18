@@ -104,36 +104,3 @@ export default {
     </div>
   </div>
 </template>
-<style>
-  .sentry-description,
-  .sentry-description-header {
-    flex: 1 1 0%;
-    width: 50%;
-    margin: 0 8px;
-  }
-
-  .sentry-culprit {
-    color: #999;
-    font-weight: 400;
-  }
-
-  .sentry-events,
-  .sentry-events-header,
-  .sentry-users,
-  .sentry-users-header,
-  .sentry-lastseen,
-  .sentry-last-seen-header {
-    width: 96px;
-    margin: 0 8px;
-    text-align: right;
-    text-overflow: ellipsis;
-  }
-
-  .sentry-header-box {
-    display: flex;
-    margin-right: 10px;
-    padding: 10px 10px 10px 16px;
-    border-bottom: 1px solid #eee;
-  }
-</style>
-
