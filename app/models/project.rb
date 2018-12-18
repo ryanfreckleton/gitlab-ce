@@ -339,6 +339,7 @@ class Project < ActiveRecord::Base
     presence: true,
     inclusion: { in: ->(_object) { Gitlab.config.repositories.storages.keys } }
   validates :variables, variable_duplicates: { scope: :environment_scope }
+  validates :bfg_object_map, file_size: { maximum: :max_attachment_size }
 
   # Scopes
   scope :pending_delete, -> { where(pending_delete: true) }
@@ -411,6 +412,9 @@ class Project < ActiveRecord::Base
                                             less_than: 1.month,
                                             only_integer: true,
                                             message: 'needs to be beetween 10 minutes and 1 month' }
+
+  # Used by Projects::CleanupService to hold a map of rewritten object IDs
+  mount_uploader :bfg_object_map, AttachmentUploader
 
   # Returns a project, if it is not about to be removed.
   #
@@ -570,6 +574,8 @@ class Project < ActiveRecord::Base
       .base_and_ancestors(upto: top, hierarchy_order: hierarchy_order)
   end
 
+  alias_method :ancestors, :ancestors_upto
+
   def lfs_enabled?
     return namespace.lfs_enabled? if self[:lfs_enabled].nil?
 
@@ -647,6 +653,11 @@ class Project < ActiveRecord::Base
     else
       builds.none
     end
+  end
+
+  def latest_successful_build_for(job_name, ref = default_branch)
+    builds = latest_successful_builds_for(ref)
+    builds.find_by!(name: job_name)
   end
 
   def merge_base_commit(first_commit_id, second_commit_id)
@@ -738,15 +749,9 @@ class Project < ActiveRecord::Base
     return if data.nil? && credentials.nil?
 
     project_import_data = import_data || build_import_data
-    if data
-      project_import_data.data ||= {}
-      project_import_data.data = project_import_data.data.merge(data)
-    end
 
-    if credentials
-      project_import_data.credentials ||= {}
-      project_import_data.credentials = project_import_data.credentials.merge(credentials)
-    end
+    project_import_data.merge_data(data.to_h)
+    project_import_data.merge_credentials(credentials.to_h)
 
     project_import_data
   end
@@ -1579,6 +1584,7 @@ class Project < ActiveRecord::Base
     import_state.remove_jid
     update_project_counter_caches
     after_create_default_branch
+    join_pool_repository
     refresh_markdown_cache!
   end
 
@@ -1971,7 +1977,51 @@ class Project < ActiveRecord::Base
     Ability.allowed?(user, :read_project_snippet, self)
   end
 
+  def max_attachment_size
+    Gitlab::CurrentSettings.max_attachment_size.megabytes.to_i
+  end
+
+  def object_pool_params
+    return {} unless !forked? && git_objects_poolable?
+
+    {
+      repository_storage: repository_storage,
+      pool_repository:    pool_repository || create_new_pool_repository
+    }
+  end
+
+  # Git objects are only poolable when the project is or has:
+  # - Hashed storage -> The object pool will have a remote to its members, using relative paths.
+  #                     If the repository path changes we would have to update the remote.
+  # - Public         -> User will be able to fetch Git objects that might not exist
+  #                     in their own repository.
+  # - Repository     -> Else the disk path will be empty, and there's nothing to pool
+  def git_objects_poolable?
+    hashed_storage?(:repository) &&
+      public? &&
+      repository_exists? &&
+      Gitlab::CurrentSettings.hashed_storage_enabled &&
+      Feature.enabled?(:object_pools, self)
+  end
+
   private
+
+  def create_new_pool_repository
+    pool = begin
+             create_pool_repository!(shard: Shard.by_name(repository_storage), source_project: self)
+           rescue ActiveRecord::RecordNotUnique
+             pool_repository(true)
+           end
+
+    pool.schedule unless pool.scheduled?
+    pool
+  end
+
+  def join_pool_repository
+    return unless pool_repository
+
+    ObjectPool::JoinWorker.perform_async(pool_repository.id, self.id)
+  end
 
   def use_hashed_storage
     if self.new_record? && Gitlab::CurrentSettings.hashed_storage_enabled

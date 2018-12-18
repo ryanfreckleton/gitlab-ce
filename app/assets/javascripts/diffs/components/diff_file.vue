@@ -4,6 +4,7 @@ import _ from 'underscore';
 import { __, sprintf } from '~/locale';
 import createFlash from '~/flash';
 import { GlLoadingIcon } from '@gitlab/ui';
+import eventHub from '../../notes/event_hub';
 import DiffFileHeader from './diff_file_header.vue';
 import DiffContent from './diff_content.vue';
 
@@ -21,6 +22,11 @@ export default {
     canCurrentUserFork: {
       type: Boolean,
       required: true,
+    },
+    helpPagePath: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   data() {
@@ -52,7 +58,9 @@ export default {
         (!this.file.highlighted_diff_lines &&
           !this.isLoadingCollapsedDiff &&
           !this.file.too_large &&
-          this.file.text)
+          this.file.text &&
+          !this.file.renamed_file &&
+          !this.file.mode_changed)
       );
     },
     showLoadingIcon() {
@@ -72,6 +80,9 @@ export default {
         this.handleLoadCollapsedDiff();
       }
     },
+  },
+  created() {
+    eventHub.$on(`loadCollapsedDiff/${this.file.file_hash}`, this.handleLoadCollapsedDiff);
   },
   methods: {
     ...mapActions('diffs', ['loadCollapsedDiff', 'assignDiscussionsToDiff']),
@@ -143,9 +154,8 @@ export default {
       <a
         :href="file.fork_path"
         class="js-fork-suggestion-button btn btn-grouped btn-inverted btn-success"
+        >Fork</a
       >
-        Fork
-      </a>
       <button
         class="js-cancel-fork-suggestion-button btn btn-grouped"
         type="button"
@@ -159,6 +169,7 @@ export default {
       v-if="!isCollapsed && file.renderIt"
       :class="{ hidden: isCollapsed || file.too_large }"
       :diff-file="file"
+      :help-page-path="helpPagePath"
     />
     <gl-loading-icon v-if="showLoadingIcon" class="diff-content loading" />
     <div v-else-if="showExpandMessage" class="nothing-here-block diff-collapsed">

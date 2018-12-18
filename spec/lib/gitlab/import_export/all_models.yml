@@ -37,6 +37,7 @@ notes:
 - events
 - system_note_metadata
 - note_diff_file
+- suggestions
 label_links:
 - target
 - label
@@ -63,6 +64,7 @@ snippets:
 - award_emoji
 - user_agent_detail
 releases:
+- author
 - project
 project_members:
 - created_by
@@ -287,6 +289,7 @@ project:
 - statistics
 - container_repositories
 - uploads
+- file_uploads
 - import_state
 - members_and_requesters
 - build_trace_section_names

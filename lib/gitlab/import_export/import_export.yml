@@ -27,7 +27,8 @@ project_tree:
     - :award_emoji
     - notes:
         :author
-  - :releases
+  - releases:
+      :author
   - project_members:
     - :user
   - merge_requests:
@@ -115,6 +116,7 @@ excluded_attributes:
     - :remote_mirror_available_overridden
     - :description_html
     - :repository_languages
+    - :bfg_object_map
   namespaces:
     - :runners_token
     - :runners_token_encrypted
@@ -142,6 +144,7 @@ excluded_attributes:
   statuses:
     - :trace
     - :token
+    - :token_encrypted
     - :when
     - :artifacts_file
     - :artifacts_metadata

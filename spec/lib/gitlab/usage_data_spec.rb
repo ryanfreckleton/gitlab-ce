@@ -117,6 +117,7 @@ describe Gitlab::UsageData do
         releases
         remote_mirrors
         snippets
+        suggestions
         todos
         uploads
         web_hooks
@@ -211,6 +212,31 @@ describe Gitlab::UsageData do
       allow(relation).to receive(:count).and_raise(ActiveRecord::StatementInvalid.new(''))
 
       expect(described_class.count(relation, fallback: 15)).to eq(15)
+    end
+  end
+
+  describe '#approximate_counts' do
+    it 'gets approximate counts for selected models' do
+      create(:label)
+
+      expect(Gitlab::Database::Count).to receive(:approximate_counts)
+        .with(described_class::APPROXIMATE_COUNT_MODELS).once.and_call_original
+
+      counts = described_class.approximate_counts.values
+
+      expect(counts.count).to eq(described_class::APPROXIMATE_COUNT_MODELS.count)
+      expect(counts.any? { |count| count < 0 }).to be_falsey
+    end
+
+    it 'returns default values if counts can not be retrieved' do
+      described_class::APPROXIMATE_COUNT_MODELS.map do |model|
+        model.name.underscore.pluralize.to_sym
+      end
+
+      expect(Gitlab::Database::Count).to receive(:approximate_counts)
+        .and_return({})
+
+      expect(described_class.approximate_counts.values.uniq).to eq([-1])
     end
   end
 end

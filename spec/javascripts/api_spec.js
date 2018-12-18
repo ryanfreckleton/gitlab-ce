@@ -180,6 +180,23 @@ describe('Api', () => {
     });
   });
 
+  describe('projectRunners', () => {
+    it('fetches the runners of a project', done => {
+      const projectPath = 7;
+      const params = { scope: 'active' };
+      const mockData = [{ id: 4 }];
+      const expectedUrl = `${dummyUrlRoot}/api/${dummyApiVersion}/projects/${projectPath}/runners`;
+      mock.onGet(expectedUrl, { params }).reply(200, mockData);
+
+      Api.projectRunners(projectPath, { params })
+        .then(({ data }) => {
+          expect(data).toEqual(mockData);
+        })
+        .then(done)
+        .catch(done.fail);
+    });
+  });
+
   describe('newLabel', () => {
     it('creates a new label', done => {
       const namespace = 'some namespace';
@@ -310,6 +327,40 @@ describe('Api', () => {
         .then(({ data }) => {
           expect(data.length).toBe(1);
           expect(data[0].name).toBe('test');
+        })
+        .then(done)
+        .catch(done.fail);
+    });
+  });
+
+  describe('user', () => {
+    it('fetches single user', done => {
+      const userId = '123456';
+      const expectedUrl = `${dummyUrlRoot}/api/${dummyApiVersion}/users/${userId}`;
+      mock.onGet(expectedUrl).reply(200, {
+        name: 'testuser',
+      });
+
+      Api.user(userId)
+        .then(({ data }) => {
+          expect(data.name).toBe('testuser');
+        })
+        .then(done)
+        .catch(done.fail);
+    });
+  });
+
+  describe('user status', () => {
+    it('fetches single user status', done => {
+      const userId = '123456';
+      const expectedUrl = `${dummyUrlRoot}/api/${dummyApiVersion}/users/${userId}/status`;
+      mock.onGet(expectedUrl).reply(200, {
+        message: 'testmessage',
+      });
+
+      Api.userStatus(userId)
+        .then(({ data }) => {
+          expect(data.message).toBe('testmessage');
         })
         .then(done)
         .catch(done.fail);

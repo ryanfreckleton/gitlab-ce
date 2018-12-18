@@ -14,14 +14,18 @@ const Api = {
   projectMergeRequestPath: '/api/:version/projects/:id/merge_requests/:mrid',
   projectMergeRequestChangesPath: '/api/:version/projects/:id/merge_requests/:mrid/changes',
   projectMergeRequestVersionsPath: '/api/:version/projects/:id/merge_requests/:mrid/versions',
+  projectRunnersPath: '/api/:version/projects/:id/runners',
   mergeRequestsPath: '/api/:version/merge_requests',
   groupLabelsPath: '/groups/:namespace_path/-/labels',
   issuableTemplatePath: '/:namespace_path/:project_path/templates/:type/:key',
   projectTemplatePath: '/api/:version/projects/:id/templates/:type/:key',
   projectTemplatesPath: '/api/:version/projects/:id/templates/:type',
   usersPath: '/api/:version/users.json',
-  userStatusPath: '/api/:version/user/status',
+  userPath: '/api/:version/users/:id',
+  userStatusPath: '/api/:version/users/:id/status',
+  userPostStatusPath: '/api/:version/user/status',
   commitPath: '/api/:version/projects/:id/repository/commits',
+  applySuggestionPath: '/api/:version/suggestions/:id/apply',
   commitPipelinesPath: '/:project_id/commit/:sha/pipelines',
   branchSinglePath: '/api/:version/projects/:id/repository/branches/:branch',
   createBranchPath: '/api/:version/projects/:id/repository/branches',
@@ -124,6 +128,15 @@ const Api = {
     return axios.get(url);
   },
 
+  projectRunners(projectPath, config = {}) {
+    const url = Api.buildUrl(Api.projectRunnersPath).replace(
+      ':id',
+      encodeURIComponent(projectPath),
+    );
+
+    return axios.get(url, config);
+  },
+
   mergeRequests(params = {}) {
     const url = Api.buildUrl(Api.mergeRequestsPath);
 
@@ -171,6 +184,12 @@ const Api = {
         'Content-Type': 'application/json; charset=utf-8',
       },
     });
+  },
+
+  applySuggestion(id) {
+    const url = Api.buildUrl(Api.applySuggestionPath).replace(':id', encodeURIComponent(id));
+
+    return axios.put(url);
   },
 
   commitPipelines(projectId, sha) {
@@ -244,6 +263,20 @@ const Api = {
     });
   },
 
+  user(id, options) {
+    const url = Api.buildUrl(this.userPath).replace(':id', encodeURIComponent(id));
+    return axios.get(url, {
+      params: options,
+    });
+  },
+
+  userStatus(id, options) {
+    const url = Api.buildUrl(this.userStatusPath).replace(':id', encodeURIComponent(id));
+    return axios.get(url, {
+      params: options,
+    });
+  },
+
   branches(id, query = '', options = {}) {
     const url = Api.buildUrl(this.createBranchPath).replace(':id', encodeURIComponent(id));
 
@@ -266,7 +299,7 @@ const Api = {
   },
 
   postUserStatus({ emoji, message }) {
-    const url = Api.buildUrl(this.userStatusPath);
+    const url = Api.buildUrl(this.userPostStatusPath);
 
     return axios.put(url, {
       emoji,

@@ -68,11 +68,7 @@ module Ci
     # this `Hash` with new values.
     enum_with_nil source: ::Ci::PipelineEnums.sources
 
-    enum_with_nil config_source: {
-      unknown_source: nil,
-      repository_source: 1,
-      auto_devops_source: 2
-    }
+    enum_with_nil config_source: ::Ci::PipelineEnums.config_sources
 
     # We use `Ci::PipelineEnums.failure_reasons` here so that EE can more easily
     # extend this `Hash` with new values.
@@ -605,13 +601,18 @@ module Ci
     end
 
     def predefined_variables
-      Gitlab::Ci::Variables::Collection.new
-        .append(key: 'CI_PIPELINE_IID', value: iid.to_s)
-        .append(key: 'CI_CONFIG_PATH', value: ci_yaml_file_path)
-        .append(key: 'CI_PIPELINE_SOURCE', value: source.to_s)
-        .append(key: 'CI_COMMIT_MESSAGE', value: git_commit_message.to_s)
-        .append(key: 'CI_COMMIT_TITLE', value: git_commit_full_title.to_s)
-        .append(key: 'CI_COMMIT_DESCRIPTION', value: git_commit_description.to_s)
+      Gitlab::Ci::Variables::Collection.new.tap do |variables|
+        variables.append(key: 'CI_PIPELINE_IID', value: iid.to_s)
+        variables.append(key: 'CI_CONFIG_PATH', value: ci_yaml_file_path)
+        variables.append(key: 'CI_PIPELINE_SOURCE', value: source.to_s)
+        variables.append(key: 'CI_COMMIT_MESSAGE', value: git_commit_message.to_s)
+        variables.append(key: 'CI_COMMIT_TITLE', value: git_commit_full_title.to_s)
+        variables.append(key: 'CI_COMMIT_DESCRIPTION', value: git_commit_description.to_s)
+
+        if merge_request? && merge_request
+          variables.concat(merge_request.predefined_variables)
+        end
+      end
     end
 
     def queued_duration

@@ -102,7 +102,7 @@ module IssuableCollections
     elsif @group
       options[:group_id] = @group.id
       options[:include_subgroups] = true
-      options[:use_cte_for_search] = true
+      options[:attempt_group_search_optimizations] = true
     end
 
     params.permit(finder_type.valid_params).merge(options)
@@ -125,6 +125,8 @@ module IssuableCollections
 
     sort_param = params[:sort]
     sort_param ||= user_preference[issuable_sorting_field]
+
+    return sort_param if Gitlab::Database.read_only?
 
     if user_preference[issuable_sorting_field] != sort_param
       user_preference.update_attribute(issuable_sorting_field, sort_param)
@@ -167,12 +169,6 @@ module IssuableCollections
     case value
     when 'id_asc'             then sort_value_oldest_created
     when 'id_desc'            then sort_value_recently_created
-    when 'created_asc'        then sort_value_created_date
-    when 'created_desc'       then sort_value_created_date
-    when 'due_date_asc'       then sort_value_due_date
-    when 'due_date_desc'      then sort_value_due_date
-    when 'milestone_due_asc'  then sort_value_milestone
-    when 'milestone_due_desc' then sort_value_milestone
     when 'downvotes_asc'      then sort_value_popularity
     when 'downvotes_desc'     then sort_value_popularity
     else value
