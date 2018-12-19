@@ -21,7 +21,8 @@ module Search
 
     def scope
       @scope ||= begin
-        allowed_scopes = %w[issues merge_requests milestones users]
+        allowed_scopes = %w[issues merge_requests milestones]
+        allowed_scopes << 'users' if Feature.enabled?(:users_search, default_enabled: true)
 
         allowed_scopes.delete(params[:scope]) { 'projects' }
       end
