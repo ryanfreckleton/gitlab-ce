@@ -46,6 +46,15 @@ module API
       def entity
         SCOPE_ENTITY[params[:scope].to_sym]
       end
+
+      params :scope do |options|
+        values = SCOPE_ENTITY.stringify_keys.slice(*options[:values]).keys
+
+        requires :scope,
+          type: String,
+          desc: "The scope of search, available scopes: #{values.join(', ')}",
+          values: values
+      end
     end
 
     resource :search do
@@ -54,11 +63,7 @@ module API
       end
       params do
         requires :search, type: String, desc: 'The expression it should be searched for'
-        requires :scope,
-          type: String,
-          desc: 'The scope of search, available scopes:
-            projects, issues, merge_requests, milestones, snippet_titles, snippet_blobs, users',
-          values: %w(projects issues merge_requests milestones snippet_titles snippet_blobs users)
+        use :scope, values: %w(projects issues merge_requests milestones snippet_titles snippet_blobs users)
         use :pagination
       end
       get do
@@ -73,11 +78,7 @@ module API
       params do
         requires :id, type: String, desc: 'The ID of a group'
         requires :search, type: String, desc: 'The expression it should be searched for'
-        requires :scope,
-          type: String,
-          desc: 'The scope of search, available scopes:
-            projects, issues, merge_requests, milestones, users',
-          values: %w(projects issues merge_requests milestones users)
+        use :scope, values: %w(projects issues merge_requests milestones users)
         use :pagination
       end
       get ':id/(-/)search' do
@@ -92,11 +93,7 @@ module API
       params do
         requires :id, type: String, desc: 'The ID of a project'
         requires :search, type: String, desc: 'The expression it should be searched for'
-        requires :scope,
-          type: String,
-          desc: 'The scope of search, available scopes:
-            issues, merge_requests, milestones, notes, wiki_blobs, commits, blobs, users',
-          values: %w(issues merge_requests milestones notes wiki_blobs commits blobs users)
+        use :scope, values: %w(issues merge_requests milestones notes wiki_blobs commits blobs users)
         use :pagination
       end
       get ':id/(-/)search' do
