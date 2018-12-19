@@ -122,7 +122,7 @@ mountpoint
 └── gitlab-data
     ├── builds
     ├── git-data
-    ├── home-git
+    ├── home
     ├── shared
     └── uploads
 ```
