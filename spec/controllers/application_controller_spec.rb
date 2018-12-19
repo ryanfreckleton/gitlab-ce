@@ -460,6 +460,14 @@ describe ApplicationController do
       expect(controller.last_payload.has_key?(:response)).to be_falsey
     end
 
+    it 'does log correlation id' do
+      Gitlab::CorrelationId.use_id('new-id') do
+        get :index
+      end
+
+      expect(controller.last_payload).to include('correlation_id' => 'new-id')
+    end
+
     context '422 errors' do
       it 'logs a response with a string' do
         response = spy(ActionDispatch::Response, status: 422, body: 'Hello world', content_type: 'application/json', cookies: {})
@@ -514,13 +522,13 @@ describe ApplicationController do
     end
 
     it 'renders a 403 when a message is passed to access denied' do
-      get :index, message: 'None shall pass'
+      get :index, params: { message: 'None shall pass' }
 
       expect(response).to have_gitlab_http_status(403)
     end
 
     it 'renders a status passed to access denied' do
-      get :index, status: 401
+      get :index, params: { status: 401 }
 
       expect(response).to have_gitlab_http_status(401)
     end
@@ -540,34 +548,18 @@ describe ApplicationController do
     end
 
     context 'html' do
-      subject { get :index, text: "hi \255" }
+      subject { get :index, params: { text: "hi \255" } }
 
       it 'renders 412' do
-        if Gitlab.rails5?
-          expect { subject }.to raise_error(ActionController::BadRequest)
-        else
-          subject
-
-          expect(response).to have_gitlab_http_status(412)
-          expect(response).to render_template :precondition_failed
-        end
+        expect { subject }.to raise_error(ActionController::BadRequest)
       end
     end
 
     context 'js' do
-      subject { get :index, text: "hi \255", format: :js }
+      subject { get :index, format: :js, params: { text: "hi \255" } }
 
       it 'renders 412' do
-        if Gitlab.rails5?
-          expect { subject }.to raise_error(ActionController::BadRequest)
-        else
-          subject
-
-          json_response = JSON.parse(response.body)
-
-          expect(response).to have_gitlab_http_status(412)
-          expect(json_response['error']).to eq('Invalid UTF-8')
-        end
+        expect { subject }.to raise_error(ActionController::BadRequest)
       end
     end
   end

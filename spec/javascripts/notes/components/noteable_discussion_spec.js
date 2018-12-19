@@ -42,12 +42,14 @@ describe('noteable_discussion component', () => {
     const discussion = { ...discussionMock };
     discussion.diff_file = mockDiffFile;
     discussion.diff_discussion = true;
-    const diffDiscussionVm = new Component({
+
+    vm.$destroy();
+    vm = new Component({
       store,
       propsData: { discussion },
     }).$mount();
 
-    expect(diffDiscussionVm.$el.querySelector('.discussion-header')).not.toBeNull();
+    expect(vm.$el.querySelector('.discussion-header')).not.toBeNull();
   });
 
   describe('actions', () => {
@@ -83,6 +85,7 @@ describe('noteable_discussion component', () => {
       it('expands next unresolved discussion', done => {
         const discussion2 = getJSONFixture(discussionWithTwoUnresolvedNotes)[0];
         discussion2.resolved = false;
+        discussion2.active = true;
         discussion2.id = 'next'; // prepare this for being identified as next one (to be jumped to)
         vm.$store.dispatch('setInitialNotes', [discussionMock, discussion2]);
         window.mrTabs.currentAction = 'show';
@@ -127,6 +130,46 @@ describe('noteable_discussion component', () => {
       const note = vm.componentData(data);
 
       expect(note).toEqual(data);
+    });
+  });
+
+  describe('commit discussion', () => {
+    const commitId = 'razupaltuff';
+
+    beforeEach(() => {
+      vm.$destroy();
+
+      store.state.diffs = {
+        projectPath: 'something',
+      };
+
+      vm.$destroy();
+      vm = new Component({
+        propsData: {
+          discussion: {
+            ...discussionMock,
+            for_commit: true,
+            commit_id: commitId,
+            diff_discussion: true,
+            diff_file: {
+              ...mockDiffFile,
+            },
+          },
+          renderDiffFile: true,
+        },
+        store,
+      }).$mount();
+    });
+
+    it('displays a monospace started a discussion on commit', () => {
+      const truncatedCommitId = commitId.substr(0, 8);
+
+      expect(vm.$el).toContainText(`started a discussion on commit ${truncatedCommitId}`);
+
+      const commitElement = vm.$el.querySelector('.commit-sha');
+
+      expect(commitElement).not.toBe(null);
+      expect(commitElement).toHaveText(truncatedCommitId);
     });
   });
 });

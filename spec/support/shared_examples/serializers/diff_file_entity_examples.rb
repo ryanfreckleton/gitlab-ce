@@ -31,7 +31,8 @@ shared_examples 'diff file entity' do
 
   it 'exposes correct attributes' do
     expect(subject).to include(:too_large, :added_lines, :removed_lines,
-                               :context_lines_path, :highlighted_diff_lines)
+                               :context_lines_path, :highlighted_diff_lines,
+                               :empty)
   end
 
   it 'includes viewer' do

@@ -27,7 +27,8 @@ project_tree:
     - :award_emoji
     - notes:
         :author
-  - :releases
+  - releases:
+      :author
   - project_members:
     - :user
   - merge_requests:
@@ -143,6 +144,7 @@ excluded_attributes:
   statuses:
     - :trace
     - :token
+    - :token_encrypted
     - :when
     - :artifacts_file
     - :artifacts_metadata

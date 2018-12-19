@@ -16,11 +16,14 @@ module Clusters
         ClusterPlatformConfigureWorker.perform_async(cluster.id)
 
       rescue Google::Apis::ServerError, Google::Apis::ClientError, Google::Apis::AuthorizationError => e
-        provider.make_errored!("Failed to request to CloudPlatform; #{e.message}")
+        log_service_error(e.class.name, provider.id, e.message)
+        provider.make_errored!(s_('ClusterIntegration|Failed to request to Google Cloud Platform: %{message}') % { message: e.message })
       rescue Kubeclient::HttpError => e
-        provider.make_errored!("Failed to run Kubeclient: #{e.message}")
+        log_service_error(e.class.name, provider.id, e.message)
+        provider.make_errored!(s_('ClusterIntegration|Failed to run Kubeclient: %{message}') % { message: e.message })
       rescue ActiveRecord::RecordInvalid => e
-        provider.make_errored!("Failed to configure Google Kubernetes Engine Cluster: #{e.message}")
+        log_service_error(e.class.name, provider.id, e.message)
+        provider.make_errored!(s_('ClusterIntegration|Failed to configure Google Kubernetes Engine Cluster: %{message}') % { message: e.message })
       end
 
       private
@@ -104,6 +107,19 @@ module Clusters
 
       def cluster
         @cluster ||= provider.cluster
+      end
+
+      def logger
+        @logger ||= Gitlab::Kubernetes::Logger.build
+      end
+
+      def log_service_error(exception, provider_id, message)
+        logger.error(
+          exception: exception.class.name,
+          service: self.class.name,
+          provider_id: provider_id,
+          message: message
+        )
       end
     end
   end

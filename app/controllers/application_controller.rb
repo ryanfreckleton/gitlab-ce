@@ -8,14 +8,10 @@ class ApplicationController < ActionController::Base
   include GitlabRoutingHelper
   include PageLayoutHelper
   include SafeParamsHelper
-  include SentryHelper
   include WorkhorseHelper
   include EnforcesTwoFactorAuthentication
   include WithPerformanceBar
   include SessionlessAuthentication
-  # this can be removed after switching to rails 5
-  # https://gitlab.com/gitlab-org/gitlab-ce/issues/51908
-  include InvalidUTF8ErrorHandler unless Gitlab.rails5?
 
   before_action :authenticate_user!
   before_action :enforce_terms!, if: :should_enforce_terms?
@@ -129,6 +125,7 @@ class ApplicationController < ActionController::Base
 
     payload[:ua] = request.env["HTTP_USER_AGENT"]
     payload[:remote_ip] = request.remote_ip
+    payload[Gitlab::CorrelationId::LOG_KEY] = Gitlab::CorrelationId.current_id
 
     logged_user = auth_user
 
@@ -155,9 +152,9 @@ class ApplicationController < ActionController::Base
   end
 
   def log_exception(exception)
-    Raven.capture_exception(exception) if sentry_enabled?
+    Gitlab::Sentry.track_acceptable_exception(exception)
 
-    backtrace_cleaner = Gitlab.rails5? ? request.env["action_dispatch.backtrace_cleaner"] : env
+    backtrace_cleaner = request.env["action_dispatch.backtrace_cleaner"]
     application_trace = ActionDispatch::ExceptionWrapper.new(backtrace_cleaner, exception).application_trace
     application_trace.map! { |t| "  #{t}\n" }
     logger.error "\n#{exception.class.name} (#{exception.message}):\n#{application_trace.join}"
@@ -486,5 +483,9 @@ class ApplicationController < ActionController::Base
 
   def impersonator
     @impersonator ||= User.find(session[:impersonator_id]) if session[:impersonator_id]
+  end
+
+  def sentry_context
+    Gitlab::Sentry.context(current_user)
   end
 end

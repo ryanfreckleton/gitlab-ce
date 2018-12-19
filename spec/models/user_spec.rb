@@ -45,6 +45,7 @@ describe User do
     it { is_expected.to have_many(:uploads) }
     it { is_expected.to have_many(:reported_abuse_reports).dependent(:destroy).class_name('AbuseReport') }
     it { is_expected.to have_many(:custom_attributes).class_name('UserCustomAttribute') }
+    it { is_expected.to have_many(:releases).dependent(:nullify) }
 
     describe "#abuse_report" do
       let(:current_user) { create(:user) }
@@ -3231,7 +3232,7 @@ describe User do
   end
 
   context 'with uploads' do
-    it_behaves_like 'model with mounted uploader', false do
+    it_behaves_like 'model with uploads', false do
       let(:model_object) { create(:user, :with_avatar) }
       let(:upload_attribute) { :avatar }
       let(:uploader_class) { AttachmentUploader }

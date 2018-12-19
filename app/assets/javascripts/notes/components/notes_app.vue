@@ -12,6 +12,7 @@ import placeholderNote from '../../vue_shared/components/notes/placeholder_note.
 import placeholderSystemNote from '../../vue_shared/components/notes/placeholder_system_note.vue';
 import skeletonLoadingContainer from '../../vue_shared/components/notes/skeleton_note.vue';
 import highlightCurrentUser from '~/behaviors/markdown/highlight_current_user';
+import initUserPopovers from '../../user_popovers';
 
 export default {
   name: 'NotesApp',
@@ -47,6 +48,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+    helpPagePath: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   data() {
@@ -101,12 +107,15 @@ export default {
     if (parentElement && parentElement.classList.contains('js-vue-notes-event')) {
       parentElement.addEventListener('toggleAward', event => {
         const { awardName, noteId } = event.detail;
-        this.actionToggleAward({ awardName, noteId });
+        this.toggleAward({ awardName, noteId });
       });
     }
   },
   updated() {
-    this.$nextTick(() => highlightCurrentUser(this.$el.querySelectorAll('.gfm-project_member')));
+    this.$nextTick(() => {
+      highlightCurrentUser(this.$el.querySelectorAll('.gfm-project_member'));
+      initUserPopovers(this.$el.querySelectorAll('.js-user-link'));
+    });
   },
   methods: {
     ...mapActions([
@@ -202,6 +211,7 @@ export default {
           :key="discussion.id"
           :discussion="discussion"
           :render-diff-file="true"
+          :help-page-path="helpPagePath"
         />
       </template>
     </ul>

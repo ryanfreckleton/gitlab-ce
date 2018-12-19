@@ -102,7 +102,7 @@ module IssuableCollections
     elsif @group
       options[:group_id] = @group.id
       options[:include_subgroups] = true
-      options[:use_cte_for_search] = true
+      options[:attempt_group_search_optimizations] = true
     end
 
     params.permit(finder_type.valid_params).merge(options)
@@ -125,6 +125,8 @@ module IssuableCollections
 
     sort_param = params[:sort]
     sort_param ||= user_preference[issuable_sorting_field]
+
+    return sort_param if Gitlab::Database.read_only?
 
     if user_preference[issuable_sorting_field] != sort_param
       user_preference.update_attribute(issuable_sorting_field, sort_param)

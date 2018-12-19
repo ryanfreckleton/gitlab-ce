@@ -1925,7 +1925,7 @@ describe Ci::Build do
 
     context 'when token is empty' do
       before do
-        build.token = nil
+        build.update_columns(token: nil, token_encrypted: nil)
       end
 
       it { is_expected.to be_nil}
@@ -2114,6 +2114,7 @@ describe Ci::Build do
           { key: 'CI_JOB_NAME', value: 'test', public: true },
           { key: 'CI_JOB_STAGE', value: 'test', public: true },
           { key: 'CI_COMMIT_SHA', value: build.sha, public: true },
+          { key: 'CI_COMMIT_SHORT_SHA', value: build.short_sha, public: true },
           { key: 'CI_COMMIT_BEFORE_SHA', value: build.before_sha, public: true },
           { key: 'CI_COMMIT_REF_NAME', value: build.ref, public: true },
           { key: 'CI_COMMIT_REF_SLUG', value: build.ref_slug, public: true },
@@ -2141,7 +2142,7 @@ describe Ci::Build do
       end
 
       before do
-        build.token = 'my-token'
+        build.set_token('my-token')
         build.yaml_variables = []
       end
 
@@ -2725,6 +2726,7 @@ describe Ci::Build do
       it 'returns static predefined variables' do
         keys = %w[CI_JOB_NAME
                   CI_COMMIT_SHA
+                  CI_COMMIT_SHORT_SHA
                   CI_COMMIT_REF_NAME
                   CI_COMMIT_REF_SLUG
                   CI_JOB_STAGE]

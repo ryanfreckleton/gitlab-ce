@@ -48,8 +48,8 @@ class MergeRequest < ActiveRecord::Base
   # is the inverse of MergeRequest#merge_request_diff, which means it may not be
   # the latest diff, because we could have loaded any diff from this particular
   # MR. If we haven't already loaded a diff, then it's fine to load the latest.
-  def merge_request_diff(*args)
-    fallback = latest_merge_request_diff if args.empty? && !association(:merge_request_diff).loaded?
+  def merge_request_diff
+    fallback = latest_merge_request_diff unless association(:merge_request_diff).loaded?
 
     fallback || super
   end
@@ -363,6 +363,10 @@ class MergeRequest < ActiveRecord::Base
     end
   end
 
+  def supports_suggestion?
+    true
+  end
+
   # Calls `MergeWorker` to proceed with the merge process and
   # updates `merge_jid` with the MergeWorker#jid.
   # This helps tracking enqueued and ongoing merge jobs.
@@ -539,15 +543,26 @@ class MergeRequest < ActiveRecord::Base
 
   def validate_branches
     if target_project == source_project && target_branch == source_branch
-      errors.add :branch_conflict, "You can not use same project/branch for source and target"
+      errors.add :branch_conflict, "You can't use same project/branch for source and target"
+      return
     end
 
     if opened?
-      similar_mrs = self.target_project.merge_requests.where(source_branch: source_branch, target_branch: target_branch, source_project_id: source_project.try(:id)).opened
-      similar_mrs = similar_mrs.where('id not in (?)', self.id) if self.id
-      if similar_mrs.any?
-        errors.add :validate_branches,
-                   "Cannot Create: This merge request already exists: #{similar_mrs.pluck(:title)}"
+      similar_mrs = target_project
+        .merge_requests
+        .where(source_branch: source_branch, target_branch: target_branch)
+        .where(source_project_id: source_project&.id)
+        .opened
+
+      similar_mrs = similar_mrs.where.not(id: id) if persisted?
+
+      conflict = similar_mrs.first
+
+      if conflict.present?
+        errors.add(
+          :validate_branches,
+          "Another open merge request already exists for this source branch: #{conflict.to_reference}"
+        )
       end
     end
   end
@@ -602,10 +617,6 @@ class MergeRequest < ActiveRecord::Base
       merge_request_diffs.create
       reload_merge_request_diff
     end
-  end
-
-  def reload_merge_request_diff
-    merge_request_diff(true)
   end
 
   def viewable_diffs
@@ -967,6 +978,7 @@ class MergeRequest < ActiveRecord::Base
 
   def mergeable_ci_state?
     return true unless project.only_allow_merge_if_pipeline_succeeds?
+    return true unless head_pipeline
 
     actual_head_pipeline&.success? || actual_head_pipeline&.skipped?
   end
@@ -1106,14 +1118,17 @@ class MergeRequest < ActiveRecord::Base
     end
   end
 
-  # rubocop: disable CodeReuse/ServiceClass
   def compare_test_reports
     unless has_test_reports?
       return { status: :error, status_reason: 'This merge request does not have test reports' }
     end
 
-    with_reactive_cache(:compare_test_results) do |data|
-      unless Ci::CompareTestReportsService.new(project)
+    compare_reports(Ci::CompareTestReportsService)
+  end
+
+  def compare_reports(service_class)
+    with_reactive_cache(service_class.name) do |data|
+      unless service_class.new(project)
         .latest?(base_pipeline, actual_head_pipeline, data)
         raise InvalidateReactiveCache
       end
@@ -1121,19 +1136,14 @@ class MergeRequest < ActiveRecord::Base
       data
     end || { status: :parsing }
   end
-  # rubocop: enable CodeReuse/ServiceClass
 
-  # rubocop: disable CodeReuse/ServiceClass
   def calculate_reactive_cache(identifier, *args)
-    case identifier.to_sym
-    when :compare_test_results
-      Ci::CompareTestReportsService.new(project).execute(
-        base_pipeline, actual_head_pipeline)
-    else
-      raise NotImplementedError, "Unknown identifier: #{identifier}"
-    end
+    service_class = identifier.constantize
+
+    raise NameError, service_class unless service_class < Ci::CompareReportsBaseService
+
+    service_class.new(project).execute(base_pipeline, actual_head_pipeline)
   end
-  # rubocop: enable CodeReuse/ServiceClass
 
   def all_commits
     # MySQL doesn't support LIMIT in a subquery.
