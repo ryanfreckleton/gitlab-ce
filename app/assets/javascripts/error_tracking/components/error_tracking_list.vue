@@ -3,13 +3,14 @@ import { mapActions, mapState } from 'vuex';
 import { GlEmptyState, GlButton, GlLink, GlLoadingIcon, GlTable } from '@gitlab/ui';
 import Icon from '~/vue_shared/components/icon.vue';
 import TimeAgo from '~/vue_shared/components/time_ago_tooltip.vue';
+import { __ } from '~/locale';
 
 export default {
   fields: [
-    'error',
-    'count',
-    'user_count',
-    'lastSeen',
+    { key: 'error', label: __('Open errors'), },
+    { key: 'events', label: __('Events'), },
+    { key: 'users', label: __('Users'), },
+    { key: 'lastSeen', label: __('Last seen'), },
   ],
   components: {
     GlEmptyState,
@@ -85,9 +86,20 @@ export default {
                 {{ errors.item.message }}
               </div>
             </template>
+
+            <template slot="events" slot-scope="errors">
+              <div class="text-right" style="width: 4em">{{ errors.item.count }}</div>
+            </template>
+
+            <template slot="users" slot-scope="errors">
+              <div class="text-right" style="width: 4em">{{ errors.item.user_count }}</div>
+            </template>
+
             <template slot="lastSeen" slot-scope="errors">
-              <icon name="calendar" />
-              <time-ago :time="errors.item.last_seen" />
+              <div class="d-flex align-items-center">
+                <icon name="calendar" css-classes="text-secondary mr-1" />
+                <time-ago :time="errors.item.last_seen" class="text-secondary" />
+              </div>
             </template>
           </gl-table>
         </div>
