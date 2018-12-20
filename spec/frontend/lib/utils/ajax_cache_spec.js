@@ -94,7 +94,7 @@ describe('AjaxCache', () => {
     beforeEach(() => {
       mock = new MockAdapter(axios);
 
-      spyOn(axios, 'get').and.callThrough();
+      jest.spyOn(axios, 'get');
     });
 
     afterEach(() => {
@@ -110,21 +110,18 @@ describe('AjaxCache', () => {
           expect(AjaxCache.internalStorage[dummyEndpoint]).toEqual(dummyResponse);
         })
         .then(done)
-        .catch(fail);
+        .catch(done.fail);
     });
 
     it('makes no Ajax call if request is pending', done => {
       mock.onGet(dummyEndpoint).reply(200, dummyResponse);
 
-      AjaxCache.retrieve(dummyEndpoint)
+      Promise.all([AjaxCache.retrieve(dummyEndpoint), AjaxCache.retrieve(dummyEndpoint)])
+        .then(() => {
+          expect(axios.get).toHaveBeenCalledTimes(1);
+        })
         .then(done)
-        .catch(fail);
-
-      AjaxCache.retrieve(dummyEndpoint)
-        .then(done)
-        .catch(fail);
-
-      expect(axios.get.calls.count()).toBe(1);
+        .catch(done.fail);
     });
 
     it('returns undefined if Ajax call fails and cache is empty', done => {
@@ -132,19 +129,19 @@ describe('AjaxCache', () => {
       mock.onGet(dummyEndpoint).networkError();
 
       AjaxCache.retrieve(dummyEndpoint)
-        .then(data => fail(`Received unexpected data: ${JSON.stringify(data)}`))
+        .then(data => done.fail(`Received unexpected data: ${JSON.stringify(data)}`))
         .catch(error => {
           expect(error.message).toBe(`${dummyEndpoint}: ${errorMessage}`);
           expect(error.textStatus).toBe(errorMessage);
           done();
         })
-        .catch(fail);
+        .catch(done.fail);
     });
 
     it('makes no Ajax call if matching data exists', done => {
       AjaxCache.internalStorage[dummyEndpoint] = dummyResponse;
       mock.onGet(dummyEndpoint).reply(() => {
-        fail(new Error('expected no Ajax call!'));
+        done.fail(new Error('expected no Ajax call!'));
       });
 
       AjaxCache.retrieve(dummyEndpoint)
@@ -152,7 +149,7 @@ describe('AjaxCache', () => {
           expect(data).toBe(dummyResponse);
         })
         .then(done)
-        .catch(fail);
+        .catch(done.fail);
     });
 
     it('makes Ajax call even if matching data exists when forceRequest parameter is provided', done => {
@@ -170,7 +167,7 @@ describe('AjaxCache', () => {
           expect(data).toBe(oldDummyResponse);
         })
         .then(done)
-        .catch(fail);
+        .catch(done.fail);
 
       // Call with forceRetrieve param
       AjaxCache.retrieve(dummyEndpoint, true)
@@ -178,7 +175,7 @@ describe('AjaxCache', () => {
           expect(data).toEqual(dummyResponse);
         })
         .then(done)
-        .catch(fail);
+        .catch(done.fail);
     });
   });
 });
