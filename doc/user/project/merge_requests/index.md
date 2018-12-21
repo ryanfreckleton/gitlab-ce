@@ -154,6 +154,10 @@ in a Merge Request. To do so, click the **...** button in the gutter of the Merg
 
 > [Introduced](https://gitlab.com/gitlab-org/gitlab-ce/issues/18008) in GitLab 11.6.
 
+> **Note:**
+This feature will be available for GitLab.com on 11.6.0 and will be introduced
+in a subsequent 11.6 patch for self-hosted instances.
+
 As a reviewer, you can add suggestions to change the content in
 merge request discussions, and users with appropriate [permission](../../permissions.md)
 can easily apply them to the codebase directly from the UI. Read
