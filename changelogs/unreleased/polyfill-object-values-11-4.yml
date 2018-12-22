@@ -1,0 +1,5 @@
+---
+title: Improve IE11 compatability with Object.values polyfill
+merge_request: 24003
+author:
+type: fixed
