@@ -1,0 +1,5 @@
+---
+title: Improve IE11 compatability with a polyfill and gitlab-ui hotfix
+merge_request: 24002
+author:
+type: fixed
