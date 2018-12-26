@@ -122,7 +122,12 @@ module Trigger
     end
 
     def ref
-      ENV['CNG_BRANCH'] || 'master'
+      return ENV['CNG_BRANCH'] if ENV['CNG_BRANCH'] && !ENV['CNG_BRANCH'].empty?
+
+      cng_version = File.read('CNG_DOCKERFILE_VERSION').chomp
+      return cng_version unless cng_version.empty?
+
+      'master'
     end
 
     def trigger_token
