@@ -104,6 +104,7 @@ class Repository
   def commit(ref = nil)
     return nil unless exists?
     return ref if ref.is_a?(::Commit)
+    return nil if ref && !Gitlab::GitRefValidator.validate(ref)
 
     find_commit(ref || root_ref)
   end

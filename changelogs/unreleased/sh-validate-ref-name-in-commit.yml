@@ -1,0 +1,5 @@
+---
+title: Validate refs passed to Repository#commit are valid names
+merge_request: 24037
+author:
+type: other

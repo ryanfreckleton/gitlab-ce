@@ -519,6 +519,14 @@ describe Repository do
           expect(repository.commit('non-existent:ref')).to be_nil
         end
       end
+
+      context 'when commit has invalid characters' do
+        it 'does not request Gitaly' do
+          expect(repository.gitaly_commit_client).not_to receive(:find_commit)
+
+          expect(repository.commit('bad branch')).to be_nil
+        end
+      end
     end
   end
 
