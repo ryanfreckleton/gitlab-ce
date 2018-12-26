@@ -927,6 +927,7 @@ review-deploy:
     DOMAIN: "-${CI_ENVIRONMENT_SLUG}.${REVIEW_APPS_DOMAIN}"
     GITLAB_HELM_CHART_REF: "master"
     API_TOKEN: "${GITLAB_BOT_MULTI_PROJECT_PIPELINE_POLLING_TOKEN}"
+    CNG_BRANCH: "master"
   environment:
     <<: *review-environment
     on_stop: review-stop
