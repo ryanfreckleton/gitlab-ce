@@ -5,6 +5,8 @@
 module Projects
   module LfsPointers
     class LfsDownloadLinkListService < BaseService
+      include Gitlab::Utils::StrongMemoize
+
       DOWNLOAD_ACTION = 'download'.freeze
 
       DownloadLinksError = Class.new(StandardError)
@@ -70,7 +72,7 @@ module Projects
       end
 
       def add_credentials(link)
-        uri = URI.parse(link)
+        uri = Addressable::URI.parse(link)
 
         if should_add_credentials?(uri)
           uri.user = remote_uri.user
@@ -88,7 +90,9 @@ module Projects
       end
 
       def url_credentials?
-        remote_uri.user.present? || remote_uri.password.present?
+        strong_memoize(:url_credentials) do
+          remote_uri.user.present? || remote_uri.password.present?
+        end
       end
     end
   end

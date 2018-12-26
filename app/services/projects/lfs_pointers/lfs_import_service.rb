@@ -61,24 +61,27 @@ module Projects
           parsed_data = data&.match(LFS_ENDPOINT_PATTERN)
 
           if parsed_data
-            URI.parse(parsed_data[1]).tap do |endpoint|
+            Addressable::URI.parse(parsed_data[1]).tap do |endpoint|
               endpoint.user ||= import_uri.user
               endpoint.password ||= import_uri.password
             end
           end
         end
-      rescue URI::InvalidURIError
+      rescue Addressable::URI::InvalidURIError
         raise LfsImportError, 'Invalid URL in .lfsconfig file'
       end
 
       def import_uri
-        @import_uri ||= URI.parse(project.import_url)
-      rescue URI::InvalidURIError
+        @import_uri ||= Addressable::URI.parse(project.import_url)
+      rescue Addressable::URI::InvalidURIError
         raise LfsImportError, 'Invalid project import URL'
       end
 
       def current_endpoint_uri
-        (lfsconfig_endpoint_uri || default_endpoint_uri)
+        (lfsconfig_endpoint_uri || default_endpoint_uri).tap do |uri|
+          uri.user = CGI.unescape(uri.user) if uri.user
+          uri.password = CGI.unescape(uri.password) if uri.password
+        end
       end
 
       # The import url must end with '.git' here we ensure it is

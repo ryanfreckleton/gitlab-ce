@@ -38,7 +38,9 @@ describe Projects::LfsPointers::LfsDownloadService do
 
     context 'when file download fails' do
       it 'no lfs object is created' do
-        expect { subject.execute(oid, download_link) }.to change { LfsObject.count }
+        expect(subject).to receive(:download_and_save_file).and_raise(StandardError)
+
+        expect { subject.execute(oid, download_link) }.not_to change { LfsObject.count }
       end
     end
 
@@ -46,6 +48,7 @@ describe Projects::LfsPointers::LfsDownloadService do
       let(:download_link_with_credentials) { "http://user:password@gitlab.com/#{oid}" }
 
       before do
+        WebMock.reset!
         WebMock.stub_request(:get, download_link).with(headers: { 'Authorization' => 'Basic dXNlcjpwYXNzd29yZA==' }).to_return(body: lfs_content)
       end
 

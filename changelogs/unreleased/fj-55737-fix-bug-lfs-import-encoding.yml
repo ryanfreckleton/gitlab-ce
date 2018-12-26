@@ -1,0 +1,5 @@
+---
+title: Bug in LFS import when import_url user or password have strange characters
+merge_request: 24036
+author:
+type: fixed

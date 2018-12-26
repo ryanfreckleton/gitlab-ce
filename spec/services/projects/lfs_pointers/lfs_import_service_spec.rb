@@ -10,7 +10,7 @@ describe Projects::LfsPointers::LfsImportService do
   let(:oids) { { 'oid1' => 123, 'oid2' => 125 } }
   let(:oid_download_links) { { 'oid1' => "#{import_url}/gitlab-lfs/objects/oid1", 'oid2' => "#{import_url}/gitlab-lfs/objects/oid2" } }
   let(:all_oids) { existing_lfs_objects.merge(oids) }
-  let(:remote_uri) { URI.parse(lfs_endpoint) }
+  let(:remote_uri) { Addressable::URI.parse(lfs_endpoint) }
 
   subject { described_class.new(project) }
 
@@ -22,10 +22,13 @@ describe Projects::LfsPointers::LfsImportService do
 
   describe '#execute' do
     context 'when no lfs pointer is linked' do
+      let(:remote_uri) { Addressable::URI.parse(default_endpoint) }
+
       before do
         allow_any_instance_of(Projects::LfsPointers::LfsLinkService).to receive(:execute).and_return([])
         allow_any_instance_of(Projects::LfsPointers::LfsDownloadLinkListService).to receive(:execute).and_return(oid_download_links)
-        expect(Projects::LfsPointers::LfsDownloadLinkListService).to receive(:new).with(project, remote_uri: URI.parse(default_endpoint)).and_call_original
+
+        expect(Projects::LfsPointers::LfsDownloadLinkListService).to receive(:new).with(project, remote_uri: remote_uri).and_call_original
       end
 
       it 'retrieves all lfs pointers in the project repository' do
@@ -44,6 +47,17 @@ describe Projects::LfsPointers::LfsImportService do
         expect_any_instance_of(Projects::LfsPointers::LfsDownloadLinkListService).to receive(:execute).with(all_oids)
 
         subject.execute
+      end
+
+      context 'when credentials are url encoded' do
+        let(:import_url) { 'http://user:5iveL!fe@www.gitlab.com/demo/repo.git'}
+
+        it 'calls the LfsDownloadLinkListService with the unencoded credentials' do
+          expect(project.import_url).to eq 'http://user:5iveL%21fe@www.gitlab.com/demo/repo.git'
+          expect(remote_uri.password).to eq '5iveL!fe'
+
+          subject.execute
+        end
       end
     end
 
@@ -85,6 +99,7 @@ describe Projects::LfsPointers::LfsImportService do
         before do
           allow(service).to receive(:execute)
         end
+
         it 'downloads lfs object using the new endpoint' do
           expect(Projects::LfsPointers::LfsDownloadLinkListService).to receive(:new).with(project, remote_uri: remote_uri).and_return(service)
 
@@ -96,7 +111,7 @@ describe Projects::LfsPointers::LfsImportService do
 
           it 'adds the credentials to the new endpoint' do
             expect(Projects::LfsPointers::LfsDownloadLinkListService)
-              .to receive(:new).with(project, remote_uri: URI.parse("http://user:password@www.gitlab.com/demo/repo.git/different_endpoint"))
+              .to receive(:new).with(project, remote_uri: Addressable::URI.parse("http://user:password@www.gitlab.com/demo/repo.git/different_endpoint"))
               .and_return(service)
 
             subject.execute
