@@ -866,6 +866,15 @@ ActiveRecord::Schema.define(version: 20181219145520) do
     t.index ["project_id", "slug"], name: "index_environments_on_project_id_and_slug", unique: true, using: :btree
   end
 
+  create_table "error_tracking_settings", id: :bigserial, force: :cascade do |t|
+    t.integer "project_id", null: false
+    t.boolean "enabled", default: true, null: false
+    t.string "api_uri", null: false
+    t.string "encrypted_token", null: false
+    t.string "encrypted_token_iv", null: false
+    t.index ["project_id"], name: "index_error_tracking_settings_on_project_id", unique: true, using: :btree
+  end
+
   create_table "events", force: :cascade do |t|
     t.integer "project_id"
     t.integer "author_id", null: false
@@ -2350,6 +2359,7 @@ ActiveRecord::Schema.define(version: 20181219145520) do
   add_foreign_key "deploy_keys_projects", "projects", name: "fk_58a901ca7e", on_delete: :cascade
   add_foreign_key "deployments", "projects", name: "fk_b9a3851b82", on_delete: :cascade
   add_foreign_key "environments", "projects", name: "fk_d1c8c1da6a", on_delete: :cascade
+  add_foreign_key "error_tracking_settings", "projects", on_delete: :cascade
   add_foreign_key "events", "projects", on_delete: :cascade
   add_foreign_key "events", "users", column: "author_id", name: "fk_edfd187b6f", on_delete: :cascade
   add_foreign_key "fork_network_members", "fork_networks", on_delete: :cascade
