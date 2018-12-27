@@ -17,7 +17,7 @@ module Gitlab
       validate_name("refs/heads/#{ref_name}")
     end
 
-    def validate_name(ref)
+    def validate_name(ref_name)
       Rugged::Reference.valid_name?(ref_name)
     rescue ArgumentError
       false
