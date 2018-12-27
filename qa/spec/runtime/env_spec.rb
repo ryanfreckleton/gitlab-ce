@@ -100,6 +100,27 @@ describe QA::Runtime::Env do
       end
     end
 
+    context 'when GITLAB_QA_ACCESS_TOKEN is set' do
+      before do
+        stub_env('GITLAB_QA_ACCESS_TOKEN', 'a_token_too')
+      end
+
+      it 'returns specified token from env' do
+        expect(described_class.personal_access_token).to eq 'a_token_too'
+      end
+    end
+
+    context 'when both PERSONAL_ACCESS_TOKEN and GITLAB_QA_ACCESS_TOKEN are set' do
+      before do
+        stub_env('PERSONAL_ACCESS_TOKEN', 'a_token')
+        stub_env('GITLAB_QA_ACCESS_TOKEN', 'a_token_too')
+      end
+
+      it 'returns token specified by PERSONAL_ACCESS_TOKEN from env' do
+        expect(described_class.personal_access_token).to eq 'a_token'
+      end
+    end
+
     context 'when @personal_access_token is set' do
       before do
         described_class.personal_access_token = 'another_token'
