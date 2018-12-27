@@ -7452,6 +7452,9 @@ msgstr ""
 msgid "VisibilityLevel|Public"
 msgstr ""
 
+msgid "VisibilityLevel|Secret"
+msgstr ""
+
 msgid "VisibilityLevel|Unknown"
 msgstr ""
 

@@ -1,12 +1,29 @@
 # frozen_string_literal: true
 
 module SnippetsHelper
-  def reliable_snippet_path(snippet, opts = nil)
+  def reliable_snippet_path(snippet, opts = {})
+    opts[:secret] = snippet.secret_word if snippet.secret?
+
     if snippet.project_id?
       project_snippet_path(snippet.project, snippet, opts)
     else
       snippet_path(snippet, opts)
     end
+  end
+
+  def reliable_snippet_url(snippet, opts = {})
+    opts[:secret] = snippet.secret_word if snippet.secret?
+
+    if snippet.project_id?
+      project_snippet_url(snippet.project, snippet, opts)
+    else
+      snippet_url(snippet, opts)
+    end
+  end
+
+  def shareable_snippets_link(snippet)
+    url = reliable_snippet_url(snippet)
+    link_to(url, url, id: 'shareable_link_url', title: 'Open')
   end
 
   def download_snippet_path(snippet)
@@ -104,8 +121,8 @@ module SnippetsHelper
     { snippet_object: snippet, snippet_chunks: snippet_chunks }
   end
 
-  def snippet_embed
-    "<script src=\"#{url_for(only_path: false, overwrite_params: nil)}.js\"></script>"
+  def snippet_embed(snippet)
+    content_tag(:script, nil, src: reliable_snippet_url(snippet))
   end
 
   def embedded_snippet_raw_button
@@ -132,10 +149,16 @@ module SnippetsHelper
   end
 
   def public_snippet?
-    if @snippet.project_id?
-      can?(nil, :read_project_snippet, @snippet)
-    else
-      can?(nil, :read_personal_snippet, @snippet)
-    end
+    snippet_access_for?(nil)
+  end
+
+  def secret_snippet?
+    snippet_access_for?(current_user)
+  end
+
+  def snippet_access_for?(user)
+    return can?(user, :read_project_snippet, @snippet) if @snippet.project_id?
+
+    can?(user, :read_personal_snippet, @snippet)
   end
 end

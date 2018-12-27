@@ -30,10 +30,11 @@
   - if @snippet.updated_at != @snippet.created_at
     = edited_time_ago_with_tooltip(@snippet, placement: 'bottom', html_class: 'snippet-edited-ago', exclude_author: true)
 
-  - if public_snippet?
-    .embed-snippet
-      .input-group
-        .input-group-prepend
+  .embed-snippet
+    .input-group
+      .input-group-prepend
+        - if public_snippet? || secret_snippet?
+          - snippet_clipboard_value = snippet_embed(@snippet)
           %button.btn.btn-svg.embed-toggle.input-group-text{ 'data-toggle': 'dropdown', type: 'button' }
             %span.js-embed-action= _("Embed")
             = sprite_icon('angle-down', size: 12, css_class: 'caret-down')
@@ -44,7 +45,12 @@
             %li
               %button.js-share-btn.btn.btn-transparent{ type: 'button' }
                 %strong.embed-toggle-list-item= _("Share")
-        %input.js-snippet-url-area.snippet-embed-input.form-control{ type: "text", autocomplete: 'off', value: snippet_embed }
-        .input-group-append
-          = clipboard_button(title: s_('Copy to clipboard'), class: 'js-clipboard-btn snippet-clipboard-btn btn btn-default', target: '.js-snippet-url-area')
-    .clearfix
+        - else
+          - snippet_clipboard_value = reliable_snippet_url(@snippet)
+          %button.btn.btn-svg.embed-toggle.input-group-text{ 'data-toggle': 'dropdown', type: 'button' }
+            %span.js-embed-action= _("Share")
+
+      %input.js-snippet-url-area.snippet-embed-input.form-control{ type: "text", autocomplete: 'off', value: snippet_clipboard_value }
+      .input-group-append
+        = clipboard_button(title: s_('Copy to clipboard'), class: 'js-clipboard-btn snippet-clipboard-btn btn btn-default', target: '.js-snippet-url-area')
+  .clearfix
