@@ -10,15 +10,17 @@ module Gitlab
     # Validates a given name against the git reference specification
     #
     # Returns true for a valid reference name, false otherwise
-    def validate(ref_name, not_allowed_prefixes = DISALLOWED_PREFIXES)
-      return false if ref_name.start_with?(*not_allowed_prefixes)
+    def validate(ref_name)
+      return false if ref_name.start_with?(*DISALLOWED_PREFIXES)
       return false if ref_name == 'HEAD'
 
-      begin
-        Rugged::Reference.valid_name?("refs/heads/#{ref_name}")
-      rescue ArgumentError
-        return false
-      end
+      validate_name("refs/heads/#{ref_name}")
+    end
+
+    def validate_name(ref)
+      Rugged::Reference.valid_name?(ref_name)
+    rescue ArgumentError
+      false
     end
   end
 end
