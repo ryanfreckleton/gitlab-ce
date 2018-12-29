@@ -62,6 +62,11 @@ module QA
     autoload :Fork, 'qa/resource/fork'
     autoload :SSHKey, 'qa/resource/ssh_key'
 
+    module Events
+      autoload :Base, 'qa/resource/events/base'
+      autoload :Project, 'qa/resource/events/project'
+    end
+
     module Repository
       autoload :Push, 'qa/resource/repository/push'
       autoload :ProjectPush, 'qa/resource/repository/project_push'

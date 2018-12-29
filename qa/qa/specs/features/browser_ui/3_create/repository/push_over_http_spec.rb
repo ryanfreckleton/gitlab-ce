@@ -13,7 +13,6 @@ module QA
           push.commit_message = 'Add README.md'
         end
         project_push.project.visit!
-        Page::Project::Show.act { wait_for_push }
 
         expect(page).to have_content('README.md')
         expect(page).to have_content('This is a test project')

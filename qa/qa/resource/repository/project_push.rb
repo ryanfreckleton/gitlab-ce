@@ -4,6 +4,8 @@ module QA
   module Resource
     module Repository
       class ProjectPush < Repository::Push
+        attr_writer :no_wait_for_push
+
         attribute :project do
           Project.fabricate! do |resource|
             resource.name = 'project-with-code'
@@ -30,6 +32,7 @@ module QA
         def fabricate!
           super
           project.visit!
+          project.wait_for_push @commit_message unless @no_wait_for_push
         end
       end
     end
