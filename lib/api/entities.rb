@@ -1312,11 +1312,18 @@ module API
       class GitInfo < Grape::Entity
         expose :repo_url, :ref, :sha, :before_sha
         expose :ref_type do |model|
-          if model.tag
+          if model.pipeline.branch?
+            'branch'
+          elsif model.pipeline.merge_request?
+            'merge-requests'
+          elsif model.pipeline.tag?
             'tag'
           else
-            'branch'
+            raise ArgumentError, 'Invalid ref type!'
           end
+        end
+        expose :merge_request_iid, if: ->(job, _) { job.pipeline.merge_request? } do
+          job.pipeline.merge_request.iid
         end
       end
 

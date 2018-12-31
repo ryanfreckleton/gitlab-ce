@@ -837,6 +837,14 @@ class Repository
     end
   end
 
+  def merge_to(user, source_sha, target_branch, message)
+    with_cache_hooks do
+      raw_repository.merge(user, source_sha, target_branch, message) do |commit_id|
+        nil # Return value does not matter.
+      end
+    end
+  end
+
   def ff_merge(user, source, target_branch, merge_request: nil)
     their_commit_id = commit(source)&.id
     raise 'Invalid merge source' if their_commit_id.nil?

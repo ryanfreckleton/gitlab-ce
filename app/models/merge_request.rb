@@ -633,6 +633,7 @@ class MergeRequest < ActiveRecord::Base
 
   def create_merge_request_diff
     fetch_ref!
+    create_merge_commit!
 
     # n+1: https://gitlab.com/gitlab-org/gitlab-ce/issues/37435
     Gitlab::GitalyClient.allow_n_plus_1_calls do
@@ -1047,8 +1048,17 @@ class MergeRequest < ActiveRecord::Base
     target_project.repository.fetch_source_branch!(source_project.repository, source_branch, ref_path)
   end
 
+  def create_merge_commit!
+    target_project.repository.create_ref(source_branch, merge_ref_path)
+    target_project.repository.merge_to(user, target_branch_sha, merge_ref_path, 'aaa')
+  end
+
   def ref_path
     "refs/#{Repository::REF_MERGE_REQUEST}/#{iid}/head"
+  end
+
+  def merge_ref_path
+    "refs/#{Repository::REF_MERGE_REQUEST}/#{iid}/merge"
   end
 
   def in_locked_state
@@ -1111,6 +1121,9 @@ class MergeRequest < ActiveRecord::Base
 
       variables.append(key: 'CI_MERGE_REQUEST_REF_PATH',
                        value: ref_path.to_s)
+
+      variables.append(key: 'CI_MERGE_REQUEST_MERGE_REF_PATH',
+                       value: merge_ref_path.to_s)
 
       variables.append(key: 'CI_MERGE_REQUEST_PROJECT_ID',
                        value: project.id.to_s)
