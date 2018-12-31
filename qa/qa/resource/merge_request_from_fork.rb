@@ -15,6 +15,7 @@ module QA
           resource.branch_name = fork_branch
           resource.file_name = 'file2.txt'
           resource.user = fork.user
+          resource.wait_for_push = false
         end
       end
 

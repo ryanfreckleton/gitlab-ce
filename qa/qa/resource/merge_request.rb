@@ -59,7 +59,6 @@ module QA
 
         project.visit!
         Page::Project::Show.perform do |project|
-          project.wait_for_push
           project.new_merge_request
         end
         Page::MergeRequest::New.perform do |page|

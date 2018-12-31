@@ -22,7 +22,6 @@ module QA
         end
 
         push.project.visit!
-        Page::Project::Show.perform(&:wait_for_push)
 
         expect(page).to have_content('README.md')
         expect(page).to have_content('This is a test project')
