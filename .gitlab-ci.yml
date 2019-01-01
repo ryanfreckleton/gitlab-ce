@@ -775,7 +775,7 @@ qa:internal:
   services: []
   script:
     - cd qa/
-    - bundle install
+    - bundle install --path ../vendor
     - bundle exec rspec
 
 qa:selectors:
