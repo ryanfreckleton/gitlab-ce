@@ -48,8 +48,9 @@ module QA
             end
           end
 
-          def drag_and_drop_issue(issue_list_id = 0)
-            draggable = all_elements(:board_card).first
+          def drag_and_drop_issue(issue_title, issue_list_id)
+            # draggable = all_elements(:board_card).first
+            draggable = find_element(:board_card, issue_title)
             droppable = all_elements(:issue_board)[issue_list_id]
             draggable.drag_to(droppable)
           end

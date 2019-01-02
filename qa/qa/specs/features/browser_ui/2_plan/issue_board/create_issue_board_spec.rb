@@ -24,19 +24,17 @@ module QA
 
           # Delete List
           show_page.delete_list
+          show_page.refresh
           expect(show_page.list_count).to eq(1)
 
           # Add List
           show_page.add_list
+          show_page.refresh
           expect(show_page.list_count).to eq(2)
 
           # Drag and Drop Issue to List
-          show_page.drag_and_drop_issue(0)
+          show_page.drag_and_drop_issue("My Issue 2", 0)
           expect(show_page.issue_card_count_per_list(0)).to eq(1)
-          expect(show_page.issue_card_count_per_list(1)).to eq(0)
-
-          show_page.drag_and_drop_issue(1)
-          expect(show_page.issue_card_count_per_list(1)).to eq(1)
         end
       end
     end
