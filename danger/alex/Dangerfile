@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'lib/gitlab/popen'
+require_relative '../../lib/gitlab/popen'
 
 # All the files/directories that should be reviewed by the Docs team.
 DOCS_FILES = [
