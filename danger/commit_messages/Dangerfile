@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'json'
+require_relative '../alex/alex_command'
 
 URL_LIMIT_SUBJECT = "https://chris.beams.io/posts/git-commit/#limit-50"
 URL_GIT_COMMIT = "https://chris.beams.io/posts/git-commit/"
@@ -188,6 +189,10 @@ def lint_commits(commits)
 
       failures = true
     end
+
+    result = AlexCommand.from_text(commit.message)
+
+    fail_commit(commit, result.stderr) unless result.status.success?
   end
 
   if failures

@@ -1,27 +1,25 @@
+require_relative './alex_command'
+
 # frozen_string_literal: true
-require_relative '../../lib/gitlab/popen'
 
-# All the files/directories that should be reviewed by the Docs team.
-DOCS_FILES = [
-  'doc/'
-].freeze
+EXTENSIONS = %w[md txt].freeze
 
-def docs_paths_requiring_review(files)
+def paths_to_review(files)
   files.select do |file|
-    DOCS_FILES.any? { |pattern| file.start_with?(pattern) }
+    EXTENSIONS.any? { |pattern| file.end_with?(pattern) }
   end
 end
 
-docs_paths_to_review = docs_paths_requiring_review(helper.all_changed_files)
+paths = paths_to_review(helper.all_changed_files)
 
-result = Gitlab::Popen.popen_with_detail(%W[node_modules/.bin/alex #{docs_paths_to_review.join(' ')}])
+result = AlexCommand.from_paths(paths)
 
 unless result.status.success?
   markdown(<<~MARKDOWN)
-  ## Inconsiderate words review
+## Inconsiderate words review
 
-  ```sh
-   #{result.stderr}
-  ```
-    MARKDOWN
+```sh
+#{result.stderr}
+```
+  MARKDOWN
 end
