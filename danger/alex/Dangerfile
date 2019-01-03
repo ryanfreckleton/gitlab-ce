@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+# All the files/directories that should be reviewed by the Docs team.
+DOCS_FILES = [
+  'doc/'
+].freeze
+
+def docs_paths_requiring_review(files)
+  files.select do |file|
+    DOCS_FILES.any? { |pattern| file.start_with?(pattern) }
+  end
+end
+
+docs_paths_to_review = docs_paths_requiring_review(helper.all_changed_files)
+
+result = Gitlab::Popen.popen_with_detail(%W[node_modules/.bin/alex #{docs_paths_to_review.join(' ')}])
+
+unless result.status.success?
+  markdown(<<~MARKDOWN)
+  ## Inconsiderate words review
+
+  ```sh
+   #{result.stderr}
+  ```
+    MARKDOWN
+end
