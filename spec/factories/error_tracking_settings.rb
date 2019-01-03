@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :error_tracking_setting, class: ErrorTracking::ErrorTrackingSetting do
     project
