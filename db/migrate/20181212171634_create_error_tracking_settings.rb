@@ -31,7 +31,7 @@ class CreateErrorTrackingSettings < ActiveRecord::Migration[5.0]
     create_table :error_tracking_settings, id: :bigserial do |t|
       t.references :project, null: false, index: { unique: true }, foreign_key: { on_delete: :cascade }
       t.boolean :enabled, null: false, default: true
-      t.string :api_uri, null: false
+      t.string :api_url, null: false
       t.string :encrypted_token, null: false
       t.string :encrypted_token_iv, null: false
     end

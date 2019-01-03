@@ -869,7 +869,7 @@ ActiveRecord::Schema.define(version: 20181219145520) do
   create_table "error_tracking_settings", id: :bigserial, force: :cascade do |t|
     t.integer "project_id", null: false
     t.boolean "enabled", default: true, null: false
-    t.string "api_uri", null: false
+    t.string "api_url", null: false
     t.string "encrypted_token", null: false
     t.string "encrypted_token_iv", null: false
     t.index ["project_id"], name: "index_error_tracking_settings_on_project_id", unique: true, using: :btree
