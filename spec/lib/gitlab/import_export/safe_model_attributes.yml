@@ -595,6 +595,6 @@ ResourceLabelEvent:
 - created_at
 ErrorTracking::ErrorTrackingSetting:
 - id
-- api_uri
+- api_url
 - enabled
 - project_id
