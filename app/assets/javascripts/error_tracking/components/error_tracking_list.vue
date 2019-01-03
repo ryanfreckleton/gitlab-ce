@@ -70,6 +70,12 @@ export default {
           :show-empty="true"
           :empty-text="__('No errors')"
         >
+          <template slot="HEAD_events" slot-scope="data">
+             <div class="text-right">{{data.label}}</div>
+          </template>
+          <template slot="HEAD_users" slot-scope="data">
+             <div class="text-right">{{data.label}}</div>
+          </template>
           <template slot="error" slot-scope="errors">
             <div class="d-flex flex-column">
               <div class="d-flex">
@@ -84,11 +90,11 @@ export default {
           </template>
 
           <template slot="events" slot-scope="errors">
-            <div class="text-right" style="width: 4em">{{ errors.item.count }}</div>
+            <div class="text-right">{{ errors.item.count }}</div>
           </template>
 
           <template slot="users" slot-scope="errors">
-            <div class="text-right" style="width: 4em">{{ errors.item.user_count }}</div>
+            <div class="text-right">{{ errors.item.user_count }}</div>
           </template>
 
           <template slot="lastSeen" slot-scope="errors">
