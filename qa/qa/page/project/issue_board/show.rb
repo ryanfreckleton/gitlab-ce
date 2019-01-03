@@ -31,9 +31,11 @@ module QA
             click_element :default_lists_button
           end
 
-          def delete_list
-            accept_alert do
-              all_elements(:delete_board_button).first.click
+          def delete_list(issue_board_title)
+            within(find_element(:issue_board, issue_board_title)) do
+              accept_alert do
+                click_element(:delete_board_button)
+              end
             end
           end
 
@@ -42,23 +44,15 @@ module QA
             click_element :inactive_board
           end
 
-          def list_count
-            using_wait_time(Capybara.default_max_wait_time) do
-              all_elements(:issue_board).count
-            end
-          end
-
-          def drag_and_drop_issue(issue_title, issue_list_id)
-            # draggable = all_elements(:board_card).first
+          def drag_and_drop_issue(issue_title, issue_board_title)
             draggable = find_element(:board_card, issue_title)
-            droppable = all_elements(:issue_board)[issue_list_id]
+            droppable = find_element(:issue_board, issue_board_title)
             draggable.drag_to(droppable)
           end
 
-          def issue_card_count_per_list(issue_list_id = 0)
-            within(all_elements(:issue_board)[issue_list_id]) do
-              all_elements(:board_card).count
-            end
+          def card_present_in_board?(issue_title, issue_board_title)
+            board_text = find_element(:issue_board, issue_board_title).text
+            board_text.include?(issue_title)
           end
         end
       end

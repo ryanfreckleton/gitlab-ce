@@ -20,21 +20,19 @@ module QA
           show_page.create_default_lists
           expect(show_page).to have_content("Doing")
           expect(show_page).to have_content("To Do")
-          expect(show_page.list_count).to eq(2)
 
           # Delete List
-          show_page.delete_list
-          show_page.refresh
-          expect(show_page.list_count).to eq(1)
+          show_page.delete_list("To Do")
+          expect(show_page).not_to have_content("To Do")
 
           # Add List
           show_page.add_list
-          show_page.refresh
-          expect(show_page.list_count).to eq(2)
+          expect(show_page).to have_content("To Do")
 
           # Drag and Drop Issue to List
-          show_page.drag_and_drop_issue("My Issue 2", 0)
-          expect(show_page.issue_card_count_per_list(0)).to eq(1)
+          show_page.drag_and_drop_issue("My Issue 2", "Doing")
+          expect(show_page.card_present_in_board?("My Issue 2", "Doing")).to be true
+          expect(show_page.card_present_in_board?("My Issue 1", "To Do")).to be false
         end
       end
     end
