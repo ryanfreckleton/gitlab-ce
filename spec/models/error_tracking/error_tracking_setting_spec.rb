@@ -19,4 +19,15 @@ describe ErrorTracking::ErrorTrackingSetting do
       expect { subject.save! }.to raise_exception(ActiveRecord::RecordInvalid, "Validation failed: Token can't be blank")
     end
   end
+
+  describe '#api_url' do
+    let(:project) { create(:project) }
+    let(:error_tracking_setting) { create(:error_tracking_setting, project: project) }
+
+    it 'sanitizes the api url' do
+      error_tracking_setting.api_url = "https://replaceme.com/'><script>alert(document.cookie)</script>"
+      expect(error_tracking_setting).to be_valid
+      expect(error_tracking_setting.api_url).to eq("https://replaceme.com/'>")
+    end
+  end
 end
