@@ -146,8 +146,26 @@ module Gitlab
         request.before = Google::Protobuf::Timestamp.new(seconds: options[:before].to_i) if options[:before].present?
         request.path = encode_binary(options[:path]) if options[:path].present?
         request.max_count = options[:max_count] if options[:max_count].present?
+        request.left_right = options[:left_right] if options[:left_right].present?
 
         GitalyClient.call(@repository.storage, :commit_service, :count_commits, request, timeout: GitalyClient.medium_timeout).count
+      end
+
+      def divergent_commit_count(ref, options = {})
+        request = Gitaly::CountCommitsRequest.new(
+          repository: @gitaly_repo,
+          revision: encode_binary(ref),
+          all: !!options[:all]
+        )
+        request.after = Google::Protobuf::Timestamp.new(seconds: options[:after].to_i) if options[:after].present?
+        request.before = Google::Protobuf::Timestamp.new(seconds: options[:before].to_i) if options[:before].present?
+        request.path = encode_binary(options[:path]) if options[:path].present?
+        request.max_count = options[:max_count] if options[:max_count].present?
+        request.left_right = options[:left_right] if options[:left_right].present?
+
+        response = GitalyClient.call(@repository.storage, :commit_service, :count_commits, request, timeout: GitalyClient.medium_timeout)
+
+        [response.left_count, response.right_count] 
       end
 
       def list_last_commits_for_tree(revision, path, offset: 0, limit: 25)

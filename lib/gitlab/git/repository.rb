@@ -359,13 +359,7 @@ module Gitlab
           if options[:left_right]
             from = options[:from]
             to = options[:to]
-
-            right_count = gitaly_commit_client
-              .commit_count("#{from}..#{to}", options)
-            left_count = gitaly_commit_client
-              .commit_count("#{to}..#{from}", options)
-
-            [left_count, right_count]
+            gitaly_commit_client.divergent_commit_count("#{from}...#{to}", options)
           else
             gitaly_commit_client.commit_count(options[:ref], options)
           end
