@@ -10,7 +10,7 @@ describe ErrorTracking::ErrorTrackingSetting do
     subject { create(:error_tracking_setting, project: project1) }
 
     it 'fails validation with more than 255 chars in api_url' do
-      subject.api_url = 'https://'+'a'*250
+      subject.api_url = 'https://' + 'a' * 250
       expect { subject.save! }.to raise_exception(ActiveRecord::RecordInvalid, 'Validation failed: Api url is too long (maximum is 255 characters)')
     end
 
