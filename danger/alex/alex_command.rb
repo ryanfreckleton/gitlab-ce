@@ -8,10 +8,8 @@ class AlexCommand
   end
 
   def self.from_text(text)
-    execute(%W[node_modules/.bin/alex --stdin], text)
+    execute(%w[node_modules/.bin/alex --stdin], text)
   end
-
-  private
 
   def self.execute(cmd, input = nil)
     Open3.popen3({}, *cmd) do |stdin, stdout, stderr, wait_thr|
@@ -29,4 +27,6 @@ class AlexCommand
       Result.new(out_reader.value, err_reader.value, wait_thr.value)
     end
   end
+
+  private_class_method :execute
 end
