@@ -79,7 +79,7 @@ export default {
           <template slot="error" slot-scope="errors">
             <div class="d-flex flex-column">
               <div class="d-flex">
-                <gl-link :href="errors.item.external_url" class="d-flex text-dark">
+                <gl-link :href="errors.item.externalUrl" class="d-flex text-dark">
                   <strong>{{ errors.item.title.trim() }}</strong>
                   <icon name="external-link" class="ml-1" />
                 </gl-link>
@@ -94,13 +94,13 @@ export default {
           </template>
 
           <template slot="users" slot-scope="errors">
-            <div class="text-right">{{ errors.item.user_count }}</div>
+            <div class="text-right">{{ errors.item.userCount }}</div>
           </template>
 
           <template slot="lastSeen" slot-scope="errors">
             <div class="d-flex align-items-center">
               <icon name="calendar" css-classes="text-secondary mr-1" />
-              <time-ago :time="errors.item.last_seen" class="text-secondary" />
+              <time-ago :time="errors.item.lastSeen" class="text-secondary" />
             </div>
           </template>
         </gl-table>

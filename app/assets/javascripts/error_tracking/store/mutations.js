@@ -1,8 +1,9 @@
 import * as types from './mutation_types';
+import { convertObjectPropsToCamelCase } from '~/lib/utils/common_utils';
 
 export default {
-  [types.ADD_ERRORS](state, data) {
-    state.errors = data;
+  [types.SET_ERRORS](state, data) {
+    state.errors = convertObjectPropsToCamelCase(data, { deep: true });
   },
   [types.SET_EXTERNAL_URL](state, url) {
     state.externalUrl = url;
