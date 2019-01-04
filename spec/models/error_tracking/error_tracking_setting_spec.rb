@@ -13,11 +13,6 @@ describe ErrorTracking::ErrorTrackingSetting do
       subject.api_url = 'https://' + 'a' * 250
       expect { subject.save! }.to raise_exception(ActiveRecord::RecordInvalid, 'Validation failed: Api url is too long (maximum is 255 characters)')
     end
-
-    it 'fails validation without token' do
-      subject.token = nil
-      expect { subject.save! }.to raise_exception(ActiveRecord::RecordInvalid, "Validation failed: Token can't be blank")
-    end
   end
 
   describe '#api_url' do

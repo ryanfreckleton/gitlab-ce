@@ -5,7 +5,6 @@ module ErrorTracking
     belongs_to :project
 
     validates :api_url, length: { maximum: 255 }, public_url: true
-    validates :token, presence: true
 
     before_validation :sanitize_api_url
 
