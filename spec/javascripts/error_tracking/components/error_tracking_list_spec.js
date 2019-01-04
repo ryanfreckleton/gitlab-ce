@@ -9,7 +9,7 @@ localVue.use(Vuex);
 describe('ErrorTrackingList', () => {
   let store;
   let wrapper;
-  let originalGon = window.gon;
+  const originalGon = window.gon;
 
   function mountComponent() {
     wrapper = shallowMount(ErrorTrackingList, {

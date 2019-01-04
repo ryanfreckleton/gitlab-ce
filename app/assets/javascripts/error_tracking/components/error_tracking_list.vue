@@ -37,11 +37,11 @@ export default {
       return gon.features.errorTracking;
     },
   },
-  methods: {
-    ...mapActions(['getErrorList']),
-  },
   created() {
     this.getErrorList(this.indexPath);
+  },
+  methods: {
+    ...mapActions(['getErrorList']),
   },
 }
 </script>
