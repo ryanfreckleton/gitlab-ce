@@ -593,7 +593,7 @@ ResourceLabelEvent:
 - label_id
 - user_id
 - created_at
-ErrorTracking::ErrorTrackingSetting:
+ErrorTracking::ProjectErrorTrackingSetting:
 - id
 - api_url
 - enabled

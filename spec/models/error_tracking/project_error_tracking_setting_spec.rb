@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe ErrorTracking::ErrorTrackingSetting do
+describe ErrorTracking::ProjectErrorTrackingSetting do
   describe 'Associations' do
     it { is_expected.to belong_to(:project) }
   end
@@ -10,7 +10,7 @@ describe ErrorTracking::ErrorTrackingSetting do
   describe 'Validations' do
     let(:project1) { create(:project) }
 
-    subject { create(:error_tracking_setting, project: project1) }
+    subject { create(:project_error_tracking_setting, project: project1) }
 
     context 'when api_url is over 255 chars' do
       before do
@@ -26,12 +26,12 @@ describe ErrorTracking::ErrorTrackingSetting do
 
   describe '#api_url' do
     let(:project) { create(:project) }
-    let(:error_tracking_setting) { create(:error_tracking_setting, project: project) }
+    let(:project_error_tracking_setting) { create(:project_error_tracking_setting, project: project) }
 
     it 'sanitizes the api url' do
-      error_tracking_setting.api_url = "https://replaceme.com/'><script>alert(document.cookie)</script>"
-      expect(error_tracking_setting).to be_valid
-      expect(error_tracking_setting.api_url).to eq("https://replaceme.com/'>")
+      project_error_tracking_setting.api_url = "https://replaceme.com/'><script>alert(document.cookie)</script>"
+      expect(project_error_tracking_setting).to be_valid
+      expect(project_error_tracking_setting.api_url).to eq("https://replaceme.com/'>")
     end
   end
 end

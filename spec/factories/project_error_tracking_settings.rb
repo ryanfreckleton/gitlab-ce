@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :error_tracking_setting, class: ErrorTracking::ErrorTrackingSetting do
+  factory :project_error_tracking_setting, class: ErrorTracking::ProjectErrorTrackingSetting do
     project
     api_url 'https://gitlab.com'
     enabled true

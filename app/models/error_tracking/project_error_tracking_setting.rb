@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ErrorTracking
-  class ErrorTrackingSetting < ActiveRecord::Base
+  class ProjectErrorTrackingSetting < ActiveRecord::Base
     belongs_to :project
 
     validates :api_url, length: { maximum: 255 }, public_url: true

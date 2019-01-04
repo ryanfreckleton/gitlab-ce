@@ -6,7 +6,7 @@ class CreateErrorTrackingSettings < ActiveRecord::Migration[5.0]
   DOWNTIME = false
 
   def change
-    create_table :error_tracking_settings, id: :bigserial do |t|
+    create_table :project_error_tracking_settings, id: :bigserial do |t|
       t.references :project, null: false, index: { unique: true }, foreign_key: { on_delete: :cascade }
       t.boolean :enabled, null: false, default: true
       t.string :api_url, null: false
