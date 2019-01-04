@@ -64,8 +64,7 @@ module Ci
     scope :unstarted, ->() { where(runner_id: nil) }
     scope :ignore_failures, ->() { where(allow_failure: false) }
     scope :with_artifacts_archive, ->() do
-      where('(artifacts_file IS NOT NULL AND artifacts_file <> ?) OR EXISTS (?)',
-        '', Ci::JobArtifact.select(1).where('ci_builds.id = ci_job_artifacts.job_id').archive)
+      where('EXISTS (?)', Ci::JobArtifact.select(1).where('ci_builds.id = ci_job_artifacts.job_id').archive)
     end
 
     scope :with_existing_job_artifacts, ->(query) do
