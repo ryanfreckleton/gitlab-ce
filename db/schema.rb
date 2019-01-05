@@ -1571,13 +1571,11 @@ ActiveRecord::Schema.define(version: 20190103140724) do
     t.index ["project_id", "deploy_token_id"], name: "index_project_deploy_tokens_on_project_id_and_deploy_token_id", unique: true, using: :btree
   end
 
-  create_table "project_error_tracking_settings", id: :bigserial, force: :cascade do |t|
-    t.integer "project_id", null: false
+  create_table "project_error_tracking_settings", primary_key: "project_id", id: :integer, force: :cascade do |t|
     t.boolean "enabled", default: true, null: false
     t.string "api_url", null: false
     t.string "encrypted_token"
     t.string "encrypted_token_iv"
-    t.index ["project_id"], name: "index_project_error_tracking_settings_on_project_id", unique: true, using: :btree
   end
 
   create_table "project_features", force: :cascade do |t|
