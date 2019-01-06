@@ -1842,6 +1842,9 @@ msgstr ""
 msgid "ClusterIntegration|You must first install Helm Tiller before installing the applications below"
 msgstr ""
 
+msgid "ClusterIntegration|You must have an RBAC-enabled cluster to install Knative."
+msgstr ""
+
 msgid "ClusterIntegration|Your account must have %{link_to_kubernetes_engine}"
 msgstr ""
 
@@ -7813,6 +7816,9 @@ msgid "Your changes can be committed to %{branch_name} because a merge request i
 msgstr ""
 
 msgid "Your changes have been committed. Commit %{commitId} %{commitStats}"
+msgstr ""
+
+msgid "Your changes have been saved"
 msgstr ""
 
 msgid "Your comment will not be visible to the public."
