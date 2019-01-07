@@ -30,8 +30,7 @@ describe ErrorTracking::ProjectErrorTrackingSetting do
     it 'sanitizes the api url' do
       project_error_tracking_setting.api_url = "https://replaceme.com/'><script>alert(document.cookie)</script>"
 
-      expect(project_error_tracking_setting).to be_valid
-      expect(project_error_tracking_setting.api_url).to eq("https://replaceme.com/'>")
+      expect(project_error_tracking_setting).not_to be_valid
     end
   end
 end
