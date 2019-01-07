@@ -68,7 +68,7 @@ export default {
           :items="errors"
           :fields="$options.fields"
           :show-empty="true"
-          :empty-text="__('No errors')"
+          :empty-text="__('No errors to display')"
         >
           <template slot="HEAD_events" slot-scope="data">
              <div class="text-right">{{data.label}}</div>
