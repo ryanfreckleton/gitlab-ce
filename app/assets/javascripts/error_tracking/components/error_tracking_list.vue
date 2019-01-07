@@ -85,7 +85,7 @@ export default {
                 </gl-link>
                 <span class="text-secondary ml-2">{{ errors.item.culprit }}</span>
               </div>
-              {{ errors.item.message }}
+              {{ errors.item.message || __('No details available') }}
             </div>
           </template>
 
