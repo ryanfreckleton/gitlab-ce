@@ -89,7 +89,7 @@ RSpec.describe Projects::ErrorTrackingController, type: :controller do
           expect(issues_service).to receive(:external_url).and_return(external_url)
         end
 
-        let(:error) { build(:error_tracking_error) }
+        let(:error) { build_error_tracking_error }
 
         it 'returns a list of errors' do
           get :index, params: project_params
@@ -171,5 +171,25 @@ RSpec.describe Projects::ErrorTrackingController, type: :controller do
 
   def project_params
     { namespace_id: project.namespace, project_id: project }
+  end
+
+  def build_error_tracking_error
+    ErrorTracking::Error.new(
+      id: 'id',
+      title: 'title',
+      type: 'error',
+      user_count: 1,
+      count: 2,
+      first_seen: Time.now,
+      last_seen: Time.now,
+      message: 'message',
+      culprit: 'culprit',
+      external_url: 'http://example.com/id',
+      project_id: 'project1',
+      project_name: 'project name',
+      project_slug: 'project_name',
+      short_id: 'ID',
+      status: 'unresolved'
+    )
   end
 end
