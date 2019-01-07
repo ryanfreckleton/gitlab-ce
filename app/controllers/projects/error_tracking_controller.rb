@@ -33,7 +33,7 @@ class Projects::ErrorTrackingController < Projects::ApplicationController
   def setting_for(project)
     setting = project.error_tracking_setting
 
-    return setting if setting&.enabled?
+    setting if setting&.enabled?
   end
 
   def check_feature_flag!
