@@ -11,7 +11,7 @@ class CreateErrorTrackingSettings < ActiveRecord::Migration[5.0]
       t.string :api_url, null: false
       t.string :encrypted_token
       t.string :encrypted_token_iv
-      t.foreign_key :projects, column: :project_id
+      t.foreign_key :projects, column: :project_id, on_delete: :cascade
     end
   end
 end

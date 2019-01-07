@@ -2441,7 +2441,7 @@ ActiveRecord::Schema.define(version: 20190103140724) do
   add_foreign_key "project_custom_attributes", "projects", on_delete: :cascade
   add_foreign_key "project_deploy_tokens", "deploy_tokens", on_delete: :cascade
   add_foreign_key "project_deploy_tokens", "projects", on_delete: :cascade
-  add_foreign_key "project_error_tracking_settings", "projects"
+  add_foreign_key "project_error_tracking_settings", "projects", on_delete: :cascade
   add_foreign_key "project_features", "projects", name: "fk_18513d9b92", on_delete: :cascade
   add_foreign_key "project_group_links", "projects", name: "fk_daa8cee94c", on_delete: :cascade
   add_foreign_key "project_import_data", "projects", name: "fk_ffb9ee3a10", on_delete: :cascade
