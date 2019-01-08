@@ -2,7 +2,7 @@
 
 module Releases
   class CreateService < BaseService
-    include Releases::Concerns
+    include Gitlab::Utils::StrongMemoize
 
     def execute
       return error('Access Denied', 403) unless allowed?
@@ -22,11 +22,11 @@ module Releases
     end
 
     def create_tag
-      return error('Ref is not specified', 422) unless ref
+      return error('Ref is not specified', 422) unless params[:ref]
 
       result = Tags::CreateService
         .new(project, current_user)
-        .execute(tag_name, ref, nil)
+        .execute(params[:tag], ref, nil)
 
       return result unless result[:status] == :success
 
@@ -39,8 +39,8 @@ module Releases
 
     def create_release(tag)
       release = project.releases.create!(
-        name: name,
-        description: description,
+        name: params[:name],
+        description: params[:description],
         author: current_user,
         tag: tag.name,
         sha: tag.dereferenced_target.sha,
@@ -50,6 +50,18 @@ module Releases
       success(tag: tag, release: release)
     rescue => e
       error(e.message, 400)
+    end
+
+    def release
+      strong_memoize(:release) do
+        project.releases.find_by_tag(tag_name)
+      end
+    end
+
+    def existing_tag
+      strong_memoize(:existing_tag) do
+        project.repository.find_tag(tag_name)
+      end
     end
   end
 end

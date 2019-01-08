@@ -2,7 +2,7 @@
 
 module Releases
   class DestroyService < BaseService
-    include Releases::Concerns
+    include Gitlab::Utils::StrongMemoize
 
     def execute
       return error('Tag does not exist', 404) unless existing_tag
@@ -20,6 +20,18 @@ module Releases
 
     def allowed?
       Ability.allowed?(current_user, :destroy_release, release)
+    end
+
+    def release
+      strong_memoize(:release) do
+        project.releases.find_by_tag(tag_name)
+      end
+    end
+
+    def existing_tag
+      strong_memoize(:existing_tag) do
+        project.repository.find_tag(tag_name)
+      end
     end
   end
 end

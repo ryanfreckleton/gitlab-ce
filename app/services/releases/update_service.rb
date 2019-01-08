@@ -2,7 +2,7 @@
 
 module Releases
   class UpdateService < BaseService
-    include Releases::Concerns
+    include Gitlab::Utils::StrongMemoize
 
     def execute
       return error('Tag does not exist', 404) unless existing_tag
@@ -28,5 +28,17 @@ module Releases
       params.except(:tag).empty?
     end
     # rubocop: enable CodeReuse/ActiveRecord
+
+    def release
+      strong_memoize(:release) do
+        project.releases.find_by_tag(tag_name)
+      end
+    end
+
+    def existing_tag
+      strong_memoize(:existing_tag) do
+        project.repository.find_tag(tag_name)
+      end
+    end
   end
 end
