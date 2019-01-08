@@ -1113,8 +1113,8 @@ class MergeRequest < ActiveRecord::Base
     update_column(:head_pipeline_id, head_pipeline.id) if head_pipeline_id_changed?
   end
 
-  def merge_request_pipeline_exists?
-    merge_request_pipelines.exists?(sha: diff_head_sha)
+  def merge_request_pipeline_exists?(sha)
+    merge_request_pipelines.exists?(sha: sha)
   end
 
   def has_test_reports?

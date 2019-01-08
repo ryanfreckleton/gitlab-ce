@@ -1,0 +1,5 @@
+---
+title: Fix a small race condition of MR pipeline creation
+merge_request: 24221
+author:
+type: fixed

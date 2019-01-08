@@ -59,13 +59,15 @@ module MergeRequests
                                      merge_request.source_project,
                                      default_enabled: true)
 
+      sha = merge_request.diff_head_sha
+
       ##
       # UpdateMergeRequestsWorker could be retried by an exception.
       # MR pipelines should not be recreated in such case.
-      return if merge_request.merge_request_pipeline_exists?
+      return if !sha || merge_request.merge_request_pipeline_exists?(sha)
 
       Ci::CreatePipelineService
-        .new(merge_request.source_project, user, ref: merge_request.source_branch)
+        .new(merge_request.source_project, user, ref: merge_request.source_branch, checkout_sha: sha)
         .execute(:merge_request,
                  ignore_skip_ci: true,
                  save_on_errors: false,
