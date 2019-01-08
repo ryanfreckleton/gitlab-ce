@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Ci::ArchiveTraceService, '#execute' do
-  subject { described_class.new.execute(job) }
+  subject { described_class.new(job.project, job.user).execute(job) }
 
   context 'when job is finished' do
     let(:job) { create(:ci_build, :success, :trace_live) }

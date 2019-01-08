@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Ci
-  class ArchiveTraceService
+  class ArchiveTraceService < BaseService
     def execute(job)
       job.trace.archive!
     rescue ::Gitlab::Ci::Trace::AlreadyArchivedError
@@ -24,7 +24,7 @@ module Ci
 
     def archive_error(error, job)
       failed_archive_counter.increment
-      Rails.logger.error "Failed to archive trace. id: #{job.id} message: #{error.message}"
+      log_error("Failed to archive trace. id: #{job.id} message: #{error.message}")
 
       Gitlab::Sentry
         .track_exception(error,
