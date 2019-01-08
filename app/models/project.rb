@@ -256,7 +256,7 @@ class Project < ActiveRecord::Base
   # other pipelines, like webide ones, that we won't retrieve
   # if we use this relation.
   has_many :ci_pipelines,
-          -> { Feature.enabled?(:pipeline_ci_sources_only, default_enabled: true) ? ci_sources : all },
+          -> { ci_sources },
           class_name: 'Ci::Pipeline',
           inverse_of: :project
   has_many :stages, class_name: 'Ci::Stage', inverse_of: :project
@@ -324,10 +324,9 @@ class Project < ActiveRecord::Base
 
   validates :namespace, presence: true
   validates :name, uniqueness: { scope: :namespace_id }
-  validates :import_url, url: { protocols: ->(project) { project.persisted? ? VALID_MIRROR_PROTOCOLS : VALID_IMPORT_PROTOCOLS },
-                                ports: ->(project) { project.persisted? ? VALID_MIRROR_PORTS : VALID_IMPORT_PORTS },
-                                allow_localhost: false,
-                                enforce_user: true }, if: [:external_import?, :import_url_changed?]
+  validates :import_url, public_url: { protocols: ->(project) { project.persisted? ? VALID_MIRROR_PROTOCOLS : VALID_IMPORT_PROTOCOLS },
+                                       ports: ->(project) { project.persisted? ? VALID_MIRROR_PORTS : VALID_IMPORT_PORTS },
+                                       enforce_user: true }, if: [:external_import?, :import_url_changed?]
   validates :star_count, numericality: { greater_than_or_equal_to: 0 }
   validate :check_limit, on: :create
   validate :check_repository_path_availability, on: :update, if: ->(project) { project.renamed? }
@@ -570,7 +569,7 @@ class Project < ActiveRecord::Base
   # returns all ancestor-groups upto but excluding the given namespace
   # when no namespace is given, all ancestors upto the top are returned
   def ancestors_upto(top = nil, hierarchy_order: nil)
-    Gitlab::GroupHierarchy.new(Group.where(id: namespace_id))
+    Gitlab::ObjectHierarchy.new(Group.where(id: namespace_id))
       .base_and_ancestors(upto: top, hierarchy_order: hierarchy_order)
   end
 
@@ -1244,10 +1243,8 @@ class Project < ActiveRecord::Base
   end
 
   def track_project_repository
-    return unless hashed_storage?(:repository)
-
-    project_repo = project_repository || build_project_repository
-    project_repo.update!(shard_name: repository_storage, disk_path: disk_path)
+    repository = project_repository || build_project_repository
+    repository.update!(shard_name: repository_storage, disk_path: disk_path)
   end
 
   def create_repository(force: false)
@@ -2002,6 +1999,10 @@ class Project < ActiveRecord::Base
       repository_exists? &&
       Gitlab::CurrentSettings.hashed_storage_enabled &&
       Feature.enabled?(:object_pools, self)
+  end
+
+  def leave_pool_repository
+    pool_repository&.unlink_repository(repository)
   end
 
   private

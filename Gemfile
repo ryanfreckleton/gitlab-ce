@@ -34,7 +34,7 @@ gem 'omniauth-cas3', '~> 1.1.4'
 gem 'omniauth-facebook', '~> 4.0.0'
 gem 'omniauth-github', '~> 1.3'
 gem 'omniauth-gitlab', '~> 1.0.2'
-gem 'omniauth-google-oauth2', '~> 0.5.3'
+gem 'omniauth-google-oauth2', '~> 0.6.0'
 gem 'omniauth-kerberos', '~> 0.3.0', group: :kerberos
 gem 'omniauth-oauth2-generic', '~> 0.2.2'
 gem 'omniauth-saml', '~> 1.10'
@@ -43,7 +43,7 @@ gem 'omniauth-twitter', '~> 1.4'
 gem 'omniauth_crowd', '~> 2.2.0'
 gem 'omniauth-authentiq', '~> 0.3.3'
 gem 'rack-oauth2', '~> 1.2.1'
-gem 'jwt', '~> 1.5.6'
+gem 'jwt', '~> 2.1.0'
 
 # Spam and anti-bot protection
 gem 'recaptcha', '~> 3.0', require: 'recaptcha/rails'
@@ -89,9 +89,7 @@ gem 'kaminari', '~> 1.0'
 gem 'hamlit', '~> 2.8.8'
 
 # Files attachments
-# Locked until https://github.com/carrierwaveuploader/carrierwave/pull/2332/files is merged.
-# config/initializers/carrierwave_patch.rb can be removed once that change is released.
-gem 'carrierwave', '= 1.2.3'
+gem 'carrierwave', '~> 1.3'
 gem 'mini_magick'
 
 # for backups
@@ -129,7 +127,7 @@ gem 'asciidoctor-plantuml', '0.0.8'
 gem 'rouge', '~> 3.1'
 gem 'truncato', '~> 0.7.9'
 gem 'bootstrap_form', '~> 2.7.0'
-gem 'nokogiri', '~> 1.8.2'
+gem 'nokogiri', '~> 1.8.4'
 gem 'escape_utils', '~> 1.1'
 
 # Calendar rendering
@@ -164,6 +162,7 @@ gem 'acts-as-taggable-on', '~> 5.0'
 gem 'sidekiq', '~> 5.2.1'
 gem 'sidekiq-cron', '~> 0.6.0'
 gem 'redis-namespace', '~> 1.6.0'
+gem 'gitlab-sidekiq-fetcher', '~> 0.4.0', require: 'sidekiq-reliable-fetch'
 
 # Cron Parser
 gem 'rufus-scheduler', '~> 3.4'
@@ -290,11 +289,10 @@ gem 'batch-loader', '~> 1.2.2'
 # Perf bar
 gem 'peek', '~> 1.0.1'
 gem 'peek-gc', '~> 0.0.2'
-gem 'peek-mysql2', '~> 1.1.0', group: :mysql
+gem 'peek-mysql2', '~> 1.2.0', group: :mysql
 gem 'peek-pg', '~> 1.3.0', group: :postgres
 gem 'peek-rblineprof', '~> 0.2.0'
 gem 'peek-redis', '~> 1.2.0'
-gem 'gitlab-sidekiq-fetcher', require: 'sidekiq-reliable-fetch'
 
 # Metrics
 group :metrics do
@@ -330,7 +328,7 @@ group :development, :test do
   gem 'awesome_print', require: false
   gem 'fuubar', '~> 2.2.0'
 
-  gem 'database_cleaner', '~> 1.5.0'
+  gem 'database_cleaner', '~> 1.7.0'
   gem 'factory_bot_rails', '~> 4.8.2'
   gem 'rspec-rails', '~> 3.7.0'
   gem 'rspec-retry', '~> 0.4.5'
@@ -418,7 +416,7 @@ group :ed25519 do
 end
 
 # Gitaly GRPC client
-gem 'gitaly-proto', '~> 1.3.0', require: 'gitaly'
+gem 'gitaly-proto', '~> 1.5.0', require: 'gitaly'
 gem 'grpc', '~> 1.15.0'
 
 gem 'google-protobuf', '~> 3.6'
