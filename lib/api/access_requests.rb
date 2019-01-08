@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# a useless comment
 
 module API
   class AccessRequests < Grape::API
