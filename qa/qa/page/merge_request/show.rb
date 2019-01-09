@@ -185,7 +185,7 @@ module QA
 
         def expand_diff
           wait(time: 5) do
-            page.has_text?("Click to expand it.")
+            has_element? :click_to_expand
           end
           all_elements(:click_to_expand).last.click
         end

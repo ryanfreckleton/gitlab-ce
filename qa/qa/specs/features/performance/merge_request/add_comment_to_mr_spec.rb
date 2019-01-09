@@ -57,16 +57,14 @@ module QA
         end
       end
 
-      def create_merge_request
-        request = create_request("/projects/#{project.id}/merge_requests")
-        post request.url, source_branch: 'perf-testing', target_branch: 'master', title: 'My MR'
-        expect_status(201)
-        json_body[:web_url]
-      end
-
       it 'user adds comment to mr' do
         populate_data_for_mr
-        mr_url = create_merge_request
+        merge_request = Resource::MergeRequest.fabricate! do |merge_request|
+          merge_request.title = 'My MR for Perf Testing'
+          merge_request.description = 'My MR for Perf Testing'
+          merge_request.project = project
+          merge_request.source_branch = 'perf-testing'
+        end
 
         samples_arr = []
         apdex_score = 0
@@ -75,7 +73,7 @@ module QA
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
         Page::Main::Login.act { sign_in_using_credentials }
 
-        visit mr_url
+        merge_request.visit!
 
         Page::MergeRequest::Show.perform do |show_page|
           show_page.go_to_diffs_tab
