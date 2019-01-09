@@ -174,6 +174,7 @@ module ProjectsHelper
       project.route.cache_key,
       project.cache_key,
       project.last_activity_date,
+      project.creator&.cache_key,
       controller.controller_name,
       controller.action_name,
       Gitlab::CurrentSettings.cache_key,

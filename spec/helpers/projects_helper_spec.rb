@@ -62,7 +62,7 @@ describe ProjectsHelper do
       helper.instance_variable_set(:@project, project)
     end
 
-    it "returns a valid cach key" do
+    it "returns a valid cache key" do
       expect(helper.send(:readme_cache_key)).to eq("#{project.full_path}-#{project.commit.id}-readme")
     end
 
@@ -89,6 +89,10 @@ describe ProjectsHelper do
 
     it "includes the project" do
       expect(helper.project_list_cache_key(project)).to include(project.cache_key)
+    end
+
+    it "includes the project creator" do
+      expect(helper.project_list_cache_key(project)).to include(project.creator.cache_key)
     end
 
     it "includes the last activity date" do
