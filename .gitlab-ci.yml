@@ -643,6 +643,25 @@ gitlab:assets:compile:
     - gitlab-org-delivery
     - high-cpu
 
+gitlab:ui:visual:
+  image: dev.gitlab.org:5005/gitlab/gitlab-build-images:gitlab-puppeteer
+  # Puppeteer still seems to hang/give false positives from time to time
+  retry: 2
+  before_script: []
+  dependencies:
+    - compile-assets
+  script:
+    # Remove node modules from GitLab that may conflict with gitlab-ui
+    - rm -r node_modules
+    - git clone https://gitlab.com/gitlab-org/gitlab-ui.git
+    - cp public/assets/application-*.css gitlab-ui/styles/application.css
+    - cd gitlab-ui
+    - yarn install
+    - CSS_URL=./application.css yarn test
+  artifacts:
+    paths:
+      - gitlab-ui/tests/__image_snapshots__
+
 karma:
   <<: *dedicated-no-docs-pull-cache-job
   <<: *use-pg
