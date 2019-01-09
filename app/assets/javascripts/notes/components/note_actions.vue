@@ -112,6 +112,11 @@ export default {
     onResolve() {
       this.$emit('handleResolve');
     },
+    closeTooltip() {
+      this.$nextTick(() => {
+        this.$root.$emit('bv::hide::tooltip');
+      });
+    },
   },
 };
 </script>
@@ -143,6 +148,7 @@ export default {
         data-position="right"
         href="#"
         title="Add reaction"
+        @click="closeTooltip"
       >
         <gl-loading-icon inline />
         <icon
@@ -182,6 +188,7 @@ export default {
         title="More actions"
         class="note-action-button more-actions-toggle btn btn-transparent"
         data-toggle="dropdown"
+        @click="closeTooltip"
       >
         <icon css-classes="icon" name="ellipsis_v" />
       </button>
