@@ -293,7 +293,8 @@ Either way, the resulting Docker image is automatically pushed to the
 #### Auto Build using a Dockerfile
 
 If a project's repository contains a `Dockerfile`, Auto Build will use
-`docker build` to create a Docker image.
+[Kaniko](https://github.com/GoogleContainerTools/kaniko) to create a Docker
+image.
 
 If you are also using Auto Review Apps and Auto Deploy and choose to provide
 your own `Dockerfile`, make sure you expose your application to port
