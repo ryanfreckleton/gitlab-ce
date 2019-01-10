@@ -77,6 +77,7 @@ module QA
               expect(pipeline).to have_build('build', status: :success, wait: 600)
               expect(pipeline).to have_build('test', status: :success, wait: 600)
               expect(pipeline).to have_build('production', status: :success, wait: 1200)
+              expect(pipeline).to have_build('performance', status: :success, wait: 600)
             end
 
             Page::Project::Menu.act { click_operations_environments }
