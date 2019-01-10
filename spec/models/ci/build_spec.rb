@@ -1195,6 +1195,18 @@ describe Ci::Build do
               end
             end
           end
+
+          context 'when ci_enable_legacy_artifacts is disabled' do
+            let!(:build) { create(:ci_build, :trace_artifact, :success, :legacy_artifacts) }
+
+            before do
+              stub_feature_flags(ci_enable_legacy_artifacts: false)
+            end
+
+            it 'does not erase legacy artifacts' do
+              expect { build.erase }.not_to change { build.read_attribute(:artifacts_file) }
+            end
+          end
         end
       end
     end

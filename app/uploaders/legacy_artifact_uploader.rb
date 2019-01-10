@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+##
+# TODO: Remove this uploader when we remove :ci_enable_legacy_artifacts feature flag
 class LegacyArtifactUploader < GitlabUploader
   extend Workhorse::UploadPath
   include ObjectStorage::Concern

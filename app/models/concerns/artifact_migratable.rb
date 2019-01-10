@@ -13,7 +13,7 @@ module ArtifactMigratable
   end
 
   def artifacts?
-    !artifacts_expired? && artifacts_file.exists?
+    !artifacts_expired? && artifacts_file&.exists?
   end
 
   def artifacts_metadata?
@@ -21,13 +21,14 @@ module ArtifactMigratable
   end
 
   def artifacts_file_changed?
-    job_artifacts_archive&.file_changed? || attribute_changed?(:artifacts_file)
+    job_artifacts_archive&.file_changed? ||
+      (Feature.enabled?(:ci_enable_legacy_artifacts) && attribute_changed?(:artifacts_file))
   end
 
   def remove_artifacts_file!
     if job_artifacts_archive
       job_artifacts_archive.destroy
-    else
+    elsif Feature.enabled?(:ci_enable_legacy_artifacts)
       remove_legacy_artifacts_file!
     end
   end
@@ -35,12 +36,24 @@ module ArtifactMigratable
   def remove_artifacts_metadata!
     if job_artifacts_metadata
       job_artifacts_metadata.destroy
-    else
+    elsif Feature.enabled?(:ci_enable_legacy_artifacts)
       remove_legacy_artifacts_metadata!
     end
   end
 
   def artifacts_size
     read_attribute(:artifacts_size).to_i + job_artifacts.sum(:size).to_i
+  end
+
+  def legacy_artifacts_file
+    return unless Feature.enabled?(:ci_enable_legacy_artifacts)
+
+    super
+  end
+
+  def legacy_artifacts_metadata
+    return unless Feature.enabled?(:ci_enable_legacy_artifacts)
+
+    super
   end
 end
