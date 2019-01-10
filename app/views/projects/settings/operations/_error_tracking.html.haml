@@ -2,10 +2,12 @@
 
 - setting = error_tracking_setting
 
-%section.settings.expanded.border-0.no-animate
+%section.settings.border-0.no-animate{ class: ('expanded' if expanded) }
   .settings-header
     %h4
       = _('Error Tracking')
+    %button.btn.btn-default.js-settings-toggle{ type: 'button' }
+      = expanded ? _('Collapse') : _('Expand')
     %p
       = _('To link Sentry to GitLab, enter your Sentry URL and Auth Token.')
   .settings-content
