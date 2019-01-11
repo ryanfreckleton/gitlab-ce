@@ -1,15 +1,14 @@
 - breadcrumb_title "General Settings"
 - page_title "General"
 - @content_class = "limit-container-width" unless fluid_layout
-- expanded = Rails.env.test?
 
 .project-edit-container
-  %section.settings.general-settings.no-animate#js-general-project-settings{ class: ('expanded' if expanded) }
+  %section.settings.general-settings.no-animate#js-general-project-settings{ class: ('expanded' if expanded_by_default?) }
     .settings-header
       %h4
         General project
       %button.btn.js-settings-toggle{ type: 'button' }
-        = expanded ? 'Collapse' : 'Expand'
+        = expanded_by_default? ? 'Collapse' : 'Expand'
       %p
         Update your project name, description, avatar, and other general settings.
     .settings-content
@@ -61,12 +60,12 @@
               = link_to _('Remove avatar'), project_avatar_path(@project), data: { confirm: _("Avatar will be removed. Are you sure?") }, method: :delete, class: "btn btn-danger btn-inverted"
         = f.submit 'Save changes', class: "btn btn-success js-btn-success-general-project-settings"
 
-  %section.settings.sharing-permissions.no-animate#js-shared-permissions{ class: ('expanded' if expanded) }
+  %section.settings.sharing-permissions.no-animate#js-shared-permissions{ class: ('expanded' if expanded_by_default?) }
     .settings-header
       %h4
         Permissions
       %button.btn.js-settings-toggle{ type: 'button' }
-        = expanded ? 'Collapse' : 'Expand'
+        = expanded_by_default? ? 'Collapse' : 'Expand'
       %p
         Enable or disable certain project features and choose access levels.
     .settings-content
@@ -79,12 +78,12 @@
 
   = render_if_exists 'projects/issues_settings'
 
-  %section.qa-merge-request-settings.settings.merge-requests-feature.no-animate#js-merge-request-settings{ class: [('expanded' if expanded), ('hidden' if @project.project_feature.send(:merge_requests_access_level) == 0)] }
+  %section.qa-merge-request-settings.settings.merge-requests-feature.no-animate#js-merge-request-settings{ class: [('expanded' if expanded_by_default?), ('hidden' if @project.project_feature.send(:merge_requests_access_level) == 0)] }
     .settings-header
       %h4
         Merge request
       %button.btn.js-settings-toggle{ type: 'button' }
-        = expanded ? 'Collapse' : 'Expand'
+        = expanded_by_default? ? 'Collapse' : 'Expand'
       %p
         Customize your merge request restrictions.
     .settings-content
@@ -95,16 +94,16 @@
         = render 'projects/merge_request_settings', form: f
         = f.submit 'Save changes', class: "btn btn-success qa-save-merge-request-changes"
 
-  = render_if_exists 'projects/merge_request_approvals_settings', expanded: expanded
+  = render_if_exists 'projects/merge_request_approvals_settings', expanded: expanded_by_default?
 
   = render_if_exists 'projects/service_desk_settings'
 
-  %section.settings.no-animate{ class: ('expanded' if expanded) }
+  %section.settings.no-animate{ class: ('expanded' if expanded_by_default?) }
     .settings-header
       %h4
         = s_('ProjectSettings|Badges')
       %button.btn.js-settings-toggle{ type: 'button' }
-        = expanded ? 'Collapse' : 'Expand'
+        = expanded_by_default? ? 'Collapse' : 'Expand'
       %p
         = s_('ProjectSettings|Customize your project badges.')
         = link_to s_('ProjectSettings|Learn more about badges.'), help_page_path('user/project/badges')
@@ -113,12 +112,12 @@
 
   = render 'export', project: @project
 
-  %section.qa-advanced-settings.settings.advanced-settings.no-animate#js-project-advanced-settings{ class: ('expanded' if expanded) }
+  %section.qa-advanced-settings.settings.advanced-settings.no-animate#js-project-advanced-settings{ class: ('expanded' if expanded_by_default?) }
     .settings-header
       %h4
         Advanced
       %button.btn.js-settings-toggle{ type: 'button' }
-        = expanded ? 'Collapse' : 'Expand'
+        = expanded_by_default? ? 'Collapse' : 'Expand'
       %p
         Perform advanced options such as housekeeping, archiving, renaming, transferring, or removing your project.
     .settings-content

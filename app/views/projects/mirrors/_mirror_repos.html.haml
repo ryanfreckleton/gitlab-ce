@@ -1,11 +1,10 @@
-- expanded = Rails.env.test?
 - protocols = Gitlab::UrlSanitizer::ALLOWED_SCHEMES.join('|')
 
-%section.settings.project-mirror-settings.js-mirror-settings.no-animate.qa-mirroring-repositories-settings#js-push-remote-settings{ class: ('expanded' if expanded) }
+%section.settings.project-mirror-settings.js-mirror-settings.no-animate.qa-mirroring-repositories-settings#js-push-remote-settings{ class: ('expanded' if expanded_by_default?) }
   .settings-header
     %h4= _('Mirroring repositories')
     %button.btn.js-settings-toggle
-      = expanded ? _('Collapse') : _('Expand')
+      = expanded_by_default? ? _('Collapse') : _('Expand')
     %p
       = _('Set up your project to automatically push and/or pull changes to/from another repository. Branches, tags, and commits will be synced automatically.')
       = link_to _('Read more'), help_page_path('workflow/repository_mirroring'), target: '_blank'

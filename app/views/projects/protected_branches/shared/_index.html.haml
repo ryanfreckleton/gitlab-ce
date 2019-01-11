@@ -1,11 +1,9 @@
-- expanded = Rails.env.test?
-
-%section.qa-protected-branches-settings.settings.no-animate#js-protected-branches-settings{ class: ('expanded' if expanded) }
+%section.qa-protected-branches-settings.settings.no-animate#js-protected-branches-settings{ class: ('expanded' if expanded_by_default?) }
   .settings-header
     %h4
       Protected Branches
     %button.btn.js-settings-toggle.qa-expand-protected-branches{ type: 'button' }
-      = expanded ? 'Collapse' : 'Expand'
+      = expanded_by_default? ? 'Collapse' : 'Expand'
     %p
       Keep stable branches secure and force developers to use merge requests.
   .settings-content

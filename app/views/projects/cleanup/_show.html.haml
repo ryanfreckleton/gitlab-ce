@@ -1,10 +1,8 @@
-- expanded = Rails.env.test?
-
-%section.settings.no-animate#cleanup{ class: ('expanded' if expanded) }
+%section.settings.no-animate#cleanup{ class: ('expanded' if expanded_by_default?) }
   .settings-header
     %h4= _('Repository cleanup')
     %button.btn.js-settings-toggle
-      = expanded ? _('Collapse') : _('Expand')
+      = expanded_by_default? ? _('Collapse') : _('Expand')
     %p
       = _("Clean up after running %{bfg} on the repository" % { bfg: link_to_bfg }).html_safe
       = link_to icon('question-circle'),

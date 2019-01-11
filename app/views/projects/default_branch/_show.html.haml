@@ -1,10 +1,8 @@
-- expanded = Rails.env.test?
-
-%section.settings.no-animate#default-branch-settings{ class: ('expanded' if expanded) }
+%section.settings.no-animate#default-branch-settings{ class: ('expanded' if expanded_by_default?) }
   .settings-header
     %h4= _('Default Branch')
     %button.btn.js-settings-toggle
-      = expanded ? _('Collapse') : _('Expand')
+      = expanded_by_default? ? _('Collapse') : _('Expand')
     %p
       = _('Select the branch you want to set as the default for this project. All merge requests and commits will automatically be made against this branch unless you specify a different one.')
 

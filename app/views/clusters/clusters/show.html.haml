@@ -4,8 +4,6 @@
 - page_title _("Kubernetes Cluster")
 - manage_prometheus_path = edit_project_service_path(@cluster.project, 'prometheus') if @project
 
-- expanded = Rails.env.test?
-
 - status_path = clusterable.cluster_status_cluster_path(@cluster.id, format: :json) if can?(current_user, :admin_cluster, @cluster)
 .edit-cluster-form.js-edit-cluster-form{ data: { status_path: status_path,
   install_helm_path: clusterable.install_applications_cluster_path(@cluster, :helm),
@@ -35,11 +33,11 @@
 
   .cluster-applications-table#js-cluster-applications
 
-  %section.settings#js-cluster-details{ class: ('expanded' if expanded) }
+  %section.settings#js-cluster-details{ class: ('expanded' if expanded_by_default?) }
     .settings-header
       %h4= s_('ClusterIntegration|Kubernetes cluster details')
       %button.btn.js-settings-toggle{ type: 'button' }
-        = expanded ? 'Collapse' : 'Expand'
+        = expanded_by_default? ? 'Collapse' : 'Expand'
       %p= s_('ClusterIntegration|See and edit the details for your Kubernetes cluster')
     .settings-content
       - if @cluster.managed?
@@ -47,11 +45,11 @@
       - else
         = render 'clusters/clusters/user/show'
 
-  %section.settings.no-animate#js-cluster-advanced-settings{ class: ('expanded' if expanded) }
+  %section.settings.no-animate#js-cluster-advanced-settings{ class: ('expanded' if expanded_by_default?) }
     .settings-header
       %h4= _('Advanced settings')
       %button.btn.js-settings-toggle{ type: 'button' }
-        = expanded ? 'Collapse' : 'Expand'
+        = expanded_by_default? ? 'Collapse' : 'Expand'
       %p= s_("ClusterIntegration|Advanced options on this Kubernetes cluster's integration")
     .settings-content
       = render 'advanced_settings'
