@@ -255,10 +255,10 @@ package-and-qa:
     <<: *single-script-job-variables
     SCRIPT_NAME: trigger-build-docs
   environment:
-    name: review-docs/$CI_COMMIT_REF_SLUG
+    name: review-docs/$DOCS_GITLAB_REPO_SUFFIX-$CI_MERGE_REQUEST_IID
     # DOCS_REVIEW_APPS_DOMAIN and DOCS_GITLAB_REPO_SUFFIX are CI variables
     # Discussion: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/14236/diffs#note_40140693
-    url: http://$CI_ENVIRONMENT_SLUG.$DOCS_REVIEW_APPS_DOMAIN/$DOCS_GITLAB_REPO_SUFFIX
+    url: http://docs-preview-$DOCS_GITLAB_REPO_SUFFIX-$CI_MERGE_REQUEST_IID.$DOCS_REVIEW_APPS_DOMAIN/$DOCS_GITLAB_REPO_SUFFIX
     on_stop: review-docs-cleanup
 
 # Trigger a manual docs build in gitlab-docs only on non docs-only branches.
@@ -271,8 +271,8 @@ review-docs-deploy-manual:
     - ./$SCRIPT_NAME deploy
   when: manual
   only:
-    - branches@gitlab-org/gitlab-ce
-    - branches@gitlab-org/gitlab-ee
+    - merge_requests@gitlab-org/gitlab-ce
+    - merge_requests@gitlab-org/gitlab-ee
   <<: *except-docs-and-qa
 
 # Always trigger a docs build in gitlab-docs only on docs-only branches.
@@ -284,8 +284,11 @@ review-docs-deploy:
     - gem install gitlab --no-document
     - ./$SCRIPT_NAME deploy
   only:
-    - /(^docs[\/-].*|.*-docs$)/@gitlab-org/gitlab-ce
-    - /(^docs[\/-].*|.*-docs$)/@gitlab-org/gitlab-ee
+    refs:
+      - merge_requests@gitlab-org/gitlab-ce
+      - merge_requests@gitlab-org/gitlab-ee
+    variables:
+      - $CI_COMMIT_REF_NAME =~ /(^docs[\/-].*|.*-docs$)/
   <<: *except-qa
 
 # Cleanup remote environment of gitlab-docs
@@ -293,15 +296,15 @@ review-docs-cleanup:
   <<: *review-docs
   stage: post-cleanup
   environment:
-    name: review-docs/$CI_COMMIT_REF_SLUG
+    name: review-docs/$DOCS_GITLAB_REPO_SUFFIX-$CI_MERGE_REQUEST_IID
     action: stop
   script:
     - gem install gitlab --no-document
     - ./$SCRIPT_NAME cleanup
   when: manual
   only:
-    - branches@gitlab-org/gitlab-ce
-    - branches@gitlab-org/gitlab-ee
+    - merge_requests@gitlab-org/gitlab-ce
+    - merge_requests@gitlab-org/gitlab-ee
 
 ##
 # Trigger a docker image build in CNG (Cloud Native GitLab) repository
