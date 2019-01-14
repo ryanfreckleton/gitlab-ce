@@ -7,6 +7,8 @@ module Gitlab
         class Mapper
           include Gitlab::Utils::StrongMemoize
 
+          MAX_DEPTH = 3
+
           FILE_CLASSES = [
             External::File::Remote,
             External::File::Template,
@@ -14,16 +16,25 @@ module Gitlab
             External::File::Project
           ].freeze
 
-          AmbigiousSpecificationError = Class.new(StandardError)
+          Error = Class.new(StandardError)
+          AmbigiousSpecificationError = Class.new(Error)
+          TooManyIncludes = Class.new(Error)
 
-          def initialize(values, project:, sha:, user:)
+          def initialize(values, project:, sha:, user:, depth: 0)
             @locations = Array.wrap(values.fetch(:include, []))
             @project = project
             @sha = sha
             @user = user
+            @depth = depth.to_i
           end
 
           def process
+            return [] if locations.empty?
+
+            if @depth >= MAX_DEPTH
+              raise TooManyIncludes, "You can nest at most #{MAX_DEPTH} includes"
+            end
+
             locations
               .compact
               .map(&method(:normalize_location))
@@ -32,7 +43,7 @@ module Gitlab
 
           private
 
-          attr_reader :locations, :project, :sha, :user
+          attr_reader :locations, :project, :sha, :user, :depth
 
           # convert location if String to canonical form
           def normalize_location(location)
@@ -63,7 +74,7 @@ module Gitlab
 
           def context
             strong_memoize(:context) do
-              External::File::Base::Context.new(project, sha, user)
+              External::File::Base::Context.new(project, sha, user, depth)
             end
           end
         end

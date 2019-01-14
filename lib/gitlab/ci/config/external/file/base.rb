@@ -12,7 +12,7 @@ module Gitlab
 
             YAML_WHITELIST_EXTENSION = /.+\.(yml|yaml)$/i.freeze
 
-            Context = Struct.new(:project, :sha, :user)
+            Context = Struct.new(:project, :sha, :user, :depth)
 
             def initialize(params, context)
               @params = params
@@ -43,12 +43,26 @@ module Gitlab
             end
 
             def to_hash
-              @hash ||= Gitlab::Config::Loader::Yaml.new(content).load!
-            rescue Gitlab::Config::Loader::FormatError
-              nil
+              expanded_yaml
             end
 
             protected
+
+            def expanded_yaml
+              return unless content_yaml
+
+              strong_memoize(:expanded_content_yaml) do
+                expand_includes(content_yaml)
+              end
+            end
+
+            def content_yaml
+              strong_memoize(:content_yaml) do
+                Gitlab::Config::Loader::Yaml.new(content).load!
+              end
+            rescue Gitlab::Config::Loader::FormatError
+              nil
+            end
 
             def validate!
               validate_location!
@@ -72,6 +86,14 @@ module Gitlab
               if to_hash.blank?
                 errors.push("Included file `#{location}` does not have valid YAML syntax!")
               end
+            end
+
+            def expand_includes(hash)
+              External::Processor.new(hash, **expand_context).perform
+            end
+
+            def expand_context
+              { project: nil, sha: nil, user: nil, depth: context.depth.to_i + 1 }
             end
           end
         end

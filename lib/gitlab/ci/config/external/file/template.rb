@@ -43,6 +43,10 @@ module Gitlab
             def fetch_template_content
               Gitlab::Template::GitlabCiYmlTemplate.find(template_name, project)&.content
             end
+
+            def expand_context
+              super.merge(user: context.user)
+            end
           end
         end
       end
