@@ -2,7 +2,7 @@
 
 Tests relevant for frontend development can be found at the following places:
 
-- `spec/javascripts/` which are run by Karma (command: `yarn karma`) and contain
+- `spec/javascripts/` which are run by [Karma](#karma) and contain
   - [frontend unit tests](#frontend-unit-tests)
   - [frontend component tests](#frontend-component-tests)
   - [frontend integration tests](#frontend-integration-tests)
@@ -272,6 +272,35 @@ wait_for_requests
 
 expect(page).not_to have_selector('.card')
 ```
+
+## Karma
+
+GitLab uses the [Karma](http://karma-runner.github.io/) test runner with [Jasmine](https://jasmine.github.io/) as its test
+framework for our JavaScript unit and integration tests. For integration tests,
+we generate HTML files using RSpec (see `spec/javascripts/fixtures/*.rb` for examples).
+Some fixtures are still HAML templates that are translated to HTML files using the same mechanism (see `static_fixtures.rb`).
+Adding these static fixtures should be avoided as they are harder to keep up to date with real views.
+The existing static fixtures will be migrated over time.
+Please see [gitlab-org/gitlab-ce#24753](https://gitlab.com/gitlab-org/gitlab-ce/issues/24753) to track our progress.
+Fixtures are served during testing by the [jasmine-jquery](https://github.com/velesin/jasmine-jquery) plugin.
+
+JavaScript tests live in `spec/javascripts/`, matching the folder structure
+of `app/assets/javascripts/`: `app/assets/javascripts/behaviors/autosize.js`
+has a corresponding `spec/javascripts/behaviors/autosize_spec.js` file.
+
+Keep in mind that in a CI environment, these tests are run in a headless
+browser and you will not have access to certain APIs, such as
+[`Notification`](https://developer.mozilla.org/en-US/docs/Web/API/notification),
+which will have to be stubbed.
+
+`rake karma` runs the frontend-only (JavaScript) tests.
+It consists of two subtasks:
+
+- `rake karma:fixtures` (re-)generates fixtures
+- `rake karma:tests` actually executes the tests
+
+As long as the fixtures don't change, `rake karma:tests` (or `yarn karma`)
+is sufficient (and saves you some time).
 
 ## Test helpers
 
