@@ -17,44 +17,6 @@ information on general testing practices at GitLab.
 
 See this [section][vue-test].
 
-### Live testing and focused testing
-
-While developing locally, it may be helpful to keep karma running so that you
-can get instant feedback on as you write tests and modify code. To do this
-you can start karma with `yarn run karma-start`. It will compile the javascript
-assets and run a server at `http://localhost:9876/` where it will automatically
-run the tests on any browser which connects to it. You can enter that url on
-multiple browsers at once to have it run the tests on each in parallel.
-
-While karma is running, any changes you make will instantly trigger a recompile
-and retest of the entire test suite, so you can see instantly if you've broken
-a test with your changes. You can use [jasmine focused][jasmine-focus] or
-excluded tests (with `fdescribe` or `xdescribe`) to get karma to run only the
-tests you want while you're working on a specific feature, but make sure to
-remove these directives when you commit your code.
-
-It is also possible to only run karma on specific folders or files by filtering
-the run tests via the argument `--filter-spec` or short `-f`:
-
-```bash
-# Run all files
-yarn karma-start
-# Run specific spec files
-yarn karma-start --filter-spec profile/account/components/update_username_spec.js
-# Run specific spec folder
-yarn karma-start --filter-spec profile/account/components/
-# Run all specs which path contain vue_shared or vie
-yarn karma-start -f vue_shared -f vue_mr_widget
-```
-
-You can also use glob syntax to match files. Remember to put quotes around the
-glob otherwise your shell may split it into multiple arguments:
-
-```bash
-# Run all specs named `file_spec` within the IDE subdirectory
-yarn karma -f 'spec/javascripts/ide/**/file_spec.js'
-```
-
 ## RSpec feature integration tests
 
 Information on setting up and running RSpec integration tests with
@@ -110,7 +72,6 @@ describe "Admin::AbuseReports", :js do
 end
 ```
 
-[jasmine-focus]: https://jasmine.github.io/2.5/focused_specs.html
 [vue-test]: https://docs.gitlab.com/ce/development/fe_guide/vue.html#testing-vue-components
 [rspec]: https://github.com/rspec/rspec-rails#feature-specs
 [capybara]: https://github.com/teamcapybara/capybara
