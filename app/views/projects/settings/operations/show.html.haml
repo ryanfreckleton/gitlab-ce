@@ -1,7 +1,5 @@
 - @content_class = 'limit-container-width' unless fluid_layout
 - page_title _('Operations')
 
--# EE specific start: `true` here, `false` in EE
 = render 'projects/settings/operations/error_tracking', expanded: true
--# EE specific end
-= render_if_exists 'projects/settings/operations/tracing'
+= render_if_exists 'projects/settings/operations/tracing', expanded: true
