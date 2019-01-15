@@ -18,7 +18,7 @@ In addition to the specific migration documentation above, you can import any
 Git repository via HTTP from the New Project page. Be aware that if the
 repository is too large the import can timeout.
 
-## Migrating from self-hosted GitLab to GitLab.com
+## Migrating from self-managed GitLab to GitLab.com
 
 You can copy your repos by changing the remote and pushing to the new server,
 but issues and merge requests can't be imported.
