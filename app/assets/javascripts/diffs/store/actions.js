@@ -278,5 +278,9 @@ export const closeDiffFileCommentForm = ({ commit }, fileHash) => {
   commit(types.CLOSE_DIFF_FILE_COMMENT_FORM, fileHash);
 };
 
+export const expandFullDiff = ({ commit }, filePath) => {
+  commit(types.SET_DIFF_LINES, { filePath, data: {} });
+};
+
 // prevent babel-plugin-rewire from generating an invalid default during karma tests
 export default () => {};

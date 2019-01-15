@@ -15,6 +15,10 @@ class Projects::MergeRequestsController < Projects::MergeRequests::ApplicationCo
   before_action :authenticate_user!, only: [:assign_related_issues]
   before_action :check_user_can_push_to_source_branch!, only: [:rebase]
 
+  before_action do
+    push_frontend_feature_flag(:expand_full_diff)
+  end
+
   def index
     @merge_requests = @issuables
 

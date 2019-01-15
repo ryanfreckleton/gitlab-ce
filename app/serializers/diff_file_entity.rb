@@ -63,6 +63,10 @@ class DiffFileEntity < DiffFileBaseEntity
     diff_file.diff_lines_for_serializer
   end
 
+  expose :is_fully_expanded, if: -> (diff_file, _) { Feature.enabled?(:expand_full_diff) && diff_file.text? } do |diff_file|
+    diff_file.is_fully_expanded?
+  end
+
   # Used for parallel diffs
   expose :parallel_diff_lines, using: DiffLineParallelEntity, if: -> (diff_file, _) { diff_file.text? }
 end

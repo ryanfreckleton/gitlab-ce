@@ -238,4 +238,13 @@ export default {
     state.treeEntries = treeEntries;
     state.tree = tree;
   },
+  [types.SET_DIFF_LINES](state, { filePath, data }) {
+    state.diffFiles = state.diffFiles.map(file => {
+      if (file.file_path === filePath) {
+        return { ...file, ...data };
+      }
+
+      return file;
+    });
+  },
 };

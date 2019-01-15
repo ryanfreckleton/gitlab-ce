@@ -325,6 +325,15 @@ module Gitlab
         lines
       end
 
+      def is_fully_expanded?
+        lines = highlighted_diff_lines
+
+        return if lines.empty?
+        return if blob.nil?
+
+        diff_lines.size == diff_lines_for_serializer.size
+      end
+
       private
 
       def total_blob_lines(blob)

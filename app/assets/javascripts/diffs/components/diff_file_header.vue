@@ -116,12 +116,15 @@ export default {
     gfmCopyText() {
       return `\`${this.diffFile.file_path}\``;
     },
+    showExpandFullFileButton() {
+      return gon.features.expandFullDiff && !this.diffFile.is_fully_expanded;
+    }
   },
   mounted() {
     polyfillSticky(this.$refs.header);
   },
   methods: {
-    ...mapActions('diffs', ['toggleFileDiscussions']),
+    ...mapActions('diffs', ['toggleFileDiscussions', 'expandFullDiff']),
     handleToggleFile(e, checkTarget) {
       if (
         !checkTarget ||
@@ -230,6 +233,14 @@ export default {
         v-html="viewReplacedFileButtonText"
       >
       </a>
+      <button
+        v-if="showExpandFullFileButton"
+        type="button"
+        class="btn expand-file js-expand-file"
+        @click="expandFullDiff(diffFile.file_path)"
+      >
+        {{ s__('MRDiff|Expand full file') }}
+      </button>
       <a :href="diffFile.view_path" class="btn view-file js-view-file" v-html="viewFileButtonText">
       </a>
 
