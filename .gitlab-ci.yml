@@ -271,8 +271,9 @@ review-docs-deploy-manual:
     - ./$SCRIPT_NAME deploy
   when: manual
   only:
-    - merge_requests@gitlab-org/gitlab-ce
-    - merge_requests@gitlab-org/gitlab-ee
+    - branches@gitlab-org/gitlab-ce
+    - branches@gitlab-org/gitlab-ee
+    - merge_requests
   <<: *except-docs-and-qa
 
 # Always trigger a docs build in gitlab-docs only on docs-only branches.
@@ -285,8 +286,9 @@ review-docs-deploy:
     - ./$SCRIPT_NAME deploy
   only:
     refs:
-      - merge_requests@gitlab-org/gitlab-ce
-      - merge_requests@gitlab-org/gitlab-ee
+      - branches@gitlab-org/gitlab-ce
+      - branches@gitlab-org/gitlab-ee
+      - merge_requests
     variables:
       - $CI_COMMIT_REF_NAME =~ /(^docs[\/-].*|.*-docs$)/
   <<: *except-qa
@@ -303,8 +305,9 @@ review-docs-cleanup:
     - ./$SCRIPT_NAME cleanup
   when: manual
   only:
-    - merge_requests@gitlab-org/gitlab-ce
-    - merge_requests@gitlab-org/gitlab-ee
+    - branches@gitlab-org/gitlab-ce
+    - branches@gitlab-org/gitlab-ee
+    - merge_requests
 
 ##
 # Trigger a docker image build in CNG (Cloud Native GitLab) repository
