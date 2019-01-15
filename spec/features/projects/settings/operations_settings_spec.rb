@@ -18,8 +18,8 @@ describe 'Projects > Settings > For a forked project', :js do
         visit project_path(project) + '/settings/operations' # TODO: find out the blessed way for url concatenation
         wait_for_requests
 
-        expect(page).to have_selector('h4', :text => _("Error Tracking"))
-        expect(page).to have_selector('label', :text => _("Active"))
+        expect(page).to have_selector('h4', text: _("Error Tracking"))
+        expect(page).to have_selector('label', text: _("Active"))
       end
 
       it 'collapses the error tracking settings' do
@@ -28,8 +28,8 @@ describe 'Projects > Settings > For a forked project', :js do
 
         find('button.js-settings-toggle').click
 
-        expect(page).to have_selector('h4', :text => _("Error Tracking"))
-        expect(page).to have_no_selector('label', :text => _("Active"))
+        expect(page).to have_selector('h4', text: _("Error Tracking"))
+        expect(page).to have_no_selector('label', text: _("Active"))
       end
     end
   end
