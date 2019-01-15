@@ -70,7 +70,9 @@ export default class ContextualSidebar {
       ContextualSidebar.setCollapsedCookie(collapsed);
     }
 
-    requestIdleCallback(this.toggleSidebarOverflow);
+    requestIdleCallback(() => {
+      this.toggleSidebarOverflow();
+    });
   }
 
   toggleSidebarOverflow() {
