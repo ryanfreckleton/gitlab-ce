@@ -36,3 +36,20 @@ export const MR_TREE_SHOW_KEY = 'mr_tree_show';
 export const TREE_TYPE = 'tree';
 export const TREE_LIST_STORAGE_KEY = 'mr_diff_tree_list';
 export const WHITESPACE_STORAGE_KEY = 'mr_show_whitespace';
+
+export const DIFF_VIEWER_NAMES = Object.freeze({
+  not_diffable: 'not_diffable',
+  no_preview: 'no_preview',
+  added: 'added',
+  deleted: 'deleted',
+  renamed: 'renamed',
+  mode_changed: 'mode_changed',
+  text: 'text',
+  image: 'image',
+});
+
+export const DIFF_VIEWER_ERRORS = Object.freeze({
+  too_large: 'too_large',
+  stored_externally: 'stored_externally',
+  external_storage: 'external_storage',
+});
