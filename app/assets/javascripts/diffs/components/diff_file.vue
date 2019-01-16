@@ -33,15 +33,14 @@ export default {
     return {
       isLoadingCollapsedDiff: false,
       forkMessageVisible: false,
+      isCollapsed: this.file.collapsed || false,
+      renderIt: this.file.renderIt,
     };
   },
   computed: {
     ...mapState('diffs', ['currentDiffFileId']),
     ...mapGetters(['isNotesFetched']),
     ...mapGetters('diffs', ['getDiffFileDiscussions']),
-    isCollapsed() {
-      return this.file.collapsed || false;
-    },
     viewBlobLink() {
       return sprintf(
         __('You can %{linkStart}view the blob%{linkEnd} instead.'),
@@ -64,7 +63,7 @@ export default {
       );
     },
     showLoadingIcon() {
-      return this.isLoadingCollapsedDiff || (!this.file.renderIt && !this.isCollapsed);
+      return this.isLoadingCollapsedDiff || (!this.renderIt && !this.isCollapsed);
     },
     hasDiffLines() {
       return (
@@ -75,7 +74,7 @@ export default {
     },
   },
   watch: {
-    'file.collapsed': function fileCollapsedWatch(newVal, oldVal) {
+    isCollapsed: function fileCollapsedWatch(newVal, oldVal) {
       if (!newVal && oldVal && !this.hasDiffLines) {
         this.handleLoadCollapsedDiff();
       }
@@ -90,8 +89,8 @@ export default {
       if (!this.hasDiffLines) {
         this.handleLoadCollapsedDiff();
       } else {
-        this.file.collapsed = !this.file.collapsed;
-        this.file.renderIt = true;
+        this.isCollapsed = !this.isCollapsed;
+        this.renderIt = true;
       }
     },
     handleLoadCollapsedDiff() {
@@ -100,8 +99,8 @@ export default {
       this.loadCollapsedDiff(this.file)
         .then(() => {
           this.isLoadingCollapsedDiff = false;
-          this.file.collapsed = false;
-          this.file.renderIt = true;
+          this.isCollapsed = false;
+          this.renderIt = true;
         })
         .then(() => {
           requestIdleCallback(
@@ -166,7 +165,7 @@ export default {
     </div>
 
     <diff-content
-      v-if="!isCollapsed && file.renderIt"
+      v-if="!isCollapsed && renderIt"
       :class="{ hidden: isCollapsed || file.too_large }"
       :diff-file="file"
       :help-page-path="helpPagePath"
