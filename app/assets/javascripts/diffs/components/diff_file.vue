@@ -59,7 +59,7 @@ export default {
           !this.isLoadingCollapsedDiff &&
           !this.fileTooLarge &&
           this.fileIsText &&
-          !this.file.renamed_file &&
+          !this.file.viewer.name === DIFF_VIEWER_NAMES.renamed &&
           !this.file.mode_changed)
       );
     },

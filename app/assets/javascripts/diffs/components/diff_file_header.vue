@@ -9,6 +9,7 @@ import { GlTooltipDirective } from '@gitlab/ui';
 import { truncateSha } from '~/lib/utils/text_utility';
 import { __, s__, sprintf } from '~/locale';
 import EditButton from './edit_button.vue';
+import { DIFF_VIEWER_NAMES } from '../constants';
 
 export default {
   components: {
@@ -163,7 +164,7 @@ export default {
           aria-hidden="true"
           css-classes="js-file-icon append-right-5"
         />
-        <span v-if="diffFile.renamed_file">
+        <span v-if="diffFile.viewer.name === DIFF_VIEWER_NAMES.renamed">
           <strong
             v-gl-tooltip
             :title="diffFile.old_path"
