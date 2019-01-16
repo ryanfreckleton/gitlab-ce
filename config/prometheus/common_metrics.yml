@@ -3,7 +3,7 @@
   priority: 10
   metrics:
   - title: "Throughput"
-    y_label: "Requests / Sec"
+    y_label: "Throughput"
     required_metrics:
       - nginx_upstream_responses_total
     weight: 1
@@ -22,7 +22,7 @@
             - value: 5xx
               color: red
   - title: "Latency"
-    y_label: "Latency (ms)"
+    y_label: "Latency"
     required_metrics:
       - nginx_upstream_response_msecs_avg
     weight: 1
@@ -46,7 +46,7 @@
   priority: 10
   metrics:
   - title: "Throughput"
-    y_label: "Requests / Sec"
+    y_label: "Throughput"
     required_metrics:
       - nginx_ingress_controller_requests
     weight: 1
@@ -67,7 +67,7 @@
             - value: 5xx
               color: red
   - title: "Latency"
-    y_label: "Latency (ms)"
+    y_label: "Latency"
     required_metrics:
       - nginx_ingress_controller_ingress_upstream_latency_seconds_sum
     weight: 1
