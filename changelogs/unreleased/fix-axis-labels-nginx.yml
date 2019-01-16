@@ -1,0 +1,5 @@
+---
+title: Remove redundant units in axis labels
+merge_request: 24414
+author:
+type: fixed
