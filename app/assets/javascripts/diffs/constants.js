@@ -41,3 +41,14 @@ export const DIFF_VIEWER_ERRORS = Object.freeze({
   too_large: 'too_large',
   stored_externally: 'server_side_but_stored_externally',
 });
+
+export const DIFF_VIEWER_NAMES = Object.freeze({
+  not_diffable: 'not_diffable',
+  no_preview: 'no_preview',
+  added: 'added',
+  renamed: 'renamed',
+  deleted: 'deleted',
+  mode_changed: 'mode_changed',
+  image: 'image',
+  text: 'text',
+});
