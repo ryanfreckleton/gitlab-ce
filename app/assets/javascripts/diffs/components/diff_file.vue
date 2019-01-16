@@ -7,6 +7,7 @@ import { GlLoadingIcon } from '@gitlab/ui';
 import eventHub from '../../notes/event_hub';
 import DiffFileHeader from './diff_file_header.vue';
 import DiffContent from './diff_content.vue';
+import { DIFF_VIEWER_ERRORS, DIFF_VIEWER_NAMES } from '../constants';
 
 export default {
   components: {
@@ -33,7 +34,7 @@ export default {
     return {
       isLoadingCollapsedDiff: false,
       forkMessageVisible: false,
-      isCollapsed: this.file.collapsed || false,
+      isCollapsed: this.file.viewer.collapsed || false,
       renderIt: this.file.renderIt,
     };
   },
@@ -56,8 +57,8 @@ export default {
         this.isCollapsed ||
         (!this.file.highlighted_diff_lines &&
           !this.isLoadingCollapsedDiff &&
-          !this.file.too_large &&
-          this.file.text &&
+          !this.fileTooLarge &&
+          this.fileIsText &&
           !this.file.renamed_file &&
           !this.file.mode_changed)
       );
@@ -71,6 +72,12 @@ export default {
         this.file.parallel_diff_lines &&
         this.file.parallel_diff_lines.length > 0
       );
+    },
+    fileTooLarge() {
+      return this.file.viewer.error === DIFF_VIEWER_ERRORS.too_large;
+    },
+    fileIsText() {
+      return this.file.viewer.name === DIFF_VIEWER_NAMES.text;
     },
   },
   watch: {
@@ -166,7 +173,7 @@ export default {
 
     <diff-content
       v-if="!isCollapsed && renderIt"
-      :class="{ hidden: isCollapsed || file.too_large }"
+      :class="{ hidden: isCollapsed || fileTooLarge }"
       :diff-file="file"
       :help-page-path="helpPagePath"
     />
@@ -177,7 +184,7 @@ export default {
         __('Click to expand it.')
       }}</a>
     </div>
-    <div v-if="file.too_large" class="nothing-here-block diff-collapsed js-too-large-diff">
+    <div v-if="fileTooLarge" class="nothing-here-block diff-collapsed js-too-large-diff">
       {{ __('This source diff could not be displayed because it is too large.') }}
       <span v-html="viewBlobLink"></span>
     </div>
