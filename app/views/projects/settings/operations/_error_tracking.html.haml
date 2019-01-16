@@ -26,5 +26,12 @@
             = form.text_field :token, class: 'form-control'
             %p.form-text.text-muted
               = _('Find and manage Auth Tokens in your Sentry account settings page.')
+          .form-group
+            .dropdown
+              %button.dropdown-menu-toggle.js-dropdown-toggle{ type: 'button', disabled: true }
+                %span.dropdown-toggle-text
+                  = _('Select project')
+                  = icon('chevron-down')
+
 
       = f.submit _('Save changes'), class: 'btn btn-success'
