@@ -4147,6 +4147,12 @@ msgstr ""
 msgid "Logs"
 msgstr ""
 
+msgid "MRDiff|Show changes only"
+msgstr ""
+
+msgid "MRDiff|Show full file"
+msgstr ""
+
 msgid "Make sure you're logged into the account that owns the projects you'd like to import."
 msgstr ""
 

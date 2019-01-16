@@ -117,14 +117,14 @@ export default {
       return `\`${this.diffFile.file_path}\``;
     },
     showExpandFullFileButton() {
-      return gon.features.expandFullDiff && !this.diffFile.is_fully_expanded;
-    }
+      return this.$options.expandFullDiffEnabled && this.diffFile.is_fully_expanded;
+    },
   },
   mounted() {
     polyfillSticky(this.$refs.header);
   },
   methods: {
-    ...mapActions('diffs', ['toggleFileDiscussions', 'expandFullDiff']),
+    ...mapActions('diffs', ['toggleFileDiscussions', 'toggleFullDiff']),
     handleToggleFile(e, checkTarget) {
       if (
         !checkTarget ||
@@ -141,6 +141,7 @@ export default {
       this.toggleFileDiscussions(this.diffFile);
     },
   },
+  expandFullDiffEnabled: gon.features.expandFullDiff,
 };
 </script>
 
@@ -237,11 +238,22 @@ export default {
         v-if="showExpandFullFileButton"
         type="button"
         class="btn expand-file js-expand-file"
-        @click="expandFullDiff(diffFile.file_path)"
+        @click="toggleFullDiff(diffFile.file_path);"
       >
-        {{ s__('MRDiff|Expand full file') }}
+        <template v-if="diffFile.isShowingFullFile">
+          {{ s__('MRDiff|Show changes only') }}
+        </template>
+        <template v-else>
+          {{ s__('MRDiff|Show full file') }}
+        </template>
       </button>
-      <a :href="diffFile.view_path" class="btn view-file js-view-file" v-html="viewFileButtonText">
+      <a
+        :href="diffFile.view_path"
+        :target="$options.expandFullDiffEnabled ? 'blank' : null"
+        class="btn view-file js-view-file"
+      >
+        <Icon v-if="$options.expandFullDiffEnabled" name="external-link" />
+        <span v-else v-html="viewFileButtonText"> </span>
       </a>
 
       <a

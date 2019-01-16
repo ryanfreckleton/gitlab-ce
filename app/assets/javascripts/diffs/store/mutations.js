@@ -238,10 +238,10 @@ export default {
     state.treeEntries = treeEntries;
     state.tree = tree;
   },
-  [types.SET_DIFF_LINES](state, { filePath, data }) {
+  [types.TOGGLE_FULL_DIFF_FILE](state, { filePath, data }) {
     state.diffFiles = state.diffFiles.map(file => {
       if (file.file_path === filePath) {
-        return { ...file, ...data };
+        return { ...file, ...data, isShowingFullFile: !file.isShowingFullFile };
       }
 
       return file;

@@ -243,6 +243,7 @@ export function prepareDiffData(diffData) {
     Object.assign(file, {
       renderIt: showingLines < LINES_TO_BE_RENDERED_DIRECTLY,
       collapsed: file.text && showingLines > MAX_LINES_TO_BE_RENDERED,
+      isShowingFullFile: false,
       discussions: [],
     });
   }
