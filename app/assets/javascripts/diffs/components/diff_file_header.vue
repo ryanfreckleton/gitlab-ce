@@ -117,6 +117,9 @@ export default {
     gfmCopyText() {
       return `\`${this.diffFile.file_path}\``;
     },
+    isFileRenamed() {
+      return this.diffFile.viewer.name === DIFF_VIEWER_NAMES.renamed;
+    },
   },
   mounted() {
     polyfillSticky(this.$refs.header);
@@ -164,7 +167,7 @@ export default {
           aria-hidden="true"
           css-classes="js-file-icon append-right-5"
         />
-        <span v-if="diffFile.viewer.name === DIFF_VIEWER_NAMES.renamed">
+        <span v-if="isFileRenamed">
           <strong
             v-gl-tooltip
             :title="diffFile.old_path"
