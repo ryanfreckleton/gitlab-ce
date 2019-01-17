@@ -8,6 +8,7 @@ import eventHub from '../../notes/event_hub';
 import DiffFileHeader from './diff_file_header.vue';
 import DiffContent from './diff_content.vue';
 import { diffViewerModes, diffViewerErrors } from '~/ide/constants';
+import { setTimeout } from 'timers';
 
 export default {
   components: {
