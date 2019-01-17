@@ -141,11 +141,11 @@ describe('DiffFile', () => {
 
       vm.file.highlighted_diff_lines = undefined;
       vm.file.parallel_diff_lines = [];
-      vm.file.collapsed = true;
+      vm.isCollapsed = true;
 
       vm.$nextTick()
         .then(() => {
-          vm.file.collapsed = false;
+          vm.isCollapsed = false;
 
           return vm.$nextTick();
         })
