@@ -23,7 +23,7 @@ module Gitlab
             init_command,
             wait_for_tiller_command,
             repository_command,
-            script_command
+            upgrade_command
           ].compact.join("\n")
         end
 
@@ -37,27 +37,41 @@ module Gitlab
 
         private
 
-        def script_command
-          upgrade_flags = "#{optional_version_flag}#{optional_tls_flags}" \
-            " --reset-values" \
-            " --install" \
-            " --namespace #{::Gitlab::Kubernetes::Helm::NAMESPACE}" \
-            " -f /data/helm/#{name}/config/values.yaml"
+        def upgrade_command
+          command = ["helm", "upgrade", name, chart] + helm_upgrade_flags
 
-          "helm upgrade #{name} #{chart}#{upgrade_flags}"
+          command.shelljoin
+        end
+
+        def helm_upgrade_flags
+          reset_values_flag = ['--reset-values']
+          install_flag = ['--install']
+          namespace_flag = ['--namespace', Gitlab::Kubernetes::Helm::NAMESPACE]
+          value_flag     = ['-f', "/data/helm/#{name}/config/values.yaml"]
+
+          optional_version_flag +
+            optional_tls_flags +
+            reset_values_flag +
+            install_flag +
+            namespace_flag +
+            value_flag
         end
 
         def optional_version_flag
-          " --version #{version}" if version
+          return [] unless version
+
+          ['--version', version]
         end
 
         def optional_tls_flags
-          return unless files.key?(:'ca.pem')
+          return [] unless files.key?(:'ca.pem')
 
-          " --tls" \
-            " --tls-ca-cert #{files_dir}/ca.pem" \
-            " --tls-cert #{files_dir}/cert.pem" \
-            " --tls-key #{files_dir}/key.pem"
+          [
+            '--tls',
+            '--tls-ca-cert', "#{files_dir}/ca.pem",
+            '--tls-cert', "#{files_dir}/cert.pem",
+            '--tls-key', "#{files_dir}/key.pem"
+          ]
         end
       end
     end
