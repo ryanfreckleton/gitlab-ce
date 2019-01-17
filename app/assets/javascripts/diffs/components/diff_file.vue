@@ -9,6 +9,7 @@ import DiffFileHeader from './diff_file_header.vue';
 import DiffContent from './diff_content.vue';
 import { diffViewerModes } from '~/ide/constants';
 import { DIFF_VIEWER_ERRORS } from '../constants';
+import { setTimeout } from 'timers';
 
 export default {
   components: {
@@ -60,8 +61,8 @@ export default {
           !this.isLoadingCollapsedDiff &&
           !this.fileTooLarge &&
           this.fileIsText &&
-          !this.file.viewer.name === diffViewerModes.renamed &&
-          !this.file.diffViewerModes.mode_changed)
+          !(this.file.viewer.name === diffViewerModes.renamed) &&
+          !(this.file.viewer.name === diffViewerModes.mode_changed))
       );
     },
     showLoadingIcon() {

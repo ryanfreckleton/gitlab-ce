@@ -63,8 +63,8 @@ describe('DiffFile', () => {
       });
 
       it('should have collapsed text and link even before rendered', done => {
-        vm.file.renderIt = false;
-        vm.file.collapsed = true;
+        vm.renderIt = false;
+        vm.isCollapsed = true;
 
         vm.$nextTick(() => {
           expect(vm.$el.innerText).toContain('This diff is collapsed');
@@ -75,10 +75,10 @@ describe('DiffFile', () => {
       });
 
       it('should be collapsed for renamed files', done => {
-        vm.file.renderIt = true;
-        vm.file.collapsed = false;
+        vm.renderIt = true;
+        vm.isCollapsed = false;
         vm.file.highlighted_diff_lines = null;
-        vm.file.renamed_file = true;
+        vm.file.viewer.name = 'renamed';
 
         vm.$nextTick(() => {
           expect(vm.$el.innerText).not.toContain('This diff is collapsed');
@@ -88,10 +88,10 @@ describe('DiffFile', () => {
       });
 
       it('should be collapsed for mode changed files', done => {
-        vm.file.renderIt = true;
-        vm.file.collapsed = false;
+        vm.renderIt = true;
+        vm.isCollapsed = false;
         vm.file.highlighted_diff_lines = null;
-        vm.file.mode_changed = true;
+        vm.file.viewer.name = 'mode_changed';
 
         vm.$nextTick(() => {
           expect(vm.$el.innerText).not.toContain('This diff is collapsed');
@@ -101,7 +101,7 @@ describe('DiffFile', () => {
       });
 
       it('should have loading icon while loading a collapsed diffs', done => {
-        vm.file.collapsed = true;
+        vm.isCollapsed = true;
         vm.isLoadingCollapsedDiff = true;
 
         vm.$nextTick(() => {
@@ -116,7 +116,7 @@ describe('DiffFile', () => {
   describe('too large diff', () => {
     it('should have too large warning and blob link', done => {
       const BLOB_LINK = '/file/view/path';
-      vm.file.too_large = true;
+      vm.file.viewer.error = 'too_large';
       vm.file.view_path = BLOB_LINK;
 
       vm.$nextTick(() => {
