@@ -47,13 +47,13 @@ export default {
       return this.diffFile.viewer.name;
     },
     isTextFile() {
-      return this.diffFile.viewer.name === diffViewerModes.text;
+      return diffViewerMode === diffViewerModes.text;
     },
     noPreview() {
-      return this.diffFile.viewer.name === diffViewerModes.no_preview;
+      return diffViewerMode === diffViewerModes.no_preview;
     },
     notDiffable() {
-      return this.diffFile.viewer.name === diffViewerModes.not_diffable;
+      return diffViewerMode === diffViewerModes.not_diffable;
     },
     errorMessage() {
       return this.diffFile.viewer.error;
