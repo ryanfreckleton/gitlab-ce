@@ -14,16 +14,21 @@ module QA
         Page::Main::Login.act { sign_in_using_credentials }
       end
 
+      before(:all) do
+        # this creates a 8mb file which is 1.1mb when compressed
+        content = (0...1000000).map { ('a'..'z').to_a[rand(26)] }.join
+        @file_content = content.unpack("B*")
+      end
+
       context 'when developers push files less size then the limit' do
         it 'they successfully push' do
           set_file_size_limit 2
 
           push = Resource::Repository::ProjectPush.fabricate! do |p|
             p.project = project
-            p.file_name = 'oversize_file_1.txt'
-            # this creates a 553mb file which is 1.7mb when compressed
-            p.file_content = "Creating a oversize file for testing the limit for push,\n" * 10000000
-            p.commit_message = 'Adding oversize file'
+            p.file_name = 'oversize_file_1.bin'
+            p.file_content = @file_content
+            p.commit_message = 'file size is less than the limit'
           end
 
           expect(push.output).not_to have_content 'remote: fatal: pack exceeds maximum allowed size'
@@ -36,9 +41,9 @@ module QA
 
           push = Resource::Repository::ProjectPush.fabricate! do |p|
             p.project = project
-            p.file_name = 'oversize_file_2.txt'
-            p.file_content = "Creating a oversize file for testing the limit for push.\n" * 10000000
-            p.commit_message = 'Adding oversize file'
+            p.file_name = 'oversize_file_2.bin'
+            p.file_content = @file_content
+            p.commit_message = 'Adding a oversize file'
           end
 
           expect(push.output).to have_content 'remote: fatal: pack exceeds maximum allowed size'
