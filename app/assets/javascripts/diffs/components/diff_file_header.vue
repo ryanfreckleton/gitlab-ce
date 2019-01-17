@@ -5,13 +5,14 @@ import { polyfillSticky } from '~/lib/utils/sticky';
 import ClipboardButton from '~/vue_shared/components/clipboard_button.vue';
 import Icon from '~/vue_shared/components/icon.vue';
 import FileIcon from '~/vue_shared/components/file_icon.vue';
-import { GlTooltipDirective } from '@gitlab/ui';
+import { GlTooltipDirective, GlTooltip } from '@gitlab/ui';
 import { truncateSha } from '~/lib/utils/text_utility';
 import { __, s__, sprintf } from '~/locale';
 import EditButton from './edit_button.vue';
 
 export default {
   components: {
+    GlTooltip,
     ClipboardButton,
     EditButton,
     Icon,
@@ -234,11 +235,27 @@ export default {
         v-html="viewReplacedFileButtonText"
       >
       </a>
+      <gl-tooltip
+        v-if="$options.expandFullDiffEnabled"
+        :target="() => $refs.viewButton"
+        placement="bottom"
+      >
+        <span v-html="viewFileButtonText"></span>
+      </gl-tooltip>
+      <a
+        ref="viewButton"
+        :href="diffFile.view_path"
+        :target="$options.expandFullDiffEnabled ? 'blank' : null"
+        class="btn view-file js-view-file"
+      >
+        <icon v-if="$options.expandFullDiffEnabled" name="external-link" />
+        <span v-else v-html="viewFileButtonText"> </span>
+      </a>
       <button
         v-if="showExpandFullFileButton"
         type="button"
         class="btn expand-file js-expand-file"
-        @click="toggleFullDiff(diffFile.file_path);"
+        @click="toggleFullDiff(diffFile.file_path)"
       >
         <template v-if="diffFile.isShowingFullFile">
           {{ s__('MRDiff|Show changes only') }}
@@ -247,14 +264,6 @@ export default {
           {{ s__('MRDiff|Show full file') }}
         </template>
       </button>
-      <a
-        :href="diffFile.view_path"
-        :target="$options.expandFullDiffEnabled ? 'blank' : null"
-        class="btn view-file js-view-file"
-      >
-        <Icon v-if="$options.expandFullDiffEnabled" name="external-link" />
-        <span v-else v-html="viewFileButtonText"> </span>
-      </a>
 
       <a
         v-if="diffFile.external_url"
