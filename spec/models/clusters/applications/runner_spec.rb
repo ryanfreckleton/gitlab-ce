@@ -69,6 +69,23 @@ describe Clusters::Applications::Runner do
     end
   end
 
+  describe '#upgrade_command' do
+    let(:gitlab_runner) { create(:clusters_applications_runner, runner: ci_runner) }
+
+    subject { gitlab_runner.upgrade_command }
+
+    it { is_expected.to be_an_instance_of(Gitlab::Kubernetes::Helm::UpgradeCommand) }
+
+    it 'should be initialized with 4 arguments' do
+      expect(subject.name).to eq('runner')
+      expect(subject.chart).to eq('runner/gitlab-runner')
+      expect(subject.version).to eq('0.1.43')
+      expect(subject).to be_rbac
+      expect(subject.repository).to eq('https://charts.gitlab.io')
+      expect(subject.files).to eq(gitlab_runner.files)
+    end
+  end
+
   describe '#files' do
     let(:application) { create(:clusters_applications_runner, runner: ci_runner) }
     let(:values) { subject[:'values.yaml'] }
