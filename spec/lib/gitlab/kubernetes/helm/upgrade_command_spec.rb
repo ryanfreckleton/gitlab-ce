@@ -3,17 +3,21 @@
 require 'rails_helper'
 
 describe Gitlab::Kubernetes::Helm::UpgradeCommand do
-  let(:application) { build(:clusters_applications_prometheus) }
   let(:files) { { 'ca.pem': 'some file content' } }
   let(:namespace) { ::Gitlab::Kubernetes::Helm::NAMESPACE }
   let(:rbac) { false }
+
   let(:upgrade_command) do
     described_class.new(
-      application.name,
-      chart: application.chart,
+      'app-name',
+      chart: 'app-chart',
       files: files,
       rbac: rbac
     )
+  end
+
+  let(:tls_flags) do
+    "--tls --tls-ca-cert /data/helm/app-name/config/ca.pem --tls-cert /data/helm/app-name/config/cert.pem --tls-key /data/helm/app-name/config/key.pem"
   end
 
   subject { upgrade_command }
@@ -23,7 +27,7 @@ describe Gitlab::Kubernetes::Helm::UpgradeCommand do
       <<~EOS
          helm init --upgrade
          for i in $(seq 1 30); do helm version && break; sleep 1s; echo "Retrying ($i)..."; done
-         helm upgrade #{application.name} #{application.chart} --tls --tls-ca-cert /data/helm/#{application.name}/config/ca.pem --tls-cert /data/helm/#{application.name}/config/cert.pem --tls-key /data/helm/#{application.name}/config/key.pem --set rbac.create\\=false,rbac.enabled\\=false --reset-values --install --namespace #{namespace} -f /data/helm/#{application.name}/config/values.yaml
+         helm upgrade app-name app-chart #{tls_flags} --set rbac.create\\=false,rbac.enabled\\=false --reset-values --install --namespace #{namespace} -f /data/helm/app-name/config/values.yaml
       EOS
     end
   end
@@ -36,7 +40,7 @@ describe Gitlab::Kubernetes::Helm::UpgradeCommand do
         <<~EOS
          helm init --upgrade
          for i in $(seq 1 30); do helm version && break; sleep 1s; echo "Retrying ($i)..."; done
-         helm upgrade #{application.name} #{application.chart} --tls --tls-ca-cert /data/helm/#{application.name}/config/ca.pem --tls-cert /data/helm/#{application.name}/config/cert.pem --tls-key /data/helm/#{application.name}/config/key.pem --set rbac.create\\=true,rbac.enabled\\=true --reset-values --install --namespace #{namespace} -f /data/helm/#{application.name}/config/values.yaml
+         helm upgrade app-name app-chart #{tls_flags} --set rbac.create\\=true,rbac.enabled\\=true --reset-values --install --namespace #{namespace} -f /data/helm/app-name/config/values.yaml
         EOS
       end
     end
@@ -44,14 +48,13 @@ describe Gitlab::Kubernetes::Helm::UpgradeCommand do
 
   context 'with an application with a repository' do
     let(:ci_runner) { create(:ci_runner) }
-    let(:application) { build(:clusters_applications_runner, runner: ci_runner) }
     let(:upgrade_command) do
       described_class.new(
-        application.name,
-        chart: application.chart,
+        'app-name',
+        chart: 'app-chart',
         files: files,
         rbac: rbac,
-        repository: application.repository
+        repository: 'https://repository.example.com'
       )
     end
 
@@ -60,9 +63,9 @@ describe Gitlab::Kubernetes::Helm::UpgradeCommand do
         <<~EOS
            helm init --upgrade
            for i in $(seq 1 30); do helm version && break; sleep 1s; echo "Retrying ($i)..."; done
-           helm repo add #{application.name} #{application.repository}
+           helm repo add app-name https://repository.example.com
            helm repo update
-           helm upgrade #{application.name} #{application.chart} --tls --tls-ca-cert /data/helm/#{application.name}/config/ca.pem --tls-cert /data/helm/#{application.name}/config/cert.pem --tls-key /data/helm/#{application.name}/config/key.pem --set rbac.create\\=false,rbac.enabled\\=false --reset-values --install --namespace #{namespace} -f /data/helm/#{application.name}/config/values.yaml
+           helm upgrade app-name app-chart #{tls_flags} --set rbac.create\\=false,rbac.enabled\\=false --reset-values --install --namespace #{namespace} -f /data/helm/app-name/config/values.yaml
         EOS
       end
     end
@@ -76,7 +79,7 @@ describe Gitlab::Kubernetes::Helm::UpgradeCommand do
         <<~EOS
          helm init --upgrade
          for i in $(seq 1 30); do helm version && break; sleep 1s; echo "Retrying ($i)..."; done
-         helm upgrade #{application.name} #{application.chart} --set rbac.create\\=false,rbac.enabled\\=false --reset-values --install --namespace #{namespace} -f /data/helm/#{application.name}/config/values.yaml
+         helm upgrade app-name app-chart --set rbac.create\\=false,rbac.enabled\\=false --reset-values --install --namespace #{namespace} -f /data/helm/app-name/config/values.yaml
         EOS
       end
     end
@@ -105,9 +108,9 @@ describe Gitlab::Kubernetes::Helm::UpgradeCommand do
   describe '#config_map_resource' do
     let(:metadata) do
       {
-        name: "values-content-configuration-#{application.name}",
+        name: "values-content-configuration-app-name",
         namespace: namespace,
-        labels: { name: "values-content-configuration-#{application.name}" }
+        labels: { name: "values-content-configuration-app-name" }
       }
     end
     let(:resource) { ::Kubeclient::Resource.new(metadata: metadata, data: files) }
@@ -135,7 +138,7 @@ describe Gitlab::Kubernetes::Helm::UpgradeCommand do
 
   describe '#pod_name' do
     it 'returns the pod name' do
-      expect(subject.pod_name).to eq("upgrade-#{application.name}")
+      expect(subject.pod_name).to eq("upgrade-app-name")
     end
   end
 end
