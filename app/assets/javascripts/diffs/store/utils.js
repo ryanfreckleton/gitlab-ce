@@ -1,6 +1,6 @@
 import _ from 'underscore';
-import { diffModes } from '~/ide/constants';
 import { truncatePathMiddleToLength } from '~/lib/utils/text_utility';
+import { diffModes, diffViewerModes } from '~/ide/constants';
 import {
   LINE_POSITION_LEFT,
   LINE_POSITION_RIGHT,
@@ -248,7 +248,7 @@ export function prepareDiffData(diffData) {
     Object.assign(file, {
       renderIt: showingLines < LINES_TO_BE_RENDERED_DIRECTLY,
       collapsed:
-        file.viewer.name === DIFF_VIEWER_NAMES.text && showingLines > MAX_LINES_TO_BE_RENDERED,
+        file.viewer.name === diffViewerModes.text && showingLines > MAX_LINES_TO_BE_RENDERED,
       discussions: [],
     });
   }

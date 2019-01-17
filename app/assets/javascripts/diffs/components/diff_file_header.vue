@@ -9,7 +9,7 @@ import { GlTooltipDirective } from '@gitlab/ui';
 import { truncateSha } from '~/lib/utils/text_utility';
 import { __, s__, sprintf } from '~/locale';
 import EditButton from './edit_button.vue';
-import { DIFF_VIEWER_NAMES } from '../constants';
+import { diffViewerModes } from '~/ide/constants';
 
 export default {
   components: {
@@ -118,7 +118,7 @@ export default {
       return `\`${this.diffFile.file_path}\``;
     },
     isFileRenamed() {
-      return this.diffFile.viewer.name === DIFF_VIEWER_NAMES.renamed;
+      return this.diffFile.viewer.name === diffViewerModes.renamed;
     },
   },
   mounted() {

@@ -29,6 +29,17 @@ export const diffModes = {
   mode_changed: 'mode_changed',
 };
 
+export const diffViewerModes = Object.freeze({
+  not_diffable: 'not_diffable',
+  no_preview: 'no_preview',
+  added: 'added',
+  deleted: 'deleted',
+  renamed: 'renamed',
+  mode_changed: 'mode_changed',
+  text: 'text',
+  image: 'image',
+});
+
 export const rightSidebarViews = {
   pipelines: { name: 'pipelines-list', keepAlive: true },
   jobsDetail: { name: 'jobs-detail', keepAlive: false },

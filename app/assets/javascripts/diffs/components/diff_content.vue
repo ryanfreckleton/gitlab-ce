@@ -42,6 +42,9 @@ export default {
     diffMode() {
       return getDiffMode(this.diffFile);
     },
+    diffViewerMode() {
+      return this.diffFile.viewer.name;
+    },
     isTextFile() {
       return this.diffFile.viewer.name === 'text';
     },
@@ -97,6 +100,7 @@ export default {
       <diff-viewer
         v-else
         :diff-mode="diffMode"
+        :diff-viewer-mode="diffViewerMode"
         :new-path="diffFile.new_path"
         :new-sha="diffFile.diff_refs.head_sha"
         :old-path="diffFile.old_path"

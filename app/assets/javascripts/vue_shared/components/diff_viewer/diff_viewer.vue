@@ -1,5 +1,5 @@
 <script>
-import { diffModes } from '~/ide/constants';
+import { diffModes, diffViewerModes } from '~/ide/constants';
 import { viewerInformationForPath } from '../content_viewer/lib/viewer_utils';
 import ImageDiffViewer from './viewers/image_diff_viewer.vue';
 import DownloadDiffViewer from './viewers/download_diff_viewer.vue';
@@ -9,6 +9,10 @@ import ModeChanged from './viewers/mode_changed.vue';
 export default {
   props: {
     diffMode: {
+      type: String,
+      required: true,
+    },
+    diffViewerMode: {
       type: String,
       required: true,
     },
@@ -46,19 +50,16 @@ export default {
   },
   computed: {
     viewer() {
-      if (this.diffMode === diffModes.renamed) {
+      if (this.diffViewerMode === diffViewerModes.renamed) {
         return RenamedFile;
-      } else if (this.diffMode === diffModes.mode_changed) {
+      } else if (this.diffViewerMode === diffViewerModes.mode_changed) {
         return ModeChanged;
       }
 
       if (!this.newPath) return null;
 
-      const previewInfo = viewerInformationForPath(this.newPath);
-      if (!previewInfo) return DownloadDiffViewer;
-
-      switch (previewInfo.id) {
-        case 'image':
+      switch (this.diffViewerMode) {
+        case diffViewerModes.image:
           return ImageDiffViewer;
         default:
           return DownloadDiffViewer;

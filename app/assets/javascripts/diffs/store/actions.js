@@ -17,6 +17,7 @@ import {
   TREE_LIST_STORAGE_KEY,
   WHITESPACE_STORAGE_KEY,
 } from '../constants';
+import { diffViewerModes } from '~/ide/constants';
 
 export const setBaseConfig = ({ commit }, options) => {
   const { endpoint, projectPath } = options;
@@ -106,8 +107,7 @@ export const startRenderDiffsQueue = ({ state, commit }) => {
     new Promise(resolve => {
       const nextFile = state.diffFiles.find(
         file =>
-          !file.renderIt &&
-          (!file.viewer.collapsed || !file.viewer.name === DIFF_VIEWER_NAMES.text),
+          !file.renderIt && (!file.viewer.collapsed || !file.viewer.name === diffViewerModes.text),
       );
 
       if (nextFile) {
