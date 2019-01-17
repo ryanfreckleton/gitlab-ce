@@ -40,6 +40,11 @@ export const diffViewerModes = Object.freeze({
   image: 'image',
 });
 
+export const diffViewerErrors = Object.freeze({
+  too_large: 'too_large',
+  stored_externally: 'server_side_but_stored_externally',
+});
+
 export const rightSidebarViews = {
   pipelines: { name: 'pipelines-list', keepAlive: true },
   jobsDetail: { name: 'jobs-detail', keepAlive: false },

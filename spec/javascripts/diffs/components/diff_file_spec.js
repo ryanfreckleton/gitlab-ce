@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import DiffFileComponent from '~/diffs/components/diff_file.vue';
-import { DIFF_VIEWER_ERRORS } from '~/diffs/constants';
+import { diffViewerModes, diffViewerErrors } from '~/ide/constants';
 import store from '~/mr_notes/stores';
 import { createComponentWithStore } from 'spec/helpers/vue_mount_component_helper';
 import diffFileMockData from '../mock_data/diff_file';
@@ -79,7 +79,7 @@ describe('DiffFile', () => {
         vm.renderIt = true;
         vm.isCollapsed = false;
         vm.file.highlighted_diff_lines = null;
-        vm.file.viewer.name = 'renamed';
+        vm.file.viewer.name = diffViewerModes.renamed;
 
         vm.$nextTick(() => {
           expect(vm.$el.innerText).not.toContain('This diff is collapsed');
@@ -92,7 +92,7 @@ describe('DiffFile', () => {
         vm.renderIt = true;
         vm.isCollapsed = false;
         vm.file.highlighted_diff_lines = null;
-        vm.file.viewer.name = 'mode_changed';
+        vm.file.viewer.name = diffViewerModes.mode_changed;
 
         vm.$nextTick(() => {
           expect(vm.$el.innerText).not.toContain('This diff is collapsed');
@@ -117,7 +117,7 @@ describe('DiffFile', () => {
   describe('too large diff', () => {
     it('should have too large warning and blob link', done => {
       const BLOB_LINK = '/file/view/path';
-      vm.file.viewer.error = DIFF_VIEWER_ERRORS.too_large;
+      vm.file.viewer.error = diffViewerErrors.too_large;
       vm.file.view_path = BLOB_LINK;
 
       vm.$nextTick(() => {

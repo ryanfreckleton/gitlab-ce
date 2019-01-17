@@ -7,8 +7,7 @@ import { GlLoadingIcon } from '@gitlab/ui';
 import eventHub from '../../notes/event_hub';
 import DiffFileHeader from './diff_file_header.vue';
 import DiffContent from './diff_content.vue';
-import { diffViewerModes } from '~/ide/constants';
-import { DIFF_VIEWER_ERRORS } from '../constants';
+import { diffViewerModes, diffViewerErrors } from '~/ide/constants';
 import { setTimeout } from 'timers';
 
 export default {
@@ -76,7 +75,7 @@ export default {
       );
     },
     fileTooLarge() {
-      return this.file.viewer.error === DIFF_VIEWER_ERRORS.too_large;
+      return this.file.viewer.error === diffViewerErrors.too_large;
     },
     fileIsText() {
       return this.file.viewer.name === diffViewerModes.text;
