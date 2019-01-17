@@ -56,10 +56,19 @@ module Gitlab
 
           optional_version_flag +
             optional_tls_flags +
+            rbac_create_flag +
             reset_values_flag +
             install_flag +
             namespace_flag +
             value_flag
+        end
+
+        def rbac_create_flag
+          if rbac?
+            %w[--set rbac.create=true,rbac.enabled=true]
+          else
+            %w[--set rbac.create=false,rbac.enabled=false]
+          end
         end
 
         def optional_version_flag
