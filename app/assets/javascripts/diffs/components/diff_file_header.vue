@@ -120,6 +120,9 @@ export default {
     isFileRenamed() {
       return this.diffFile.viewer.name === diffViewerModes.renamed;
     },
+    isModeChanged() {
+      return this.diffFile.viewer.name === diffViewerModes.mode_changed;
+    },
   },
   mounted() {
     polyfillSticky(this.$refs.header);
@@ -195,7 +198,7 @@ export default {
         css-class="btn-default btn-transparent btn-clipboard"
       />
 
-      <small v-if="diffFile.mode_changed" ref="fileMode">
+      <small v-if="isModeChanged" ref="fileMode">
         {{ diffFile.a_mode }} → {{ diffFile.b_mode }}
       </small>
 

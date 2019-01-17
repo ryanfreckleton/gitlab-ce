@@ -47,13 +47,13 @@ export default {
       return this.diffFile.viewer.name;
     },
     isTextFile() {
-      return diffViewerMode === diffViewerModes.text;
+      return this.diffViewerMode === diffViewerModes.text;
     },
     noPreview() {
-      return diffViewerMode === diffViewerModes.no_preview;
+      return this.diffViewerMode === diffViewerModes.no_preview;
     },
     notDiffable() {
-      return diffViewerMode === diffViewerModes.not_diffable;
+      return this.diffViewerMode === diffViewerModes.not_diffable;
     },
     errorMessage() {
       return this.diffFile.viewer.error;
@@ -103,10 +103,10 @@ export default {
           :help-page-path="helpPagePath"
         />
       </template>
-      <div class="nothing-here-block" v-else-if="noPreview">
+      <div v-else-if="noPreview" class="nothing-here-block">
         {{ __('No preview for this file type') }}
       </div>
-      <div class="nothing-here-block" v-else-if="notDiffable">
+      <div v-else-if="notDiffable" class="nothing-here-block">
         {{ __('This diff was suppressed by a .gitattributes entry') }}
       </div>
       <diff-viewer
