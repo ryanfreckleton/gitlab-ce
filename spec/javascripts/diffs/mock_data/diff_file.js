@@ -25,6 +25,7 @@ export default {
   text: true,
   viewer: {
     name: 'text',
+    error: null,
   },
   added_lines: 2,
   removed_lines: 0,
