@@ -27,8 +27,8 @@ describe('DiffFile', () => {
       expect(el.querySelector('.file-title-name').innerText.indexOf(file_path)).toBeGreaterThan(-1);
       expect(el.querySelector('.js-syntax-highlight')).toBeDefined();
 
-      expect(vm.file.renderIt).toEqual(false);
-      vm.file.renderIt = true;
+      expect(vm.renderIt).toEqual(false);
+      vm.renderIt = true;
 
       vm.$nextTick(() => {
         expect(el.querySelectorAll('.line_content').length).toBeGreaterThan(5);
@@ -38,9 +38,9 @@ describe('DiffFile', () => {
     describe('collapsed', () => {
       it('should not have file content', done => {
         expect(vm.$el.querySelectorAll('.diff-content').length).toEqual(1);
-        expect(vm.file.collapsed).toEqual(false);
-        vm.file.collapsed = true;
-        vm.file.renderIt = true;
+        expect(vm.isCollapsed).toEqual(false);
+        vm.isCollapsed = true;
+        vm.renderIt = true;
 
         vm.$nextTick(() => {
           expect(vm.$el.querySelectorAll('.diff-content').length).toEqual(0);
@@ -50,8 +50,8 @@ describe('DiffFile', () => {
       });
 
       it('should have collapsed text and link', done => {
-        vm.file.renderIt = true;
-        vm.file.collapsed = false;
+        vm.renderIt = true;
+        vm.isCollapsed = false;
         vm.file.highlighted_diff_lines = null;
 
         vm.$nextTick(() => {
