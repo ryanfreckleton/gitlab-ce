@@ -9,6 +9,7 @@ import ImageDiffOverlay from './image_diff_overlay.vue';
 import DiffDiscussions from './diff_discussions.vue';
 import { IMAGE_DIFF_POSITION_TYPE } from '../constants';
 import { getDiffMode } from '../store/utils';
+import { diffViewerModes } from '~/ide/constants';
 
 export default {
   components: {
@@ -46,7 +47,13 @@ export default {
       return this.diffFile.viewer.name;
     },
     isTextFile() {
-      return this.diffFile.viewer.name === 'text';
+      return this.diffFile.viewer.name === diffViewerModes.text;
+    },
+    noPreview() {
+      return this.diffFile.viewer.name === diffViewerModes.no_preview;
+    },
+    notDiffable() {
+      return this.diffFile.viewer.name === diffViewerModes.not_diffable;
     },
     errorMessage() {
       return this.diffFile.viewer.error;
@@ -83,9 +90,8 @@ export default {
   <div class="diff-content">
     <div v-if="!errorMessage" class="diff-viewer">
       <template v-if="isTextFile">
-        <empty-file-viewer v-if="diffFile.empty" />
         <inline-diff-view
-          v-else-if="isInlineView"
+          v-if="isInlineView"
           :diff-file="diffFile"
           :diff-lines="diffFile.highlighted_diff_lines || []"
           :help-page-path="helpPagePath"
@@ -97,6 +103,12 @@ export default {
           :help-page-path="helpPagePath"
         />
       </template>
+      <div class="nothing-here-block" v-else-if="noPreview">
+        {{ __('No preview for this file type') }}
+      </div>
+      <div class="nothing-here-block" v-else-if="notDiffable">
+        {{ __('This diff was suppressed by a .gitattributes entry') }}
+      </div>
       <diff-viewer
         v-else
         :diff-mode="diffMode"
