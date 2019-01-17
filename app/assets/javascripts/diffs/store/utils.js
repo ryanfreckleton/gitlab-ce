@@ -13,7 +13,6 @@ import {
   LINES_TO_BE_RENDERED_DIRECTLY,
   MAX_LINES_TO_BE_RENDERED,
   TREE_TYPE,
-  DIFF_VIEWER_NAMES,
 } from '../constants';
 
 export function findDiffFile(files, hash) {

@@ -16,7 +16,6 @@ import {
   MR_TREE_SHOW_KEY,
   TREE_LIST_STORAGE_KEY,
   WHITESPACE_STORAGE_KEY,
-  DIFF_VIEWER_NAMES,
 } from '../constants';
 import { diffViewerModes } from '~/ide/constants';
 
