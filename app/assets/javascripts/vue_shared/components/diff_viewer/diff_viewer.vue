@@ -1,5 +1,6 @@
 <script>
-import { diffViewerModes } from '~/ide/constants';
+import { diffModes, diffViewerModes } from '~/ide/constants';
+import { viewerInformationForPath } from '../content_viewer/lib/viewer_utils';
 import ImageDiffViewer from './viewers/image_diff_viewer.vue';
 import DownloadDiffViewer from './viewers/download_diff_viewer.vue';
 import RenamedFile from './viewers/renamed.vue';
