@@ -23,6 +23,7 @@ module Gitlab
             init_command,
             wait_for_tiller_command,
             repository_command,
+            repository_update_command,
             upgrade_command
           ].compact.join("\n")
         end
@@ -36,6 +37,10 @@ module Gitlab
         end
 
         private
+
+        def repository_update_command
+          'helm repo update' if repository
+        end
 
         def upgrade_command
           command = ["helm", "upgrade", name, chart] + helm_upgrade_flags

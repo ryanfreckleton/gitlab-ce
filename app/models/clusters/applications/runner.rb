@@ -40,6 +40,17 @@ module Clusters
         )
       end
 
+      def upgrade_command
+        ::Gitlab::Kubernetes::Helm::UpgradeCommand.new(
+          name,
+          version: VERSION,
+          rbac: cluster.platform_kubernetes_rbac?,
+          chart: chart,
+          files: files,
+          repository: repository
+        )
+      end
+
       private
 
       def ensure_runner
