@@ -1,0 +1,5 @@
+---
+title: Update form control border radii and remove extra space above page titles
+merge_request: 24497
+author: Nathan Friend
+type: fixed
