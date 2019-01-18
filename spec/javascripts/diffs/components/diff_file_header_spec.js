@@ -315,14 +315,12 @@ describe('diff_file_header', () => {
       const button = vm.$el.querySelector('.btn-clipboard');
 
       expect(button).not.toBe(null);
-      expect(button.dataset.clipboardText).toBe(
-        '{"text":"files/ruby/popen.rb","gfm":"`files/ruby/popen.rb`"}',
-      );
+      expect(button.dataset.clipboardText).toBe('{"text":"CHANGELOG.rb","gfm":"`CHANGELOG.rb`"}');
     });
 
     describe('file mode', () => {
       it('it displays old and new file mode if it changed', () => {
-        props.diffFile.mode_changed = true;
+        props.diffFile.viewer.name = diffViewerModes.mode_changed;
 
         vm = mountComponentWithStore(Component, { props, store });
 
@@ -334,7 +332,7 @@ describe('diff_file_header', () => {
       });
 
       it('does not display the file mode if it has not changed', () => {
-        props.diffFile.mode_changed = false;
+        props.diffFile.viewer.name = diffViewerModes.text;
 
         vm = mountComponentWithStore(Component, { props, store });
 
