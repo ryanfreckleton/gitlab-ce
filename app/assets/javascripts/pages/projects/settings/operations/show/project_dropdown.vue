@@ -22,9 +22,23 @@ export default {
     GlDropdownItem,
     Icon,
   },
+  data: () => ({
+    list: [
+      { key: 0, value: 'GitLab.com Frontend' },
+      { key: 1, value: 'GitLab.com Backend' },
+      { key: 2, value: 'Gitaly' },
+      { key: 4, value: 'Omnibus' },
+    ],
+  }),
   computed: {
     placeholderText() {
       return s__('Error Tracking|Select Project');
+    },
+  },
+  methods: {
+    doThing: event => {
+      console.log(event);
+      alert('you clicked a thing');
     },
   },
 };
@@ -48,16 +62,19 @@ export default {
   </div>-->
   <gl-dropdown class="w-100" menu-class="w-100 mw-100" toggle-class="w-100" :text="placeholderText">
     <!-- TODO: make the caret move to the right. could do so like this: -->
-    <template slot="button-content">
+    <!-- <template slot="button-content">
       <span class="w-100">{{ placeholderText }}</span>
       <icon
         :aria-label="__('Error Tracking|Select Project')"
         name="chevron-down"
-        style="right: 0px"
-        css-classes="top"
+        css-classes="right"
       />
-    </template>
-
-    <gl-dropdown-item class="w-100">First item</gl-dropdown-item>
+    </template>-->
+    <gl-dropdown-item
+      v-for="item in list"
+      :key="item.key"
+      class="w-100"
+      @click="doThing"
+    >{{ item.value }}</gl-dropdown-item>
   </gl-dropdown>
 </template>
