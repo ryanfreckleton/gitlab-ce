@@ -71,8 +71,9 @@ describe Clusters::Applications::Runner do
 
   describe '#upgrade_command' do
     let(:gitlab_runner) { create(:clusters_applications_runner, runner: ci_runner) }
+    let(:replaced_values) { nil }
 
-    subject { gitlab_runner.upgrade_command }
+    subject { gitlab_runner.upgrade_command(replaced_values: replaced_values) }
 
     it { is_expected.to be_an_instance_of(Gitlab::Kubernetes::Helm::UpgradeCommand) }
 

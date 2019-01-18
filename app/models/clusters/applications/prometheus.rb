@@ -52,22 +52,14 @@ module Clusters
         )
       end
 
-      def upgrade_command(values)
+      def upgrade_command(replaced_values: nil)
         ::Gitlab::Kubernetes::Helm::UpgradeCommand.new(
           name,
           version: VERSION,
           chart: chart,
           rbac: cluster.platform_kubernetes_rbac?,
-          files: files_with_replaced_values(values)
+          files: replaced_values ? files_with_replaced_values(replaced_values) : files
         )
-      end
-
-      # Returns a copy of files where the values of 'values.yaml'
-      # are replaced by the argument.
-      #
-      # See #values for the data format required
-      def files_with_replaced_values(replaced_values)
-        files.merge('values.yaml': replaced_values)
       end
 
       def prometheus_client

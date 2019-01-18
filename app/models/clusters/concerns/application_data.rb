@@ -24,6 +24,14 @@ module Clusters
           end
         end
 
+        # Returns a copy of files where the values of 'values.yaml'
+        # are replaced by the argument.
+        #
+        # See #values for the data format required
+        def files_with_replaced_values(replaced_values)
+          files.merge('values.yaml': replaced_values)
+        end
+
         private
 
         def certificate_files

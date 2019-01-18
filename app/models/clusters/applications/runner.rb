@@ -40,13 +40,13 @@ module Clusters
         )
       end
 
-      def upgrade_command
+      def upgrade_command(replaced_values: nil)
         ::Gitlab::Kubernetes::Helm::UpgradeCommand.new(
           name,
           version: VERSION,
           rbac: cluster.platform_kubernetes_rbac?,
           chart: chart,
-          files: files,
+          files: replaced_values ? files_with_replaced_values(replaced_values) : files,
           repository: repository
         )
       end

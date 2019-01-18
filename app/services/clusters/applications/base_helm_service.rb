@@ -46,8 +46,8 @@ module Clusters
         @install_command ||= app.install_command
       end
 
-      def upgrade_command(new_values = "")
-        app.upgrade_command(new_values)
+      def upgrade_command(replaced_values: nil)
+        app.upgrade_command(replaced_values: replaced_values)
       end
     end
   end
