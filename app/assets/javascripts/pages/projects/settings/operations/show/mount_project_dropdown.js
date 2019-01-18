@@ -1,4 +1,5 @@
 // Similar to app/assets/javascripts/pages/shared/mount_badge_settings.js
+// TODO: move me
 
 import Vue from 'vue';
 import ProjectDropdown from '~/pages/projects/settings/operations/show/project_dropdown.vue';
@@ -8,7 +9,7 @@ export default () => {
 
   return new Vue({
     el: projectDropdownElement,
-    // store, // what to do with this?
+    // store, // TODO: remove if unnecessary
     components: {
       ProjectDropdown,
     },
