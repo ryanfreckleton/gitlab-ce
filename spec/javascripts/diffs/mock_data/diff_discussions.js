@@ -286,7 +286,7 @@ export default {
     content_sha: 'c48ee0d1bf3b30453f5b32250ce03134beaa6d13',
     stored_externally: null,
     external_storage: null,
-    old_path_html: ['CHANGELOG', 'CHANGELOG'],
+    old_path_html: 'CHANGELOG_OLD',
     new_path_html: 'CHANGELOG',
     context_lines_path:
       '/gitlab-org/gitlab-test/blob/c48ee0d1bf3b30453f5b32250ce03134beaa6d13/CHANGELOG/diff',
@@ -485,6 +485,10 @@ export default {
         },
       },
     ],
+    viewer: {
+      name: 'text',
+      error: null,
+    },
   },
   diff_discussion: true,
   truncated_diff_lines: [
