@@ -647,6 +647,9 @@ gitlab:ui:visual:
   image: dev.gitlab.org:5005/gitlab/gitlab-build-images:gitlab-puppeteer
   # Puppeteer still seems to hang/give false positives from time to time
   retry: 2
+  variables:
+    # we override the max_old_space_size to prevent OOM errors
+    NODE_OPTIONS: --max_old_space_size=3584
   before_script: []
   dependencies:
     - compile-assets
@@ -658,9 +661,9 @@ gitlab:ui:visual:
     - cd gitlab-ui
     - yarn install
     - CSS_URL=./application.css yarn test
-  only:
-    changes:
-      - app/assets/stylesheets/**
+  # only:
+  #   changes:
+  #     - app/assets/stylesheets/**
   artifacts:
     paths:
       - gitlab-ui/tests/__image_snapshots__
