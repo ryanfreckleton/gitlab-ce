@@ -174,7 +174,7 @@ isn't gated by a License or Plan.
 ### Undefined feature flags default to "on"
 
 An important side-effect of the [implicit feature
-flags][#implicit-feature-flags] mentioned above is that unless the feature is
+flags](#implicit-feature-flags) mentioned above is that unless the feature is
 explicitly disabled or limited to a percentage of users, the feature flag check
 will default to `true`.
 
