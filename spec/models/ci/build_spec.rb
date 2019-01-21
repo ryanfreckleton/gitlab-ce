@@ -3602,4 +3602,49 @@ describe Ci::Build do
       end
     end
   end
+
+  describe '#first_build_annotation_artifact' do
+    context 'when there are no build annotations' do
+      it 'returns nil' do
+        build = create(:ci_build)
+
+        expect(build.first_build_annotation_artifact).to be_nil
+      end
+    end
+
+    context 'when there is one build annotation artifact' do
+      it 'returns the artifact' do
+        build = create(:ci_build)
+        artifact = create(
+          :ci_job_artifact,
+          job: build,
+          file_type: :annotation,
+          file_format: :gzip
+        )
+
+        expect(build.first_build_annotation_artifact).to eq(artifact)
+      end
+    end
+
+    context 'when there are multiple build annotation artifacts' do
+      it 'returns the oldest artifact' do
+        build = create(:ci_build)
+        artifact1 = create(
+          :ci_job_artifact,
+          job: build,
+          file_type: :annotation,
+          file_format: :gzip
+        )
+
+        create(
+          :ci_job_artifact,
+          job: build,
+          file_type: :annotation,
+          file_format: :gzip
+        )
+
+        expect(build.first_build_annotation_artifact).to eq(artifact1)
+      end
+    end
+  end
 end

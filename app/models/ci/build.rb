@@ -755,6 +755,11 @@ module Ci
       :creating
     end
 
+    # @return [NilClass|Ci::JobArtifact]
+    def first_build_annotation_artifact
+      job_artifacts.build_annotation.first
+    end
+
     private
 
     def erase_old_artifacts!

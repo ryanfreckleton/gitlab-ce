@@ -7,7 +7,8 @@ module Gitlab
 
       def self.parsers
         {
-          junit: ::Gitlab::Ci::Parsers::Test::Junit
+          junit: ::Gitlab::Ci::Parsers::Test::Junit,
+          build_annotation: ::Gitlab::Ci::Parsers::BuildAnnotation
         }
       end
 

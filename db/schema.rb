@@ -274,6 +274,16 @@ ActiveRecord::Schema.define(version: 20190131122559) do
     t.index ["namespace_id"], name: "index_chat_teams_on_namespace_id", unique: true, using: :btree
   end
 
+  create_table "ci_build_annotations", id: :bigserial, force: :cascade do |t|
+    t.integer "build_id", null: false
+    t.integer "severity", limit: 2, null: false
+    t.integer "line_number", limit: 2
+    t.text "file_path"
+    t.string "summary", limit: 512, null: false
+    t.text "description"
+    t.index ["build_id"], name: "index_ci_build_annotations_on_build_id", using: :btree
+  end
+
   create_table "ci_build_trace_chunks", id: :bigserial, force: :cascade do |t|
     t.integer "build_id", null: false
     t.integer "chunk_index", null: false
@@ -2321,6 +2331,7 @@ ActiveRecord::Schema.define(version: 20190131122559) do
   add_foreign_key "boards", "namespaces", column: "group_id", on_delete: :cascade
   add_foreign_key "boards", "projects", name: "fk_f15266b5f9", on_delete: :cascade
   add_foreign_key "chat_teams", "namespaces", on_delete: :cascade
+  add_foreign_key "ci_build_annotations", "ci_builds", column: "build_id", on_delete: :cascade
   add_foreign_key "ci_build_trace_chunks", "ci_builds", column: "build_id", on_delete: :cascade
   add_foreign_key "ci_build_trace_section_names", "projects", on_delete: :cascade
   add_foreign_key "ci_build_trace_sections", "ci_build_trace_section_names", column: "section_name_id", name: "fk_264e112c66", on_delete: :cascade
