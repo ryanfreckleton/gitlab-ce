@@ -96,10 +96,10 @@ installation (e.g. the number of users, projects, etc).
 We currently support the following databases:
 
 - PostgreSQL (highly recommended)
-- MySQL/MariaDB (deprecated, tested but not all GitLab features are available, no support for [MySQL/MariaDB GTID](https://mariadb.com/kb/en/mariadb/gtid/))
+- MySQL/MariaDB (deprecated)
 
-We highly recommend the use of PostgreSQL instead of MySQL/MariaDB as not all
-features of GitLab are available with MySQL/MariaDB:
+We highly recommend the use of PostgreSQL. MySQL/MariaDB is deprecated, it is tested but not all
+features of GitLab are available:
 
 1. MySQL support for subgroups was [dropped with GitLab 9.3][post].
    See [issue #30472][30472] for more information.
@@ -112,6 +112,8 @@ features of GitLab are available with MySQL/MariaDB:
 1. Binary column index length is limited to 20 bytes. This is accomplished with [a hack](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/config/initializers/mysql_set_length_for_binary_indexes.rb).
 1. MySQL requires a variety of hacks to increase limits on various columns, [for example](https://gitlab.com/gitlab-org/gitlab-ce/issues/49583).
 1. [The milestone filter runs slower queries on MySQL](https://gitlab.com/gitlab-org/gitlab-ce/issues/51173#note_99391731).
+1. No support for [MySQL/MariaDB GTID](https://mariadb.com/kb/en/mariadb/gtid/)
+1. MySQL is not supported with the [gitlab Helm chart](https://docs.gitlab.com/ee/install/kubernetes/gitlab_chart.html#limitations).
 1. We expect this list to grow over time.
 
 Existing users using GitLab with MySQL/MariaDB are advised to
