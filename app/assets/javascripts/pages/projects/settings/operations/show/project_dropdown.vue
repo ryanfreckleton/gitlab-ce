@@ -72,7 +72,6 @@ export default {
     <!--
       Given how many classes are required here, could add a full-width option to gl-dropdown
     -->
-    <select v-model="selected"></select>
     <gl-dropdown
       id="project_error_tracking_setting_attributes_project"
       class="w-100"
