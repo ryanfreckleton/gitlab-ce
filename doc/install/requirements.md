@@ -96,10 +96,10 @@ installation (e.g. the number of users, projects, etc).
 We currently support the following databases:
 
 - PostgreSQL (highly recommended)
-- MySQL/MariaDB (strongly discouraged, not all GitLab features are supported, no support for [MySQL/MariaDB GTID](https://mariadb.com/kb/en/mariadb/gtid/))
+- MySQL/MariaDB (deprecated, tested but not all GitLab features are available, no support for [MySQL/MariaDB GTID](https://mariadb.com/kb/en/mariadb/gtid/))
 
 We highly recommend the use of PostgreSQL instead of MySQL/MariaDB as not all
-features of GitLab work with MySQL/MariaDB:
+features of GitLab are available with MySQL/MariaDB:
 
 1. MySQL support for subgroups was [dropped with GitLab 9.3][post].
    See [issue #30472][30472] for more information.
