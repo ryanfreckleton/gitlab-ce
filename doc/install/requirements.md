@@ -98,7 +98,7 @@ We currently support the following databases:
 - PostgreSQL (highly recommended)
 - MySQL/MariaDB (deprecated)
 
-We highly recommend the use of PostgreSQL. MySQL/MariaDB is deprecated, it is tested but not all
+We highly recommend the use of PostgreSQL. MySQL/MariaDB support is deprecated, it is tested but not all
 features of GitLab are available:
 
 1. MySQL support for subgroups was [dropped with GitLab 9.3][post].
