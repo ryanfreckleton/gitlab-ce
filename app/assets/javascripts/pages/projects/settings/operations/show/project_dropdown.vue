@@ -41,7 +41,8 @@ export default {
     },
   },
   methods: {
-    doThing(event) {
+    // TODO: Is there a better way to do this? v-model doesn't seem to bind directly to gl-dropdown, but it feels like there should be a better solution.
+    handleClick(event) {
       this.selected = event.target.value;
     },
   },
@@ -64,13 +65,7 @@ export default {
       </span>
     </button>
   </div>-->
-  <gl-dropdown
-    v-model="selected"
-    class="w-100"
-    menu-class="w-100 mw-100"
-    toggle-class="w-100"
-    :text="buttonText"
-  >
+  <gl-dropdown class="w-100" menu-class="w-100 mw-100" toggle-class="w-100" :text="buttonText">
     <!-- TODO: make the caret move to the right. could do so like this: -->
     <!-- <template slot="button-content">
       <span class="w-100">{{ placeholderText }}</span>
@@ -86,7 +81,7 @@ export default {
       :key="item.id"
       :value="item.id"
       class="w-100"
-      @click="doThing"
+      @click="handleClick"
     >{{ item.value }}</gl-dropdown-item>
   </gl-dropdown>
 </template>
