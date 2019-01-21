@@ -22,23 +22,27 @@ export default {
     GlDropdownItem,
     Icon,
   },
-  data: () => ({
-    list: [
-      { key: 0, value: 'GitLab.com Frontend' },
-      { key: 1, value: 'GitLab.com Backend' },
-      { key: 2, value: 'Gitaly' },
-      { key: 4, value: 'Omnibus' },
-    ],
-  }),
+  data() {
+    return {
+      list: [
+        { id: '0', value: 'GitLab.com Frontend' },
+        { id: '1', value: 'GitLab.com Backend' },
+        { id: '2', value: 'Gitaly' },
+        { id: '4', value: 'Omnibus' },
+      ],
+      selected: '',
+    };
+  },
   computed: {
-    placeholderText() {
-      return s__('Error Tracking|Select Project');
+    buttonText() {
+      return this.selected !== ''
+        ? this.list.find(item => item.id === this.selected).value
+        : s__('Error Tracking|Select Project');
     },
   },
   methods: {
-    doThing: event => {
-      console.log(event);
-      alert('you clicked a thing');
+    doThing(event) {
+      this.selected = event.target.value;
     },
   },
 };
@@ -60,7 +64,13 @@ export default {
       </span>
     </button>
   </div>-->
-  <gl-dropdown class="w-100" menu-class="w-100 mw-100" toggle-class="w-100" :text="placeholderText">
+  <gl-dropdown
+    v-model="selected"
+    class="w-100"
+    menu-class="w-100 mw-100"
+    toggle-class="w-100"
+    :text="buttonText"
+  >
     <!-- TODO: make the caret move to the right. could do so like this: -->
     <!-- <template slot="button-content">
       <span class="w-100">{{ placeholderText }}</span>
@@ -70,9 +80,11 @@ export default {
         css-classes="right"
       />
     </template>-->
+    <!-- <gl-dropdown-item disabled value class="disabled w-100">Select Project</gl-dropdown-item> -->
     <gl-dropdown-item
       v-for="item in list"
-      :key="item.key"
+      :key="item.id"
+      :value="item.id"
       class="w-100"
       @click="doThing"
     >{{ item.value }}</gl-dropdown-item>
