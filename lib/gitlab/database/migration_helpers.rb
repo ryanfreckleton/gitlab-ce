@@ -1078,6 +1078,52 @@ into similar problems in the future (e.g. when new tables are created).
       def mysql_compatible_index_length
         Gitlab::Database.mysql? ? 20 : nil
       end
+
+      # Copies values from `old_column` to `new_column`, processing only `chunk_size` rows
+      # and reporting progress.
+      #
+      # This is a helper method for converting int4 PKs (and corresponding FK columns)
+      # to int8 in Postgres. An index on `new_column` must exist.
+      def int4_to_int8_copy(table, old_column, new_column, chunk_size = 500)
+        bar = ProgressBar.create(:total => 100)
+        i = 0
+        loop do
+          res = execute <<-SQL.strip_heredoc
+            with upd as (
+              update #{table}
+              set #{new_column} = #{old_column}
+              where #{old_column} in (
+                select #{old_column}
+                from #{table}
+                where
+                  #{old_column} > coalesce((select max(#{new_column}) from #{table}), 0)
+                order by id limit #{chunk_size;}
+              )
+              returning #{new_column}
+            )
+            select
+              (select count(*) from upd) as rows_updated,
+              (select max(#{new_column}) from upd) as last_updated_value,
+              (select max(#{old_column}) from #{table}) as max_existing_value,
+              (
+                select round((select max(#{new_column}) from upd)::numeric * 100
+                / (select max(#{old_column}) from #{table}), 2)
+              ) as progress_percent
+            ;
+          SQL
+          i = i + 1
+          if i % 1000 == 0
+            Rails.logger.info("!! #{table}, i: #{i}, last updated value: #{res[0]['last_updated_value'].to_s}" + (" " * 20))
+            Rails.logger.info("Run manual VACUUM ANALYZE for table #{table}")
+            execute "vacuum analyze #{table}"
+          end
+          break if not (res[0]['rows_updated'].to_i > 0)
+          bar.total = res[0]['max_existing_value'].to_i
+          bar.format("Processing #{table}: %w> (rate: %R)")
+          bar.progress = res[0]['last_updated_value'].to_i
+        end
+        Rails.logger.info("Table #{table} processed, iterations: #{i}, chunk size: #{chunk_size}.")
+      end
     end
   end
 end
