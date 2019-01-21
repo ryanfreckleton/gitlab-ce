@@ -18,6 +18,10 @@ $input-border: $border-color;
 $padding-base-vertical: $gl-vert-padding;
 $padding-base-horizontal: $gl-padding;
 
+html {
+  font-size: 14px;
+}
+
 body,
 .form-control,
 .search form {
