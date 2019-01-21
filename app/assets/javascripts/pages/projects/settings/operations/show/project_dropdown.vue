@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     // TODO: Is there a better way to do this? v-model doesn't seem to bind directly to gl-dropdown, but it feels like there should be a better solution.
+    // Perhaps something like https://vuejs.org/v2/guide/forms.html#v-model-with-Components?
     handleClick(event) {
       this.selected = event.target.value;
     },
