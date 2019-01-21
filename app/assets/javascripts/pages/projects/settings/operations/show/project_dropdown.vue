@@ -41,10 +41,13 @@ export default {
     },
   },
   methods: {
-    // TODO: Is there a better way to do this? v-model doesn't seem to bind directly to gl-dropdown, but it feels like there should be a better solution.
-    // Perhaps something like https://vuejs.org/v2/guide/forms.html#v-model-with-Components?
+    // TODO: Is there a better way to do this? v-model doesn't seem to bind directly to gl-dropdown because it's not a typical select element,
+    // but it feels like there should be a better solution.
+    // Perhaps some way to get this to work https://vuejs.org/v2/guide/forms.html#v-model-with-Components?
     handleClick(event) {
       this.selected = event.target.value;
+      document.getElementById('project_error_tracking_setting_attributes_project').value =
+        event.target.value;
     },
   },
 };
@@ -69,7 +72,9 @@ export default {
     <!--
       Given how many classes are required here, could add a full-width option to gl-dropdown
     -->
+    <select v-model="selected"></select>
     <gl-dropdown
+      id="project_error_tracking_setting_attributes_project"
       class="w-100"
       menu-class="w-100 mw-100"
       toggle-class="dropdown-menu-toggle w-100"
