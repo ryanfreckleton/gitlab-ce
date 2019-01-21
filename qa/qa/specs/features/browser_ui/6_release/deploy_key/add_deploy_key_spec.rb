@@ -3,7 +3,8 @@
 module QA
   context 'Release' do
     describe 'Deploy key creation' do
-      it 'user adds a deploy key' do
+      # Issue reported: https://gitlab.com/gitlab-org/quality/staging/issues/26
+      it 'user adds a deploy key', :quarantine do
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
         Page::Main::Login.perform(&:sign_in_using_credentials)
 
