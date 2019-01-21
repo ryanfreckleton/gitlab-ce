@@ -23,10 +23,18 @@
               = _('Enter your Sentry API URL')
           .form-group
             = form.label :token, _('Auth Token'), class: 'label-bold'
-            = form.text_field :token, class: 'form-control'
+            -# TODO: is there a better way to do this?
+            .clearfix
+            -# TODO: figure out why form-control-inline gets overridden
+            = form.text_field :token, class: 'form-control form-control-inline'
+            .btn.btn-success.prepend-left-10
+              = _('Connect')
             %p.form-text.text-muted
               = _('Find and manage Auth Tokens in your Sentry account settings page.')
+
           .form-group
+            %label.label-bold
+              = _('Project')
             .dropdown#vue-dropdown-placeholder
               %button.dropdown-menu-toggle.dropdown-menu-full-width.js-dropdown-toggle{ type: 'button', disabled: true }
                 %span.dropdown-toggle-text
