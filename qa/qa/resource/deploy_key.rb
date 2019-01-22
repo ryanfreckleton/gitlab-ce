@@ -20,6 +20,20 @@ module QA
         end
       end
 
+
+      def remove_via_api!
+        project_id = project.api_response[:id]
+
+        api_client = Runtime::API::Client.new(:gitlab)
+        deploy_keys_response = get Runtime::API::Request.new(api_client, "/projects/#{project_id}/deploy_keys").url
+
+        deploy_key_id = JSON.parse(deploy_keys_response.body).find { |item| item["key"].strip == key.strip }
+
+        if deploy_key_id
+          delete Runtime::API::Request.new(api_client, "/projects/#{project_id}/deploy_keys/#{deploy_key_id["id"]}").url
+        end
+      end
+
       def fabricate!
         project.visit!
 

@@ -35,6 +35,10 @@ module QA
         Service::Runner.new(@runner_name).remove!
       end
 
+      after do
+        @deploy_key.remove_via_api if @deploy_key
+      end
+
       keys = [
         [Runtime::Key::RSA, 8192],
         [Runtime::Key::ECDSA, 521],
@@ -47,7 +51,7 @@ module QA
 
           login
 
-          Resource::DeployKey.fabricate! do |resource|
+          @deploy_key = Resource::DeployKey.fabricate! do |resource|
             resource.project = @project
             resource.title = "deploy key #{key.name}(#{key.bits})"
             resource.key = key.public_key

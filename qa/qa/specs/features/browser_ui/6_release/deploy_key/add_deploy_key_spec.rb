@@ -3,6 +3,10 @@
 module QA
   context 'Release' do
     describe 'Deploy key creation' do
+      after do
+        @deploy_key.remove_via_api if @deploy_key
+      end
+
       it 'user adds a deploy key' do
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
         Page::Main::Login.perform(&:sign_in_using_credentials)
@@ -11,12 +15,12 @@ module QA
         deploy_key_title = 'deploy key title'
         deploy_key_value = key.public_key
 
-        deploy_key = Resource::DeployKey.fabricate! do |resource|
+        @deploy_key = Resource::DeployKey.fabricate! do |resource|
           resource.title = deploy_key_title
           resource.key = deploy_key_value
         end
 
-        expect(deploy_key.fingerprint).to eq key.fingerprint
+        expect(@deploy_key.fingerprint).to eq key.fingerprint
 
         Page::Project::Settings::Repository.perform do |setting|
           setting.expand_deploy_keys do |keys|
