@@ -14,6 +14,10 @@ FactoryBot.define do
       before(:create) do |cluster, evaluator|
         cluster.projects << create(:project, :repository)
       end
+
+      after(:create) do |cluster, _|
+        create(:cluster_kubernetes_namespace, cluster: cluster)
+      end
     end
 
     trait :group do
