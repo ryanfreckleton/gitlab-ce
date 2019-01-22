@@ -27,10 +27,10 @@ module QA
         api_client = Runtime::API::Client.new(:gitlab)
         deploy_keys_response = get Runtime::API::Request.new(api_client, "/projects/#{project_id}/deploy_keys").url
 
-        deploy_key_id = JSON.parse(deploy_keys_response.body).find { |item| item["key"].strip == key.strip }
+        deploy_key = JSON.parse(deploy_keys_response.body).find { |item| item["key"].strip == key.strip }
 
-        if deploy_key_id
-          delete Runtime::API::Request.new(api_client, "/projects/#{project_id}/deploy_keys/#{deploy_key_id["id"]}").url
+        if deploy_key
+          delete Runtime::API::Request.new(api_client, "/projects/#{project_id}/deploy_keys/#{deploy_key["id"]}").url
         end
       end
 

@@ -1,6 +1,12 @@
 require_relative 'qa/tools/revoke_all_personal_access_tokens'
+require_relative 'qa/tools/delete_project_deploy_keys'
 
 desc "Revokes all personal access tokens"
 task :revoke_personal_access_tokens do
   QA::Tools::RevokeAllPersonalAccessTokens.new.run
+end
+
+desc "Delete all project deploy keys"
+task :delete_all_project_deploy_keys do
+  QA::Tools::DeleteProjectDeployKeys.new.run
 end
