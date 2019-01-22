@@ -37,17 +37,47 @@ export default {
         { id: '2', value: 'Gitaly' },
         { id: '4', value: 'Omnibus' },
       ],
+      valid: false,
       selected: '',
     };
   },
   computed: {
     buttonText() {
-      return this.selected !== ''
-        ? this.list.find(item => item.id === this.selected).value
-        : this.initialProject
+      if (this.selected === '' && this.initialProject) {
+        return this.initialProject.name;
+      }
+
+      if (this.selected === '' && !this.initialProject) {
+        return s__('Error Tracking|Select Project');
+      }
+
+      return this.list.find(item => item.id === this.selected).value
         ? this.initialProject.name
         : s__('Error Tracking|Select Project');
     },
+    getClass() {
+      return this.valid ? '' : 'gl-show-field-errors';
+    },
+    disabled() {
+      return this.list.length === 0;
+    },
+    getError() {
+      // TODO: read up on best way to handle translations with interpolation in JS
+      if (!this.valid) {
+        return s__(
+          `Error Tracking|Project ${
+            this.initialProject.name
+          } is no longer available. Select another project to continue.`,
+        );
+      }
+      return '';
+    },
+  },
+  beforeUpdate() {
+    // Handle new projects being loaded
+    // If currently selected project is not in the list, show error message
+    // If currently selected project is now in the list, hide error message
+    // Disable dropdown when projects haven't been loaded
   },
   methods: {
     // TODO: Is there a better way to do this? v-model doesn't seem to bind directly to gl-dropdown because it's not a typical select element,
@@ -64,7 +94,7 @@ export default {
 
 <template>
   <!-- TODO: Remove this div -->
-  <div>
+  <div class="gl-show-field-errors">
     <!-- Following: HTML-only boostrap dropdown menu, for comparison -->
     <!-- <div class="dropdown">
       <button class="dropdown-menu-toggle js-dropdown-toggle w-100" type="button">
@@ -85,8 +115,10 @@ export default {
       id="project_error_tracking_setting_attributes_project"
       name="project[error_tracking_setting_attributes][project]"
       class="w-100"
+      :class="getClass"
+      :disabled="disabled"
       menu-class="w-100 mw-100"
-      toggle-class="dropdown-menu-toggle w-100"
+      toggle-class="dropdown-menu-toggle w-100 gl-field-error-outline"
       :text="buttonText"
     >
       <!-- TODO: make the caret move to the right. could do so like this: -->
@@ -109,5 +141,7 @@ export default {
         @click="handleClick"
       >{{ item.value }}</gl-dropdown-item>
     </gl-dropdown>
+    <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
+    <span class="gl-field-error-message">{{this.getError}}</span>
   </div>
 </template>
