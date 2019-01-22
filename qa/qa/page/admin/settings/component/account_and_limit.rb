@@ -15,6 +15,10 @@ module QA
               fill_element :receive_max_input_size_field, size
             end
 
+            def get_max_file_size
+              get_input_value :receive_max_input_size_field
+            end
+
             def save_settings
               click_element :save_changes_button
             end
