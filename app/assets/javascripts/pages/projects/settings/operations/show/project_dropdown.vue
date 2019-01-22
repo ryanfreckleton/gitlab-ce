@@ -74,6 +74,7 @@ export default {
     -->
     <gl-dropdown
       id="project_error_tracking_setting_attributes_project"
+      name="project[error_tracking_setting_attributes][project]"
       class="w-100"
       menu-class="w-100 mw-100"
       toggle-class="dropdown-menu-toggle w-100"
