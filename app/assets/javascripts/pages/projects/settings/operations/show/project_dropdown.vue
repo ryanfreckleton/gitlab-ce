@@ -22,6 +22,12 @@ export default {
     GlDropdownItem,
     Icon,
   },
+  props: {
+    initialProject: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       list: [
@@ -45,6 +51,7 @@ export default {
     // but it feels like there should be a better solution.
     // Perhaps some way to get this to work https://vuejs.org/v2/guide/forms.html#v-model-with-Components?
     handleClick(event) {
+      console.log(this.initialProject);
       this.selected = event.target.value;
       document.getElementById('project_error_tracking_setting_attributes_project').value =
         event.target.value;

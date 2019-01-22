@@ -35,7 +35,7 @@
           .form-group
             %label.label-bold
               = _('Project')
-            .dropdown#vue-dropdown-placeholder
+            .dropdown#vue-dropdown-placeholder{ data: { project: [ { id: '1', name: 'Test Project' } ] } }
               %button.dropdown-menu-toggle.dropdown-menu-full-width.js-dropdown-toggle{ type: 'button', disabled: true }
                 %span.dropdown-toggle-text
                   = _('Select project')
