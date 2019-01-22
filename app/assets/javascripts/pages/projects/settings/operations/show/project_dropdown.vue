@@ -25,7 +25,8 @@ export default {
   props: {
     initialProject: {
       type: Object,
-      required: true,
+      required: false,
+      default: null,
     },
   },
   data() {
@@ -43,6 +44,8 @@ export default {
     buttonText() {
       return this.selected !== ''
         ? this.list.find(item => item.id === this.selected).value
+        : this.initialProject
+        ? this.initialProject.name
         : s__('Error Tracking|Select Project');
     },
   },
@@ -51,7 +54,6 @@ export default {
     // but it feels like there should be a better solution.
     // Perhaps some way to get this to work https://vuejs.org/v2/guide/forms.html#v-model-with-Components?
     handleClick(event) {
-      console.log(this.initialProject);
       this.selected = event.target.value;
       document.getElementById('project_error_tracking_setting_attributes_project').value =
         event.target.value;

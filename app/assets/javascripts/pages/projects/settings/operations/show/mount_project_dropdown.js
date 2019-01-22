@@ -16,10 +16,13 @@ export default () => {
     },
     data() {
       const {
-        dataset: { project },
+        dataset: { projectId, projectName },
       } = dataEl;
       return {
-        project,
+        project: {
+          id: projectId,
+          name: projectName,
+        },
       };
     },
     render(createElement) {
