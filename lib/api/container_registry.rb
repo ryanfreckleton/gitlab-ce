@@ -38,7 +38,7 @@ module API
 
         DeleteContainerRepositoryWorker.perform_async(current_user.id, repository.id)
 
-        status 204
+        status :no_content
       end
 
       desc 'Get a list of repositories tags' do
@@ -71,7 +71,7 @@ module API
         CleanupContainerRepositoryWorker.perform_async(current_user.id, repository.id,
           declared_params.except(:repository_id)) # rubocop: disable CodeReuse/ActiveRecord
 
-        status 204
+        status :no_content
       end
 
       desc 'Get a details about repository tag' do
@@ -102,7 +102,7 @@ module API
 
         tag.delete
 
-        status 204
+        status :no_content
       end
     end
 

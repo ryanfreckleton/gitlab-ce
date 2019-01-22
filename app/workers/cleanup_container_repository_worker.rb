@@ -17,7 +17,9 @@ class CleanupContainerRepositoryWorker
     return unless valid?
 
     try_obtain_lease do
-      Projects::ContainerRepository::CleanupTagsService.new(project, current_user, params).execute(container_repository)
+      Projects::ContainerRepository::CleanupTagsService
+        .new(project, current_user, params)
+        .execute(container_repository)
     end
   end
 

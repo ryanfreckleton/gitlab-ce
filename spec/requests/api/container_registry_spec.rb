@@ -27,7 +27,7 @@ describe API::ContainerRegistry do
 
   shared_examples 'being disallowed' do |param|
     context "for #{param}" do
-      let(:api_user) { send(param) }
+      let(:api_user) { public_send(param) }
 
       it 'returns access denied' do
         subject
