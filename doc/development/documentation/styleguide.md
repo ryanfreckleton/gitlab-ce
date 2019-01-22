@@ -430,8 +430,8 @@ a helpful link back to how the feature was developed.
 
 ### Text for documentation requiring version text
 
-- For features that need to declare the GitLab version that the feature was introduced. Text similar
-  to the following should be added immediately below the heading as a blockquote:
+- For features that need to declare the GitLab version in which the feature was introduced, use text similar
+  to the following, immediately below the heading as a blockquote:
 
     ```md
     > Introduced in GitLab 11.3.
