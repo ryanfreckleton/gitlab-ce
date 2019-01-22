@@ -20,7 +20,6 @@ module QA
         end
       end
 
-
       def remove_via_api!
         project_id = project.api_response[:id]
 
