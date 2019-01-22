@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :clusters_applications_helm, class: Clusters::Applications::Helm do
-    cluster factory: %i(cluster provided_by_gcp)
+    cluster factory: %i(cluster project provided_by_gcp)
 
     trait :not_installable do
       status(-2)
@@ -46,31 +46,31 @@ FactoryBot.define do
     end
 
     factory :clusters_applications_ingress, class: Clusters::Applications::Ingress do
-      cluster factory: %i(cluster with_installed_helm provided_by_gcp)
+      cluster factory: %i(cluster with_installed_helm project provided_by_gcp)
     end
 
     factory :clusters_applications_cert_managers, class: Clusters::Applications::CertManager do
       email 'admin@example.com'
-      cluster factory: %i(cluster with_installed_helm provided_by_gcp)
+      cluster factory: %i(cluster with_installed_helm project provided_by_gcp)
     end
 
     factory :clusters_applications_prometheus, class: Clusters::Applications::Prometheus do
-      cluster factory: %i(cluster with_installed_helm provided_by_gcp)
+      cluster factory: %i(cluster with_installed_helm project provided_by_gcp)
     end
 
     factory :clusters_applications_runner, class: Clusters::Applications::Runner do
       runner factory: %i(ci_runner)
-      cluster factory: %i(cluster with_installed_helm provided_by_gcp)
+      cluster factory: %i(cluster with_installed_helm project provided_by_gcp)
     end
 
     factory :clusters_applications_knative, class: Clusters::Applications::Knative do
       hostname 'example.com'
-      cluster factory: %i(cluster with_installed_helm provided_by_gcp)
+      cluster factory: %i(cluster with_installed_helm project provided_by_gcp)
     end
 
     factory :clusters_applications_jupyter, class: Clusters::Applications::Jupyter do
       oauth_application factory: :oauth_application
-      cluster factory: %i(cluster with_installed_helm provided_by_gcp project)
+      cluster factory: %i(cluster with_installed_helm project provided_by_gcp)
     end
   end
 end
