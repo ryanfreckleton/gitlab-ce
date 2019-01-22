@@ -110,6 +110,38 @@ describe Clusters::Applications::Prometheus do
     end
   end
 
+  context '#updated_since?' do
+    let(:cluster) { create(:cluster) }
+    let(:prometheus_app) { build(:clusters_applications_prometheus, cluster: cluster) }
+    let(:timestamp) { Time.now - 5.minutes }
+
+    around do |example|
+      Timecop.freeze { example.run }
+    end
+
+    before do
+      prometheus_app.last_update_started_at = Time.now
+    end
+
+    context 'when app does not have status failed' do
+      it 'returns true when last update started after the timestamp' do
+        expect(prometheus_app.updated_since?(timestamp)).to be true
+      end
+
+      it 'returns false when last update started before the timestamp' do
+        expect(prometheus_app.updated_since?(Time.now + 5.minutes)).to be false
+      end
+    end
+
+    context 'when app has status failed' do
+      it 'returns false when last update started after the timestamp' do
+        prometheus_app.status = 6
+
+        expect(prometheus_app.updated_since?(timestamp)).to be false
+      end
+    end
+  end
+
   describe '#prometheus_client' do
     context 'cluster is nil' do
       it 'returns nil' do

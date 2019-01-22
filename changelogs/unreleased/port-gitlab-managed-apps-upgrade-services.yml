@@ -1,0 +1,5 @@
+---
+title: Port cluster application upgrade workers and services from EE
+merge_request: 24589
+author:
+type: other

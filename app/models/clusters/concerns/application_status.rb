@@ -81,6 +81,12 @@ module Clusters
       def update_in_progress?
         updating?
       end
+
+      def updated_since?(timestamp)
+        last_update_started_at &&
+          last_update_started_at > timestamp &&
+          !update_errored?
+      end
     end
   end
 end
