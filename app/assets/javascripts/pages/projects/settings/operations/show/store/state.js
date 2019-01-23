@@ -1,4 +1,4 @@
 export default () => ({
   projects: [],
-  // potentially store errors here too
+  // potentially store error states here too
 });
