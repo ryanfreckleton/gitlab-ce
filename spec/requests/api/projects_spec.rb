@@ -948,6 +948,7 @@ describe API::Projects do
         expect(json_response['shared_with_groups'].length).to eq(1)
         expect(json_response['shared_with_groups'][0]['group_id']).to eq(group.id)
         expect(json_response['shared_with_groups'][0]['group_name']).to eq(group.name)
+        expect(json_response['shared_with_groups'][0]['group_full_path']).to eq(group.full_path)
         expect(json_response['shared_with_groups'][0]['group_access_level']).to eq(link.group_access)
         expect(json_response['shared_with_groups'][0]['expires_at']).to be_nil
         expect(json_response['only_allow_merge_if_pipeline_succeeds']).to eq(project.only_allow_merge_if_pipeline_succeeds)
@@ -967,6 +968,7 @@ describe API::Projects do
         expect(json_response['shared_with_groups'].length).to eq(1)
         expect(json_response['shared_with_groups'][0]['group_id']).to eq(group.id)
         expect(json_response['shared_with_groups'][0]['group_name']).to eq(group.name)
+        expect(json_response['shared_with_groups'][0]['group_full_path']).to eq(group.full_path)
         expect(json_response['shared_with_groups'][0]['group_access_level']).to eq(link.group_access)
         expect(json_response['shared_with_groups'][0]['expires_at']).to eq(expires_at.to_s)
       end
@@ -1143,6 +1145,40 @@ describe API::Projects do
             expect(json_response['permissions']['project_access']).to be_nil
             expect(json_response['permissions']['group_access']['access_level'])
             .to eq(Gitlab::Access::OWNER)
+          end
+        end
+
+        context 'nested group project', :nested_groups do
+          let(:group) { create(:group) }
+          let(:nested_group) { create(:group, parent: group) }
+          let(:project2) { create(:project, group: nested_group) }
+
+          before do
+            project2.group.parent.add_owner(user)
+          end
+
+          it 'sets group access and return 200' do
+            get api("/projects/#{project2.id}", user)
+
+            expect(response).to have_gitlab_http_status(200)
+            expect(json_response['permissions']['project_access']).to be_nil
+            expect(json_response['permissions']['group_access']['access_level'])
+            .to eq(Gitlab::Access::OWNER)
+          end
+
+          context 'with various access levels across nested groups' do
+            before do
+              project2.group.add_maintainer(user)
+            end
+
+            it 'sets the maximum group access and return 200' do
+              get api("/projects/#{project2.id}", user)
+
+              expect(response).to have_gitlab_http_status(200)
+              expect(json_response['permissions']['project_access']).to be_nil
+              expect(json_response['permissions']['group_access']['access_level'])
+              .to eq(Gitlab::Access::OWNER)
+            end
           end
         end
       end

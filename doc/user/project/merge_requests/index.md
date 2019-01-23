@@ -92,6 +92,15 @@ request widget will show the "Removes source branch" text.
 
 ![Remove source branch status](img/remove_source_branch_status.png)
 
+## Allow collaboration on merge requests across forks
+
+When a user opens a merge request from a fork, they are given the option to allow
+upstream maintainers to collaborate with them on the source branch. This allows
+the maintainers of the upstream project to make small fixes or rebase branches
+before merging, reducing the back and forth of accepting community contributions.
+
+[Learn more about allowing upstream members to push to forks.](allow_collaboration.md)
+
 ## Authorization for merge requests
 
 There are two main ways to have a merge request flow with GitLab:
@@ -275,7 +284,11 @@ you can preview the changes submitted to a feature-branch through a merge reques
 in a per-branch basis. No need to checkout the branch, install and preview locally;
 all your changes will be available to preview by anyone with the Review Apps link.
 
-[Read more about Review Apps.](../../../ci/review_apps/index.md)
+With GitLab's [Route Maps](../../../ci/review_apps/index.md#route-maps) set, the
+merge request widget takes you directly to the pages changed, making it easier and
+faster to preview proposed modifications.
+
+[Read more about Review Apps](../../../ci/review_apps/index.md).
 
 ## Pipelines for merge requests
 
@@ -328,8 +341,8 @@ troubleshooting steps.
 
 This can occur for one of two reasons:
 
-* Sidekiq doesn't pick up the changes fast enough
-* Because of the bug described in [#41545](https://gitlab.com/gitlab-org/gitlab-ce/issues/41545)
+- Sidekiq doesn't pick up the changes fast enough
+- Because of the bug described in [#41545](https://gitlab.com/gitlab-org/gitlab-ce/issues/41545)
 
 #### Sidekiq
 

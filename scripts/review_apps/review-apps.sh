@@ -31,7 +31,9 @@ function ensure_namespace() {
 
 function install_tiller() {
   echo "Checking Tiller..."
-  helm init --upgrade
+  helm init \
+    --upgrade \
+    --replicas 2
   kubectl rollout status -n "$TILLER_NAMESPACE" -w "deployment/tiller-deploy"
   if ! helm version --debug; then
     echo "Failed to init Tiller."
@@ -344,7 +346,6 @@ function wait_for_job_to_be_done() {
 
   if [[ "${job_status}" == "failed" ]]; then
     echo "The '${job_name}' failed."
-    exit 1
   elif [[ "${job_status}" == "manual" ]]; then
     echo "The '${job_name}' is manual."
   else

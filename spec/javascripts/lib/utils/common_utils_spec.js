@@ -3,6 +3,25 @@ import * as commonUtils from '~/lib/utils/common_utils';
 import MockAdapter from 'axios-mock-adapter';
 import { faviconDataUrl, overlayDataUrl, faviconWithOverlayDataUrl } from './mock_data';
 
+const PIXEL_TOLERANCE = 0.2;
+
+/**
+ * Loads a data URL as the src of an
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image|Image}
+ * and resolves to that Image once loaded.
+ *
+ * @param url
+ * @returns {Promise}
+ */
+const urlToImage = url =>
+  new Promise(resolve => {
+    const img = new Image();
+    img.onload = function() {
+      resolve(img);
+    };
+    img.src = url;
+  });
+
 describe('common_utils', () => {
   describe('parseUrl', () => {
     it('returns an anchor tag with url', () => {
@@ -347,20 +366,31 @@ describe('common_utils', () => {
   });
 
   describe('parseBoolean', () => {
+    const { parseBoolean } = commonUtils;
+
     it('returns true for "true"', () => {
-      expect(commonUtils.parseBoolean('true')).toEqual(true);
+      expect(parseBoolean('true')).toEqual(true);
     });
 
     it('returns false for "false"', () => {
-      expect(commonUtils.parseBoolean('false')).toEqual(false);
+      expect(parseBoolean('false')).toEqual(false);
     });
 
     it('returns false for "something"', () => {
-      expect(commonUtils.parseBoolean('something')).toEqual(false);
+      expect(parseBoolean('something')).toEqual(false);
     });
 
     it('returns false for null', () => {
-      expect(commonUtils.parseBoolean(null)).toEqual(false);
+      expect(parseBoolean(null)).toEqual(false);
+    });
+
+    it('is idempotent', () => {
+      const input = ['true', 'false', 'something', null];
+      input.forEach(value => {
+        const result = parseBoolean(value);
+
+        expect(parseBoolean(result)).toBe(result);
+      });
     });
   });
 
@@ -502,8 +532,9 @@ describe('common_utils', () => {
     it('should return the favicon with the overlay', done => {
       commonUtils
         .createOverlayIcon(faviconDataUrl, overlayDataUrl)
-        .then(url => {
-          expect(url).toEqual(faviconWithOverlayDataUrl);
+        .then(url => Promise.all([urlToImage(url), urlToImage(faviconWithOverlayDataUrl)]))
+        .then(([actual, expected]) => {
+          expect(actual).toImageDiffEqual(expected, PIXEL_TOLERANCE);
           done();
         })
         .catch(done.fail);
@@ -525,10 +556,10 @@ describe('common_utils', () => {
     it('should set page favicon to provided favicon overlay', done => {
       commonUtils
         .setFaviconOverlay(overlayDataUrl)
-        .then(() => {
-          expect(document.getElementById('favicon').getAttribute('href')).toEqual(
-            faviconWithOverlayDataUrl,
-          );
+        .then(() => document.getElementById('favicon').getAttribute('href'))
+        .then(url => Promise.all([urlToImage(url), urlToImage(faviconWithOverlayDataUrl)]))
+        .then(([actual, expected]) => {
+          expect(actual).toImageDiffEqual(expected, PIXEL_TOLERANCE);
           done();
         })
         .catch(done.fail);
@@ -571,10 +602,10 @@ describe('common_utils', () => {
 
       commonUtils
         .setCiStatusFavicon(BUILD_URL)
-        .then(() => {
-          const favicon = document.getElementById('favicon');
-
-          expect(favicon.getAttribute('href')).toEqual(faviconWithOverlayDataUrl);
+        .then(() => document.getElementById('favicon').getAttribute('href'))
+        .then(url => Promise.all([urlToImage(url), urlToImage(faviconWithOverlayDataUrl)]))
+        .then(([actual, expected]) => {
+          expect(actual).toImageDiffEqual(expected, PIXEL_TOLERANCE);
           done();
         })
         .catch(done.fail);
@@ -714,6 +745,31 @@ describe('common_utils', () => {
       expect(commonUtils.roundOffFloat(34567.14159, -3)).toBe(35000);
       expect(commonUtils.roundOffFloat(34567.14159, -4)).toBe(30000);
       expect(commonUtils.roundOffFloat(34567.14159, -5)).toBe(0);
+    });
+  });
+
+  describe('isInViewport', () => {
+    let el;
+
+    beforeEach(() => {
+      el = document.createElement('div');
+    });
+
+    afterEach(() => {
+      document.body.removeChild(el);
+    });
+
+    it('returns true when provided `el` is in viewport', () => {
+      document.body.appendChild(el);
+
+      expect(commonUtils.isInViewport(el)).toBe(true);
+    });
+
+    it('returns false when provided `el` is not in viewport', () => {
+      el.setAttribute('style', 'position: absolute; top: -1000px; left: -1000px;');
+      document.body.appendChild(el);
+
+      expect(commonUtils.isInViewport(el)).toBe(false);
     });
   });
 });

@@ -991,6 +991,34 @@ describe MergeRequest do
     end
   end
 
+  describe '#committers' do
+    it 'returns all the committers of every commit in the merge request' do
+      users = subject.commits.map(&:committer_email).uniq.map do |email|
+        create(:user, email: email)
+      end
+
+      expect(subject.committers).to match_array(users)
+    end
+
+    it 'returns an empty array if no committer is associated with a user' do
+      expect(subject.committers).to be_empty
+    end
+  end
+
+  describe '#authors' do
+    it 'returns a list with all the committers in the merge request and author' do
+      users = subject.commits.map(&:committer_email).uniq.map do |email|
+        create(:user, email: email)
+      end
+
+      expect(subject.authors).to match_array([subject.author, *users])
+    end
+
+    it 'returns only the author if no committer is associated with a user' do
+      expect(subject.authors).to contain_exactly(subject.author)
+    end
+  end
+
   describe '#hook_attrs' do
     it 'delegates to Gitlab::HookData::MergeRequestBuilder#build' do
       builder = double
@@ -1389,6 +1417,23 @@ describe MergeRequest do
         expect { subject }
           .to change { merge_request.reload.head_pipeline }
           .from(nil).to(pipeline)
+      end
+
+      context 'when merge request has already had head pipeline' do
+        before do
+          merge_request.update!(head_pipeline: pipeline)
+        end
+
+        context 'when failed to find an actual head pipeline' do
+          before do
+            allow(merge_request).to receive(:find_actual_head_pipeline) { }
+          end
+
+          it 'does not update the current head pipeline' do
+            expect { subject }
+              .not_to change { merge_request.reload.head_pipeline }
+          end
+        end
       end
     end
 

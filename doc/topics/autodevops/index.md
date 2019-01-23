@@ -539,9 +539,9 @@ a helm pre-upgrade hook.
 
 For example, in a Rails application:
 
-* `DB_INITIALIZE` can be set to `cd /app && RAILS_ENV=production
+- `DB_INITIALIZE` can be set to `cd /app && RAILS_ENV=production
   bin/setup`
-* `DB_MIGRATE` can be set to `cd /app && RAILS_ENV=production bin/update`
+- `DB_MIGRATE` can be set to `cd /app && RAILS_ENV=production bin/update`
 
 NOTE: **Note:**
 The `/app` path is the directory of your project inside the docker image
@@ -632,7 +632,7 @@ repo or by specifying a project variable:
   one](https://gitlab.com/charts/auto-deploy-app).
   This can be a great way to control exactly how your application is deployed.
 - **Project variable** - Create a [project variable](../../ci/variables/README.md#variables)
-  `AUTO_DEVOPS_CHART` with the URL of a custom chart to use.
+  `AUTO_DEVOPS_CHART` with the URL of a custom chart to use or create two project variables `AUTO_DEVOPS_CHART_REPOSITORY` with the URL of a custom chart repository and `AUTO_DEVOPS_CHART` with the path to the chart.
 
 ### Customizing `.gitlab-ci.yml`
 
@@ -678,10 +678,13 @@ also be customized, and you can easily use a [custom buildpack](#custom-buildpac
 | ------------                 | ---------------                                                                                                                                                                                                               |
 | `AUTO_DEVOPS_DOMAIN`         | The [Auto DevOps domain](#auto-devops-domain); by default set automatically by the [Auto DevOps setting](#enabling-auto-devops).                                                                                              |
 | `AUTO_DEVOPS_CHART`          | The Helm Chart used to deploy your apps; defaults to the one [provided by GitLab](https://gitlab.com/charts/auto-deploy-app).                                                             |
+| `AUTO_DEVOPS_CHART_REPOSITORY` | The Helm Chart repository used to search for charts; defaults to `https://charts.gitlab.io`. |
 | `REPLICAS`                   | The number of replicas to deploy; defaults to 1.                                                                                                                                                                              |
 | `PRODUCTION_REPLICAS`        | The number of replicas to deploy in the production environment. This takes precedence over `REPLICAS`; defaults to 1.                                                                                                         |
 | `CANARY_REPLICAS`            | The number of canary replicas to deploy for [Canary Deployments](https://docs.gitlab.com/ee/user/project/canary_deployments.html); defaults to 1                                                                              |
 | `CANARY_PRODUCTION_REPLICAS` | The number of canary replicas to deploy for [Canary Deployments](https://docs.gitlab.com/ee/user/project/canary_deployments.html) in the production environment. This takes precedence over `CANARY_REPLICAS`; defaults to 1  |
+| `ADDITIONAL_HOSTS`           | Fully qualified domain names specified as a comma-separated list that are added to the ingress hosts.                                                                                                                         |
+| `<ENVIRONMENT>_ADDITIONAL_HOSTS` | For a specific environment, the fully qualified domain names specified as a comma-separated list that are added to the ingress hosts. This takes precedence over `ADDITIONAL_HOSTS`.                                      |
 | `POSTGRES_ENABLED`           | Whether PostgreSQL is enabled; defaults to `"true"`. Set to `false` to disable the automatic deployment of PostgreSQL.                                                                                                        |
 | `POSTGRES_USER`              | The PostgreSQL user; defaults to `user`. Set it to use a custom username.                                                                                                                                                     |
 | `POSTGRES_PASSWORD`          | The PostgreSQL password; defaults to `testing-password`. Set it to use a custom password.                                                                                                                                     |

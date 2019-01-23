@@ -129,6 +129,9 @@ msgstr ""
 msgid "%{issuableType} will be removed! Are you sure?"
 msgstr ""
 
+msgid "%{link_start}Read more%{link_end} about role permissions"
+msgstr ""
+
 msgid "%{loadingIcon} Started"
 msgstr ""
 
@@ -183,6 +186,9 @@ msgid "%{usage_ping_link_start}Learn more%{usage_ping_link_end} about what infor
 msgstr ""
 
 msgid "%{user_name} profile page"
+msgstr ""
+
+msgid "(external source)"
 msgstr ""
 
 msgid "+ %{count} more"
@@ -285,7 +291,7 @@ msgstr ""
 msgid "<strong>%{group_name}</strong> group members"
 msgstr ""
 
-msgid "<strong>Removes</strong> source branch"
+msgid "<strong>Deletes</strong> source branch"
 msgstr ""
 
 msgid "A 'Runner' is a process which runs a job. You can set up as many Runners as you need."
@@ -396,6 +402,9 @@ msgstr ""
 msgid "Add reaction"
 msgstr ""
 
+msgid "Add to project"
+msgstr ""
+
 msgid "Add todo"
 msgstr ""
 
@@ -445,6 +454,9 @@ msgid "AdminProjects|Delete Project %{projectName}?"
 msgstr ""
 
 msgid "AdminProjects|Delete project"
+msgstr ""
+
+msgid "AdminSettings|Auto DevOps domain"
 msgstr ""
 
 msgid "AdminSettings|Environment variables are protected by default"
@@ -723,6 +735,9 @@ msgstr ""
 msgid "Are you sure you want to stop this environment?"
 msgstr ""
 
+msgid "Are you sure you want to unsubscribe from the %{type}: %{link_to_noteable_text}?"
+msgstr ""
+
 msgid "Are you sure?"
 msgstr ""
 
@@ -870,10 +885,7 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
-msgid "Available group Runners : %{runners}"
-msgstr ""
-
-msgid "Available group Runners : %{runners}."
+msgid "Available group Runners: %{runners}"
 msgstr ""
 
 msgid "Available shared Runners:"
@@ -1302,6 +1314,9 @@ msgstr ""
 msgid "Choose a file"
 msgstr ""
 
+msgid "Choose a role permission"
+msgstr ""
+
 msgid "Choose a template..."
 msgstr ""
 
@@ -1459,6 +1474,9 @@ msgid "Close"
 msgstr ""
 
 msgid "Closed"
+msgstr ""
+
+msgid "ClusterIntegration| is the default environment scope for this cluster. This means that all jobs, regardless of their environment, will use this cluster. %{environment_scope_start}More information%{environment_scope_end}"
 msgstr ""
 
 msgid "ClusterIntegration|%{appList} was successfully installed on your Kubernetes cluster"
@@ -1887,6 +1905,9 @@ msgstr ""
 msgid "ClusterIntegration|sign up"
 msgstr ""
 
+msgid "Code"
+msgstr ""
+
 msgid "Cohorts"
 msgstr ""
 
@@ -1925,7 +1946,13 @@ msgid_plural "Commits"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Commit %{commit_id}"
+msgstr ""
+
 msgid "Commit Message"
+msgstr ""
+
+msgid "Commit deleted"
 msgstr ""
 
 msgid "Commit duration in minutes for last 30 commits"
@@ -2746,6 +2773,9 @@ msgstr ""
 msgid "Enable and configure Prometheus metrics."
 msgstr ""
 
+msgid "Enable error tracking"
+msgstr ""
+
 msgid "Enable for this project"
 msgstr ""
 
@@ -2762,6 +2792,9 @@ msgid "Enable shared Runners"
 msgstr ""
 
 msgid "Enable the Performance Bar for a given group."
+msgstr ""
+
+msgid "Enable two-factor authentication"
 msgstr ""
 
 msgid "Enable usage ping"
@@ -2941,6 +2974,9 @@ msgstr ""
 msgid "Error occurred when toggling the notification subscription"
 msgstr ""
 
+msgid "Error rendering markdown preview"
+msgstr ""
+
 msgid "Error saving label update."
 msgstr ""
 
@@ -2951,6 +2987,9 @@ msgid "Error updating todo status."
 msgstr ""
 
 msgid "Error while loading the merge request. Please try again."
+msgstr ""
+
+msgid "Errors"
 msgstr ""
 
 msgid "Estimated"
@@ -2972,6 +3011,9 @@ msgid "EventFilterBy|Filter by push events"
 msgstr ""
 
 msgid "EventFilterBy|Filter by team"
+msgstr ""
+
+msgid "Events"
 msgstr ""
 
 msgid "Every %{action} attempt has failed: %{job_error_message}. Please try again."
@@ -2996,6 +3038,9 @@ msgid "Existing Git repository"
 msgstr ""
 
 msgid "Existing folder"
+msgstr ""
+
+msgid "Existing members and groups"
 msgstr ""
 
 msgid "Expand"
@@ -3061,6 +3106,9 @@ msgstr ""
 msgid "Failed to load emoji list."
 msgstr ""
 
+msgid "Failed to load errors from Sentry"
+msgstr ""
+
 msgid "Failed to remove issue from board, please try again."
 msgstr ""
 
@@ -3121,6 +3169,12 @@ msgstr ""
 msgid "Filter by two-factor authentication"
 msgstr ""
 
+msgid "Filter results by group"
+msgstr ""
+
+msgid "Filter results by project"
+msgstr ""
+
 msgid "Filter..."
 msgstr ""
 
@@ -3128,6 +3182,9 @@ msgid "Find and manage Auth Tokens in your Sentry account settings page."
 msgstr ""
 
 msgid "Find by path"
+msgstr ""
+
+msgid "Find existing members by name"
 msgstr ""
 
 msgid "Find file"
@@ -3242,6 +3299,9 @@ msgid "Generate a default set of labels"
 msgstr ""
 
 msgid "Geo"
+msgstr ""
+
+msgid "Get started with error tracking"
 msgstr ""
 
 msgid "Getting started with releases"
@@ -3379,6 +3439,9 @@ msgstr ""
 msgid "Group name"
 msgstr ""
 
+msgid "Group:"
+msgstr ""
+
 msgid "Group: %{group_name}"
 msgstr ""
 
@@ -3416,6 +3479,9 @@ msgid "Groups"
 msgstr ""
 
 msgid "Groups can also be nested by creating %{subgroup_docs_link_start}subgroups%{subgroup_docs_link_end}."
+msgstr ""
+
+msgid "Groups with access to <strong>%{project_name}</strong>"
 msgstr ""
 
 msgid "GroupsDropdown|Frequently visited"
@@ -3509,6 +3575,9 @@ msgid "Help page text and support page url."
 msgstr ""
 
 msgid "Here is the public SSH key that needs to be added to the remote server. For more information, please refer to the documentation."
+msgstr ""
+
+msgid "Hide file browser"
 msgstr ""
 
 msgid "Hide host keys manual input"
@@ -3645,10 +3714,19 @@ msgstr ""
 msgid "Import issues"
 msgstr ""
 
+msgid "Import members"
+msgstr ""
+
+msgid "Import members from another project"
+msgstr ""
+
 msgid "Import multiple repositories by uploading a manifest file."
 msgstr ""
 
 msgid "Import project"
+msgstr ""
+
+msgid "Import project members"
 msgstr ""
 
 msgid "Import projects from Bitbucket"
@@ -3754,6 +3832,12 @@ msgid "Invitation"
 msgstr ""
 
 msgid "Invite"
+msgstr ""
+
+msgid "Invite group"
+msgstr ""
+
+msgid "Invite member"
 msgstr ""
 
 msgid "Invoke Count"
@@ -3950,6 +4034,9 @@ msgstr ""
 msgid "Last reply by"
 msgstr ""
 
+msgid "Last seen"
+msgstr ""
+
 msgid "Last update"
 msgstr ""
 
@@ -4093,6 +4180,9 @@ msgstr ""
 msgid "Manage project labels"
 msgstr ""
 
+msgid "Manage two-factor authentication"
+msgstr ""
+
 msgid "Manifest"
 msgstr ""
 
@@ -4172,6 +4262,12 @@ msgid "Member since %{date}"
 msgstr ""
 
 msgid "Members"
+msgstr ""
+
+msgid "Members can be added by project <i>Maintainers</i> or <i>Owners</i>"
+msgstr ""
+
+msgid "Members of <strong>%{project_name}</strong>"
 msgstr ""
 
 msgid "Merge Request"
@@ -4339,6 +4435,9 @@ msgstr ""
 msgid "Modal|Close"
 msgstr ""
 
+msgid "Monitor your errors by integrating with Sentry"
+msgstr ""
+
 msgid "Monitoring"
 msgstr ""
 
@@ -4503,7 +4602,13 @@ msgstr ""
 msgid "No contributions were found"
 msgstr ""
 
+msgid "No details available"
+msgstr ""
+
 msgid "No due date"
+msgstr ""
+
+msgid "No errors to display"
 msgstr ""
 
 msgid "No estimate or time spent"
@@ -4712,6 +4817,9 @@ msgstr ""
 msgid "Only project members can comment."
 msgstr ""
 
+msgid "Only project members will be imported. Group members will be skipped."
+msgstr ""
+
 msgid "Oops, are you sure?"
 msgstr ""
 
@@ -4722,6 +4830,9 @@ msgid "Open Documentation"
 msgstr ""
 
 msgid "Open comment type dropdown"
+msgstr ""
+
+msgid "Open errors"
 msgstr ""
 
 msgid "Open in Xcode"
@@ -4830,6 +4941,9 @@ msgid "Permissions, LFS, 2FA"
 msgstr ""
 
 msgid "Personal Access Token"
+msgstr ""
+
+msgid "Personal project creation is not allowed. Please contact your administrator with questions"
 msgstr ""
 
 msgid "Pick a name"
@@ -5111,6 +5225,12 @@ msgstr ""
 msgid "Profiles|Account scheduled for removal."
 msgstr ""
 
+msgid "Profiles|Activate signin with one of the following services"
+msgstr ""
+
+msgid "Profiles|Active"
+msgstr ""
+
 msgid "Profiles|Add key"
 msgstr ""
 
@@ -5126,6 +5246,9 @@ msgstr ""
 msgid "Profiles|Change username"
 msgstr ""
 
+msgid "Profiles|Changing your username can have unintended side effects."
+msgstr ""
+
 msgid "Profiles|Choose file..."
 msgstr ""
 
@@ -5136,6 +5259,15 @@ msgid "Profiles|City, country"
 msgstr ""
 
 msgid "Profiles|Clear status"
+msgstr ""
+
+msgid "Profiles|Click on icon to activate signin with one of the following services"
+msgstr ""
+
+msgid "Profiles|Connect"
+msgstr ""
+
+msgid "Profiles|Connected Accounts"
 msgstr ""
 
 msgid "Profiles|Current path: %{path}"
@@ -5156,6 +5288,9 @@ msgstr ""
 msgid "Profiles|Deleting an account has the following effects:"
 msgstr ""
 
+msgid "Profiles|Disconnect"
+msgstr ""
+
 msgid "Profiles|Do not show on profile"
 msgstr ""
 
@@ -5166,6 +5301,9 @@ msgid "Profiles|Edit Profile"
 msgstr ""
 
 msgid "Profiles|Enter your name, so people you know can recognize you"
+msgstr ""
+
+msgid "Profiles|Increase your account's security by enabling Two-Factor Authentication (2FA)"
 msgstr ""
 
 msgid "Profiles|Invalid password"
@@ -5204,6 +5342,9 @@ msgstr ""
 msgid "Profiles|Set new profile picture"
 msgstr ""
 
+msgid "Profiles|Social sign-in"
+msgstr ""
+
 msgid "Profiles|Some options are unavailable for LDAP accounts"
 msgstr ""
 
@@ -5229,6 +5370,9 @@ msgid "Profiles|This feature is experimental and translations are not complete y
 msgstr ""
 
 msgid "Profiles|This information will appear on your profile"
+msgstr ""
+
+msgid "Profiles|Two-Factor Authentication"
 msgstr ""
 
 msgid "Profiles|Type your %{confirmationValue} to confirm:"
@@ -5363,10 +5507,16 @@ msgstr ""
 msgid "Project export started. A download link will be sent by email."
 msgstr ""
 
+msgid "Project members"
+msgstr ""
+
 msgid "Project name"
 msgstr ""
 
 msgid "Project slug"
+msgstr ""
+
+msgid "Project:"
 msgstr ""
 
 msgid "ProjectActivityRSS|Subscribe"
@@ -5931,6 +6081,9 @@ msgstr ""
 msgid "Search for projects, issues, etc."
 msgstr ""
 
+msgid "Search groups"
+msgstr ""
+
 msgid "Search merge requests"
 msgstr ""
 
@@ -5944,6 +6097,9 @@ msgid "Search or jump to…"
 msgstr ""
 
 msgid "Search project"
+msgstr ""
+
+msgid "Search projects"
 msgstr ""
 
 msgid "Search users"
@@ -6006,6 +6162,9 @@ msgstr ""
 msgid "Select branch/tag"
 msgstr ""
 
+msgid "Select members to invite"
+msgstr ""
+
 msgid "Select project"
 msgstr ""
 
@@ -6054,13 +6213,31 @@ msgstr ""
 msgid "Serverless"
 msgstr ""
 
+msgid "ServerlessDetails|Copy URL to clipboard"
+msgstr ""
+
+msgid "ServerlessDetails|Kubernetes Pods"
+msgstr ""
+
+msgid "ServerlessDetails|Number of Kubernetes pods in use over time based on necessity."
+msgstr ""
+
+msgid "ServerlessDetails|pod in use"
+msgstr ""
+
+msgid "ServerlessDetails|pods in use"
+msgstr ""
+
 msgid "Serverless| In order to start using functions as a service, you must first install Knative on your Kubernetes cluster."
 msgstr ""
 
 msgid "Serverless|An error occurred while retrieving serverless components"
 msgstr ""
 
-msgid "Serverless|Domain"
+msgid "Serverless|Cluster Env"
+msgstr ""
+
+msgid "Serverless|Description"
 msgstr ""
 
 msgid "Serverless|Function"
@@ -6174,6 +6351,9 @@ msgstr ""
 msgid "Show complete raw log"
 msgstr ""
 
+msgid "Show file browser"
+msgstr ""
+
 msgid "Show latest version"
 msgstr ""
 
@@ -6219,6 +6399,9 @@ msgid "Size and domain settings for static websites"
 msgstr ""
 
 msgid "Slower but makes sure the project workspace is pristine as it clones the repository from scratch for every job"
+msgstr ""
+
+msgid "Snippet Contents"
 msgstr ""
 
 msgid "Snippets"
@@ -6758,10 +6941,22 @@ msgstr ""
 msgid "There are no archived projects yet"
 msgstr ""
 
+msgid "There are no closed issues"
+msgstr ""
+
+msgid "There are no closed merge requests"
+msgstr ""
+
 msgid "There are no issues to show"
 msgstr ""
 
 msgid "There are no labels yet"
+msgstr ""
+
+msgid "There are no open issues"
+msgstr ""
+
+msgid "There are no open merge requests"
 msgstr ""
 
 msgid "There are no projects shared with this group yet"
@@ -7155,6 +7350,9 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+msgid "Titles and Filenames"
+msgstr ""
+
 msgid "To GitLab"
 msgstr ""
 
@@ -7188,13 +7386,19 @@ msgstr ""
 msgid "To import an SVN repository, check out %{svn_link}."
 msgstr ""
 
+msgid "To keep this project going, create a new issue"
+msgstr ""
+
+msgid "To keep this project going, create a new merge request"
+msgstr ""
+
 msgid "To link Sentry to GitLab, enter your Sentry URL and Auth Token."
 msgstr ""
 
 msgid "To move or copy an entire GitLab project from another GitLab installation to this one, navigate to the original project's settings page, generate an export file, and upload it here."
 msgstr ""
 
-msgid "To preserve performance only <strong>%{display_size} of ${real_size}</strong> files are displayed."
+msgid "To preserve performance only <strong>%{display_size} of %{real_size}</strong> files are displayed."
 msgstr ""
 
 msgid "To start serving your jobs you can add Runners to your group"
@@ -7234,9 +7438,6 @@ msgid "Toggle commit list"
 msgstr ""
 
 msgid "Toggle discussion"
-msgstr ""
-
-msgid "Toggle file browser"
 msgstr ""
 
 msgid "Toggle navigation"
@@ -7359,6 +7560,9 @@ msgstr ""
 msgid "Unsubscribe at project level"
 msgstr ""
 
+msgid "Unsubscribe from %{type}"
+msgstr ""
+
 msgid "Unverified"
 msgstr ""
 
@@ -7470,6 +7674,9 @@ msgstr ""
 msgid "UserProfile|Subscribe"
 msgstr ""
 
+msgid "UserProfile|This user doesn't have any personal projects"
+msgstr ""
+
 msgid "UserProfile|This user has a private profile"
 msgstr ""
 
@@ -7569,6 +7776,9 @@ msgstr ""
 msgid "Want to see the data? Please ask an administrator for access."
 msgstr ""
 
+msgid "We couldn't find any results matching"
+msgstr ""
+
 msgid "We detected potential spam in the %{humanized_resource_name}. Please solve the reCAPTCHA to proceed."
 msgstr ""
 
@@ -7585,6 +7795,9 @@ msgid "Web IDE"
 msgstr ""
 
 msgid "Web terminal"
+msgstr ""
+
+msgid "What's new?"
 msgstr ""
 
 msgid "When a runner is locked, it cannot be assigned to other projects"
@@ -7791,6 +8004,9 @@ msgstr ""
 msgid "You can easily install a Runner on a Kubernetes cluster. %{link_to_help_page}"
 msgstr ""
 
+msgid "You can invite a new member to <strong>%{project_name}</strong> or invite another group."
+msgstr ""
+
 msgid "You can move around the graph by using the arrow keys."
 msgstr ""
 
@@ -7944,6 +8160,9 @@ msgstr ""
 msgid "Your name"
 msgstr ""
 
+msgid "Your project limit is %{limit} projects! Please contact your administrator to increase it"
+msgstr ""
+
 msgid "Your projects"
 msgstr ""
 
@@ -7966,6 +8185,9 @@ msgid "branch name"
 msgstr ""
 
 msgid "command line instructions"
+msgstr ""
+
+msgid "commented on %{link_to_project}"
 msgstr ""
 
 msgid "confidentiality|You are going to turn off the confidentiality. This means <strong>everyone</strong> will be able to see and leave a comment on this issue."
@@ -8026,7 +8248,7 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-msgid "http://<sentry-host>/api/0/projects/{organization_slug}/{project_slug}/issues/"
+msgid "http://<sentry-host>/api/0/projects/{organization_slug}/{project_slug}/"
 msgstr ""
 
 msgid "https://your-bitbucket-server"
@@ -8041,7 +8263,10 @@ msgstr ""
 msgid "importing"
 msgstr ""
 
-msgid "in"
+msgid "in group %{link_to_group}"
+msgstr ""
+
+msgid "in project %{link_to_project}"
 msgstr ""
 
 msgid "issue boards"
@@ -8071,6 +8296,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "mrWidget| Please restore it or use a different %{missingBranchName} branch"
+msgstr ""
+
+msgid "mrWidget|%{link_start}Learn more about resolving conflicts%{link_end}"
 msgstr ""
 
 msgid "mrWidget|%{metricsLinkStart} Memory %{metricsLinkEnd} usage %{emphasisStart} decreased %{emphasisEnd} from %{memoryFrom}MB to %{memoryTo}MB"
@@ -8110,6 +8338,9 @@ msgid "mrWidget|Closes"
 msgstr ""
 
 msgid "mrWidget|Create an issue to resolve them later"
+msgstr ""
+
+msgid "mrWidget|Delete source branch"
 msgstr ""
 
 msgid "mrWidget|Deployment statistics are not available currently"
@@ -8172,12 +8403,6 @@ msgstr ""
 msgid "mrWidget|Refreshing now"
 msgstr ""
 
-msgid "mrWidget|Remove Source Branch"
-msgstr ""
-
-msgid "mrWidget|Remove source branch"
-msgstr ""
-
 msgid "mrWidget|Request to merge"
 msgstr ""
 
@@ -8211,25 +8436,28 @@ msgstr ""
 msgid "mrWidget|The source branch HEAD has recently changed. Please reload the page and review the changes before merging"
 msgstr ""
 
-msgid "mrWidget|The source branch has been removed"
+msgid "mrWidget|The source branch has been deleted"
 msgstr ""
 
 msgid "mrWidget|The source branch is %{commitsBehindLinkStart}%{commitsBehind}%{commitsBehindLinkEnd} the target branch"
 msgstr ""
 
-msgid "mrWidget|The source branch is being removed"
+msgid "mrWidget|The source branch is being deleted"
 msgstr ""
 
-msgid "mrWidget|The source branch will be removed"
+msgid "mrWidget|The source branch will be deleted"
 msgstr ""
 
-msgid "mrWidget|The source branch will not be removed"
+msgid "mrWidget|The source branch will not be deleted"
 msgstr ""
 
 msgid "mrWidget|There are merge conflicts"
 msgstr ""
 
 msgid "mrWidget|There are unresolved discussions. Please resolve these discussions"
+msgstr ""
+
+msgid "mrWidget|This feature merges changes from the target branch to the source branch. You cannot use this feature since the source branch is protected."
 msgstr ""
 
 msgid "mrWidget|This merge request failed to be merged automatically"
@@ -8244,10 +8472,10 @@ msgstr ""
 msgid "mrWidget|You are not allowed to edit this project directly. Please fork to make changes."
 msgstr ""
 
-msgid "mrWidget|You can merge this merge request manually using the"
+msgid "mrWidget|You can delete the source branch now"
 msgstr ""
 
-msgid "mrWidget|You can remove source branch now"
+msgid "mrWidget|You can merge this merge request manually using the"
 msgstr ""
 
 msgid "mrWidget|branch does not exist."
@@ -8288,6 +8516,9 @@ msgid "password"
 msgstr ""
 
 msgid "personal access token"
+msgstr ""
+
+msgid "private"
 msgstr ""
 
 msgid "project"

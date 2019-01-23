@@ -22,10 +22,10 @@ describe('CompareVersions', () => {
       const treeListBtn = vm.$el.querySelector('.js-toggle-tree-list');
 
       expect(treeListBtn).not.toBeNull();
-      expect(treeListBtn.dataset.originalTitle).toBe('Toggle file browser');
+      expect(treeListBtn.dataset.originalTitle).toBe('Hide file browser');
       expect(treeListBtn.querySelectorAll('svg use').length).not.toBe(0);
       expect(treeListBtn.querySelector('svg use').getAttribute('xlink:href')).toContain(
-        '#hamburger',
+        '#collapse-left',
       );
     });
 
@@ -97,6 +97,12 @@ describe('CompareVersions', () => {
       const comparableDiffsMock = diffsMockData.slice(1);
 
       expect(comparableDiffs).toEqual(comparableDiffsMock);
+    });
+  });
+
+  describe('baseVersionPath', () => {
+    it('should be set correctly from mergeRequestDiff', () => {
+      expect(vm.baseVersionPath).toEqual(vm.mergeRequestDiff.base_version_path);
     });
   });
 

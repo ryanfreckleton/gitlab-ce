@@ -284,6 +284,14 @@ class MergeRequest < ActiveRecord::Base
     work_in_progress?(title) ? title : "WIP: #{title}"
   end
 
+  def committers
+    @committers ||= commits.committers
+  end
+
+  def authors
+    User.from_union([committers, User.where(id: self.author_id)])
+  end
+
   # Verifies if title has changed not taking into account WIP prefix
   # for merge requests.
   def wipless_title_changed(old_title)
@@ -327,13 +335,15 @@ class MergeRequest < ActiveRecord::Base
   end
 
   def commits
-    if persisted?
-      merge_request_diff.commits
-    elsif compare_commits
-      compare_commits.reverse
-    else
-      []
-    end
+    return merge_request_diff.commits if persisted?
+
+    commits_arr = if compare_commits
+                    compare_commits.reverse
+                  else
+                    []
+                  end
+
+    CommitCollection.new(source_project, commits_arr, source_branch)
   end
 
   def commits_count
@@ -550,15 +560,19 @@ class MergeRequest < ActiveRecord::Base
   end
 
   def diff_refs
-    if persisted?
-      merge_request_diff.diff_refs
-    else
-      Gitlab::Diff::DiffRefs.new(
-        base_sha:  diff_base_sha,
-        start_sha: diff_start_sha,
-        head_sha:  diff_head_sha
-      )
-    end
+    persisted? ? merge_request_diff.diff_refs : repository_diff_refs
+  end
+
+  # Instead trying to fetch the
+  # persisted diff_refs, this method goes
+  # straight to the repository to get the
+  # most recent data possible.
+  def repository_diff_refs
+    Gitlab::Diff::DiffRefs.new(
+      base_sha:  branch_merge_base_sha,
+      start_sha: target_branch_sha,
+      head_sha:  source_branch_sha
+    )
   end
 
   def branch_merge_base_sha
@@ -1098,9 +1112,10 @@ class MergeRequest < ActiveRecord::Base
   end
 
   def update_head_pipeline
-    self.head_pipeline = find_actual_head_pipeline
-
-    update_column(:head_pipeline_id, head_pipeline.id) if head_pipeline_id_changed?
+    find_actual_head_pipeline.try do |pipeline|
+      self.head_pipeline = pipeline
+      update_column(:head_pipeline_id, head_pipeline.id) if head_pipeline_id_changed?
+    end
   end
 
   def merge_request_pipeline_exists?
