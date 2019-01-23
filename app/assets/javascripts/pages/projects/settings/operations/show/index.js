@@ -1,6 +1,6 @@
 // Similar to app/assets/javascripts/pages/groups/edit/index.js
-import store from './store';
-import mountProjectDropdown from '~/pages/projects/settings/operations/show/mount_project_dropdown';
+import store from '~/error_tracking_settings/store';
+import mountProjectDropdown from '~/error_tracking_settings';
 
 document.addEventListener('DOMContentLoaded', () => {
   mountProjectDropdown();
