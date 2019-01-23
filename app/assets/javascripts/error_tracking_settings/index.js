@@ -1,8 +1,8 @@
 // Similar to app/assets/javascripts/pages/shared/mount_badge_settings.js
 // TODO: move me
-import store from './store';
 import Vue from 'vue';
-import ProjectDropdown from '~/pages/projects/settings/operations/show/project_dropdown.vue';
+import store from './store';
+import ProjectDropdown from './components/project_dropdown.vue';
 
 export default () => {
   const containerEl = document.getElementById('vue-dropdown-placeholder');

@@ -12,7 +12,11 @@ export default {
     // TODO: Remove this when backend is hooked up
     if (true) {
       return setTimeout(() => {
-        dispatch('receiveLoadProjects', [{ id: '10', name: 'hello' }, { id: '11', name: 'hi' }]);
+        dispatch('receiveLoadProjects', [
+          { id: '10', name: 'Hello' },
+          { id: '11', name: 'Hi there' },
+          { id: '12', name: "I'm a project" },
+        ]);
       }, 2500);
     }
 
