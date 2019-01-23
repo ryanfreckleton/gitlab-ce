@@ -249,19 +249,29 @@ describe Clusters::Applications::Prometheus do
 
   describe '#upgrade_command' do
     let(:prometheus) { build(:clusters_applications_prometheus) }
-    let(:values) { prometheus.values }
+    let(:replaced_values) { nil }
 
     it 'returns an instance of Gitlab::Kubernetes::Helm::GetCommand' do
-      expect(prometheus.upgrade_command(values)).to be_an_instance_of(::Gitlab::Kubernetes::Helm::UpgradeCommand)
+      expect(prometheus.upgrade_command(replaced_values: replaced_values)).to be_an_instance_of(::Gitlab::Kubernetes::Helm::UpgradeCommand)
     end
 
     it 'should be initialized with 3 arguments' do
-      command = prometheus.upgrade_command(values)
+      command = prometheus.upgrade_command(replaced_values: replaced_values)
 
       expect(command.name).to eq('prometheus')
       expect(command.chart).to eq('stable/prometheus')
       expect(command.version).to eq('6.7.3')
       expect(command.files).to eq(prometheus.files)
+    end
+
+    context 'with replaced_values' do
+      let(:replaced_values) { {} }
+
+      it 'use the replaced values for values.yaml' do
+        command = prometheus.upgrade_command(replaced_values: replaced_values)
+
+        expect(command.files).to include('values.yaml': replaced_values)
+      end
     end
   end
 

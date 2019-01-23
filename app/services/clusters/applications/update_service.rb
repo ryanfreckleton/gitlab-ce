@@ -15,7 +15,7 @@ module Clusters
 
         begin
           app.make_updating!
-          helm_api.update(upgrade_command)
+          helm_api.update(upgrade_command(replaced_values: replaced_values))
 
           ::ClusterWaitForAppUpdateWorker.perform_in(::ClusterWaitForAppUpdateWorker::INTERVAL, app.name, app.id)
         rescue Kubeclient::HttpError => e

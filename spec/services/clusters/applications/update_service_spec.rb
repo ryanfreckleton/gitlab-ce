@@ -5,7 +5,7 @@ require 'spec_helper'
 describe Clusters::Applications::UpdateService do
   describe '#execute' do
     let(:application) { create(:clusters_applications_prometheus, :installed) }
-    let(:project) { application.cluster.project }
+    let(:project) { nil }
     let(:service) { described_class.new(application, project) }
     let(:helm_client) { instance_double(Gitlab::Kubernetes::Helm::Api) }
 
