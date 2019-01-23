@@ -648,6 +648,7 @@ gitlab:ui:visual:
     - compile-assets
   script:
     - cp public/assets/application-*.css application.css
+    - curl -X POST -F token=${GITLAB_UI_TRIGGER_TOKEN} -F ref=master https://gitlab.com/api/v4/projects/7071551/trigger/pipeline
   artifacts:
     paths:
       - application.css
