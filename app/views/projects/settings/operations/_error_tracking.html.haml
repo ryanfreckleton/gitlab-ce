@@ -27,7 +27,7 @@
             .clearfix
             -# TODO: figure out why form-control-inline gets overridden. Remove hardcoded style.
             = form.text_field :token, class: 'form-control form-control-inline', style: 'width: auto;'
-            .btn.btn-success.prepend-left-10
+            .btn.btn-success.prepend-left-10#js-error-tracking-connect
               = _('Connect')
             %p.form-text.text-muted
               = _('Find and manage Auth Tokens in your Sentry account settings page.')
