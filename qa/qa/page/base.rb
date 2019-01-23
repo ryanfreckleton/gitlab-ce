@@ -104,10 +104,6 @@ module QA
         find_element(name).set(content)
       end
 
-      def get_input_value(name)
-        find_element(name).value
-      end
-
       def select_element(name, value)
         element = find_element(name)
 

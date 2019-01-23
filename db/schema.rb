@@ -743,10 +743,10 @@ ActiveRecord::Schema.define(version: 20190124200344) do
     t.integer "cluster_project_id"
     t.datetime_with_timezone "created_at", null: false
     t.datetime_with_timezone "updated_at", null: false
-    t.text "encrypted_service_account_token"
     t.string "encrypted_service_account_token_iv"
     t.string "namespace", null: false
     t.string "service_account_name"
+    t.text "encrypted_service_account_token"
     t.index ["cluster_id", "namespace"], name: "kubernetes_namespaces_cluster_and_namespace", unique: true, using: :btree
     t.index ["cluster_id"], name: "index_clusters_kubernetes_namespaces_on_cluster_id", using: :btree
     t.index ["cluster_project_id"], name: "index_clusters_kubernetes_namespaces_on_cluster_project_id", using: :btree
@@ -831,8 +831,8 @@ ActiveRecord::Schema.define(version: 20190124200344) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "on_stop"
-    t.integer "status", limit: 2, null: false
     t.datetime_with_timezone "finished_at"
+    t.integer "status", limit: 2, null: false
     t.index ["created_at"], name: "index_deployments_on_created_at", using: :btree
     t.index ["deployable_type", "deployable_id"], name: "index_deployments_on_deployable_type_and_deployable_id", using: :btree
     t.index ["environment_id", "id"], name: "index_deployments_on_environment_id_and_id", using: :btree
@@ -1804,6 +1804,7 @@ ActiveRecord::Schema.define(version: 20190124200344) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["path"], name: "index_redirect_routes_on_path", unique: true, using: :btree
+    t.index ["path"], name: "index_redirect_routes_on_path_text_pattern_ops", using: :btree, opclasses: {"path"=>"varchar_pattern_ops"}
     t.index ["source_type", "source_id"], name: "index_redirect_routes_on_source_type_and_source_id", using: :btree
   end
 
@@ -1991,6 +1992,7 @@ ActiveRecord::Schema.define(version: 20190124200344) do
     t.text "from_content", null: false
     t.text "to_content", null: false
     t.index ["note_id", "relative_order"], name: "index_suggestions_on_note_id_and_relative_order", unique: true, using: :btree
+    t.index ["note_id"], name: "index_suggestions_on_note_id", using: :btree
   end
 
   create_table "system_note_metadata", force: :cascade do |t|

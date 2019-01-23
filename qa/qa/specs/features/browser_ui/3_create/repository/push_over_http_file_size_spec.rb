@@ -16,11 +16,8 @@ module QA
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
         Page::Main::Login.perform(&:sign_in_using_credentials)
 
-        # this creates a 15mb file which is approximately  2mb when compressed
         # need to create a new content otherwise it doesn't give error for the exactly same content files
-        # content = SecureRandom.hex(1000000)
-        @file_content = SecureRandom.hex(1000000)
-        # @file_content = content.unpack("B*")
+        @file_content = SecureRandom.hex(2000000)
       end
 
       after(:all) do
@@ -35,21 +32,14 @@ module QA
       it 'push successful when the file size is under the limit' do
         set_file_size_limit 5
         expect(page).to have_content "Application settings saved successfully"
-        # expect(get_file_size_limit).to eq('5')
-
-        @project.visit!
 
         push = push_new_file('oversize_file_1.bin')
-        puts push.output
-        expect(push.output).not_to have_content 'remote2: fatal: pack exceeds maximum allowed size'
+        expect(push.output).not_to have_content 'remote: fatal: pack exceeds maximum allowed size'
       end
 
       it 'push fails when the file size is above the limit' do
         set_file_size_limit 1
         expect(page).to have_content "Application settings saved successfully"
-        # expect(get_file_size_limit).to eq('1')
-
-        @project.visit!
 
         push = push_new_file('oversize_file_2.bin')
         expect(push.output).to have_content 'remote: fatal: pack exceeds maximum allowed size'
@@ -67,18 +57,9 @@ module QA
         end
       end
 
-      def get_file_size_limit
-        Page::Main::Menu.perform(&:go_to_admin_area)
-        Page::Admin::Menu.perform(&:go_to_general_settings)
-
-        Page::Admin::Settings::General.perform do |setting|
-          setting.expand_account_and_limit do |page|
-            page.max_file_size
-          end
-        end
-      end
-
       def push_new_file(file_name)
+        @project.visit!
+
         Resource::Repository::ProjectPush.fabricate! do |p|
           p.project = @project
           p.file_name = file_name
