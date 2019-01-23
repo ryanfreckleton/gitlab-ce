@@ -1,0 +1,2 @@
+FATAL:  lock file "postmaster.pid" already exists
+HINT:  Is another postmaster (PID 69145) running in data directory "/Users/mesut/Projects/gitlab-development-kit/postgresql/data"?
