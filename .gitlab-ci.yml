@@ -664,6 +664,7 @@ gitlab:assets:compile:
     - high-cpu
 
 gitlab:ui:visual:
+  before_script: []
   dependencies:
     - compile-assets
   script:
