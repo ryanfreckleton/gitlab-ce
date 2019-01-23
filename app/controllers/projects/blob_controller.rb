@@ -95,7 +95,8 @@ class Projects::BlobController < Projects::ApplicationController
 
     @form = UnfoldForm.new(params.to_unsafe_h)
 
-    @lines = @lines[@form.since - 1..@form.to - 1].map(&:html_safe)
+    @lines = @lines[@form.since - 1..@form.to - 1] unless @form.full?
+    @lines = @lines.map(&:html_safe)
 
     if @form.bottom?
       @match_line = ''

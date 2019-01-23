@@ -9,6 +9,7 @@ class UnfoldForm
   attribute :to, GtOneCoercion
   attribute :bottom, Boolean
   attribute :unfold, Boolean, default: true
+  attribute :full, Boolean, default: false
   attribute :offset, Integer
   attribute :indent, Integer, default: 0
 end
