@@ -84,6 +84,7 @@ class Project < ActiveRecord::Base
   default_value_for :wiki_enabled, gitlab_config_features.wiki
   default_value_for :snippets_enabled, gitlab_config_features.snippets
   default_value_for :only_allow_merge_if_all_discussions_are_resolved, false
+  default_value_for :visibility_level_changing, false
 
   add_authentication_token_field :runners_token, encrypted: true, migrating: true
 
@@ -94,6 +95,8 @@ class Project < ActiveRecord::Base
   after_save :update_project_statistics, if: :namespace_id_changed?
 
   after_save :create_import_state, if: ->(project) { project.import? && project.import_state.nil? }
+
+  before_save :leave_object_pool, if: :visibility_level_changed?
 
   after_create :create_project_feature, unless: :project_feature
 
@@ -125,6 +128,7 @@ class Project < ActiveRecord::Base
   attr_accessor :template_name
   attr_writer :pipeline_status
   attr_accessor :skip_disk_validation
+  attr_accessor :visibility_level_changing
 
   alias_attribute :title, :name
 
@@ -1786,7 +1790,7 @@ class Project < ActiveRecord::Base
   # Set repository as writable again
   def set_repository_writable!
     with_lock do
-      update_column(repository_read_only, false)
+      update_column(:repository_read_only, false)
     end
   end
 
@@ -2120,6 +2124,16 @@ class Project < ActiveRecord::Base
   def update_project_statistics
     stats = statistics || build_statistics
     stats.update(namespace_id: namespace_id)
+  end
+
+  def leave_object_pool
+    return if public? || pool_repository.nil?
+
+    self.visibility_level_changing = true
+
+    run_after_commit do
+      ObjectPool::LeaveWorker.perform_async(self.id, pool_repository_id, visibility_level, visibility_level_was)
+    end
   end
 
   def check_pending_delete

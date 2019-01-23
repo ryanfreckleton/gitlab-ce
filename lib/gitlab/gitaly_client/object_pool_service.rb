@@ -43,6 +43,13 @@ module Gitlab
         GitalyClient.call(storage, :object_pool_service, :unlink_repository_from_object_pool,
                           request, timeout: GitalyClient.fast_timeout)
       end
+
+      def reduplicate(repository)
+        request = Gitaly::ReduplicateRepositoryRequest.new(
+          repository: repository.gitaly_repository
+        )
+        GitalyClient.call(storage, :object_pool_service, :reduplicate_repository, request)
+      end
     end
   end
 end

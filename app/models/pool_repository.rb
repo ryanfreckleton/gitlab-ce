@@ -7,6 +7,8 @@ class PoolRepository < ActiveRecord::Base
   include Shardable
   include AfterCommitQueue
 
+  delegate :reduplicate, to: :object_pool
+
   has_one :source_project, class_name: 'Project'
   validates :source_project, presence: true
 

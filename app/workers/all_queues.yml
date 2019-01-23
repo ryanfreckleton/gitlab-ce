@@ -91,6 +91,7 @@
 - object_pool:object_pool_schedule_join
 - object_pool:object_pool_join
 - object_pool:object_pool_destroy
+- object_pool:object_pool_leave
 
 - container_repository:delete_container_repository
 - container_repository:cleanup_container_repository

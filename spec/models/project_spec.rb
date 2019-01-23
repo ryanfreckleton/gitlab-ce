@@ -4441,6 +4441,21 @@ describe Project do
     end
   end
 
+  describe '#leave_object_pool' do
+    let(:pool) { create(:pool_repository) }
+
+    context 'when project is public' do
+      let(:project) { create(:project, :repository, :public, pool_repository: pool) }
+
+      it 'removes the membership' do
+        project.visibility_level = Gitlab::VisibilityLevel::PRIVATE
+        project.save!
+
+        expect(pool.member_projects.reload).not_to include(project)
+      end
+    end
+  end
+
   describe '#check_personal_projects_limit' do
     context 'when creating a project for a group' do
       it 'does nothing' do
