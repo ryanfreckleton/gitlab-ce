@@ -31,29 +31,22 @@ export default {
   },
   data() {
     return {
-      list: [
-        { id: '0', value: 'GitLab.com Frontend' },
-        { id: '1', value: 'GitLab.com Backend' },
-        { id: '2', value: 'Gitaly' },
-        { id: '4', value: 'Omnibus' },
-      ],
       selected: '',
     };
   },
   computed: {
-    buttonText() {
+    // TODO: tidy up this logic
+    dropdownText() {
       if (this.selected === '' && this.initialProject) {
         return this.initialProject.name;
       }
-
       if (this.selected === '' && !this.initialProject) {
         return s__('Error Tracking|Select Project');
       }
-
-      return this.list.find(item => item.id === this.selected).value;
+      return this.$store.state.projects.find(item => item.id === this.selected).name;
     },
     disabled() {
-      return this.list.length === 0;
+      return this.$store.state.projects.length === 0;
     },
     errorText() {
       // TODO: read up on best way to handle translations with interpolation in JS
@@ -67,9 +60,11 @@ export default {
       return '';
     },
     valid() {
-      // TODO: handle the initial case
       // TODO: Disable saving the page when component is invalid
-      return this.list.findIndex(item => item.id === this.selected) > -1;
+      return (
+        this.$store.state.projects.length === 0 ||
+        this.$store.state.projects.findIndex(item => item.id === this.selected) > -1
+      );
     },
   },
   // TODO: Disable dropdown when projects haven't been loaded
@@ -93,7 +88,7 @@ export default {
     <!-- <div class="dropdown">
       <button class="dropdown-menu-toggle js-dropdown-toggle w-100" type="button">
         <span class="dropdown-toggle-text">
-          {{ buttonText }}
+          {{ dropdownText }}
           <icon :aria-label="__('Error Tracking|Select Project')" name="chevron-down"/>
         </span>
       </button>
@@ -112,15 +107,15 @@ export default {
       :disabled="disabled"
       menu-class="w-100 mw-100"
       toggle-class="dropdown-menu-toggle w-100 gl-field-error-outline"
-      :text="buttonText"
+      :text="dropdownText"
     >
       <gl-dropdown-item
-        v-for="item in list"
-        :key="item.id"
-        :value="item.id"
+        v-for="project in $store.state.projects"
+        :key="project.id"
+        :value="project.id"
         class="w-100"
         @click="handleClick"
-      >{{ item.value }}</gl-dropdown-item>
+      >{{ project.name }}</gl-dropdown-item>
     </gl-dropdown>
     <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
     <span class="gl-field-error-message">{{errorText}}</span>
