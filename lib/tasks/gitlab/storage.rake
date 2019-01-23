@@ -37,7 +37,7 @@ namespace :gitlab do
       print "Enqueuing migration of #{legacy_projects_count} projects in batches of #{helper.batch_size}"
 
       helper.project_id_batches do |start, finish|
-        storage_migrator.bulk_schedule(start: start, finish: finish)
+        storage_migrator.bulk_schedule_migration(start: start, finish: finish)
 
         print '.'
       end
@@ -82,7 +82,7 @@ namespace :gitlab do
       print "Enqueuing rollback of #{hashed_projects_count} projects in batches of #{helper.batch_size}"
 
       helper.project_id_batches do |start, finish|
-        storage_migrator.bulk_schedule(start: start, finish: finish, operation: :rollback)
+        storage_migrator.bulk_schedule_rollback(start: start, finish: finish)
 
         print '.'
       end
