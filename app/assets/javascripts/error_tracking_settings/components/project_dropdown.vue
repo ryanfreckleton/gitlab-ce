@@ -50,14 +50,14 @@ export default {
     },
     errorText() {
       // TODO: read up on best way to handle translations with interpolation in JS
-      if (!this.valid) {
-        return s__(
-          `Error Tracking|Project ${
-            this.initialProject.name
-          } is no longer available. Select another project to continue.`,
-        );
-      }
-      return '';
+      return s__(
+        `Error Tracking|Project ${
+          this.initialProject.name
+        } is no longer available. Select another project to continue.`,
+      );
+    },
+    helperText() {
+      return s__('Error Tracking|To enable project selection, enter a valid Auth Token');
     },
     valid() {
       // TODO: Disable saving the page when component is invalid
@@ -65,6 +65,9 @@ export default {
         this.$store.state.projects.length === 0 ||
         this.$store.state.projects.findIndex(item => item.id === this.selected) > -1
       );
+    },
+    showHelper() {
+      return this.$store.state.projects.length === 0;
     },
   },
   // TODO: Disable dropdown when projects haven't been loaded
@@ -118,6 +121,7 @@ export default {
       >{{ project.name }}</gl-dropdown-item>
     </gl-dropdown>
     <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
-    <span class="gl-field-error-message">{{errorText}}</span>
+    <span v-if="!valid" class="gl-field-error-message">{{errorText}}</span>
+    <span v-if="showHelper">{{helperText}}</span>
   </div>
 </template>
