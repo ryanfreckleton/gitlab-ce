@@ -1,13 +1,12 @@
 const BABEL_ENV = process.env.BABEL_ENV || process.env.NODE_ENV || null;
 
+const targets = BABEL_ENV === 'legacy' ? { ie: 11 } : { esmodules: true };
 const presets = [
   [
     '@babel/preset-env',
     {
       modules: false,
-      targets: {
-        ie: '11',
-      },
+      targets,
     },
   ],
 ];
