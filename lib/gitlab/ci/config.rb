@@ -8,13 +8,15 @@ module Gitlab
     class Config
       ConfigError = Class.new(StandardError)
 
+      attr_reader :root
+
       def initialize(config, project: nil, sha: nil, user: nil)
         @config = Config::Extendable
           .new(build_config(config, project: project, sha: sha, user: user))
           .to_hash
 
-        @global = Entry::Global.new(@config)
-        @global.compose!
+        @root = Entry::Root.new(@config)
+        @root.compose!
       rescue Gitlab::Config::Loader::FormatError,
              Extendable::ExtensionError,
              External::Processor::IncludeError => e
@@ -22,50 +24,54 @@ module Gitlab
       end
 
       def valid?
-        @global.valid?
+        @root.valid?
       end
 
       def errors
-        @global.errors
+        @root.errors
       end
 
       def to_hash
         @config
       end
 
+      def global
+        @root.global_value
+      end
+
       ##
       # Temporary method that should be removed after refactoring
       #
       def before_script
-        @global.before_script_value
+        global.before_script_value
       end
 
       def image
-        @global.image_value
+        global.image_value
       end
 
       def services
-        @global.services_value
+        global.services_value
       end
 
       def after_script
-        @global.after_script_value
+        global.after_script_value
       end
 
       def variables
-        @global.variables_value
+        global.variables_value
       end
 
       def stages
-        @global.stages_value
+        global.stages_value
       end
 
       def cache
-        @global.cache_value
+        global.cache_value
       end
 
       def jobs
-        @global.jobs_value
+        @root.jobs_value
       end
 
       private

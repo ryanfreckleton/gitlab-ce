@@ -133,7 +133,7 @@ module Gitlab
             return unless deps
 
             self.class.nodes.each_key do |key|
-              global_entry = deps[key]
+              global_entry = deps[:global][key]
               job_entry = self[key]
 
               if global_entry.specified? && !job_entry.specified?

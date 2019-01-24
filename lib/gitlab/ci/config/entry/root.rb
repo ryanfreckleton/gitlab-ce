@@ -8,8 +8,12 @@ module Gitlab
         # This class represents a global entry - root Entry for entire
         # GitLab CI Configuration file.
         #
-        class Global < ::Gitlab::Config::Entry::Node
+        class Root < ::Gitlab::Config::Entry::Node
           include ::Gitlab::Config::Entry::Configurable
+
+          entry :global, Entry::Global,
+            description: 'Global configuration.',
+            default: {}
 
           entry :before_script, Entry::Script,
             description: 'Script that will be executed before each job.'
@@ -35,41 +39,41 @@ module Gitlab
           entry :cache, Entry::Cache,
             description: 'Configure caching between build jobs.'
 
-          helpers :before_script, :image, :services, :after_script,
-                  :variables, :stages, :types, :cache
+          helpers :global, :jobs
 
-          def compose!(deps = nil)
+          def initialize(config, **metadata)
+            super
+
+            # Rewrite config hash
+            # to split it into a hash of `jobs`: the @jobs_config
+            # to split it into a hash of `non-jobs`: the @config
+            if @config.is_a?(Hash)
+              @jobs_config = @config.select { |key, hash| a_job?(hash) }
+              @config = @config.except(*@jobs_config.keys)
+            end
+          end
+
+          def compose!(_deps = nil)
             super(self) do
-              inherit!(deps)
-              compose_deprecated_entries!
+              compose_jobs!
             end
           end
 
           private
 
-          def inherit!(deps)
-            return unless deps
+          # rubocop: disable CodeReuse/ActiveRecord
+          def compose_jobs!
+            factory = ::Gitlab::Config::Entry::Factory.new(Entry::Jobs)
+              .value(@jobs_config)
+              .with(key: :jobs, parent: self,
+                    description: 'Jobs definition for this pipeline')
 
-            self.class.nodes.each_key do |key|
-              root_entry = deps[key]
-              global_entry = self[key]
-
-              if root_entry.specified? && !global_entry.specified?
-                @entries[key] = root_entry
-              end
-            end
+            @entries[:jobs] = factory.create!
           end
+          # rubocop: enable CodeReuse/ActiveRecord
 
-          def compose_deprecated_entries!
-            ##
-            # Deprecated `:types` key workaround - if types are defined and
-            # stages are not defined we use types definition as stages.
-            #
-            if types_defined? && !stages_defined?
-              @entries[:stages] = @entries[:types]
-            end
-
-            @entries.delete(:types)
+          def a_job?(hash)
+            hash.is_a?(Hash) && hash[:script].present?
           end
         end
       end
