@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   mountProjectDropdown();
 
   // Code to test things locally. TODO: Remove when server implementation is ready.
-  // store.dispatch('loadProjects', {});
 
   $(connectEl).on('click', () => {
     store.dispatch('loadProjects', {});

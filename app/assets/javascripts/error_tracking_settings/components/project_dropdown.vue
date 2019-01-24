@@ -1,6 +1,5 @@
 <script>
 // Similar to app/assets/javascripts/badges/components/badge.vue
-// TODO: Move Me
 
 import { s__ } from '~/locale';
 import Icon from '~/vue_shared/components/icon.vue';
@@ -56,9 +55,16 @@ export default {
     helperText() {
       return s__('Error Tracking|To enable project selection, enter a valid Auth Token');
     },
-    isProjectInvalid() {
+    isProjectListEmpty() {
+      return this.areProjectsLoaded && this.$store.state.projects.length === 0;
+    },
+    isValid() {
+      return this.isSelectedProjectInvalid || this.isProjectListEmpty;
+    },
+    isSelectedProjectInvalid() {
       // TODO: Disable saving the page when component is invalid
       return (
+        this.selected !== '' &&
         this.areProjectsLoaded &&
         this.$store.state.projects.findIndex(item => item.id === this.selected) === -1
       );
@@ -83,7 +89,7 @@ export default {
 </script>
 
 <template>
-  <div :class="[isProjectInvalid ? 'gl-show-field-errors' : '']">
+  <div :class="[isSelectedProjectInvalid ? 'gl-show-field-errors' : '']">
     <!-- Following: HTML-only boostrap dropdown menu, for comparison -->
     <!-- <div class="dropdown">
       <button class="dropdown-menu-toggle js-dropdown-toggle w-100" type="button">
@@ -104,7 +110,7 @@ export default {
       id="project_error_tracking_setting_attributes_project"
       name="project[error_tracking_setting_attributes][project]"
       class="w-100"
-      :disabled="!areProjectsLoaded"
+      :disabled="!areProjectsLoaded || isProjectListEmpty"
       menu-class="w-100 mw-100"
       toggle-class="dropdown-menu-toggle w-100 gl-field-error-outline"
       :text="dropdownText"
@@ -118,7 +124,7 @@ export default {
       >{{ project.name }}</gl-dropdown-item>
     </gl-dropdown>
     <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
-    <span v-if="isProjectInvalid" class="gl-field-error-message">{{errorText}}</span>
+    <span v-if="isSelectedProjectInvalid" class="gl-field-error-message">{{errorText}}</span>
     <span v-if="!areProjectsLoaded">{{helperText}}</span>
   </div>
 </template>

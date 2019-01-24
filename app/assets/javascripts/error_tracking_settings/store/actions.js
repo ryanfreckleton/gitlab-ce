@@ -18,6 +18,10 @@ export default {
       ]);
     }
 
+    if (true) {
+      return dispatch('receiveLoadProjects', []);
+    }
+
     const endpoint = data.apiEndpoitUrl;
     return axios.get(endpoint).then(res => {
       dispatch('receiveLoadProjects', res.data.map(transformBackendProject));
