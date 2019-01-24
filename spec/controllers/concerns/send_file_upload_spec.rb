@@ -76,7 +76,7 @@ describe SendFileUpload do
 
         it 'sends a file with a custom type' do
           headers = double
-          expected_headers = %r(response-content-disposition=attachment%3Bfilename%3D%22test.js%22&response-content-type=application/ecmascript)
+          expected_headers = /response-content-disposition=attachment%3Bfilename%3D%22test.js%22&response-content-type=application%2Fecmascript/
           expect(Gitlab::Workhorse).to receive(:send_url).with(expected_headers).and_call_original
           expect(headers).to receive(:store).with(Gitlab::Workhorse::SEND_DATA_HEADER, /^send-url:/)
 
