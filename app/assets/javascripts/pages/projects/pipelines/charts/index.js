@@ -2,9 +2,22 @@ import $ from 'jquery';
 import Chart from 'chart.js';
 
 const options = {
-  scaleOverlay: true,
   responsive: true,
   maintainAspectRatio: false,
+  legend: false,
+  tooltips: {
+    mode: 'x',
+    intersect: false,
+    multiKeyBackground: 'rgba(0,0,0,0)',
+    callbacks: {
+      labelColor(tooltipItem, _chart) {
+        return {
+          backgroundColor: _chart.config.data.datasets[tooltipItem.datasetIndex].backgroundColor,
+          borderColor:  'rgba(0,0,0,0)',
+        };
+      },
+    },
+  },
 };
 
 const buildChart = chartScope => {
@@ -12,18 +25,20 @@ const buildChart = chartScope => {
     labels: chartScope.labels,
     datasets: [
       {
-        fillColor: '#707070',
-        strokeColor: '#707070',
-        pointColor: '#707070',
-        pointStrokeColor: '#EEE',
-        data: chartScope.totalValues,
+        backgroundColor: '#1aaa55',
+        borderColor: '#1aaa55',
+        pointBackgroundColor: '#1aaa55',
+        pointBorderColor: '#fff',
+        data: chartScope.successValues,
+        fill: 'origin',
       },
       {
-        fillColor: '#1aaa55',
-        strokeColor: '#1aaa55',
-        pointColor: '#1aaa55',
-        pointStrokeColor: '#fff',
-        data: chartScope.successValues,
+        backgroundColor: '#707070',
+        borderColor: '#707070',
+        pointBackgroundColor: '#707070',
+        pointBorderColor: '#EEE',
+        data: chartScope.totalValues,
+        fill: '-1',
       },
     ],
   };
