@@ -45,9 +45,6 @@ export default {
       }
       return this.$store.state.projects.find(item => item.id === this.selected).name;
     },
-    disabled() {
-      return this.$store.state.projects.length === 0;
-    },
     errorText() {
       // TODO: read up on best way to handle translations with interpolation in JS
       return s__(
@@ -59,15 +56,15 @@ export default {
     helperText() {
       return s__('Error Tracking|To enable project selection, enter a valid Auth Token');
     },
-    valid() {
+    isProjectInvalid() {
       // TODO: Disable saving the page when component is invalid
       return (
-        this.$store.state.projects.length === 0 ||
-        this.$store.state.projects.findIndex(item => item.id === this.selected) > -1
+        this.areProjectsLoaded &&
+        this.$store.state.projects.findIndex(item => item.id === this.selected) === -1
       );
     },
-    showHelper() {
-      return this.$store.state.projects.length === 0;
+    areProjectsLoaded() {
+      return this.$store.state.projects !== null;
     },
   },
   // TODO: Disable dropdown when projects haven't been loaded
@@ -86,7 +83,7 @@ export default {
 </script>
 
 <template>
-  <div :class="[valid ? '' : 'gl-show-field-errors']">
+  <div :class="[isProjectInvalid ? 'gl-show-field-errors' : '']">
     <!-- Following: HTML-only boostrap dropdown menu, for comparison -->
     <!-- <div class="dropdown">
       <button class="dropdown-menu-toggle js-dropdown-toggle w-100" type="button">
@@ -107,7 +104,7 @@ export default {
       id="project_error_tracking_setting_attributes_project"
       name="project[error_tracking_setting_attributes][project]"
       class="w-100"
-      :disabled="disabled"
+      :disabled="!areProjectsLoaded"
       menu-class="w-100 mw-100"
       toggle-class="dropdown-menu-toggle w-100 gl-field-error-outline"
       :text="dropdownText"
@@ -121,7 +118,7 @@ export default {
       >{{ project.name }}</gl-dropdown-item>
     </gl-dropdown>
     <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
-    <span v-if="!valid" class="gl-field-error-message">{{errorText}}</span>
-    <span v-if="showHelper">{{helperText}}</span>
+    <span v-if="isProjectInvalid" class="gl-field-error-message">{{errorText}}</span>
+    <span v-if="!areProjectsLoaded">{{helperText}}</span>
   </div>
 </template>
