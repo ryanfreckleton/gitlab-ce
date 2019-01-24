@@ -31,7 +31,11 @@ const buildChart = chartScope => {
     .get(0)
     .getContext('2d');
 
-  new Chart(ctx).Line(data, options);
+  new Chart(ctx, {
+    type: 'line',
+    data,
+    options,
+  });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -56,11 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
     options.scaleFontSize = 8;
   }
 
-  new Chart(
-    $('#build_timesChart')
-      .get(0)
-      .getContext('2d'),
-  ).Bar(data, options);
+  // new Chart(
+  //   $('#build_timesChart')
+  //     .get(0)
+  //     .getContext('2d'),
+  //   {
+  //     type: 'bar',
+  //     data,
+  //     options,
+  //   },
+  // );
 
   chartsData.forEach(scope => buildChart(scope));
 });
