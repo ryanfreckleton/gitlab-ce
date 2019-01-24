@@ -15,7 +15,8 @@ describe 'Projects > Settings > For a forked project', :js do
   describe 'Settings > Operations' do
     context 'when the error tracking feature flag is enabled' do
       it 'renders with the error tracking settings expanded by default' do
-        visit project_path(project) + '/settings/operations' # TODO: find out the blessed way for url concatenation
+        visit project_settings_operations_path(project)
+
         wait_for_requests
 
         expect(page).to have_selector('h4', text: _("Error Tracking"))
@@ -23,7 +24,8 @@ describe 'Projects > Settings > For a forked project', :js do
       end
 
       it 'collapses the error tracking settings' do
-        visit project_path(project) + '/settings/operations' # TODO: find out the blessed way for url concatenation
+        visit project_settings_operations_path(project)
+
         wait_for_requests
 
         find('button.js-settings-toggle').click
