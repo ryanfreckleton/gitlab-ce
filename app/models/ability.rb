@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# another useless comment
 
 require_dependency 'declarative_policy'
 
