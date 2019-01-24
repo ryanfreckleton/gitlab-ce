@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'Projects > Settings > For a forked project', :js do
+describe 'Projects > Settings', :js do
   let(:user) { create(:user) }
   let(:project) { create(:project, :repository) }
   let(:role) { :maintainer }
