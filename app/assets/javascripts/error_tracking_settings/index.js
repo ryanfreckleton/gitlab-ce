@@ -28,6 +28,7 @@ export default () => {
       return createElement(ProjectDropdown, {
         props: {
           initialProject: this.project,
+          // initialProject: null, // TODO: remove when test data exists
         },
       });
     },
