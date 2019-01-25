@@ -1,7 +1,8 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 import DiffViewer from '~/vue_shared/components/diff_viewer/diff_viewer.vue';
-import EmptyFileViewer from '~/vue_shared/components/diff_viewer/viewers/empty_file.vue';
+import NotDiffablViewer from '~/vue_shared/components/diff_viewer/viewers/not_diffable.vue';
+import NoPreviewViewer from '~/vue_shared/components/diff_viewer/viewers/no_preview.vue';
 import InlineDiffView from './inline_diff_view.vue';
 import ParallelDiffView from './parallel_diff_view.vue';
 import NoteForm from '../../notes/components/note_form.vue';
@@ -19,7 +20,8 @@ export default {
     NoteForm,
     DiffDiscussions,
     ImageDiffOverlay,
-    EmptyFileViewer,
+    NotDiffablViewer,
+    NoPreviewViewer,
   },
   props: {
     diffFile: {
@@ -103,12 +105,8 @@ export default {
           :help-page-path="helpPagePath"
         />
       </template>
-      <div v-else-if="noPreview" class="nothing-here-block">
-        {{ __('No preview for this file type') }}
-      </div>
-      <div v-else-if="notDiffable" class="nothing-here-block">
-        {{ __('This diff was suppressed by a .gitattributes entry') }}
-      </div>
+      <not-diffable-viewer v-else-if="notDiffable" />
+      <no-review-viewer v-else-if="noPreview" />
       <diff-viewer
         v-else
         :diff-mode="diffMode"
