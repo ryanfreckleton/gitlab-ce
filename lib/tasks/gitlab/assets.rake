@@ -5,7 +5,7 @@ namespace :gitlab do
       'yarn:check',
       'gettext:po_to_json',
       'rake:assets:precompile',
-      'webpack:compile',
+      'webpack',
       'fix_urls'
     ]
 
@@ -17,6 +17,16 @@ namespace :gitlab do
 
     desc 'GitLab | Assets | Uninstall frontend dependencies'
     task purge_modules: ['yarn:clobber']
+
+    desc 'GitLab | Assets | Compile webpack assets'
+    task :webpack do
+      # temporarily force legacy support when building for production
+      ENV["BABEL_ENV"] ||= 'legacy' if ENV["NODE_ENV"] == 'production'
+
+      sh "yarn run webpack" do |ok, res|
+        abort('rake gitlab:assets:webpack failed') unless ok
+      end
+    end
 
     desc 'GitLab | Assets | Fix all absolute url references in CSS'
     task :fix_urls do
