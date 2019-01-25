@@ -1,6 +1,7 @@
 - return unless can?(current_user, :read_environment, @project)
 
 - setting = error_tracking_setting
+- p list_projects_namespace_project_error_tracking_index_url(@project)
 
 %section.settings.expanded.border-0.no-animate
   .settings-header
@@ -27,7 +28,7 @@
             .clearfix
             -# TODO: figure out why form-control-inline gets overridden. Remove hardcoded style.
             = form.text_field :token, class: 'form-control form-control-inline', style: 'width: auto;'
-            .btn.btn-success.prepend-left-10#js-error-tracking-connect
+            .btn.btn-success.prepend-left-10#js-error-tracking-list-projects{ data: { list_projects_endpoint: list_projects_namespace_project_error_tracking_index_url(@project) } }
               = _('Connect')
             %p.form-text.text-muted
               = _('Find and manage Auth Tokens in your Sentry account settings page.')
