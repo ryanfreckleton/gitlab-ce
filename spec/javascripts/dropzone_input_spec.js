@@ -25,7 +25,11 @@ describe('dropzone_input', () => {
 
     xhr = jasmine.createSpyObj(Object.keys(XMLHttpRequest.prototype));
     oldXMLHttpRequest = window.XMLHttpRequest;
-    window.XMLHttpRequest = () => xhr;
+    window.XMLHttpRequest = class XMLHttpRequest {
+      constructor() {
+        return xhr;
+      }
+    };
   });
 
   afterEach(() => {
