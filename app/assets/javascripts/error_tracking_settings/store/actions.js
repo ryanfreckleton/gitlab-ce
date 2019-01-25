@@ -12,11 +12,18 @@ export default {
     console.log('data', data);
     // TODO: Remove this when backend is hooked up
 
-    return axios.post(data.listProjectsEndpoint).then(res => {
-      console.log('status', res.status);
-      console.log('data', res.data);
-      dispatch('receiveLoadProjects', res.data.map(transformBackendProject));
-    });
+    return axios
+      .post(data.listProjectsEndpoint, {
+        error_tracking_setting: {
+          api_host: '<url here>',
+          token: '<token here>',
+        },
+      })
+      .then(res => {
+        console.log('status', res.status);
+        console.log('data', res.data);
+        dispatch('receiveLoadProjects', res.data.map(transformBackendProject));
+      });
 
     // if (true) {
     //   return dispatch('receiveLoadProjects', [
