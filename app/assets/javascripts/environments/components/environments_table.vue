@@ -23,7 +23,6 @@ export default {
       required: false,
       default: false,
     },
-
   },
   methods: {
     folderUrl(model) {
