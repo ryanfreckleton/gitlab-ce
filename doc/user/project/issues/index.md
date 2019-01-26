@@ -115,4 +115,3 @@ For more information, see [Crosslinking Issues](crosslinking_issues.md).
 - [Issues API](../../../api/issues.md)
 - Configure an [external issue tracker](../../../integration/external-issue-tracker.md) such as Jira, Redmine,
 or Bugzilla.
-
