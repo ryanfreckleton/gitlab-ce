@@ -10,13 +10,10 @@ Issues are always associated with a specific project, but if you have multiple p
 
 **Common use cases include:**
 
-* Discussing the implementation of a new idea
-
-* Tracking tasks and work status
-
-* Accepting feature proposals, questions, support requests, or bug reports
-
-* Elaborating new code implementations
+- Discussing the implementation of a new idea
+- Tracking tasks and work status
+- Accepting feature proposals, questions, support requests, or bug reports
+- Elaborating new code implementations
 
 See also the blog post "[Always start a discussion with an issue](https://about.gitlab.com/2016/03/03/start-with-an-issue/)".
 
@@ -105,15 +102,15 @@ For more information, see [Crosslinking Issues](crosslinking_issues.md).
 
 ## Issue actions
 
-* [Create an issue](create_new_issue.md) 
-* [Create an issue from a template](../project/description_templates.md#using-the-templates) 
-* [Close an issue](closing_issues.md)
-* [Move an issue](moving_issues.md)
-* [Delete an issue](deleting_issues.md)
-* [Create a merge request from an issue](issues_functionalities.md#18-new-merge-request)
+- [Create an issue](create_new_issue.md) 
+- [Create an issue from a template](../project/description_templates.md#using-the-templates) 
+- [Close an issue](closing_issues.md)
+- [Move an issue](moving_issues.md)
+- [Delete an issue](deleting_issues.md)
+- [Create a merge request from an issue](issues_functionalities.md#18-new-merge-request)
 
 ## Advanced issue management
 
-* [Bulk edit issues](../bulk_editing.md) - From the Issues List, select multiple issues in order to change their status, assignee, milestone, or labels in bulk.
-* [Import](csv_import.md) or [Export](csv_export.md) Issues 
-* [Issues API](../../../api/issues.md)
+- [Bulk edit issues](../bulk_editing.md) - From the Issues List, select multiple issues in order to change their status, assignee, milestone, or labels in bulk.
+- [Import](csv_import.md) or [Export](csv_export.md) Issues 
+- [Issues API](../../../api/issues.md)
