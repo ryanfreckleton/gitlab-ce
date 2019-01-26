@@ -1,12 +1,16 @@
 # Issues
 
+Issues are the fundamental medium for collaborating on ideas and planning work in GitLab.
+
 ## Overview
 
 The GitLab Issue Tracker is an advanced tool for collaboratively developing ideas, solving problems, and planning work.
 
-It allows you, your team, and your collaborators to share and discuss proposals before and during their implementation.
+Issues can allow you, your team, and your collaborators to share and discuss proposals before and during their implementation.
+However, they can be used for a variety of other purposes, customized to your needs and workflow.
 
-Issues are always associated with a specific project, but if you have multiple projects in a group, you can also view their issues collectively at the group level.
+Issues are always associated with a specific project, but if you have multiple projects in a group,
+you can also view all the issues collectively at the group level.
 
 **Common use cases include:**
 
@@ -49,7 +53,6 @@ Issues contain a variety of content and metadata, enabling a large range of flex
 <li>Unique issue number and URL</li></ul></td>
   </tr>
 </table>
-
 
 ## Viewing and managing Issues
 
