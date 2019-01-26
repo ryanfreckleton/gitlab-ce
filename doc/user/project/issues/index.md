@@ -26,32 +26,46 @@ See also the blog post "[Always start a discussion with an issue](https://about.
 Issues contain a variety of content and metadata, enabling a large range of flexibility in how they are used. Each issue can contain the following attributes, though some items may remain unset.
 
 <table>
-  <tr>
+<tr>
     <td>
-       <ul><li>Content</li>
-<ul><li>Title</li>
-<li>Description and tasks</li>
-<li>Comments and other activity</li></ul>
-<li>People</li>
-<ul><li>Author</li>
-<li>Assignee(s)</li></ul>
-<li>State</li>
-<ul><li>Status (open/closed)</li>
-<li>Confidentiality</li>
-<li>Tasks (completed vs. outstanding)</li></ul></ul></td>
+        <ul>
+            <li>Content</li>
+            <ul>
+                <li>Title</li>
+                <li>Description and tasks</li>
+                <li>Comments and other activity</li>
+            </ul>
+            <li>People</li>
+            <ul>
+                <li>Author</li>
+                <li>Assignee(s)</li>
+            </ul>
+            <li>State</li>
+            <ul>
+                <li>Status (open/closed)</li>
+                <li>Confidentiality</li>
+                <li>Tasks (completed vs. outstanding)</li>
+            </ul>
+        </ul>
+    </td>
     <td>
-       <ul><li>Planning and Tracking</li>
-<ul><li>Milestone</li>
-<li>Due Date</li>
-<li>Weight</li>
-<li>Time Tracking</li>
-<li>Labels</li>
-<li>Votes</li>
-<li>Reaction emoji</li>
-<li>Linked issues</li>
-<li>Epic membership</li>
-<li>Unique issue number and URL</li></ul></td>
-  </tr>
+        <ul>
+            <li>Planning and Tracking</li>
+            <ul>
+                <li>Milestone</li>
+                <li>Due Date</li>
+                <li>Weight</li>
+                <li>Time Tracking</li>
+                <li>Labels</li>
+                <li>Votes</li>
+                <li>Reaction emoji</li>
+                <li>Linked issues</li>
+                <li>Epic membership</li>
+                <li>Unique issue number and URL</li>
+            </ul>
+       </ul>
+    </td>
+</tr>
 </table>
 
 ## Viewing and managing Issues
