@@ -76,7 +76,7 @@ While you can view and manage the full detail of an issue at its URL, you can al
 
 ![Issue view](img/issues_main_view.png)
 
-On an issue’s page, you can view all aspects of the issue, and you can also modify them if you you have the necessary [permissions](../../../permissions.md).
+On an issue’s page, you can view all aspects of the issue, and you can also modify them if you you have the necessary [permissions](../permissions.md).
 
 For more information, see the [Issue Functionalities](issues_functionalities.md) page.
 
@@ -84,7 +84,7 @@ For more information, see the [Issue Functionalities](issues_functionalities.md)
 
 ![Project issues list view](img/project_issues_list_view.png)
 
-On the Issues List, you can view all issues in the current project, or from multiple projects when opening the Issues List from the higher-level group context. Filter the issue list by [any search query](,,/../search/index.md#issues-and-merge-requests-per-project) and/or specific metadata, such as label(s), assignees(s), status, and more. From this view, you can also make certain changes [in bulk](../bulk_editing.md) to the displayed issues.
+On the Issues List, you can view all issues in the current project, or from multiple projects when opening the Issues List from the higher-level group context. Filter the issue list by [any search query](../../search/index.md#issues-and-merge-requests-per-project) and/or specific metadata, such as label(s), assignees(s), status, and more. From this view, you can also make certain changes [in bulk](../bulk_editing.md) to the displayed issues.
 
 For more information, see the [Issue Functioinalities](issues_functionalities.md) page.
 
@@ -102,13 +102,13 @@ For more information, see the [Issue Boards](../issue_board.md) page.
 
 Epics let you manage your portfolio of projects more efficiently and with less effort by tracking groups of issues that share a theme, across projects and milestones.
 
-For more information, see the [Epics](../../group/epics/index.md) page.
+For more information, see the [Epics](https://docs.gitlab.com/ee/user/group/epics/) page.
 
 ### Related Issues **[STARTER]**
 
 You can mark two issues as related, so that when viewing each one, the other is always listed in its Related Issues section. This can help display important context, such as past work, dependencies, or duplicates.
 
-For more information, see [Related Issues](related_issues.md).
+For more information, see [Related Issues](https://docs.gitlab.com/ee/user/project/issues/related_issues.html).
 
 ### Crosslinking Issues
 
@@ -128,7 +128,7 @@ For more information, see [Crosslinking Issues](crosslinking_issues.md).
 ## Advanced issue management
 
 - [Bulk edit issues](../bulk_editing.md) - From the Issues List, select multiple issues in order to change their status, assignee, milestone, or labels in bulk.
-- [Import](csv_import.md) or [Export](csv_export.md) **[STARTER]** Issues 
+- [Import](csv_import.md) or [Export](https://docs.gitlab.com/ee/user/project/issues/csv_export.html) **[STARTER]** Issues 
 - [Issues API](../../../api/issues.md)
 - Configure an [external issue tracker](../../../integration/external-issue-tracker.md) such as Jira, Redmine,
 or Bugzilla.
