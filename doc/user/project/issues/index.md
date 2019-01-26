@@ -76,7 +76,7 @@ While you can view and manage the full detail of an issue at its URL, you can al
 
 ![Issue view](img/issues_main_view.png)
 
-On an issue’s page, you can view all aspects of the issue, and you can also modify them if you you have the necessary [permissions](../permissions.md).
+On an issue’s page, you can view all aspects of the issue, and you can also modify them if you you have the necessary [permissions](../../permissions.md).
 
 For more information, see the [Issue Functionalities](issues_functionalities.md) page.
 
