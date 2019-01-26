@@ -61,14 +61,13 @@ While you can view and manage the full detail of an issue at its URL, you can al
 
 On an issue’s page, you can view all aspects of the issue, and you can also modify them if you you have the necessary [permissions](../../../permissions.md).
 
-For more information, see the Issue Boards page.
+For more information, see the [Issue Functionalities](issues_functionalities.md) page.
 
 ### Issues list
 
 ![Project issues list view](img/project_issues_list_view.png)
 
-
-On the Issues List, you can view all issues in the current project, or from multiple projects when opening the Issues List from the higher-level group context. Filter the issue list by any search query and/or specific meta, such as label(s), assignees(s), and much more. From this view, you can also make certain changes in bulk to the displayed issues.
+On the Issues List, you can view all issues in the current project, or from multiple projects when opening the Issues List from the higher-level group context. Filter the issue list by [any search query](,,/../search/index.md#issues-and-merge-requests-per-project) and/or specific metadata, such as label(s), assignees(s), status, and more. From this view, you can also make certain changes [in bulk](../bulk_editing.md) to the displayed issues.
 
 For more information, see the [Issue Functioinalities](issues_functionalities.md) page.
 
@@ -76,7 +75,7 @@ For more information, see the [Issue Functioinalities](issues_functionalities.md
 
 ![Issue board](img/issue_board.png)
 
-Issue boards are Kanban boards with columns that display issues based on their labels or assignees. They offer the flexibility to manage issues using highly customizable workflows.
+Issue boards are Kanban boards with columns that display issues based on their labels or their assignees**[PREMIUM]**. They offer the flexibility to manage issues using highly customizable workflows.
 
 You can reorder issues within a column, or drag an issue to another column; its associated label or assignee will change to match that of the new column. The entire board can also be filtered to only include issues from a certain milestone or an overarching label.
 
@@ -88,13 +87,13 @@ Epics let you manage your portfolio of projects more efficiently and with less e
 
 For more information, see the [Epics](../../group/epics/index.md) page.
 
-### Related Issues
+### Related Issues **[STARTER]**
 
-You can mark two issues as related, so that when viewing either one, the other is always listed in its Related Issues section. This can help you and others view important context, such as past work, dependencies, or duplicates.
+You can mark two issues as related, so that when viewing each one, the other is always listed in its Related Issues section. This can help display important context, such as past work, dependencies, or duplicates.
 
 For more information, see [Related Issues](related_issues.md).
 
-Crosslinking Issues
+### Crosslinking Issues
 
 When you reference an issue from another issue or merge request by including its URL or ID, the referenced issue displays a message in the Activity stream about the reference, with a link to the other issue or MR.
 
@@ -103,7 +102,7 @@ For more information, see [Crosslinking Issues](crosslinking_issues.md).
 ## Issue actions
 
 - [Create an issue](create_new_issue.md) 
-- [Create an issue from a template](../project/description_templates.md#using-the-templates) 
+- [Create an issue from a template](../../project/description_templates.md#using-the-templates) 
 - [Close an issue](closing_issues.md)
 - [Move an issue](moving_issues.md)
 - [Delete an issue](deleting_issues.md)
@@ -112,5 +111,8 @@ For more information, see [Crosslinking Issues](crosslinking_issues.md).
 ## Advanced issue management
 
 - [Bulk edit issues](../bulk_editing.md) - From the Issues List, select multiple issues in order to change their status, assignee, milestone, or labels in bulk.
-- [Import](csv_import.md) or [Export](csv_export.md) Issues 
+- [Import](csv_import.md) or [Export](csv_export.md) **[STARTER]** Issues 
 - [Issues API](../../../api/issues.md)
+- Configure an [external issue tracker](../../../integration/external-issue-tracker.md) such as Jira, Redmine,
+or Bugzilla.
+
