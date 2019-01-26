@@ -1084,7 +1084,7 @@ into similar problems in the future (e.g. when new tables are created).
       #
       # This is a helper method for converting int4 PKs (and corresponding FK columns)
       # to int8 in Postgres. An index on `new_column` must exist.
-      def int4_to_int8_copy(table, old_column, new_column, chunk_size = 500)
+      def int4_to_int8_copy(table, old_column, new_column, upper_boarder, chunk_size = 500)
         bar = ProgressBar.create(:total => 100)
         i = 0
         loop do
@@ -1096,7 +1096,10 @@ into similar problems in the future (e.g. when new tables are created).
                 select #{old_column}
                 from #{table}
                 where
-                  #{old_column} > coalesce((select max(#{new_column}) from #{table}), 0)
+                  #{old_column} > coalesce(
+                    (select max(#{new_column} from #{table} where #{new_column} < #{upper_boarder}),
+                    0
+                  )
                 order by id limit #{chunk_size;}
               )
               returning #{new_column}

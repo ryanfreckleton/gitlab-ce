@@ -35,6 +35,17 @@ class Int4PkStage1Step5of5 < ActiveRecord::Migration[5.0]
       SQL
       remove_rename_triggers_for_postgresql(:events, :_int4_to_int8)
       remove_column :events, :id_old
+
+      execute <<-SQL.strip_heredoc
+        do $$
+        begin
+          execute format(
+            e'alter database %I reset int4_to_int8.events.id;',
+            current_database()
+          );
+        end;
+        $$ language plpgsql;
+      SQL
     end
   end
 
