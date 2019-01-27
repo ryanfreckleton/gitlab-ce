@@ -15,7 +15,7 @@ class Int4PkStage1Step3of5 < ActiveRecord::Migration[5.0]
       # Process existing rowsi (~300M for GitLab.com) in batches
       # If it fails, this step can be repeated again, the processing will
       # automatically continue from the position where it failed.
-      # Total time estimate for GitLab.com: ~33 hours
+      # Total time estimate for GitLab.com: ~11.5 hours
       int4_to_int8_copy("events", "id", "id_new", upper_boarder)
     end
   end
