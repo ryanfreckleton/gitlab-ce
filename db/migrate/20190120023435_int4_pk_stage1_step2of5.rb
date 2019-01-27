@@ -9,9 +9,11 @@ class Int4PkStage1Step2of5 < ActiveRecord::Migration[5.0]
 
   def up
     if Gitlab::Database.postgresql?
-      if index_exists_by_name?(:events, :events_id_new_idx)
-        remove_concurrent_index_by_name(:events_id_new_idx)
-      end
+      # drop invalid index if there were a failed attempt to run it already
+      # the method checks itself if the index exists
+      remove_concurrent_index_by_name(:events_id_new_idx)
+
+      # time estimate for GitLab.com: 422s (~7 min)
       add_concurrent_index(:events, :id_new, unique: true, name: :events_id_new_idx)
     end
   end

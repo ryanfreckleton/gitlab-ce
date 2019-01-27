@@ -10,15 +10,15 @@ class Int4PkStage1Step1of5 < ActiveRecord::Migration[5.0]
       add_column(:events, :id_new, :bigint)
       install_rename_triggers_for_postgresql(:_int4_to_int8, :events, :id, :id_new, 'INSERT')
       execute <<-SQL.strip_heredoc
-        do $$
+        do $do$
         begin
           execute format(
-            e'alter database %I set int4_to_int8.events.id = \'%s\';',
+            $sql$ alter database %I set int4_to_int8.events.id = '%s'; $sql$,
             current_database(),
             (select id from events where id_new is null order by id desc limit 1)
           );
         end;
-        $$ language plpgsql;
+        $do$ language plpgsql;
       SQL
 
       execute <<-SQL.strip_heredoc

@@ -1097,7 +1097,7 @@ into similar problems in the future (e.g. when new tables are created).
                 from #{table}
                 where
                   #{old_column} > coalesce(
-                    (select max(#{new_column} from #{table} where #{new_column} < #{upper_boarder}),
+                    (select max(#{new_column}) from #{table} where #{new_column} < #{upper_boarder}),
                     0
                   )
                 order by id limit #{chunk_size;}
@@ -1115,11 +1115,10 @@ into similar problems in the future (e.g. when new tables are created).
             ;
           SQL
           i = i + 1
-          if i % 1000 == 0
+          if i % 10 == 0
             Rails.logger.info("!! #{table}, i: #{i}, last updated value: #{res[0]['last_updated_value'].to_s}" + (" " * 20))
             Rails.logger.info("Run 'manual' VACUUM ANALYZE for table #{table}")
-            execute "set vacuum_cost_limit to 2000; set vacuum_cost_delay to 0;" # more aggressive vacuum
-            execute "vacuum analyze #{table}"
+            #execute "vacuum analyze #{table}"
           end
           break if not (res[0]['rows_updated'].to_i > 0)
           bar.total = res[0]['max_existing_value'].to_i
