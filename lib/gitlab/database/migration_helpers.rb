@@ -1100,6 +1100,7 @@ into similar problems in the future (e.g. when new tables are created).
                     (select max(#{new_column}) from #{table} where #{new_column} < #{upper_boarder}),
                     0
                   )
+                  and #{old_column} < #{upper_boarder}
                 order by id limit #{chunk_size}
               )
               returning #{new_column}
