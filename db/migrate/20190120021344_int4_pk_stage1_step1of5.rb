@@ -21,9 +21,7 @@ class Int4PkStage1Step1of5 < ActiveRecord::Migration[5.0]
         $do$ language plpgsql;
       SQL
 
-      execute <<-SQL.strip_heredoc
-        alter table public.events set (autovacuum_enabled = false);
-      SQL
+      #execute "alter table public.events set (autovacuum_enabled = false);"
     end
   end
 

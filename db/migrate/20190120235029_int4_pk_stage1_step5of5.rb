@@ -30,9 +30,8 @@ class Int4PkStage1Step5of5 < ActiveRecord::Migration[5.0]
         alter sequence events_id_seq owned by events.id;
       SQL
 
-      execute <<-SQL.strip_heredoc
-        alter table events set (autovacuum_enabled = true);
-      SQL
+      #execute "alter table public.events set (autovacuum_enabled = false);"
+
       remove_rename_triggers_for_postgresql(:events, :_int4_to_int8)
       remove_column :events, :id_old
 

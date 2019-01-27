@@ -1118,7 +1118,7 @@ into similar problems in the future (e.g. when new tables are created).
           i = i + 1
           if i % 1000 == 0
             Rails.logger.info("!! #{table}, i: #{i}, last updated value: #{res[0]['last_updated_value'].to_s}" + (" " * 20))
-            Rails.logger.info("Run 'manual' VACUUM for table #{table}")
+            #Rails.logger.info("Run 'manual' VACUUM for table #{table}")
             #execute "vacuum #{table}"
           end
           break if not (res[0]['rows_updated'].to_i > 0)
@@ -1127,8 +1127,8 @@ into similar problems in the future (e.g. when new tables are created).
           bar.progress = res[0]['last_updated_value'].to_i
         end
         Rails.logger.info("Run 'manual' VACUUM ANALYZE for table #{table}")
-        execute "vacuum analyze #{table}"
-        Rails.logger.info("Table #{table} processed, iterations: #{i}, chunk size: #{chunk_size}.")
+        #execute "vacuum analyze #{table}"
+        #Rails.logger.info("Table #{table} processed, iterations: #{i}, chunk size: #{chunk_size}.")
       end
     end
   end
