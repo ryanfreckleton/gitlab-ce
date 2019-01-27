@@ -9,6 +9,7 @@ class Int4PkStage1Step1of5 < ActiveRecord::Migration[5.0]
     if Gitlab::Database.postgresql?
       add_column(:events, :id_new, :bigint)
       install_rename_triggers_for_postgresql(:_int4_to_int8, :events, :id, :id_new, 'INSERT')
+
       execute <<-SQL.strip_heredoc
         do $do$
         begin
@@ -27,6 +28,17 @@ class Int4PkStage1Step1of5 < ActiveRecord::Migration[5.0]
 
   def down
     if Gitlab::Database.postgresql?
+      execute <<-SQL.strip_heredoc
+        do $$
+        begin
+          execute format(
+            e'alter database %I reset int4_to_int8.events.id;',
+            current_database()
+          );
+        end;
+        $$ language plpgsql;
+      SQL
+
       remove_rename_triggers_for_postgresql(:events, :_int4_to_int8)
       remove_column(:events, :id_new)
     end
