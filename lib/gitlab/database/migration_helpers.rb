@@ -1084,7 +1084,7 @@ into similar problems in the future (e.g. when new tables are created).
       #
       # This is a helper method for converting int4 PKs (and corresponding FK columns)
       # to int8 in Postgres. An index on `new_column` must exist.
-      def int4_to_int8_copy(table, old_column, new_column, upper_boarder, chunk_size = 500)
+      def int4_to_int8_copy(table, old_column, new_column, upper_boarder, chunk_size = 2000)
         bar = ProgressBar.create(:total => 100)
         i = 0
         loop do
@@ -1100,7 +1100,7 @@ into similar problems in the future (e.g. when new tables are created).
                     (select max(#{new_column}) from #{table} where #{new_column} < #{upper_boarder}),
                     0
                   )
-                order by id limit #{chunk_size;}
+                order by id limit #{chunk_size}
               )
               returning #{new_column}
             )
@@ -1115,16 +1115,18 @@ into similar problems in the future (e.g. when new tables are created).
             ;
           SQL
           i = i + 1
-          if i % 10 == 0
+          if i % 1000 == 0
             Rails.logger.info("!! #{table}, i: #{i}, last updated value: #{res[0]['last_updated_value'].to_s}" + (" " * 20))
-            Rails.logger.info("Run 'manual' VACUUM ANALYZE for table #{table}")
-            #execute "vacuum analyze #{table}"
+            Rails.logger.info("Run 'manual' VACUUM for table #{table}")
+            #execute "vacuum #{table}"
           end
           break if not (res[0]['rows_updated'].to_i > 0)
           bar.total = res[0]['max_existing_value'].to_i
           bar.format("Processing #{table}: %w> (rate: %R)")
           bar.progress = res[0]['last_updated_value'].to_i
         end
+        Rails.logger.info("Run 'manual' VACUUM ANALYZE for table #{table}")
+        execute "vacuum analyze #{table}"
         Rails.logger.info("Table #{table} processed, iterations: #{i}, chunk size: #{chunk_size}.")
       end
     end
