@@ -73,6 +73,8 @@ You need to create a file named `.gitlab-ci.yml` in the root directory of your
 repository. Below is an example for a Ruby on Rails project.
 
 ```yaml
+image: "ruby:2.5"
+
 before_script:
   - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev nodejs
   - ruby -v
@@ -130,6 +132,8 @@ NOTE: **Note:**
 If you have a [mirrored repository where GitLab pulls from](https://docs.gitlab.com/ee/workflow/repository_mirroring.html#pulling-from-a-remote-repository),
 you may need to enable pipeline triggering in your project's
 **Settings > Repository > Pull from a remote repository > Trigger pipelines for mirror updates**.
+Please keep in mind that only project Maintainers and Admin users have
+the permissions to access a project settings.
 
 You can also go to the **Commits** page and notice the little pause icon next
 to the commit SHA.
@@ -161,7 +165,8 @@ Find more information about different Runners in the
 [Runners](../runners/README.md) documentation.
 
 You can find whether any Runners are assigned to your project by going to
-**Settings ➔ CI/CD**. Setting up a Runner is easy and straightforward. The
+**Settings ➔ CI/CD**. Please keep in mind that only project Maintainers and Admin users have
+the permissions to access a project settings. Setting up a Runner is easy and straightforward. The
 official Runner supported by GitLab is written in Go and its documentation
 can be found at <https://docs.gitlab.com/runner/>.
 
@@ -174,7 +179,8 @@ Follow the links above to set up your own Runner or use a Shared Runner as
 described in the next section.
 
 Once the Runner has been set up, you should see it on the Runners page of your
-project, following **Settings ➔ CI/CD**.
+project, following **Settings ➔ CI/CD**. Please keep in mind that only project
+Maintainers and Admin users have the permissions to access a project settings.
 
 ![Activated runners](img/runners_activated.png)
 
@@ -187,7 +193,9 @@ These are special virtual machines that run on GitLab's infrastructure and can
 build any project.
 
 To enable the **Shared Runners** you have to go to your project's
-**Settings ➔ CI/CD** and click **Enable shared runners**.
+**Settings ➔ CI/CD** and click **Enable shared runners**. Please keep in mind
+that only project Maintainers and Admin users have the permissions to access
+a project settings.
 
 [Read more on Shared Runners](../runners/README.md).
 
