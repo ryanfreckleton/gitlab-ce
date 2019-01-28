@@ -1219,7 +1219,7 @@ into similar problems in the future (e.g. when new tables are created).
           end
           break if not (res[0]['rows_updated'].to_i > 0)
           bar.total = res[0]['max_existing_value'].to_i
-          bar.ormat("Processing #{table}: %w> (rate: %R)")
+          bar.format("Processing #{table}: %w> (rate: %R)")
           bar.progress = res[0]['last_updated_value'].to_i
         end
         say_with_time("Table #{table} processed, iterations: #{i}, chunk size: #{chunk_size}.")
