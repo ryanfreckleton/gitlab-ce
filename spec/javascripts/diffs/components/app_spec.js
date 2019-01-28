@@ -1,5 +1,6 @@
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { GlLoadingIcon } from '@gitlab/ui';
 import { TEST_HOST } from 'spec/test_constants';
 import App from '~/diffs/components/app.vue';
 import NoChanges from '~/diffs/components/no_changes.vue';
@@ -47,6 +48,21 @@ describe('diffs/components/app', () => {
 
     // reset component
     vm.destroy();
+  });
+
+  it('displays loading icon on loading', () => {
+    createComponent({}, () => {
+      store.state.diffs.isLoading = true;
+    });
+
+    expect(vm.contains(GlLoadingIcon)).toBe(true);
+  });
+
+  it('displays diffs container when not loading', () => {
+    createComponent();
+
+    expect(vm.contains(GlLoadingIcon)).toBe(false);
+    expect(vm.contains('#diffs')).toBe(true);
   });
 
   it('does not show commit info', () => {
