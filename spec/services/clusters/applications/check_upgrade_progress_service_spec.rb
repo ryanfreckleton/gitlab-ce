@@ -10,14 +10,19 @@ describe Clusters::Applications::CheckUpgradeProgressService do
   let(:service) { described_class.new(application) }
   let(:phase) { ::Gitlab::Kubernetes::Pod::UNKNOWN }
   let(:errors) { nil }
+  let(:worker_class) { ClusterWaitForAppUpdateWorker }
 
-  shared_examples 'a not yet terminated upgrade' do |a_phase|
+  shared_examples 'a not yet terminated pod phase' do |a_phase|
     let(:phase) { a_phase }
+
+    before do
+      expect(service).to receive(:phase).once.and_return(phase)
+    end
 
     context "when phase is #{a_phase}" do
       context 'when not timed out' do
         it 'reschedule a new check' do
-          expect(::ClusterWaitForAppUpdateWorker).to receive(:perform_in).once
+          expect(worker_class).to receive(:perform_in).once
           expect(service).not_to receive(:remove_pod)
 
           service.execute
@@ -31,7 +36,7 @@ describe Clusters::Applications::CheckUpgradeProgressService do
         let(:application) { create(:clusters_applications_prometheus, :timeouted, :updating) }
 
         it 'make the application update errored' do
-          expect(::ClusterWaitForAppUpdateWorker).not_to receive(:perform_in)
+          expect(worker_class).not_to receive(:perform_in)
 
           service.execute
 
@@ -43,15 +48,16 @@ describe Clusters::Applications::CheckUpgradeProgressService do
   end
 
   before do
-    allow(service).to receive(:phase).once.and_return(phase)
-
-    allow(service).to receive(:errors).and_return(errors)
     allow(service).to receive(:remove_pod).and_return(nil)
   end
 
   describe '#execute' do
     context 'when upgrade pod succeeded' do
       let(:phase) { ::Gitlab::Kubernetes::Pod::SUCCEEDED }
+
+      before do
+        expect(service).to receive(:phase).once.and_return(phase)
+      end
 
       it 'removes the upgrade pod' do
         expect(service).to receive(:remove_pod).once
@@ -60,7 +66,7 @@ describe Clusters::Applications::CheckUpgradeProgressService do
       end
 
       it 'make the application upgraded' do
-        expect(::ClusterWaitForAppUpdateWorker).not_to receive(:perform_in)
+        expect(worker_class).not_to receive(:perform_in)
 
         service.execute
 
@@ -73,6 +79,10 @@ describe Clusters::Applications::CheckUpgradeProgressService do
       let(:phase) { ::Gitlab::Kubernetes::Pod::FAILED }
       let(:errors) { 'test installation failed' }
 
+      before do
+        expect(service).to receive(:phase).once.and_return(phase)
+      end
+
       it 'make the application update errored' do
         service.execute
 
@@ -81,7 +91,7 @@ describe Clusters::Applications::CheckUpgradeProgressService do
       end
     end
 
-    RESCHEDULE_PHASES.each { |phase| it_behaves_like 'a not yet terminated upgrade', phase }
+    RESCHEDULE_PHASES.each { |phase| it_behaves_like 'a not yet terminated pod phase', phase }
 
     context 'when upgrade raises a Kubeclient::HttpError' do
       let(:cluster) { create(:cluster, :provided_by_user, :project) }

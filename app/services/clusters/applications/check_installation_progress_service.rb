@@ -3,10 +3,13 @@
 module Clusters
   module Applications
     class CheckInstallationProgressService < BaseHelmService
+      INTERVAL = 10.seconds
+      TIMEOUT = 20.minutes
+
       def execute
         return unless app.installing?
 
-        case installation_phase
+        case phase
         when Gitlab::Kubernetes::Pod::SUCCEEDED
           on_success
         when Gitlab::Kubernetes::Pod::FAILED
@@ -19,43 +22,41 @@ module Clusters
         app.make_errored!("Kubernetes error: #{e.error_code}") unless app.errored?
       end
 
+      def pod_name
+        install_command.pod_name
+      end
+
       private
 
       def on_success
         app.make_installed!
       ensure
-        remove_installation_pod
+        remove_pod
       end
 
       def on_failed
-        app.make_errored!("Installation failed. Check pod logs for #{install_command.pod_name} for more details.")
+        app.make_errored!("Installation failed. Check pod logs for #{pod_name} for more details.")
       end
 
       def check_timeout
         if timeouted?
-          begin
-            app.make_errored!("Installation timed out. Check pod logs for #{install_command.pod_name} for more details.")
-          end
+          app.make_errored!("Installation timed out. Check pod logs for #{pod_name} for more details.")
         else
           ClusterWaitForAppInstallationWorker.perform_in(
-            ClusterWaitForAppInstallationWorker::INTERVAL, app.name, app.id)
+            INTERVAL, app.name, app.id)
         end
       end
 
       def timeouted?
-        Time.now.utc - app.updated_at.to_time.utc > ClusterWaitForAppInstallationWorker::TIMEOUT
+        Time.now.utc - app.updated_at.to_time.utc > TIMEOUT
       end
 
-      def remove_installation_pod
-        helm_api.delete_pod!(install_command.pod_name)
+      def remove_pod
+        helm_api.delete_pod!(pod_name)
       end
 
-      def installation_phase
-        helm_api.status(install_command.pod_name)
-      end
-
-      def installation_errors
-        helm_api.log(install_command.pod_name)
+      def phase
+        helm_api.status(pod_name)
       end
     end
   end

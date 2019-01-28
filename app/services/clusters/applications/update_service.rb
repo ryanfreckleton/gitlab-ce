@@ -5,6 +5,8 @@ module Clusters
     class UpdateService < BaseHelmService
       attr_accessor :project
 
+      INTERVAL = 10.seconds
+
       def initialize(app, project)
         super(app)
         @project = project
@@ -17,7 +19,7 @@ module Clusters
           app.make_updating!
           helm_api.update(upgrade_command(replaced_values: replaced_values))
 
-          ::ClusterWaitForAppUpdateWorker.perform_in(::ClusterWaitForAppUpdateWorker::INTERVAL, app.name, app.id)
+          ::ClusterWaitForAppUpdateWorker.perform_in(INTERVAL, app.name, app.id)
         rescue Kubeclient::HttpError => e
           log_error(e)
           app.make_update_errored!("Kubernetes error: #{e.error_code}")

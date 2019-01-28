@@ -3,6 +3,8 @@
 module Clusters
   module Applications
     class InstallService < BaseHelmService
+      INTERVAL = 10.seconds
+
       def execute
         return unless app.scheduled?
 
@@ -11,7 +13,7 @@ module Clusters
           helm_api.install(install_command)
 
           ClusterWaitForAppInstallationWorker.perform_in(
-            ClusterWaitForAppInstallationWorker::INTERVAL, app.name, app.id)
+            INTERVAL, app.name, app.id)
         rescue Kubeclient::HttpError => e
           log_error(e)
           app.make_errored!("Kubernetes error: #{e.error_code}")
