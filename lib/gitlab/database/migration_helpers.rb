@@ -737,7 +737,7 @@ module Gitlab
       # Performs a concurrent column rename when using PostgreSQL.
       def install_rename_triggers_for_postgresql(trigger, table, old, new, action = 'INSERT OR UPDATE')
         execute <<-EOF.strip_heredoc
-        CREATE OR REPLACE FUNCTION #{trigger}()
+        CREATE OR REPLACE FUNCTION t_#{table}__#{trigger}()
         RETURNS trigger AS
         $BODY$
         BEGIN
@@ -754,7 +754,7 @@ module Gitlab
         BEFORE #{action}
         ON #{table}
         FOR EACH ROW
-        EXECUTE PROCEDURE #{trigger}()
+        EXECUTE PROCEDURE t_#{table}__#{trigger}()
         EOF
       end
 
@@ -781,7 +781,7 @@ module Gitlab
       # Removes the triggers used for renaming a PostgreSQL column concurrently.
       def remove_rename_triggers_for_postgresql(table, trigger)
         execute("DROP TRIGGER IF EXISTS #{trigger} ON #{table}")
-        execute("DROP FUNCTION IF EXISTS #{trigger}()")
+        execute("DROP FUNCTION IF EXISTS t_#{table}__#{trigger}()")
       end
 
       # Removes the triggers used for renaming a MySQL column concurrently.
@@ -1079,15 +1079,44 @@ into similar problems in the future (e.g. when new tables are created).
         Gitlab::Database.mysql? ? 20 : nil
       end
 
+      # Remember the maximum value of the "old" column before filling the "old" column.
+      def int4_to_int8_remember_max_value(table, old_column, new_column)
+        execute <<-SQL.strip_heredoc
+          do $do$
+          begin
+            execute format(
+              $sql$ alter database %I set rename_triggers.#{table}.#{old_column} = '%s'; $sql$,
+              current_database(),
+              (select #{old_column} from #{table} where #{new_column} is null order by #{old_column} desc limit 1)
+            );
+          end;
+          $do$ language plpgsql;
+        SQL
+      end
+
+      def int4_to_int8_forget_max_value(table, old_column)
+        execute <<-SQL.strip_heredoc
+          do $$
+          begin
+            execute format(
+              e'alter database %I reset int4_to_int8.#{table}.#{old_column};',
+              current_database()
+            );
+          end;
+          $$ language plpgsql;
+        SQL
+      end
+
       # Copies values from `old_column` to `new_column`, processing only `chunk_size` rows
-      # and reporting progress.
+      # and reporting progress. PostgreSQL only.
       #
       # This is a helper method for converting int4 PKs (and corresponding FK columns)
       # to int8 in Postgres. An index on `new_column` must exist.
-      def int4_to_int8_copy(table, old_column, new_column, upper_boarder, chunk_size = 2000)
+      def int4_to_int8_copy_postgresql(table, old_column, new_column, chunk_size = 2000)
         bar = ProgressBar.create(:total => 100)
         i = 0
         loop do
+          upper_border = connection.select_value("select current_setting('int4_to_int8.#{table}.#{old_column}')")
           res = execute <<-SQL.strip_heredoc
             with upd as (
               update #{table}
@@ -1097,7 +1126,7 @@ into similar problems in the future (e.g. when new tables are created).
                 from #{table}
                 where
                   #{old_column} > coalesce(
-                    (select max(#{new_column}) from #{table} where #{new_column} < #{upper_boarder}),
+                    (select max(#{new_column}) from #{table} where #{new_column} < #{upper_border}),
                     0
                   )
                   and #{old_column} < #{upper_boarder}
@@ -1117,18 +1146,18 @@ into similar problems in the future (e.g. when new tables are created).
           SQL
           i = i + 1
           if i % 1000 == 0
-            Rails.logger.info("!! #{table}, i: #{i}, last updated value: #{res[0]['last_updated_value'].to_s}" + (" " * 20))
-            #Rails.logger.info("Run 'manual' VACUUM for table #{table}")
+            say_with_time("int4→int8 table: #{table}, iteration: #{i}, last updated value: #{res[0]['last_updated_value'].to_s}" + (" " * 20))
+            #say_with_time("Run 'manual' VACUUM for table #{table}")
             #execute "vacuum #{table}"
           end
           break if not (res[0]['rows_updated'].to_i > 0)
           bar.total = res[0]['max_existing_value'].to_i
-          bar.format("Processing #{table}: %w> (rate: %R)")
+          bar.ormat("Processing #{table}: %w> (rate: %R)")
           bar.progress = res[0]['last_updated_value'].to_i
         end
-        Rails.logger.info("Run 'manual' VACUUM ANALYZE for table #{table}")
+        say_with_time("Table #{table} processed, iterations: #{i}, chunk size: #{chunk_size}.")
+        say_with_time("Run 'manual' VACUUM ANALYZE for table #{table}")
         #execute "vacuum analyze #{table}"
-        #Rails.logger.info("Table #{table} processed, iterations: #{i}, chunk size: #{chunk_size}.")
       end
     end
   end

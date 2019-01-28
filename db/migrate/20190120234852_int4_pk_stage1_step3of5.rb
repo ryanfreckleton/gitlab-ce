@@ -9,14 +9,16 @@ class Int4PkStage1Step3of5 < ActiveRecord::Migration[5.0]
   disable_ddl_transaction!
 
   def up
-    upper_boarder = connection.select_value("select current_setting('int4_to_int8.events.id')")
 
     if Gitlab::Database.postgresql?
-      # Process existing rowsi (~300M for GitLab.com) in batches
+      # Process existing rows (~300M for GitLab.com) in batches
       # If it fails, this step can be repeated again, the processing will
       # automatically continue from the position where it failed.
       # Total time estimate for GitLab.com: ~11.5 hours
-      int4_to_int8_copy("events", "id", "id_new", upper_boarder)
+      int4_to_int8_copy("events", "id", "id_new")
+
+      #
+      int4_to_int8_copy("push_event_payloads", "event_id", "event_id_new")
     end
   end
 

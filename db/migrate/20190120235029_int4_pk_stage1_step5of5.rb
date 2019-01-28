@@ -32,27 +32,19 @@ class Int4PkStage1Step5of5 < ActiveRecord::Migration[5.0]
 
       #execute "alter table public.events set (autovacuum_enabled = false);"
 
-      remove_rename_triggers_for_postgresql(:events, :_int4_to_int8)
+      remove_rename_triggers_for_postgresql(:events, 'int4_to_int8')
       remove_column :events, :id_old
 
-      execute <<-SQL.strip_heredoc
-        do $$
-        begin
-          execute format(
-            e'alter database %I reset int4_to_int8.events.id;',
-            current_database()
-          );
-        end;
-        $$ language plpgsql;
-      SQL
+      int4_to_int8_forget_max_value(:events, :id)
     end
   end
 
   def down
     if Gitlab::Database.postgresql?
-      change_column(:events, :id, :integer, :limit => 4) # TODO: improve this
+      change_column(:events, :id, :integer, :limit => 4) # Very slow on large tables
       add_column(:events, :id_new, :bigint)
-      install_rename_triggers_for_postgresql(:_int4_to_int8, :events, :id, :id_new, 'INSERT')
+      install_rename_triggers_for_postgresql('int4_to_int8', :events, :id, :id_new, 'INSERT')
+      int4_to_int8_remember_max_value(:events, :id, :id_new)
 
       execute <<-SQL.strip_heredoc
         alter table events add constraint id_new_not_null check (id_new is not null) not valid;
