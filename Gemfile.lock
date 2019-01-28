@@ -769,6 +769,8 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     rubocop-gitlab-security (0.1.1)
       rubocop (>= 0.51)
+    rubocop-i18n (2.0.0)
+      rubocop (~> 0.51)
     rubocop-rspec (1.22.2)
       rubocop (>= 0.52.1)
     ruby-enum (0.7.2)
@@ -1132,6 +1134,7 @@ DEPENDENCIES
   rspec_junit_formatter
   rspec_profiling (~> 0.0.5)
   rubocop (~> 0.54.0)
+  rubocop-i18n (~> 2.0)
   rubocop-rspec (~> 1.22.1)
   ruby-fogbugz (~> 0.2.1)
   ruby-prof (~> 0.17.0)
