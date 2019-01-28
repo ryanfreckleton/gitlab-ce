@@ -27,7 +27,7 @@
   %hr
   .card
     .card-header
-      Current Status:
+      = _('Current Status:')
       - if no_errors
         = icon('circle', class: 'cgreen')
         #{ s_('HealthCheck|Healthy') }

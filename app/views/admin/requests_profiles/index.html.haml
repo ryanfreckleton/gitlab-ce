@@ -1,14 +1,12 @@
 - @no_container = true
-- page_title 'Requests Profiles'
+- page_title _('Requests Profiles')
 
 %div{ class: container_class }
   %h3.page-title
     = page_title
 
   .bs-callout.clearfix
-    Pass the header
-    %code X-Profile-Token: #{@profile_token}
-    to profile the request
+    = _('Pass the header <code>X-Profile-Token: %{profile_token}</code> to profile the request').html_safe % { profile_token: @profile_token }
 
   - if @profiles.present?
     .prepend-top-default
@@ -22,4 +20,4 @@
                 = link_to profile.time.to_s(:long), admin_requests_profile_path(profile)
   - else
     %p
-      No profiles found
+      = _('No profiles found')

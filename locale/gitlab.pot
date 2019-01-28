@@ -117,6 +117,9 @@ msgid_plural "%{count} participants"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%{cpu_count} cores"
+msgstr ""
+
 msgid "%{filePath} deleted"
 msgstr ""
 
@@ -361,6 +364,9 @@ msgid "Active"
 msgstr ""
 
 msgid "Active Sessions"
+msgstr ""
+
+msgid "Active Users"
 msgstr ""
 
 msgid "Activity"
@@ -1230,6 +1236,9 @@ msgstr ""
 msgid "CONTRIBUTING"
 msgstr ""
 
+msgid "CPU"
+msgstr ""
+
 msgid "Callback URL"
 msgstr ""
 
@@ -2039,6 +2048,9 @@ msgstr ""
 msgid "CompareBranches|There isn't anything to compare."
 msgstr ""
 
+msgid "Components"
+msgstr ""
+
 msgid "Confidential"
 msgstr ""
 
@@ -2070,6 +2082,9 @@ msgid "Connect repositories from GitHub"
 msgstr ""
 
 msgid "Container Registry"
+msgstr ""
+
+msgid "Container Registry: status %{status}"
 msgstr ""
 
 msgid "ContainerRegistry|Created"
@@ -2310,6 +2325,9 @@ msgid "Cron syntax"
 msgstr ""
 
 msgid "Current Branch"
+msgstr ""
+
+msgid "Current Status:"
 msgstr ""
 
 msgid "CurrentUser|Profile"
@@ -2651,6 +2669,9 @@ msgid "Discuss a specific suggestion or question"
 msgstr ""
 
 msgid "Discuss a specific suggestion or question that needs to be resolved"
+msgstr ""
+
+msgid "Disk Usage"
 msgstr ""
 
 msgid "Dismiss"
@@ -3130,6 +3151,9 @@ msgstr ""
 msgid "Faster as it re-uses the project workspace (falling back to clone if it doesn't exist)"
 msgstr ""
 
+msgid "Features"
+msgstr ""
+
 msgid "Feb"
 msgstr ""
 
@@ -3328,6 +3352,12 @@ msgstr ""
 msgid "GitHub import"
 msgstr ""
 
+msgid "GitLab"
+msgstr ""
+
+msgid "GitLab API"
+msgstr ""
+
 msgid "GitLab CI Linter has been moved"
 msgstr ""
 
@@ -3337,13 +3367,28 @@ msgstr ""
 msgid "GitLab Import"
 msgstr ""
 
+msgid "GitLab Pages"
+msgstr ""
+
+msgid "GitLab Pages: status %{status}"
+msgstr ""
+
 msgid "GitLab Shared Runners execute code of different projects on the same Runner unless you configure GitLab Runner Autoscale with MaxBuilds 1 (which it is on GitLab.com)."
+msgstr ""
+
+msgid "GitLab Shell"
 msgstr ""
 
 msgid "GitLab User"
 msgstr ""
 
+msgid "GitLab Workhorse"
+msgstr ""
+
 msgid "GitLab project export"
+msgstr ""
+
+msgid "GitLab uses the %{link_start}sidekiq%{link_end} library for asyc job processing"
 msgstr ""
 
 msgid "GitLab.com import"
@@ -3398,6 +3443,12 @@ msgid "Grant access"
 msgstr ""
 
 msgid "Graph"
+msgstr ""
+
+msgid "Gravatar"
+msgstr ""
+
+msgid "Gravatar: status %{status}"
 msgstr ""
 
 msgid "Group"
@@ -3482,6 +3533,9 @@ msgid "Groups can also be nested by creating %{subgroup_docs_link_start}subgroup
 msgstr ""
 
 msgid "Groups with access to <strong>%{project_name}</strong>"
+msgstr ""
+
+msgid "Groups:"
 msgstr ""
 
 msgid "GroupsDropdown|Frequently visited"
@@ -3966,6 +4020,12 @@ msgstr ""
 msgid "Kubernetes service integration has been deprecated. %{deprecated_message_content} your Kubernetes clusters using the new <a href=\"%{url}\"/>Kubernetes Clusters</a> page"
 msgstr ""
 
+msgid "LDAP"
+msgstr ""
+
+msgid "LDAP: status %{status}"
+msgstr ""
+
 msgid "LFS"
 msgstr ""
 
@@ -4052,7 +4112,16 @@ msgstr ""
 msgid "Latest changes"
 msgstr ""
 
+msgid "Latest groups"
+msgstr ""
+
 msgid "Latest pipeline for this branch"
+msgstr ""
+
+msgid "Latest projects"
+msgstr ""
+
+msgid "Latest users"
 msgstr ""
 
 msgid "Learn more"
@@ -4145,6 +4214,9 @@ msgid "Locked"
 msgstr ""
 
 msgid "Locked to current projects"
+msgstr ""
+
+msgid "Log"
 msgstr ""
 
 msgid "Logs"
@@ -4268,6 +4340,9 @@ msgid "Members can be added by project <i>Maintainers</i> or <i>Owners</i>"
 msgstr ""
 
 msgid "Members of <strong>%{project_name}</strong>"
+msgstr ""
+
+msgid "Memory Usage"
 msgstr ""
 
 msgid "Merge Request"
@@ -4572,6 +4647,9 @@ msgstr ""
 msgid "New tag"
 msgstr ""
 
+msgid "New user"
+msgstr ""
+
 msgid "New..."
 msgstr ""
 
@@ -4644,6 +4722,9 @@ msgstr ""
 msgid "No prioritised labels with such name or description"
 msgstr ""
 
+msgid "No profiles found"
+msgstr ""
+
 msgid "No public groups"
 msgstr ""
 
@@ -4693,6 +4774,9 @@ msgid "Note: As an administrator you may like to configure %{github_integration_
 msgstr ""
 
 msgid "Note: Consider asking your GitLab administrator to configure %{github_integration_link}, which will allow login via GitHub and allow importing repositories without generating a Personal Access Token."
+msgstr ""
+
+msgid "Notes"
 msgstr ""
 
 msgid "Notes|Are you sure you want to cancel creating this comment?"
@@ -4795,6 +4879,12 @@ msgid "October"
 msgstr ""
 
 msgid "OfSearchInADropdown|Filter"
+msgstr ""
+
+msgid "OmniAuth"
+msgstr ""
+
+msgid "OmniAuth: status %{status}"
 msgstr ""
 
 msgid "One more item"
@@ -4902,6 +4992,9 @@ msgid "Pagination|« First"
 msgstr ""
 
 msgid "Part of merge request changes"
+msgstr ""
+
+msgid "Pass the header <code>X-Profile-Token: %{profile_token}</code> to profile the request"
 msgstr ""
 
 msgid "Password"
@@ -5573,6 +5666,9 @@ msgstr ""
 msgid "Projects that belong to a group are prefixed with the group namespace. Existing projects may be moved into a group."
 msgstr ""
 
+msgid "Projects:"
+msgstr ""
+
 msgid "ProjectsDropdown|Frequently visited"
 msgstr ""
 
@@ -5708,6 +5804,9 @@ msgstr ""
 msgid "README"
 msgstr ""
 
+msgid "Rails"
+msgstr ""
+
 msgid "Read more"
 msgstr ""
 
@@ -5813,6 +5912,12 @@ msgid "Rename file"
 msgstr ""
 
 msgid "Rename folder"
+msgstr ""
+
+msgid "Reply by email"
+msgstr ""
+
+msgid "Reply by email: status %{status}"
 msgstr ""
 
 msgid "Reply to this email directly or %{view_it_on_gitlab}."
@@ -5967,6 +6072,9 @@ msgstr ""
 msgid "Revoke"
 msgstr ""
 
+msgid "Ruby"
+msgstr ""
+
 msgid "Run untagged jobs"
 msgstr ""
 
@@ -6055,6 +6163,9 @@ msgid "Scheduling Pipelines"
 msgstr ""
 
 msgid "Scope"
+msgstr ""
+
+msgid "Scroll down"
 msgstr ""
 
 msgid "Scroll down to <strong>Google Code Project Hosting</strong> and enable the switch on the right."
@@ -6339,6 +6450,9 @@ msgstr ""
 msgid "Shared Runners"
 msgstr ""
 
+msgid "Shared Runners: status %{status}"
+msgstr ""
+
 msgid "Shared projects"
 msgstr ""
 
@@ -6384,6 +6498,12 @@ msgid "Sign in via 2FA code"
 msgstr ""
 
 msgid "Sign out"
+msgstr ""
+
+msgid "Sign up"
+msgstr ""
+
+msgid "Sign up: status %{status}"
 msgstr ""
 
 msgid "Sign-in restrictions"
@@ -6654,6 +6774,9 @@ msgid "Starts %{startsIn}"
 msgstr ""
 
 msgid "Starts at (UTC)"
+msgstr ""
+
+msgid "Statistics"
 msgstr ""
 
 msgid "Status"
@@ -7401,6 +7524,9 @@ msgstr ""
 msgid "To preserve performance only <strong>%{display_size} of %{real_size}</strong> files are displayed."
 msgstr ""
 
+msgid "To prevent performance issues admin logs output the last 2000 lines"
+msgstr ""
+
 msgid "To start serving your jobs you can add Runners to your group"
 msgstr ""
 
@@ -7509,6 +7635,12 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
+msgid "Unable to collect CPU info"
+msgstr ""
+
+msgid "Unable to collect memory info"
+msgstr ""
+
 msgid "Unable to load the diff. %{button_try_again}"
 msgstr ""
 
@@ -7602,6 +7734,9 @@ msgstr ""
 msgid "UploadLink|click to upload"
 msgstr ""
 
+msgid "Uptime"
+msgstr ""
+
 msgid "Upvotes"
 msgstr ""
 
@@ -7690,6 +7825,9 @@ msgid "Users"
 msgstr ""
 
 msgid "Users requesting access to"
+msgstr ""
+
+msgid "Users:"
 msgstr ""
 
 msgid "Various container registry settings."
