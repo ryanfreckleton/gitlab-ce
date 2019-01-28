@@ -4,7 +4,7 @@
 
 .hook-test-button.dropdown.inline
   %button.btn{ 'data-toggle' => 'dropdown', class: button_class }
-    Test
+    = _('Test')
     = icon('caret-down')
   %ul.dropdown-menu.dropdown-menu-right{ role: 'menu' }
     - triggers.each_value do |event|

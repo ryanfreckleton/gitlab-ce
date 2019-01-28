@@ -1,35 +1,35 @@
-- page_title 'System Hooks'
+- page_title _('System Hooks')
 .row.prepend-top-default
   .col-lg-4
     %h4.prepend-top-0
       = page_title
     %p
-      #{link_to 'System hooks ', help_page_path('system_hooks/system_hooks')} can be
-      used for binding events when GitLab creates a User or Project.
+      - hooks_link_start = "<a href='#{help_page_path('system_hooks/system_hooks')}' target='_blank' rel='noreferrer noopener'>".html_safe
+      = _('%{hooks_link_start}System hooks%{link_end} can be used for binding events when GitLab creates a User or Project.').html_safe % { hooks_link_start: hooks_link_start, link_end: '</a>'.html_safe }
 
   .col-lg-8.append-bottom-default
     = form_for @hook, as: :hook, url: admin_hooks_path do |f|
       = render partial: 'form', locals: { form: f, hook: @hook }
-      = f.submit 'Add system hook', class: 'btn btn-success'
+      = f.submit _('Add system hook'), class: 'btn btn-success'
 
     %hr
 
     - if @hooks.any?
       .card
         .card-header
-          System hooks (#{@hooks.count})
+          = _('System hooks (%{hooks_count})') % { hooks_count: @hooks.count }
         %ul.content-list
           - @hooks.each do |hook|
             %li
               .controls
                 = render 'shared/web_hooks/test_button', triggers: SystemHook.triggers, hook: hook, button_class: 'btn-sm'
-                = link_to 'Edit', edit_admin_hook_path(hook), class: 'btn btn-sm'
-                = link_to 'Remove', admin_hook_path(hook), data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-remove btn-sm'
+                = link_to _('Edit'), edit_admin_hook_path(hook), class: 'btn btn-sm'
+                = link_to _('Remove'), admin_hook_path(hook), data: { confirm: _('Are you sure?') }, method: :delete, class: 'btn btn-remove btn-sm'
               .monospace= hook.url
               %div
                 - SystemHook.triggers.each_value do |event|
                   - if hook.public_send(event)
                     %span.badge.badge-gray= event.to_s.titleize
-                %span.badge.badge-gray SSL Verification: #{hook.enable_ssl_verification ? 'enabled' : 'disabled'}
+                %span.badge.badge-gray= _("SSL Verification: %{ssl_status}") % { ssl_status: hook.enable_ssl_verification ? 'enabled' : 'disabled' }
 
 = render 'shared/plugins/index'

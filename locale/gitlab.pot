@@ -126,6 +126,9 @@ msgstr ""
 msgid "%{group_docs_link_start}Groups%{group_docs_link_end} allow you to manage and collaborate across multiple projects. Members of a group have access to all of its projects."
 msgstr ""
 
+msgid "%{hooks_link_start}System hooks%{link_end} can be used for binding events when GitLab creates a User or Project."
+msgstr ""
+
 msgid "%{issuableType} will be removed! Are you sure?"
 msgstr ""
 
@@ -148,6 +151,9 @@ msgid "%{openOrClose} %{noteable}"
 msgstr ""
 
 msgid "%{percent}%% complete"
+msgstr ""
+
+msgid "%{plugins_link_start}Plugins%{link_end} are similar to system hooks but are executed as files instead of sending data to a URL."
 msgstr ""
 
 msgid "%{strong_start}%{branch_count}%{strong_end} Branch"
@@ -400,6 +406,9 @@ msgid "Add new directory"
 msgstr ""
 
 msgid "Add reaction"
+msgstr ""
+
+msgid "Add system hook"
 msgstr ""
 
 msgid "Add to project"
@@ -4638,6 +4647,9 @@ msgstr ""
 msgid "No other labels with such name or description"
 msgstr ""
 
+msgid "No plugins found."
+msgstr ""
+
 msgid "No preview for this file type"
 msgstr ""
 
@@ -5166,6 +5178,12 @@ msgid "Please use this form to report users to GitLab who create spam issues, co
 msgstr ""
 
 msgid "Please wait while we import the repository for you. Refresh at will."
+msgstr ""
+
+msgid "Plugins"
+msgstr ""
+
+msgid "Plugins (%{plugins_count})"
 msgstr ""
 
 msgid "Preferences"
@@ -6024,6 +6042,9 @@ msgstr ""
 msgid "SSL Verification"
 msgstr ""
 
+msgid "SSL Verification: %{ssl_status}"
+msgstr ""
+
 msgid "Save"
 msgstr ""
 
@@ -6725,6 +6746,9 @@ msgstr ""
 msgid "System Info"
 msgstr ""
 
+msgid "System hooks (%{hooks_count})"
+msgstr ""
+
 msgid "System metrics (Custom)"
 msgstr ""
 
@@ -6834,6 +6858,9 @@ msgid "Terms of Service Agreement and Privacy Policy"
 msgstr ""
 
 msgid "Terms of Service and Privacy Policy"
+msgstr ""
+
+msgid "Test"
 msgstr ""
 
 msgid "Test coverage parsing"

@@ -3,16 +3,16 @@
 .row.prepend-top-default
   .col-lg-4
     %h4.prepend-top-0
-      Plugins
+      = _('Plugins')
     %p
-      #{link_to 'Plugins', help_page_path('administration/plugins')} are similar to
-      system hooks but are executed as files instead of sending data to a URL.
+      - plugins_link_start = "<a href='#{help_page_path('administration/plugins')}' target='_blank' rel='noopener noreferrer'>".html_safe
+      = _("%{plugins_link_start}Plugins%{link_end} are similar to system hooks but are executed as files instead of sending data to a URL.").html_safe % { plugins_link_start: plugins_link_start, link_end: '</a>'.html_safe }
 
   .col-lg-8.append-bottom-default
     - if plugins.any?
       .card
         .card-header
-          Plugins (#{plugins.count})
+          = _('Plugins (%{plugins_count})') % { plugins_count: plugins.count }
         %ul.content-list
           - plugins.each do |file|
             %li
@@ -20,4 +20,4 @@
                 = File.basename(file)
     - else
       .card.bg-light.text-center
-        .nothing-here-block No plugins found.
+        .nothing-here-block= _('No plugins found.')
