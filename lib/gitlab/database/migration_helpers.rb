@@ -1087,12 +1087,28 @@ into similar problems in the future (e.g. when new tables are created).
 
         execute <<-SQL.strip_heredoc
           do $do$
+          declare
+            max_value int8;
           begin
-            execute format(
-              $sql$ alter database %I set rename_triggers.#{table}.#{old_column} = '%s'; $sql$,
-              current_database(),
-              (select #{old_column} from #{table} where #{new_column} is null order by #{old_column} desc limit 1)
+            max_value := (
+              select #{old_column}
+              from #{table}
+              where #{new_column} is null
+              order by #{old_column} desc
+              limit 1
             );
+            execute format(
+              $sql$ alter database %I set int4_to_int8.#{table}.#{old_column} = '%s'; $sql$,
+              current_database(),
+              max_value
+            );
+            -- Additionally, set it in the current session, to allow using it now.
+/*
+            execute format(
+              $sql$ set rename_triggers.#{table}.#{old_column} = '%s'; $sql$,
+              max_value
+            );
+*/
           end;
           $do$ language plpgsql;
         SQL
@@ -1180,7 +1196,7 @@ into similar problems in the future (e.g. when new tables are created).
                     (select max(#{new_column}) from #{table} where #{new_column} < #{upper_border}),
                     0
                   )
-                  and #{old_column} < #{upper_boarder}
+                  and #{old_column} < #{upper_border}
                 order by id limit #{chunk_size}
               )
               returning #{new_column}
