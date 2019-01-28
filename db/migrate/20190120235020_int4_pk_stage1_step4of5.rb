@@ -9,6 +9,9 @@ class Int4PkStage1Step4of5 < ActiveRecord::Migration[5.0]
 
   def up
     if Gitlab::Database.postgresql?
+      # Creation of PK requires NOT NULL constraint to be already enforced.
+      # Regular NOT NULL constraint creation means a long lock on the table.
+      # Instead of it, we use an equivalent CHECK constraint here.
       add_concurrent_check_constraint(:events, :id_new_not_null, 'id_new is not null')
       add_concurrent_check_constraint(:push_event_payloads, :event_id_new_not_null, 'event_id_new is not null')
 
