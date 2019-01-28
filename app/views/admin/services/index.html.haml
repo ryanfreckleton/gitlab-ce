@@ -1,15 +1,15 @@
-- page_title "Service Templates"
-%h3.page-title Service templates
-%p.light Service template allows you to set default values for project services
+- page_title _('Service Templates')
+%h3.page-title= _('Service templates')
+%p.light= _('Service template allows you to set default values for project services')
 
 .table-holder
   %table.table
     %thead
       %tr
         %th
-        %th Service
-        %th Description
-        %th Last edit
+        %th= _('Service')
+        %th= _('Description')
+        %th= _('Last edit')
     - @services.sort_by(&:title).each do |service|
       %tr
         %td

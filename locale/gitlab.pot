@@ -150,6 +150,9 @@ msgstr ""
 msgid "%{percent}%% complete"
 msgstr ""
 
+msgid "%{service_description} template"
+msgstr ""
+
 msgid "%{strong_start}%{branch_count}%{strong_end} Branch"
 msgid_plural "%{strong_start}%{branch_count}%{strong_end} Branches"
 msgstr[0] ""
@@ -4025,6 +4028,9 @@ msgstr ""
 msgid "Last contact"
 msgstr ""
 
+msgid "Last edit"
+msgstr ""
+
 msgid "Last edited %{date}"
 msgstr ""
 
@@ -6267,7 +6273,16 @@ msgstr ""
 msgid "Serverless|There is currently no function data available from Knative. This could be for a variety of reasons including:"
 msgstr ""
 
+msgid "Service"
+msgstr ""
+
 msgid "Service Templates"
+msgstr ""
+
+msgid "Service template allows you to set default values for project services"
+msgstr ""
+
+msgid "Service templates"
 msgstr ""
 
 msgid "Session expiration, projects limit and attachment size."
@@ -7477,6 +7492,9 @@ msgid "Tree view"
 msgstr ""
 
 msgid "Trending"
+msgstr ""
+
+msgid "Trigger"
 msgstr ""
 
 msgid "Trigger this manual action"
