@@ -149,7 +149,7 @@ describe('diffs/components/app', () => {
         store.state.diffs.diffFiles.push({ sha: '123' });
       });
 
-      expect(vm.contains(CommitWidget)).toBe(true);
+      expect(vm.contains(DiffFile)).toBe(true);
     });
   });
 });
