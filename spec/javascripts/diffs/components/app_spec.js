@@ -5,6 +5,8 @@ import { TEST_HOST } from 'spec/test_constants';
 import App from '~/diffs/components/app.vue';
 import NoChanges from '~/diffs/components/no_changes.vue';
 import DiffFile from '~/diffs/components/diff_file.vue';
+import CompareVersions from '~/diffs/components/compare_versions.vue';
+import HiddenFilesWarning from '~/diffs/components/hidden_files_warning.vue';
 import createDiffsStore from '../create_diffs_store';
 
 describe('diffs/components/app', () => {
@@ -109,6 +111,26 @@ describe('diffs/components/app', () => {
       });
 
       expect(vm.contains(NoChanges)).toBe(false);
+    });
+  });
+
+  describe('diffs', () => {
+    it('should render compare versions component', () => {
+      createComponent();
+
+      expect(vm.contains(CompareVersions));
+    });
+
+    it('should render hidden files warning if render overflow warning is present', () => {
+      createComponent({}, () => {
+        store.state.diffs.renderOverflowWarning = true;
+        store.state.diffs.realSize = '5';
+        store.state.diffs.plainDiffPath = 'plain diff path';
+        store.state.diffs.emailPatchPath = 'email patch path';
+        store.state.diffs.size = 1;
+      });
+
+      expect(vm.contains(HiddenFilesWarning)).toBe(true);
     });
   });
 });
