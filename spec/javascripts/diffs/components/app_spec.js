@@ -7,6 +7,7 @@ import NoChanges from '~/diffs/components/no_changes.vue';
 import DiffFile from '~/diffs/components/diff_file.vue';
 import CompareVersions from '~/diffs/components/compare_versions.vue';
 import HiddenFilesWarning from '~/diffs/components/hidden_files_warning.vue';
+import CommitWidget from '~/diffs/components/commit_widget.vue';
 import createDiffsStore from '../create_diffs_store';
 
 describe('diffs/components/app', () => {
@@ -131,6 +132,24 @@ describe('diffs/components/app', () => {
       });
 
       expect(vm.contains(HiddenFilesWarning)).toBe(true);
+    });
+
+    it('should display commit widget if store has a commit', () => {
+      createComponent({}, () => {
+        store.state.diffs.commit = {
+          author: 'John Doe',
+        };
+      });
+
+      expect(vm.contains(CommitWidget)).toBe(true);
+    });
+
+    it('should display diff file if there are diff files', () => {
+      createComponent({}, () => {
+        store.state.diffs.diffFiles.push({ sha: '123' });
+      });
+
+      expect(vm.contains(CommitWidget)).toBe(true);
     });
   });
 });
