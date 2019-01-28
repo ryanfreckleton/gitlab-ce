@@ -1181,6 +1181,7 @@ into similar problems in the future (e.g. when new tables are created).
         end
 
         bar = ProgressBar.create(:total => 100)
+
         i = 0
         loop do
           upper_border = connection.select_value("select current_setting('int4_to_int8.#{table}.#{old_column}')")
@@ -1211,19 +1212,25 @@ into similar problems in the future (e.g. when new tables are created).
               ) as progress_percent
             ;
           SQL
+
           i = i + 1
           if i % 1000 == 0
-            say_with_time("int4→int8 table: #{table}, iteration: #{i}, last updated value: #{res[0]['last_updated_value'].to_s}" + (" " * 20))
-            #say_with_time("Run 'manual' VACUUM for table #{table}")
+            say("int4→int8 table: #{table}, i: #{i}, last: #{res[0]['last_updated_value'].to_s}, progress (est.): #{res[0]['progress_percent'].to_s}%")
+
+            #say("Run 'manual' VACUUM for table #{table}")
             #execute "vacuum #{table}"
           end
+
           break if not (res[0]['rows_updated'].to_i > 0)
+
           bar.total = res[0]['max_existing_value'].to_i
           bar.format("Processing #{table}: %w> (rate: %R)")
           bar.progress = res[0]['last_updated_value'].to_i
         end
-        say_with_time("Table #{table} processed, iterations: #{i}, chunk size: #{chunk_size}.")
-        say_with_time("Run 'manual' VACUUM ANALYZE for table #{table}")
+
+        say("int4→int8 table: #{table}. DONE.")
+
+        #say("Run 'manual' VACUUM ANALYZE for table #{table}")
         #execute "vacuum analyze #{table}"
       end
     end
