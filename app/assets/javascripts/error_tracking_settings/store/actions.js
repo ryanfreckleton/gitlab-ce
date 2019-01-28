@@ -30,12 +30,15 @@ export default {
         `${data.listProjectsEndpoint}.json`,
         {
           error_tracking_setting: {
-            api_host: '<url here>',
-            token: '<token here>',
+            api_host: '<<<url here>>>',
+            token: '<<<token here>>>',
           },
         },
         {
-          headers: { Accept: 'application/json, text/plain, */*' },
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+          },
         },
       )
       .then(res => {
