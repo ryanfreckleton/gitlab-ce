@@ -6,7 +6,7 @@ describe('CompareVersionsDropdown', () => {
   let wrapper;
   const targetBranch = { branchName: 'tmp-wine-dev', versionIndex: -1 };
 
-  const factory = (props = {}) => {
+  const createComponent = (props = {}) => {
     const localVue = createLocalVue();
 
     wrapper = shallowMount(CompareVersionsDropdown, {
@@ -25,14 +25,14 @@ describe('CompareVersionsDropdown', () => {
   });
 
   it('should render correct selected version', () => {
-    factory();
+    createComponent();
     const dropdownToggleElement = wrapper.find('.dropdown-menu-toggle');
 
     expect(dropdownToggleElement.text()).toBe(targetBranch.branchName);
   });
 
   it('should render a correct base version link', () => {
-    factory();
+    createComponent();
 
     const links = wrapper.findAll('a');
     const lastLink = links.wrappers[links.length - 1];
