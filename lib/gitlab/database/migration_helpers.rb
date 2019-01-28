@@ -1132,7 +1132,7 @@ into similar problems in the future (e.g. when new tables are created).
           raise 'add_concurrent_check_constraint can not be run inside an open transaction'
         end
 
-        # Since this method is to be executed with "!disable_ddl_transaction",
+        # Since this method is to be executed with "disable_ddl_transaction",
         # we need to cleanup first, in case if the previous attempt failed,
         execute("alter table #{table} drop constraint if exists #{name};")
 
@@ -1158,6 +1158,12 @@ into similar problems in the future (e.g. when new tables are created).
         if Database.mysql?
           raise 'int4_to_int8_copy is not supported for MySQL'
         end
+
+        # int4_to_int8_copy requires "disable_ddl_transaction!"
+        if transaction_open?
+          raise 'add_concurrent_check_constraint can not be run inside an open transaction'
+        end
+
         bar = ProgressBar.create(:total => 100)
         i = 0
         loop do

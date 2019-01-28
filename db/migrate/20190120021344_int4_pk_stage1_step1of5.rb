@@ -21,6 +21,8 @@ class Int4PkStage1Step1of5 < ActiveRecord::Migration[5.0]
 
   def down
     if Gitlab::Database.postgresql?
+      #execute "alter table public.events set (autovacuum_enabled = true);"
+
       int4_to_int8_forget_max_value(:push_event_payloads, :event_id)
       remove_rename_triggers_for_postgresql(:push_event_payloads, :'int4_to_int8')
       remove_column(:push_event_payloads, :event_id_new)

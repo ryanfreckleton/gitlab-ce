@@ -7,21 +7,22 @@ class Int4PkStage1Step5of5 < ActiveRecord::Migration[5.0]
 
   def up
     if Gitlab::Database.postgresql?
+      # Redefine PK on "events".
+      execute("drop index index_push_event_payloads_on_event_id;")
       execute <<-SQL.strip_heredoc
-        alter table push_event_payloads add constraint fk_36c74129da_new
-          foreign key (event_id) references events(id_new) not valid; -- ON DELETE CASCADE
-        alter table push_event_payloads validate constraint fk_36c74129da_new; -- long
-        alter table push_event_payloads drop constraint fk_36c74129da;
-        alter table push_event_payloads rename constraint fk_36c74129da_new to fk_36c74129da;
-      SQL
-
-      execute <<-SQL.strip_heredoc
-        alter table events drop constraint events_pkey;
-        alter table events add constraint events_pkey_new
+        alter table events add constraint events_pkey
           primary key using index events_id_new_idx;
-        alter index events_pkey_new rename to events_pkey;
-        alter table events drop constraint id_new_not_null;
       SQL
+      execute("alter table events drop constraint id_new_not_null;")
+
+      # Define PK on "push_event_payloads".
+      # (Before, no PK was present at all – only a unique index.)
+      execute "drop index index_push_event_payloads_on_event_id;" # "concurrently"?
+      execute <<-SQL.strip_heredoc
+        alter table push_event_payloads add constraint push_event_payloads_pkey
+          primary key using index push_event_payloads_event_id_new_idx;
+      SQL
+      execute("alter table push_event_payloads drop constraint event_id_new_not_null;")
 
       execute <<-SQL.strip_heredoc
         alter table events rename id to id_old;
@@ -30,7 +31,8 @@ class Int4PkStage1Step5of5 < ActiveRecord::Migration[5.0]
         alter sequence events_id_seq owned by events.id;
       SQL
 
-      #execute "alter table public.events set (autovacuum_enabled = false);"
+      #execute "alter table public.events set (autovacuum_enabled = true);"
+      #execute "alter table public.push_event_payloads set (autovacuum_enabled = true);"
 
       remove_rename_triggers_for_postgresql(:events, 'int4_to_int8')
       remove_column :events, :id_old
@@ -41,17 +43,30 @@ class Int4PkStage1Step5of5 < ActiveRecord::Migration[5.0]
 
   def down
     if Gitlab::Database.postgresql?
+      execute "alter table push_event_payloads drop constraint fk_36c74129da;"
       change_column(:events, :id, :integer, :limit => 4) # Very slow on large tables
+      change_column(:push_event_payloads, :event_id, :integer, :limit => 4) # Very slow on large tables
+
       add_column(:events, :id_new, :bigint)
       install_rename_triggers_for_postgresql('int4_to_int8', :events, :id, :id_new, 'INSERT')
       int4_to_int8_remember_max_value(:events, :id, :id_new)
 
+      add_column(:event_payloads, :event_id_new, :bigint)
+      install_rename_triggers_for_postgresql('int4_to_int8', :push_event_payloads, :event_id, :event_id_new, 'INSERT')
+      int4_to_int8_remember_max_value(:push_event_payloads, :event_id, :event_id_new)
+
+      execute("alter table events add constraint id_new_not_null check (id_new is not null);") # Very slow on large tables
+      execute("alter table push_event_payloads add constraint event_id_new_not_null check (event_id_new is not null);") # Very slow on large tables
+
+      #execute "alter table public.events set (autovacuum_enabled = false);"
+      #execute "alter table public.push_event_payloads set (autovacuum_enabled = false);"
+      add_index(:events, :id_new, unique: true, name: :events_id_new_idx) # Very slow on large tables
+      add_index(:push_event_payloads, :event_id_new, unique: true, name: :push_event_payloads_event_id_new_idx) # Very slow on large tables
+
       execute <<-SQL.strip_heredoc
-        alter table events add constraint id_new_not_null check (id_new is not null) not valid;
-        alter table events validate constraint id_new_not_null; -- long
-        alter table public.events set (autovacuum_enabled = false);
+        alter table push_event_payloads add constraint fk_36c74129da
+          foreign key (event_id_new) references events(id_new) on delete cascade;
       SQL
-      add_index(:events, :id_new, unique: true, name: :events_id_new_idx)
     end
   end
 end
