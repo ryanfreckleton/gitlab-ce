@@ -45,6 +45,9 @@ export default {
         console.log('status', res.status);
         console.log('data', res.data);
         dispatch('receiveLoadProjects', res.data.map(transformBackendProject));
+      })
+      .catch(err => {
+        console.log(err);
       });
 
     // if (true) {
