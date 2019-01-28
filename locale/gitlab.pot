@@ -330,6 +330,9 @@ msgstr ""
 msgid "About auto deploy"
 msgstr ""
 
+msgid "About this feature"
+msgstr ""
+
 msgid "Abuse Reports"
 msgstr ""
 
@@ -1908,6 +1911,9 @@ msgstr ""
 msgid "Code"
 msgstr ""
 
+msgid "Cohort total"
+msgstr ""
+
 msgid "Cohorts"
 msgstr ""
 
@@ -2375,6 +2381,9 @@ msgstr ""
 msgid "DashboardProjects|Personal"
 msgstr ""
 
+msgid "Data is still calculating..."
+msgstr ""
+
 msgid "Debug"
 msgstr ""
 
@@ -2654,6 +2663,9 @@ msgid "Discuss a specific suggestion or question that needs to be resolved"
 msgstr ""
 
 msgid "Dismiss"
+msgstr ""
+
+msgid "Dismiss ConvDev introduction"
 msgstr ""
 
 msgid "Dismiss Cycle Analytics introduction box"
@@ -3759,7 +3771,13 @@ msgstr ""
 msgid "In order to enable instance-level analytics, please ask an admin to enable %{usage_ping_link_start}usage ping%{usage_ping_link_end}."
 msgstr ""
 
+msgid "In order to gather accurate feature usage data, it can take 1 to 2 weeks to see your index."
+msgstr ""
+
 msgid "In the next step, you'll be able to select the projects you want to import."
+msgstr ""
+
+msgid "Inactive users"
 msgstr ""
 
 msgid "Include a Terms of Service agreement and Privacy Policy that all users must accept."
@@ -3826,6 +3844,9 @@ msgid "Interval Pattern"
 msgstr ""
 
 msgid "Introducing Cycle Analytics"
+msgstr ""
+
+msgid "Introducing Your Conversational Development Index"
 msgstr ""
 
 msgid "Invitation"
@@ -4053,6 +4074,9 @@ msgid "Latest changes"
 msgstr ""
 
 msgid "Latest pipeline for this branch"
+msgstr ""
+
+msgid "Lead"
 msgstr ""
 
 msgid "Learn more"
@@ -4439,6 +4463,9 @@ msgid "Monitor your errors by integrating with Sentry"
 msgstr ""
 
 msgid "Monitoring"
+msgstr ""
+
+msgid "Month %{month_number}"
 msgstr ""
 
 msgid "More"
@@ -5747,6 +5774,9 @@ msgid "Register and see your runners for this group."
 msgstr ""
 
 msgid "Register and see your runners for this project."
+msgstr ""
+
+msgid "Registration month"
 msgstr ""
 
 msgid "Registry"
@@ -7638,6 +7668,9 @@ msgstr ""
 msgid "User and IP Rate Limits"
 msgstr ""
 
+msgid "User cohorts are shown for the last %{months_included} months. Only users with activity are counted in the cohort total; inactiveusers are counted separately."
+msgstr ""
+
 msgid "User map"
 msgstr ""
 
@@ -7968,6 +8001,9 @@ msgstr ""
 msgid "Yesterday"
 msgstr ""
 
+msgid "You"
+msgstr ""
+
 msgid "You are an admin, which means granting access to <strong>%{client_name}</strong> will allow them to interact with GitLab as an admin as well. Proceed with caution."
 msgstr ""
 
@@ -8104,6 +8140,9 @@ msgid "You're receiving this email because of your account on %{host}. %{manage_
 msgstr ""
 
 msgid "YouTube"
+msgstr ""
+
+msgid "Your Conversational Development Index gives an overview of how you are using GitLab from a feature perspective. View how you compare with other organizations, discover features you are not using, and learn best practices through blog posts and white papers."
 msgstr ""
 
 msgid "Your Groups"
@@ -8267,6 +8306,9 @@ msgid "in group %{link_to_group}"
 msgstr ""
 
 msgid "in project %{link_to_project}"
+msgstr ""
+
+msgid "index"
 msgstr ""
 
 msgid "issue boards"
@@ -8543,6 +8585,9 @@ msgid "reply"
 msgid_plural "replies"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "score"
+msgstr ""
 
 msgid "should be higher than %{access} inherited membership from group %{group_name}"
 msgstr ""
