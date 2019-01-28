@@ -1198,7 +1198,7 @@ into similar problems in the future (e.g. when new tables are created).
                     0
                   )
                   and #{old_column} < #{upper_border}
-                order by id limit #{chunk_size}
+                order by #{old_column} limit #{chunk_size}
               )
               returning #{new_column}
             )
