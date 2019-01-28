@@ -150,6 +150,9 @@ msgstr ""
 msgid "%{percent}%% complete"
 msgstr ""
 
+msgid "%{scope} jobs"
+msgstr ""
+
 msgid "%{strong_start}%{branch_count}%{strong_end} Branch"
 msgid_plural "%{strong_start}%{branch_count}%{strong_end} Branches"
 msgstr[0] ""
@@ -319,6 +322,9 @@ msgid "A regular expression that will be used to find the test coverage output i
 msgstr ""
 
 msgid "A user with write access to the source branch selected this option"
+msgstr ""
+
+msgid "API"
 msgstr ""
 
 msgid "About GitLab"
@@ -2210,6 +2216,9 @@ msgstr ""
 msgid "Could not retrieve the pipeline status. For troubleshooting steps, read the %{linkStart}documentation.%{linkEnd}"
 msgstr ""
 
+msgid "Coverage"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
@@ -2672,6 +2681,9 @@ msgid "Done"
 msgstr ""
 
 msgid "Download"
+msgstr ""
+
+msgid "Download artifacts"
 msgstr ""
 
 msgid "Download asset"
@@ -3885,6 +3897,12 @@ msgstr ""
 msgid "Job has been erased"
 msgstr ""
 
+msgid "Job is stuck. Check runners."
+msgstr ""
+
+msgid "Job was retried"
+msgstr ""
+
 msgid "Jobs"
 msgstr ""
 
@@ -4621,6 +4639,9 @@ msgid "No file selected"
 msgstr ""
 
 msgid "No files found."
+msgstr ""
+
+msgid "No jobs to show"
 msgstr ""
 
 msgid "No labels with such name or description"
@@ -5968,6 +5989,9 @@ msgid "Revoke"
 msgstr ""
 
 msgid "Run untagged jobs"
+msgstr ""
+
+msgid "Runner"
 msgstr ""
 
 msgid "Runner cannot be assigned to other projects"
@@ -8172,6 +8196,9 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
+msgid "allowed to fail"
+msgstr ""
+
 msgid "among other things"
 msgstr ""
 
@@ -8182,6 +8209,9 @@ msgid "attach a new file"
 msgstr ""
 
 msgid "branch name"
+msgstr ""
+
+msgid "by"
 msgstr ""
 
 msgid "command line instructions"
@@ -8288,6 +8318,9 @@ msgid "latest deployment"
 msgstr ""
 
 msgid "latest version"
+msgstr ""
+
+msgid "manual"
 msgstr ""
 
 msgid "merge request"
@@ -8496,6 +8529,9 @@ msgstr ""
 msgid "new merge request"
 msgstr ""
 
+msgid "none"
+msgstr ""
+
 msgid "notification emails"
 msgstr ""
 
@@ -8569,6 +8605,9 @@ msgid "stuck"
 msgstr ""
 
 msgid "this document"
+msgstr ""
+
+msgid "triggered"
 msgstr ""
 
 msgid "updated"
