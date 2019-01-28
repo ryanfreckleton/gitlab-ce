@@ -278,8 +278,7 @@ describe 'GFM autocomplete', :js do
     end
   end
 
-  # This context has jsut one example in each contexts in order to improve spec performance.
-  context 'labels', :quarantine do
+  context 'labels' do
     let!(:backend)          { create(:label, project: project, title: 'backend') }
     let!(:bug)              { create(:label, project: project, title: 'bug') }
     let!(:feature_proposal) { create(:label, project: project, title: 'feature proposal') }
@@ -300,24 +299,31 @@ describe 'GFM autocomplete', :js do
     end
 
     context 'when no labels are assigned' do
-      it 'shows labels' do
+      it 'shows all labels for ~' do
         note = find('#note-body')
-
-        # It should show all the labels on "~".
         type(note, '~')
         wait_for_requests
         expect_labels(shown: [backend, bug, feature_proposal])
+      end
 
-        # It should show all the labels on "/label ~".
+      it 'shows all labels for /label ~' do
+        note = find('#note-body')
         type(note, '/label ~')
+        wait_for_requests
         expect_labels(shown: [backend, bug, feature_proposal])
+      end
 
-        # It should show all the labels on "/relabel ~".
+      it 'shows all labels for /relabel ~' do
+        note = find('#note-body')
         type(note, '/relabel ~')
+        wait_for_requests
         expect_labels(shown: [backend, bug, feature_proposal])
+      end
 
-        # It should show no labels on "/unlabel ~".
+      it 'shows no labels for /unlabel ~' do
+        note = find('#note-body')
         type(note, '/unlabel ~')
+        wait_for_requests
         expect_labels(not_shown: [backend, bug, feature_proposal])
       end
     end
@@ -327,24 +333,31 @@ describe 'GFM autocomplete', :js do
         issue.labels << [backend]
       end
 
-      it 'shows labels' do
+      it 'shows all labels for ~' do
         note = find('#note-body')
-
-        # It should show all the labels on "~".
         type(note, '~')
         wait_for_requests
         expect_labels(shown: [backend, bug, feature_proposal])
+      end
 
-        # It should show only unset labels on "/label ~".
+      it 'shows only unset labels for /label ~' do
+        note = find('#note-body')
         type(note, '/label ~')
+        wait_for_requests
         expect_labels(shown: [bug, feature_proposal], not_shown: [backend])
+      end
 
-        # It should show all the labels on "/relabel ~".
+      it 'shows all labels for /relabel ~' do
+        note = find('#note-body')
         type(note, '/relabel ~')
+        wait_for_requests
         expect_labels(shown: [backend, bug, feature_proposal])
+      end
 
-        # It should show only set labels on "/unlabel ~".
+      it 'shows only set labels for /unlabel ~' do
+        note = find('#note-body')
         type(note, '/unlabel ~')
+        wait_for_requests
         expect_labels(shown: [backend], not_shown: [bug, feature_proposal])
       end
     end
@@ -354,24 +367,31 @@ describe 'GFM autocomplete', :js do
         issue.labels << [backend, bug, feature_proposal]
       end
 
-      it 'shows labels' do
+      it 'shows all labels for ~' do
         note = find('#note-body')
-
-        # It should show all the labels on "~".
         type(note, '~')
         wait_for_requests
         expect_labels(shown: [backend, bug, feature_proposal])
+      end
 
-        # It should show no labels on "/label ~".
+      it 'shows no labels for /label ~' do
+        note = find('#note-body')
         type(note, '/label ~')
+        wait_for_requests
         expect_labels(not_shown: [backend, bug, feature_proposal])
+      end
 
-        # It should show all the labels on "/relabel ~".
+      it 'shows all labels for /relabel ~' do
+        note = find('#note-body')
         type(note, '/relabel ~')
+        wait_for_requests
         expect_labels(shown: [backend, bug, feature_proposal])
+      end
 
-        # It should show all the labels on "/unlabel ~".
+      it 'shows all labels for /unlabel ~' do
+        note = find('#note-body')
         type(note, '/unlabel ~')
+        wait_for_requests
         expect_labels(shown: [backend, bug, feature_proposal])
       end
     end
