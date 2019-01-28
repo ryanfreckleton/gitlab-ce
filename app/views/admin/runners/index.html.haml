@@ -15,23 +15,23 @@
           %span= _('Each Runner can be in one of the following states:')
           %ul
             %li
-              %span.badge.badge-success shared
+              %span.badge.badge-success= _('shared')
               \-
               = _('Runner runs jobs from all unassigned projects')
             %li
-              %span.badge.badge-success group
+              %span.badge.badge-success= _('group')
               \-
               = _('Runner runs jobs from all unassigned projects in its group')
             %li
-              %span.badge.badge-info specific
+              %span.badge.badge-info= _('specific')
               \-
               = _('Runner runs jobs from assigned projects')
             %li
-              %span.badge.badge-warning locked
+              %span.badge.badge-warning= _('locked')
               \-
               = _('Runner cannot be assigned to other projects')
             %li
-              %span.badge.badge-danger paused
+              %span.badge.badge-danger= _('paused')
               \-
               = _('Runner will not receive any new jobs')
 

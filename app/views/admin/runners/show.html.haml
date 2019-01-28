@@ -1,30 +1,30 @@
 = content_for :title do
   %h3.project-title
-    Runner ##{@runner.id}
+    = _("Runner #%{runner_id}") % { runner_id: @runner.id  }
     .float-right
       - if @runner.instance_type?
         %span.runner-state.runner-state-shared
-          Shared
+          = _('Shared')
       - else
         %span.runner-state.runner-state-specific
-          Specific
+          = _('Specific')
 
 - add_to_breadcrumbs _("Runners"), admin_runners_path
 - breadcrumb_title "##{@runner.id}"
 
 - if @runner.instance_type?
   .bs-callout.bs-callout-success
-    %h4 This Runner will process jobs from ALL UNASSIGNED projects
+    %h4= _('This Runner will process jobs from ALL UNASSIGNED projects')
     %p
       If you want Runners to build only specific projects, enable them in the table below.
       Keep in mind that this is a one way transition.
 - elsif @runner.group_type?
   .bs-callout.bs-callout-success
-    %h4 This runner will process jobs from all projects in its group and subgroups
+    %h4= _('This runner will process jobs from all projects in its group and subgroups')
 - else
   .bs-callout.bs-callout-info
-    %h4 This Runner will process jobs only from ASSIGNED projects
-    %p You can't make this a shared Runner.
+    %h4= _('This Runner will process jobs only from ASSIGNED projects')
+    %p= _("You can't make this a shared Runner.")
 %hr
 
 .append-bottom-20
@@ -32,12 +32,12 @@
 
 .row
   .col-md-6
-    %h4 Restrict projects for this Runner
+    %h4= _('Restrict projects for this Runner')
     - if @runner.projects.any?
       %table.table.assigned-projects
         %thead
           %tr
-            %th Assigned projects
+            %th= _('Assigned projects')
             %th
         - @runner.runner_projects.each do |runner_project|
           - project = runner_project.project
@@ -48,12 +48,12 @@
                   = project.full_name
               %td
                 .float-right
-                  = link_to 'Disable', [:admin, project.namespace.becomes(Namespace), project, runner_project], method: :delete, class: 'btn btn-danger btn-sm'
+                  = link_to _('Disable'), [:admin, project.namespace.becomes(Namespace), project, runner_project], method: :delete, class: 'btn btn-danger btn-sm'
 
     %table.table.unassigned-projects
       %thead
         %tr
-          %th Project
+          %th= _('Project')
           %th
 
       %tr
@@ -61,7 +61,7 @@
           = form_tag admin_runner_path(@runner), id: 'runner-projects-search', class: 'form-inline', method: :get do
             .form-group
               = search_field_tag :search, params[:search], class: 'form-control', spellcheck: false
-            = submit_tag 'Search', class: 'btn'
+            = submit_tag _('Search'), class: 'btn'
 
         %td
       - @projects.each do |project|
@@ -72,19 +72,19 @@
             .float-right
               = form_for [:admin, project.namespace.becomes(Namespace), project, project.runner_projects.new] do |f|
                 = f.hidden_field :runner_id, value: @runner.id
-                = f.submit 'Enable', class: 'btn btn-sm'
+                = f.submit _('Enable'), class: 'btn btn-sm'
     = paginate @projects, theme: "gitlab"
 
   .col-md-6
-    %h4 Recent jobs served by this Runner
+    %h4= _('Recent jobs served by this Runner')
     %table.table.ci-table.runner-builds
       %thead
         %tr
-          %th Job
-          %th Status
-          %th Project
-          %th Commit
-          %th Finished at
+          %th= _('Job')
+          %th= _('Status')
+          %th= _('Project')
+          %th= _('Commit')
+          %th= _('Finished at')
 
       - @builds.each do |build|
         - project = build.project

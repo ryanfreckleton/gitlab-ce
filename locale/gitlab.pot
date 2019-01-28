@@ -768,6 +768,9 @@ msgstr ""
 msgid "Assigned Merge Requests"
 msgstr ""
 
+msgid "Assigned projects"
+msgstr ""
+
 msgid "Assigned to :name"
 msgstr ""
 
@@ -3203,6 +3206,9 @@ msgid "Finish editing this message first!"
 msgstr ""
 
 msgid "Finished"
+msgstr ""
+
+msgid "Finished at"
 msgstr ""
 
 msgid "FirstPushedBy|First"
@@ -5720,6 +5726,9 @@ msgstr ""
 msgid "Real-time features"
 msgstr ""
 
+msgid "Recent jobs served by this Runner"
+msgstr ""
+
 msgid "Recent searches"
 msgstr ""
 
@@ -5929,6 +5938,9 @@ msgstr ""
 msgid "Response metrics (NGINX)"
 msgstr ""
 
+msgid "Restrict projects for this Runner"
+msgstr ""
+
 msgid "Resume"
 msgstr ""
 
@@ -5968,6 +5980,9 @@ msgid "Revoke"
 msgstr ""
 
 msgid "Run untagged jobs"
+msgstr ""
+
+msgid "Runner #%{runner_id}"
 msgstr ""
 
 msgid "Runner cannot be assigned to other projects"
@@ -6336,6 +6351,9 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
+msgid "Shared"
+msgstr ""
+
 msgid "Shared Runners"
 msgstr ""
 
@@ -6570,6 +6588,9 @@ msgid "Spam Logs"
 msgstr ""
 
 msgid "Spam and Anti-bot Protection"
+msgstr ""
+
+msgid "Specific"
 msgstr ""
 
 msgid "Specific Runners"
@@ -7004,6 +7025,12 @@ msgstr ""
 msgid "This GitLab instance does not provide any shared Runners yet. Instance administrators can register shared Runners in the admin area."
 msgstr ""
 
+msgid "This Runner will process jobs from ALL UNASSIGNED projects"
+msgstr ""
+
+msgid "This Runner will process jobs only from ASSIGNED projects"
+msgstr ""
+
 msgid "This application was created by %{link_to_owner}."
 msgstr ""
 
@@ -7146,6 +7173,9 @@ msgid "This repository"
 msgstr ""
 
 msgid "This runner will only run on pipelines triggered on protected branches"
+msgstr ""
+
+msgid "This runner will process jobs from all projects in its group and subgroups"
 msgstr ""
 
 msgid "This setting can be overridden in each project."
@@ -8025,6 +8055,9 @@ msgstr ""
 msgid "You can test your .gitlab-ci.yml in %{linkStart}CI Lint%{linkEnd}."
 msgstr ""
 
+msgid "You can't make this a shared Runner."
+msgstr ""
+
 msgid "You cannot write to this read-only GitLab instance."
 msgstr ""
 
@@ -8290,6 +8323,9 @@ msgstr ""
 msgid "latest version"
 msgstr ""
 
+msgid "locked"
+msgstr ""
+
 msgid "merge request"
 msgid_plural "merge requests"
 msgstr[0] ""
@@ -8515,6 +8551,9 @@ msgstr[1] ""
 msgid "password"
 msgstr ""
 
+msgid "paused"
+msgstr ""
+
 msgid "personal access token"
 msgstr ""
 
@@ -8544,6 +8583,9 @@ msgid_plural "replies"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "shared"
+msgstr ""
+
 msgid "should be higher than %{access} inherited membership from group %{group_name}"
 msgstr ""
 
@@ -8557,6 +8599,9 @@ msgid "source"
 msgstr ""
 
 msgid "source diff"
+msgstr ""
+
+msgid "specific"
 msgstr ""
 
 msgid "spendCommand|%{slash_command} will update the sum of the time spent."
