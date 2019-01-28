@@ -1081,6 +1081,10 @@ into similar problems in the future (e.g. when new tables are created).
 
       # Remember the maximum value of the "old" column before filling the "old" column.
       def int4_to_int8_remember_max_value(table, old_column, new_column)
+        if Database.mysql?
+          raise 'int4_to_int8_remember_max_value is not supported for MySQL'
+        end
+
         execute <<-SQL.strip_heredoc
           do $do$
           begin
@@ -1095,6 +1099,10 @@ into similar problems in the future (e.g. when new tables are created).
       end
 
       def int4_to_int8_forget_max_value(table, old_column)
+        if Database.mysql?
+          raise 'int4_to_int8_forget_max_value is not supported for MySQL'
+        end
+
         execute <<-SQL.strip_heredoc
           do $$
           begin
@@ -1107,12 +1115,49 @@ into similar problems in the future (e.g. when new tables are created).
         SQL
       end
 
+      # Adds a CHECK constraint with only minimal locking on the tables involved.
+      # PostgreSQL only (MySQL does not have real CHECK constraint support).
+      #
+      # Example:
+      #   add_concurrent_check_constraint(:events, :id_new_not_null, 'id_new is not null)')
+      #
+      def add_concurrent_check_constraint(table, name, check)
+        if Database.mysql?
+          raise 'add_concurrent_check_constraint is not supported for MySQL'
+        end
+
+        # Open transaction would result in ALTER TABLE locks being held for the
+        # duration of the transaction, defeating the purpose of this method.
+        if transaction_open?
+          raise 'add_concurrent_check_constraint can not be run inside an open transaction'
+        end
+
+        # Since this method is to be executed with "!disable_ddl_transaction",
+        # we need to cleanup first, in case if the previous attempt failed,
+        execute("alter table #{table} drop constraint if exists #{name};")
+
+        # With NOT VALID flag, constraint creation is a fast, not blocking operation
+        execute("alter table #{table} add constraint #{name} check (#{check}) not valid;")
+
+        # Validate the existing constraint. This can potentially take a very
+        # long time to complete, but fortunately does not lock the source table
+        # while running.
+        #
+        # Note this is a no-op in case the constraint is VALID already
+        disable_statement_timeout do
+          execute("alter table #{table} validate constraint #{name};")
+        end
+      end
+
       # Copies values from `old_column` to `new_column`, processing only `chunk_size` rows
       # and reporting progress. PostgreSQL only.
       #
       # This is a helper method for converting int4 PKs (and corresponding FK columns)
       # to int8 in Postgres. An index on `new_column` must exist.
-      def int4_to_int8_copy_postgresql(table, old_column, new_column, chunk_size = 2000)
+      def int4_to_int8_copy(table, old_column, new_column, chunk_size = 2000)
+        if Database.mysql?
+          raise 'int4_to_int8_copy is not supported for MySQL'
+        end
         bar = ProgressBar.create(:total => 100)
         i = 0
         loop do

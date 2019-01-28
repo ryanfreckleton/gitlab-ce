@@ -14,9 +14,9 @@ class Int4PkStage1Step2of5 < ActiveRecord::Migration[5.0]
       remove_concurrent_index_by_name(:events, :events_id_new_idx)
       remove_concurrent_index_by_name(:push_event_payloads, :push_event_payloads_events_id_new_idx)
 
-      # time estimate for GitLab.com: 422s (~7 min)
+      # time estimate for GitLab.com: ~420s (~7 min)
       add_concurrent_index(:events, :id_new, unique: true, name: :events_id_new_idx)
-      # time estimate for GitLab.com: ???s (~?? min)
+      # time estimate for GitLab.com: ~360s (~6 min)
       add_concurrent_index(:push_event_payloads, :event_id_new, unique: true, name: :push_event_payloads_events_id_new_idx)
     end
   end
