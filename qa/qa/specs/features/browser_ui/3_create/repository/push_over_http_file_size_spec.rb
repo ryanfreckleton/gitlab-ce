@@ -9,6 +9,7 @@ module QA
           p.file_content = '# This is a test project'
           p.commit_message = 'Add README.md'
         end
+
         @project = push.project
       end
 
@@ -16,8 +17,10 @@ module QA
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
         Page::Main::Login.perform(&:sign_in_using_credentials)
 
-        # need to create a new content otherwise it doesn't give error for the exactly same content files
-        @file_content = SecureRandom.hex(2000000)
+        # need to create new content otherwise git detects that the content has already
+        # been sent and doesn't attempt to send it again, which means that the error
+        # won't be triggered
+        @file_content = SecureRandom.random_bytes(2000000)
       end
 
       after(:all) do
