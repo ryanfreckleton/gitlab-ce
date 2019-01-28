@@ -1,0 +1,5 @@
+---
+title: Prevent int4 out-of-range problem in events.id and push_event_payloads.event_id
+merge_request:
+author:
+type: other
