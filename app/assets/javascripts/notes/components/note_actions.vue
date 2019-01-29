@@ -168,7 +168,7 @@ export default {
         <icon css-classes="link-highlight award-control-icon-super-positive" name="emoji_smiley" />
       </a>
     </div>
-    <reply-button v-if="showReplyButton" ref="replyButton" :note-id="discussionId" />
+    <reply-button v-if="showReplyButton" ref="replyButton" class="js-reply-button" :note-id="discussionId" />
     <div v-if="canEdit" class="note-actions-item">
       <button
         v-gl-tooltip.bottom
