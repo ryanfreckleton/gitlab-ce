@@ -10,19 +10,28 @@ class MembersFinder
   end
 
   # rubocop: disable CodeReuse/ActiveRecord
-  def execute(include_descendants: false)
+  def execute(include_descendants: false, include_invited_groups_members: false)
     project_members = project.project_members
     project_members = project_members.non_invite unless can?(current_user, :admin_project, project)
 
+    union_members = []
+
+    if include_invited_groups_members
+      union_members << project_invited_groups_members
+    end
+
     if group
       group_members = GroupMembersFinder.new(group).execute(include_descendants: include_descendants) # rubocop: disable CodeReuse/Finder
-      group_members = group_members.non_invite
+      union_members << group_members.non_invite
+    end
 
-      union = Gitlab::SQL::Union.new([project_members, group_members], remove_duplicates: false) # rubocop: disable Gitlab/Union
+    if union_members.any?
+      union_members << project_members
+      union = Gitlab::SQL::Union.new(union_members, remove_duplicates: false) # rubocop: disable Gitlab/Union
 
       sql = distinct_on(union)
 
-      Member.includes(:user).from("(#{sql}) AS #{Member.table_name}")
+      Member.includes(:user).from([Arel.sql("(#{sql}) AS #{Member.table_name}")])
     else
       project_members
     end
@@ -68,5 +77,14 @@ class MembersFinder
                  AND CASE WHEN t1.type = 'ProjectMember' THEN 1 WHEN t1.type = 'GroupMember' THEN 2 ELSE 3 END = t2.type_number
       SQL
     end
+  end
+
+  def project_invited_groups_members
+    invited_groups_ids_including_ancestors = Gitlab::ObjectHierarchy
+      .new(project.invited_groups)
+      .base_and_ancestors
+      .select(:id)
+
+    GroupMember.with_source_id(invited_groups_ids_including_ancestors)
   end
 end

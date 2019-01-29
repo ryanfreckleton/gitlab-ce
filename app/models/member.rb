@@ -79,6 +79,8 @@ class Member < ActiveRecord::Base
   scope :owners_and_maintainers,  -> { active.where(access_level: [OWNER, MAINTAINER]) }
   scope :owners_and_masters,  -> { owners_and_maintainers } # @deprecated
 
+  scope :with_source_id, ->(source_id) { where(source_id: source_id) }
+
   scope :order_name_asc, -> { left_join_users.reorder(Gitlab::Database.nulls_last_order('users.name', 'ASC')) }
   scope :order_name_desc, -> { left_join_users.reorder(Gitlab::Database.nulls_last_order('users.name', 'DESC')) }
   scope :order_recent_sign_in, -> { left_join_users.reorder(Gitlab::Database.nulls_last_order('users.last_sign_in_at', 'DESC')) }

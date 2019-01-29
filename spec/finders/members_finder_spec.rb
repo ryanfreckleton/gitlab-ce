@@ -31,4 +31,15 @@ describe MembersFinder, '#execute' do
 
     expect(result.to_a).to match_array([member1, member2, member3])
   end
+
+  it 'includes all the invited_groups members including members inherited from ancestor groups when include_invited_groups_members == true', :nested_groups do
+    linked_group = create(:group, :public, :access_requestable)
+    nested_linked_group = create(:group, parent: linked_group)
+    create(:project_group_link, project: project, group: nested_linked_group)
+
+    member1 = linked_group.add_developer(user1)
+    member2 = nested_linked_group.add_developer(user2)
+
+    expect(described_class.new(project, user2).execute(include_invited_groups_members: true)).to contain_exactly(member1, member2)
+  end
 end
