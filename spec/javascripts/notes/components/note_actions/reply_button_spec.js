@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { createLocalVue, mount } from '@vue/test-utils';
 import ReplyButton from '~/notes/components/note_actions/reply_button.vue';
 
 describe('ReplyButton', () => {
@@ -19,7 +19,7 @@ describe('ReplyButton', () => {
       },
     });
 
-    wrapper = shallowMount(ReplyButton, {
+    wrapper = mount(ReplyButton, {
       propsData: {
         noteId,
       },
