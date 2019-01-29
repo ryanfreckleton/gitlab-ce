@@ -79,9 +79,6 @@ describe 'Merge request > User posts notes', :js do
     end
 
     describe 'when reply_to_individual_notes feature flag is set' do
-      include ActionView::Helpers::TagHelper
-      include IconsHelper
-
       before do
         stub_feature_flags(reply_to_individual_notes: true)
         visit project_merge_request_path(project, merge_request)
@@ -90,7 +87,7 @@ describe 'Merge request > User posts notes', :js do
       it 'shows a reply button' do
         reply_button = find('.js-reply-button', match: :first)
 
-        expect(reply_button).to have_content(sprite_icon('comment'))
+        expect(reply_button).to have_selector('.ic-comment')
       end
 
       it 'shows reply placeholder when clicking reply button' do
