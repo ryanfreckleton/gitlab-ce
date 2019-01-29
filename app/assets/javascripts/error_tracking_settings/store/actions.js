@@ -25,14 +25,22 @@ export default {
     //   },
     // );
 
+    // Hack to grab form element data
+    const apiEl = document.getElementById('js-form-api-url');
+    const tokenEl = document.getElementById('js-form-token');
+
+    const error_tracking_setting = {
+      api_host: apiEl.value,
+      token: tokenEl.nodeValue,
+    };
+
+    console.log(error_tracking_setting);
+
     return axios
       .post(
         `${data.listProjectsEndpoint}.json`,
         {
-          error_tracking_setting: {
-            api_host: '<<<url here>>>',
-            token: '<<<token here>>>',
-          },
+          error_tracking_setting,
         },
         {
           headers: {
