@@ -31,7 +31,7 @@ export default {
 
     const error_tracking_setting = {
       api_host: apiEl.value,
-      token: tokenEl.nodeValue,
+      token: tokenEl.value,
     };
 
     console.log(error_tracking_setting);
@@ -52,7 +52,7 @@ export default {
       .then(res => {
         console.log('status', res.status);
         console.log('data', res.data);
-        dispatch('receiveLoadProjects', res.data.map(transformBackendProject));
+        dispatch('receiveLoadProjects', res.data.projects.map(transformBackendProject));
       })
       .catch(err => {
         console.log(err);
