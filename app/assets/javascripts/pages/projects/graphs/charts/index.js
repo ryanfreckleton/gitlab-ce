@@ -11,6 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
       responsive: true,
       pointHitDetectionRadius: 2,
       maintainAspectRatio: false,
+      legend: false,
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+      tooltips: {
+        mode: 'x',
+        intersect: false,
+        displayColors: false,
+        callbacks: {
+          title() {
+            return '';
+          },
+          label({ xLabel, yLabel }) {
+            return `${xLabel}: ${yLabel}`;
+          },
+        },
+      },
     };
     // get selector by context
     const ctx = selector.get(0).getContext('2d');
@@ -22,7 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Scale fonts if window width lower than 768px (iPad portrait)
         options.scaleFontSize = 8;
       }
-      return new Chart(ctx).Bar(data, options);
+      return new Chart(ctx, {
+        type: 'bar',
+        data,
+        options,
+      });
     };
     // enabling auto-resizing
     $(window).resize(generateChart);
@@ -33,11 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     labels: Object.keys(data),
     datasets: [
       {
-        fillColor: 'rgba(220,220,220,0.5)',
-        strokeColor: 'rgba(220,220,220,1)',
-        barStrokeWidth: 1,
-        barValueSpacing: 1,
-        barDatasetSpacing: 1,
+        backgroundColor: 'rgba(220,220,220,0.5)',
+        borderColor: 'rgba(220,220,220,1)',
+        borderWidth: 1,
         data: _.values(data),
       },
     ],
@@ -68,7 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const monthData = chartData(projectChartData.month);
   responsiveChart($('#month-chart'), monthData);
 
-  const data = projectChartData.languages;
+  const data = {
+    datasets: [
+      {
+        data: projectChartData.languages.map(x => x.value),
+        backgroundColor: projectChartData.languages.map(x => x.color),
+        hoverBackgroundColor: projectChartData.languages.map(x => x.highlight),
+      },
+    ],
+    labels: projectChartData.languages.map(x => x.label),
+  };
   const ctx = $('#languages-chart')
     .get(0)
     .getContext('2d');
@@ -76,7 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
     scaleOverlay: true,
     responsive: true,
     maintainAspectRatio: false,
+    legend: false,
   };
 
-  new Chart(ctx).Pie(data, options);
+  /* eslint-disable no-new */
+  new Chart(ctx, {
+    type: 'pie',
+    data,
+    options,
+  });
+  /* eslint-enable no-new */
 });
