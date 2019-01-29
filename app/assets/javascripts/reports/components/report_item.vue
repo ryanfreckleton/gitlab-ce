@@ -35,7 +35,7 @@ export default {
 <template>
   <li :class="{ 'is-dismissed': issue.isDismissed }" class="report-block-list-issue">
     <issue-status-icon :status="status" class="append-right-5" />
-
+    <span v-if="issue.isDismissed" class="prepend-top-5 mx-2">{{ __('DISMISSED') }}</span>
     <component :is="component" v-if="component" :issue="issue" :status="status" :is-new="isNew" />
   </li>
 </template>
