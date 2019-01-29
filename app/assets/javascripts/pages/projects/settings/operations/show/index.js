@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveChangesEl = document.getElementById('js-error-tracking-save-changes');
   const dataEl = listProjectsEl;
 
-  console.log('dataset', dataEl.dataset);
-
   const {
     dataset: { listProjectsEndpoint },
   } = dataEl;
@@ -18,8 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const {
     dataset: { errorTrackingSettingsUrl },
   } = saveChangesEl;
-
-  console.log(saveChangesEl.dataset);
 
   mountProjectDropdown();
 
@@ -32,79 +28,33 @@ document.addEventListener('DOMContentLoaded', () => {
   $(saveChangesEl).on('click', event => {
     const shouldDo = true;
 
-    // var bodyFormData = new FormData();
-    // And then add the fields to the form you want to send :
-
-    // bodyFormData.set('userName', 'Fred');
-    // If you are uploading images, you may want to use .append
-
-    // bodyFormData.append('image', imageFile);
-    // And then you can use axios post method (You can amend it accordingly)
-
-    // axios({
-    //     method: 'post',
-    //     url: 'myurl',
-    //     data: bodyFormData,
-    //     config: { headers: {'Content-Type': 'multipart/form-data' }}
-    //     })
-    //     .then(function (response) {
-    //         //handle success
-    //         console.log(response);
-    //     })
-    //     .catch(function (response) {
-    //         //handle error
-    //         console.log(response);
-    //     });
-
-    // {
-    //   error_tracking_setting_attributes: {
-    //     api_host: apiHost,
-    //     token,
-    //     enabled: true,
-    //     project: {
-    //       name: 'sentry-example',
-    //       slug: 'sentry-example',
-    //       organization_name: 'Sentry',
-    //       organization_slug: 'sentry',
-    //     },
-    //   },
-    // }
-
     if (shouldDo) {
+      event.preventDefault();
       // Hack to grab form element data
       const apiHost = document.getElementById('js-error-tracking-api-url').value;
       const token = document.getElementById('js-error-tracking-token').value;
 
-      event.preventDefault();
-      const formData = new FormData();
-      formData.set('commit', 'Save changes');
-      formData.set('_method', 'patch');
-      formData.set('utf8', '✓');
-      formData.set('project[error_tracking_setting_attributes][api_host]', apiHost);
-      formData.set('project[error_tracking_setting_attributes][token]', token);
-      formData.set('project[error_tracking_setting_attributes][enabled]', true);
-      formData.set('project[error_tracking_setting_attributes][project][name]', 'sentry-example');
-      formData.set('project[error_tracking_setting_attributes][project][slug]', 'sentry-example');
-      formData.set(
-        'project[error_tracking_setting_attributes][project][organization_name]',
-        'Sentry',
-      );
-      formData.set(
-        'project[error_tracking_setting_attributes][project][organization_slug]',
-        'sentry',
-      );
-
       axios
-        .post(errorTrackingSettingsUrl, formData, {
-          headers: { 'Content-Type': 'multipart/form-data', Accept: 'text/html' },
-          responseType: 'document',
+        .patch(errorTrackingSettingsUrl, {
+          project: {
+            error_tracking_setting_attributes: {
+              api_host: apiHost,
+              token,
+              enabled: true,
+              project: {
+                name: 'sentry-example',
+                slug: 'sentry-example',
+                organization_name: 'Sentry',
+                organization_slug: 'sentry',
+              },
+            },
+          },
         })
         .then(res => {
-          console.log(res);
-          // $('body').html(res.data);
-          document.documentElement.innerHTML = res.data.documentElement.innerHTML;
+          console.log('response:', res);
         })
-        .catch(() => {
+        .catch(err => {
+          console.error(err);
           // do nothing
         });
     }
