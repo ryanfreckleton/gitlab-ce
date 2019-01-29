@@ -1,6 +1,11 @@
 <script>
 import ReportItem from '~/reports/components/report_item.vue';
-import { STATUS_FAILED, STATUS_NEUTRAL, STATUS_SUCCESS } from '~/reports/constants';
+import {
+  STATUS_FAILED,
+  STATUS_NEUTRAL,
+  STATUS_SUCCESS,
+  STATUS_DISMISSED,
+} from '~/reports/constants';
 import SmartVirtualList from '~/vue_shared/components/smart_virtual_list.vue';
 
 const wrapIssueWithState = (status, isNew = false) => issue => ({
@@ -47,6 +52,11 @@ export default {
       required: false,
       default: () => [],
     },
+    dismissedIssues: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
     component: {
       type: String,
       required: false,
@@ -60,6 +70,7 @@ export default {
         ...this.unresolvedIssues.map(wrapIssueWithState(STATUS_FAILED)),
         ...this.neutralIssues.map(wrapIssueWithState(STATUS_NEUTRAL)),
         ...this.resolvedIssues.map(wrapIssueWithState(STATUS_SUCCESS)),
+        ...this.dismissedIssues.map(wrapIssueWithState(STATUS_DISMISSED)),
       ];
     },
   },
