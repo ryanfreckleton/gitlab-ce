@@ -11,7 +11,7 @@
     %p
       = _('To link Sentry to GitLab, enter your Sentry URL and Auth Token.')
   .settings-content
-    = form_for @project, url: project_settings_operations_path(@project), method: :patch do |f|
+    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'} do |f|
       = form_errors(@project)
       .form-group
         = f.fields_for :error_tracking_setting_attributes, setting do |form|
@@ -43,4 +43,4 @@
                   = _('Select project')
                   = icon('chevron-down')
 
-      = f.submit _('Save changes'), class: 'btn btn-success', id: 'js-error-tracking-save-changes', data: { error_tracking_settings_url: project_settings_operations_path(@project) }
+      = f.submit _('Save changes'), class: 'btn btn-success'
