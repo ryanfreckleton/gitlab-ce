@@ -9,10 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorTrackingFormEl = $('.js-error-tracking-form').first();
   const dataEl = listProjectsEl;
 
-  const {
-    dataset: { listProjectsEndpoint },
-  } = dataEl;
   const errorTrackingFormUrl = errorTrackingFormEl.attr('action');
+  const { listProjectsEndpoint } = dataEl.dataset;
 
   mountProjectDropdown();
 
