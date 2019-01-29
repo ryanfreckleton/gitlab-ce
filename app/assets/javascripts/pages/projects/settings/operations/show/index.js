@@ -2,9 +2,11 @@
 import $ from 'jquery';
 import store from '~/error_tracking_settings/store';
 import mountProjectDropdown from '~/error_tracking_settings';
+import axios from '~/lib/utils/axios_utils';
 
 document.addEventListener('DOMContentLoaded', () => {
   const listProjectsEl = document.getElementById('js-error-tracking-list-projects');
+  const saveChangesEl = document.getElementById('js-error-tracking-save-changes');
   const dataEl = listProjectsEl;
 
   console.log('dataset', dataEl.dataset);
@@ -13,11 +15,44 @@ document.addEventListener('DOMContentLoaded', () => {
     dataset: { listProjectsEndpoint },
   } = dataEl;
 
+  const {
+    dataset: { errorTrackingSettingsUrl },
+  } = saveChangesEl;
+
+  console.log(saveChangesEl.dataset);
+
   mountProjectDropdown();
 
   // Code to test things locally. TODO: Remove when server implementation is ready.
 
   $(listProjectsEl).on('click', () => {
     store.dispatch('loadProjects', { listProjectsEndpoint });
+  });
+
+  $(saveChangesEl).on('click', event => {
+    const shouldDo = true;
+
+    if (shouldDo) {
+      event.preventDefault();
+      // Hack to grab form element data
+      const apiHost = document.getElementById('js-error-tracking-api-url').value;
+      const token = document.getElementById('js-error-tracking-token').value;
+      axios.post(errorTrackingSettingsUrl, {
+        commit: 'Save changes',
+        _method: 'patch',
+        utf8: '✓',
+        error_tracking_setting_attributes: {
+          api_host: apiHost,
+          token,
+          enabled: true,
+          project: {
+            name: 'sentry-example',
+            slug: 'sentry-example',
+            organization_name: 'Sentry',
+            organization_slug: 'sentry',
+          },
+        },
+      });
+    }
   });
 });

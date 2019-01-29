@@ -20,7 +20,7 @@
             = form.label :enabled, _('Active'), class: 'form-check-label'
           .form-group
             = form.label :api_url, _('Sentry API URL'), class: 'label-bold'
-            = form.url_field :api_url, class: 'form-control', placeholder: _('http://<sentry-host>/api/0/projects/{organization_slug}/{project_slug}/'), id: 'js-form-api-url'
+            = form.url_field :api_url, class: 'form-control', placeholder: _('http://<sentry-host>/api/0/projects/{organization_slug}/{project_slug}/'), id: 'js-error-tracking-api-url'
             %p.form-text.text-muted
               = _('Enter your Sentry API URL')
           .form-group
@@ -28,7 +28,7 @@
             -# TODO: is there a better way to do this?
             .clearfix
             -# TODO: figure out why form-control-inline gets overridden. Remove hardcoded style.
-            = form.text_field :token, class: 'form-control form-control-inline', style: 'width: auto;', id: 'js-form-token'
+            = form.text_field :token, class: 'form-control form-control-inline', style: 'width: auto;', id: 'js-error-tracking-token'
             .btn.btn-success.prepend-left-10#js-error-tracking-list-projects{ data: { list_projects_endpoint: namespace_project_list_projects_url(project_id: @project, namespace_id: @project.namespace) } }
               = _('Connect')
             %p.form-text.text-muted
@@ -43,4 +43,4 @@
                   = _('Select project')
                   = icon('chevron-down')
 
-      = f.submit _('Save changes'), class: 'btn btn-success'
+      = f.submit _('Save changes'), class: 'btn btn-success', id: 'js-error-tracking-save-changes', data: { error_tracking_settings_url: project_settings_operations_path(@project) }

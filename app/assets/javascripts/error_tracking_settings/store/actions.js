@@ -9,38 +9,18 @@ const transformBackendProject = project => ({
 
 export default {
   loadProjects({ dispatch }, data) {
-    console.log('data', data);
-    // TODO: Remove this when backend is hooked up
-
-    // return axios.post(
-    //   `http://localhost:3000/h5bp/html5-boilerplate/list_projects.json`,
-    //   {
-    //     error_tracking_setting: {
-    //       api_host: '<url here>',
-    //       token: '<token here>',
-    //     },
-    //   },
-    //   {
-    //     headers: { Accept: 'application/json, text/plain, */*' },
-    //   },
-    // );
-
     // Hack to grab form element data
-    const apiEl = document.getElementById('js-form-api-url');
-    const tokenEl = document.getElementById('js-form-token');
-
-    const error_tracking_setting = {
-      api_host: apiEl.value,
-      token: tokenEl.value,
-    };
-
-    console.log(error_tracking_setting);
+    const apiHost = document.getElementById('js-error-tracking-api-url').value;
+    const token = document.getElementById('js-error-tracking-token').value;
 
     return axios
       .post(
         `${data.listProjectsEndpoint}.json`,
         {
-          error_tracking_setting,
+          error_tracking_setting: {
+            api_host: apiHost,
+            token,
+          },
         },
         {
           headers: {
@@ -50,30 +30,12 @@ export default {
         },
       )
       .then(res => {
-        console.log('status', res.status);
-        console.log('data', res.data);
+        console.log(res.data.projects[0]);
         dispatch('receiveLoadProjects', res.data.projects.map(transformBackendProject));
       })
       .catch(err => {
         console.log(err);
       });
-
-    // if (true) {
-    //   return dispatch('receiveLoadProjects', [
-    //     { id: '10', name: 'Hello' },
-    //     { id: '11', name: 'Hi there' },
-    //     { id: '12', name: "I'm a project" },
-    //   ]);
-    // }
-
-    // if (true) {
-    //   return dispatch('receiveLoadProjects', []);
-    // }
-
-    // const endpoint = data.apiEndpoitUrl;
-    // return axios.get(endpoint).then(res => {
-    //   dispatch('receiveLoadProjects', res.data.map(transformBackendProject));
-    // });
   },
   receiveLoadProjects({ commit }, projects) {
     commit(types.RECEIVE_PROJECTS, projects);
