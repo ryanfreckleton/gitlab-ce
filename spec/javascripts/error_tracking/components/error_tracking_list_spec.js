@@ -1,7 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import ErrorTrackingList from '~/error_tracking/components/error_tracking_list.vue';
-import { GlButton, GlEmptyState, GlLoadingIcon, GlTable } from '@gitlab/ui';
+import { GlButton, GlEmptyState, GlLoadingIcon, GlTable, GlLink } from '@gitlab/ui';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -20,12 +20,16 @@ describe('ErrorTrackingList', () => {
         errorTrackingEnabled,
         illustrationPath: 'illustration/path',
       },
+      stubs: {
+        'gl-link': GlLink,
+      },
     });
   }
 
   beforeEach(() => {
     const actions = {
       getErrorList: () => {},
+      startPolling: () => {},
     };
 
     const state = {
@@ -82,6 +86,12 @@ describe('ErrorTrackingList', () => {
       expect(wrapper.find(GlLoadingIcon).exists()).toBeFalsy();
       expect(wrapper.find(GlTable).exists()).toBeTruthy();
       expect(wrapper.find(GlButton).exists()).toBeTruthy();
+    });
+
+    it('shows a message prompting to refresh', () => {
+      const refreshLink = wrapper.vm.$refs.empty.querySelector('a');
+
+      expect(refreshLink.textContent.trim()).toContain('Refresh this page');
     });
   });
 

@@ -4731,9 +4731,6 @@ msgstr ""
 msgid "No due date"
 msgstr ""
 
-msgid "No errors to display"
-msgstr ""
-
 msgid "No estimate or time spent"
 msgstr ""
 
@@ -7909,6 +7906,9 @@ msgid "View file @ "
 msgstr ""
 
 msgid "View group labels"
+msgstr ""
+
+msgid "View in Sentry"
 msgstr ""
 
 msgid "View it on GitLab"
