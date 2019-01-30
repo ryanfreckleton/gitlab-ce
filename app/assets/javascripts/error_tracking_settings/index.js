@@ -4,7 +4,6 @@ import ProjectDropdown from './components/project_dropdown.vue';
 
 export default () => {
   const containerEl = document.getElementById('vue-dropdown-placeholder');
-  const dataEl = containerEl; // TODO: can dataEl be the same as containerEl? test and change accordingly
 
   return new Vue({
     el: containerEl,
@@ -14,20 +13,24 @@ export default () => {
     },
     data() {
       const {
-        dataset: { projectId, projectName },
-      } = dataEl;
-      return {
-        project: {
-          id: projectId,
-          name: projectName,
-        },
-      };
+        dataset: { slug, name, organizationName, organizationSlug },
+      } = containerEl;
+      if (slug !== undefined) {
+        return {
+          project: {
+            slug,
+            name,
+            organizationName,
+            organizationSlug,
+          },
+        };
+      }
+      return { projects: null };
     },
     render(createElement) {
       return createElement(ProjectDropdown, {
         props: {
           initialProject: this.project,
-          // initialProject: null, // TODO: remove when test data exists
         },
       });
     },
