@@ -114,7 +114,7 @@ describe Projects::TreeController do
       it 'redirects to the new directory' do
         expect(subject)
             .to redirect_to("/#{project.full_path}/tree/#{branch_name}/#{path}")
-        expect(flash[:notice]).to eq('The directory has been successfully created.')
+        expect(flash[:notice]).to eq(_('The directory has been successfully created.'))
       end
     end
 

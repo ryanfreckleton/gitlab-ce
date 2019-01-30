@@ -12,7 +12,7 @@ module API
     end
     resource :projects, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
       desc 'Get all deployments of the project' do
-        detail 'This feature was introduced in GitLab 8.11.'
+        detail _('This feature was introduced in GitLab 8.11.')
         success Entities::Deployment
       end
       params do
@@ -29,7 +29,7 @@ module API
       # rubocop: enable CodeReuse/ActiveRecord
 
       desc 'Gets a specific deployment' do
-        detail 'This feature was introduced in GitLab 8.11.'
+        detail _('This feature was introduced in GitLab 8.11.')
         success Entities::Deployment
       end
       params do

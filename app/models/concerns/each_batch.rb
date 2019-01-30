@@ -50,7 +50,7 @@ module EachBatch
     def each_batch(of: 1000, column: primary_key, order_hint: nil)
       unless column
         raise ArgumentError,
-          'the column: argument must be set to a column name to use for ordering rows'
+          _('the column: argument must be set to a column name to use for ordering rows')
       end
 
       start = except(:select)

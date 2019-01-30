@@ -33,7 +33,7 @@ class GraphqlController < ApplicationController
   # Overridden from the ApplicationController to make the response look like
   # a GraphQL response. That is nicely picked up in Graphiql.
   def render_404
-    render_error("Not found!", status: :not_found)
+    render_error(_("Not found!"), status: :not_found)
   end
 
   def render_error(message, status: 500)

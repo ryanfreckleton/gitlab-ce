@@ -82,9 +82,9 @@ describe ProfilesController, :request_store do
     it 'allows setting a user status' do
       sign_in(user)
 
-      put :update, params: { user: { status: { message: 'Working hard!' } } }
+      put :update, params: { user: { status: { message: _('Working hard!') } } }
 
-      expect(user.reload.status.message).to eq('Working hard!')
+      expect(user.reload.status.message).to eq(_('Working hard!'))
       expect(response).to have_gitlab_http_status(302)
     end
   end

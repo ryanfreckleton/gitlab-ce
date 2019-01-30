@@ -12,10 +12,10 @@ describe 'Issue notes polling', :js do
     end
 
     it 'displays the new comment' do
-      note = create(:note, noteable: issue, project: project, note: 'Looks good!')
+      note = create(:note, noteable: issue, project: project, note: _('Looks good!'))
       wait_for_requests
 
-      expect(page).to have_selector("#note_#{note.id}", text: 'Looks good!')
+      expect(page).to have_selector("#note_#{note.id}", text: _('Looks good!'))
     end
   end
 

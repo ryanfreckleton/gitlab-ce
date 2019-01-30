@@ -153,7 +153,7 @@ module Gitlab
         # Transactions would result in ALTER TABLE locks being held for the
         # duration of the transaction, defeating the purpose of this method.
         if transaction_open?
-          raise 'add_concurrent_foreign_key can not be run inside a transaction'
+          raise _('add_concurrent_foreign_key can not be run inside a transaction')
         end
 
         # While MySQL does allow disabling of foreign keys it has no equivalent
@@ -452,7 +452,7 @@ module Gitlab
       #        type is used.
       def rename_column_concurrently(table, old, new, type: nil)
         if transaction_open?
-          raise 'rename_column_concurrently can not be run inside a transaction'
+          raise _('rename_column_concurrently can not be run inside a transaction')
         end
 
         check_trigger_permissions!(table)
@@ -599,7 +599,7 @@ module Gitlab
       )
 
         unless relation.model < EachBatch
-          raise TypeError, 'The relation must include the EachBatch module'
+          raise TypeError, _('The relation must include the EachBatch module')
         end
 
         temp_column = "#{column}_for_type_change"

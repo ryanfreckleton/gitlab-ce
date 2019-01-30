@@ -39,7 +39,7 @@ module Gitlab
             end
 
             def content
-              raise NotImplementedError, 'subclass must implement fetching raw content'
+              raise NotImplementedError, _('subclass must implement fetching raw content')
             end
 
             def to_hash

@@ -123,7 +123,7 @@ module Gitlab
 
         puts " Warning ".color(:black).background(:yellow)
         puts "  You are running as user #{current_user.color(:magenta)}, we hope you know what you are doing."
-        puts "  Things may work\/fail for the wrong reasons."
+        puts _("  Things may work\/fail for the wrong reasons.")
         puts "  For correct results you should run this as user #{gitlab_user.color(:magenta)}."
         puts ""
       end

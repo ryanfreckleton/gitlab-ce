@@ -27,7 +27,7 @@ describe Gitlab::Ci::Config::External::Processor do
       it 'should raise an error' do
         expect { processor.perform }.to raise_error(
           described_class::IncludeError,
-          "Local file `/lib/gitlab/ci/templates/non-existent-file.yml` does not exist!"
+          _("Local file `/lib/gitlab/ci/templates/non-existent-file.yml` does not exist!")
         )
       end
     end
@@ -165,7 +165,7 @@ describe Gitlab::Ci::Config::External::Processor do
       it 'should raise an error' do
         expect { processor.perform }.to raise_error(
           described_class::IncludeError,
-          "Included file `/lib/gitlab/ci/templates/template.yml` does not have valid YAML syntax!"
+          _("Included file `/lib/gitlab/ci/templates/template.yml` does not have valid YAML syntax!")
         )
       end
     end

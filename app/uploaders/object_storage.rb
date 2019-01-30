@@ -241,7 +241,7 @@ module ObjectStorage
       return unless persist_object_store?
 
       updated = model.update_column(store_serialization_column, object_store)
-      raise 'Failed to update object store' unless updated
+      raise _('Failed to update object store') unless updated
     end
 
     def use_file(&blk)
@@ -342,14 +342,14 @@ module ObjectStorage
     def cache_remote_file!(remote_object_id, original_filename)
       file_path = File.join(TMP_UPLOAD_PATH, remote_object_id)
       file_path = Pathname.new(file_path).cleanpath.to_s
-      raise RemoteStoreError, 'Bad file path' unless file_path.start_with?(TMP_UPLOAD_PATH + '/')
+      raise RemoteStoreError, _('Bad file path') unless file_path.start_with?(TMP_UPLOAD_PATH + '/')
 
       # TODO:
       # This should be changed to make use of `tmp/cache` mechanism
       # instead of using custom upload directory,
       # using tmp/cache makes this implementation way easier than it is today
       CarrierWave::Storage::Fog::File.new(self, storage_for(Store::REMOTE), file_path).tap do |file|
-        raise RemoteStoreError, 'Missing file' unless file.exists?
+        raise RemoteStoreError, _('Missing file') unless file.exists?
 
         # Remote stored file, we force to store on remote storage
         self.object_store = Store::REMOTE
@@ -387,7 +387,7 @@ module ObjectStorage
     def storage_for(store)
       case store
       when Store::REMOTE
-        raise 'Object Storage is not enabled' unless self.class.object_store_enabled?
+        raise _('Object Storage is not enabled') unless self.class.object_store_enabled?
 
         CarrierWave::Storage::Fog.new(self)
       when Store::LOCAL

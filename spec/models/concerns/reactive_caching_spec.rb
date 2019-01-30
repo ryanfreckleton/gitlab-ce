@@ -145,7 +145,7 @@ describe ReactiveCaching, :use_clean_rails_memory_store_caching do
           stub_reactive_cache(instance, "preexisting")
         end
 
-        let(:calculation) { -> { raise "foo"} }
+        let(:calculation) { -> { raise _("foo")} }
 
         it 'leaves the cache untouched' do
           expect { go! }.to raise_error("foo")

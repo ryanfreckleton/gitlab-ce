@@ -13,7 +13,7 @@ describe NamespacePathValidator do
     it 'adds a message when the path is not in the correct format' do
       group = build(:group)
 
-      validator.validate_each(group, :path, "Path with spaces, and comma's!")
+      validator.validate_each(group, :path, _("Path with spaces, and comma's!"))
 
       expect(group.errors[:path]).to include(Gitlab::PathRegex.namespace_format_message)
     end

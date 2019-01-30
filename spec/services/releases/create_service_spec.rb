@@ -6,7 +6,7 @@ describe Releases::CreateService do
   let(:tag_name) { project.repository.tag_names.first }
   let(:tag_sha) { project.repository.find_tag(tag_name).dereferenced_target.sha }
   let(:name) { 'Bionic Beaver' }
-  let(:description) { 'Awesome release!' }
+  let(:description) { _('Awesome release!') }
   let(:params) { { tag: tag_name, name: name, description: description, ref: ref } }
   let(:ref) { nil }
   let(:service) { described_class.new(project, user, params) }

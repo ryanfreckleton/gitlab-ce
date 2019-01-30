@@ -19,7 +19,7 @@ module Groups
       end
 
       if group_path.include?('/') && !Group.supports_nested_objects?
-        raise 'Nested groups are not supported on MySQL'
+        raise _('Nested groups are not supported on MySQL')
       end
 
       create_group_path

@@ -106,7 +106,7 @@ describe 'Merge request > User uses quick actions', :js do
         it 'does not merge the MR' do
           add_note("/merge")
 
-          expect(page).not_to have_content 'Your commands have been executed!'
+          expect(page).not_to have_content _('Your commands have been executed!')
 
           expect(merge_request.reload).not_to be_merged
         end
@@ -122,7 +122,7 @@ describe 'Merge request > User uses quick actions', :js do
         it 'does not merge the MR' do
           add_note("/merge")
 
-          expect(page).not_to have_content 'Your commands have been executed!'
+          expect(page).not_to have_content _('Your commands have been executed!')
 
           expect(merge_request.reload).not_to be_merged
         end

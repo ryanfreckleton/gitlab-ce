@@ -220,7 +220,7 @@ describe Banzai::Filter::LabelReferenceFilter do
 
       expect(doc.css('a').first.attr('href')).to eq urls
         .project_issues_url(project, label_name: label.name)
-      expect(doc.text).to eq 'See g.fm & references?'
+      expect(doc.text).to eq _('See g.fm & references?')
     end
 
     it 'links with adjacent text' do

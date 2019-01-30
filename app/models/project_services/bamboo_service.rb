@@ -39,7 +39,7 @@ class BambooService < CiService
   end
 
   def help
-    'You must set up automatic revision labeling and a repository trigger in Bamboo.'
+    _('You must set up automatic revision labeling and a repository trigger in Bamboo.')
   end
 
   def self.to_param

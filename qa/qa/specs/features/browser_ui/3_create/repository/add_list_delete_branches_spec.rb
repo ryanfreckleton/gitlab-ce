@@ -78,7 +78,7 @@ module QA
         Page::Project::Branches::Show.perform(&:delete_merged_branches)
 
         expect(page).to have_content(
-          'Merged branches are being deleted. This can take some time depending on the number of branches. Please refresh the page to see changes.'
+          _('Merged branches are being deleted. This can take some time depending on the number of branches. Please refresh the page to see changes.')
         )
 
         page.refresh

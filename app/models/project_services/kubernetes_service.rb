@@ -186,7 +186,7 @@ class KubernetesService < DeploymentService
   end
 
   def build_kube_client!
-    raise "Incomplete settings" unless api_url && actual_namespace && token
+    raise _("Incomplete settings") unless api_url && actual_namespace && token
 
     Gitlab::Kubernetes::KubeClient.new(
       api_url,

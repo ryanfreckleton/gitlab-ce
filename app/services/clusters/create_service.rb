@@ -9,7 +9,7 @@ module Clusters
     end
 
     def execute(access_token: nil)
-      raise ArgumentError, 'Unknown clusterable provided' unless clusterable
+      raise ArgumentError, _('Unknown clusterable provided') unless clusterable
       raise ArgumentError, _('Instance does not support multiple Kubernetes clusters') unless can_create_cluster?
 
       cluster_params = params.merge(user: current_user).merge(clusterable_params)

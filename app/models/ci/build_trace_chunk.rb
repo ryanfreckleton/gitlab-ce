@@ -67,16 +67,16 @@ module Ci
     end
 
     def truncate(offset = 0)
-      raise ArgumentError, 'Offset is out of range' if offset > size || offset < 0
+      raise ArgumentError, _('Offset is out of range') if offset > size || offset < 0
       return if offset == size # Skip the following process as it doesn't affect anything
 
       self.append("", offset)
     end
 
     def append(new_data, offset)
-      raise ArgumentError, 'New data is missing' unless new_data
-      raise ArgumentError, 'Offset is out of range' if offset > size || offset < 0
-      raise ArgumentError, 'Chunk size overflow' if CHUNK_SIZE < (offset + new_data.bytesize)
+      raise ArgumentError, _('New data is missing') unless new_data
+      raise ArgumentError, _('Offset is out of range') if offset > size || offset < 0
+      raise ArgumentError, _('Chunk size overflow') if CHUNK_SIZE < (offset + new_data.bytesize)
 
       in_lock(*lock_params) do # Write operation is atomic
         unsafe_set_data!(data.byteslice(0, offset) + new_data)
@@ -115,7 +115,7 @@ module Ci
       current_data = get_data
 
       unless current_data&.bytesize.to_i == CHUNK_SIZE
-        raise FailedToPersistDataError, 'Data is not fullfilled in a bucket'
+        raise FailedToPersistDataError, _('Data is not fullfilled in a bucket')
       end
 
       old_store_class = self.class.get_store_class(data_store)
@@ -134,7 +134,7 @@ module Ci
     end
 
     def unsafe_set_data!(value)
-      raise ArgumentError, 'New data size exceeds chunk size' if value.bytesize > CHUNK_SIZE
+      raise ArgumentError, _('New data size exceeds chunk size') if value.bytesize > CHUNK_SIZE
 
       self.class.get_store_class(data_store).set_data(self, value)
       @data = value

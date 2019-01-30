@@ -27,7 +27,7 @@ describe 'User reverts a commit', :js do
     end
 
     it 'reverts a commit' do
-      expect(page).to have_content('The commit has been successfully reverted.')
+      expect(page).to have_content(_('The commit has been successfully reverted.'))
     end
 
     it 'does not revert a previously reverted commit' do
@@ -56,7 +56,7 @@ describe 'User reverts a commit', :js do
         click_button('Revert')
       end
 
-      expect(page).to have_content('The commit has been successfully reverted. You can now submit a merge request to get this change into the original branch.')
+      expect(page).to have_content(_('The commit has been successfully reverted. You can now submit a merge request to get this change into the original branch.'))
       expect(page).to have_content("From revert-#{Commit.truncate_sha(sample_commit.id)} into master")
     end
   end

@@ -53,7 +53,7 @@ describe 'User uploads file to note' do
     it 'shows error message, "retry" and "attach a new file" link a if file is too big', :js do
       dropzone_file([Rails.root.join('spec', 'fixtures', 'video_sample.mp4')], 0.01)
 
-      error_text = 'File is too big (0.06MiB). Max filesize: 0.01MiB.'
+      error_text = _('File is too big (0.06MiB). Max filesize: 0.01MiB.')
 
       expect(page).to have_selector('.uploading-error-message', visible: true, text: error_text)
       expect(page).to have_selector('.retry-uploading-link', visible: true, text: 'Try again')

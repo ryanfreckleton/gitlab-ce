@@ -15,7 +15,7 @@ describe 'Merge request > User sees MR with deleted source branch', :js do
   end
 
   it 'shows a message about missing source branch' do
-    expect(page).to have_content('Source branch does not exist.')
+    expect(page).to have_content(_('Source branch does not exist.'))
   end
 
   it 'still contains Discussion, Commits and Changes tabs' do
@@ -29,6 +29,6 @@ describe 'Merge request > User sees MR with deleted source branch', :js do
     wait_for_requests
 
     expect(page).to have_selector('.diffs.tab-pane .file-holder')
-    expect(page).to have_content('Source branch does not exist.')
+    expect(page).to have_content(_('Source branch does not exist.'))
   end
 end

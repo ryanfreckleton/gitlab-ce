@@ -102,7 +102,7 @@ class InternalId < ActiveRecord::Base
       @init = init
       @usage = usage
 
-      raise ArgumentError, 'Scope is not well-defined, need at least one column for scope (given: 0)' if scope.empty?
+      raise ArgumentError, _('Scope is not well-defined, need at least one column for scope (given: 0)') if scope.empty?
 
       unless InternalId.usages.has_key?(usage.to_s)
         raise ArgumentError, "Usage '#{usage}' is unknown. Supported values are #{InternalId.usages.keys} from InternalId.usages"

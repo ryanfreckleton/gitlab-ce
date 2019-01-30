@@ -46,7 +46,7 @@ describe 'Diff file viewer', :js do
       end
 
       it 'shows an error message' do
-        expect(page).to have_content('This source diff could not be displayed because it is stored in LFS. You can view the blob instead.')
+        expect(page).to have_content(_('This source diff could not be displayed because it is stored in LFS. You can view the blob instead.'))
       end
     end
 
@@ -161,12 +161,12 @@ describe 'Diff file viewer', :js do
     end
 
     it 'shows the diff is collapsed' do
-      expect(page).to have_content('This diff is collapsed. Click to expand it.')
+      expect(page).to have_content(_('This diff is collapsed. Click to expand it.'))
     end
 
     context 'expanding the diff' do
       before do
-        click_button 'Click to expand it.'
+        click_button _('Click to expand it.')
 
         wait_for_requests
       end

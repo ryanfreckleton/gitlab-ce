@@ -230,7 +230,7 @@ class Label < ActiveRecord::Base
   end
 
   def label_format_reference(format = :id)
-    raise StandardError, 'Unknown format' unless [:id, :name].include?(format)
+    raise StandardError, _('Unknown format') unless [:id, :name].include?(format)
 
     if format == :name && !name.include?('"')
       %("#{name}")

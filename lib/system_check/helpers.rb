@@ -6,7 +6,7 @@ module SystemCheck
 
     # Display a message telling to fix and rerun the checks
     def fix_and_rerun
-      $stdout.puts '  Please fix the error above and rerun the checks.'.color(:red)
+      $stdout.puts _('  Please fix the error above and rerun the checks.').color(:red)
     end
 
     # Display a formatted list of references (documentation or links) where to find more information

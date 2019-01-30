@@ -250,7 +250,7 @@ module Gitlab
 
     def fetch(branch:, depth:, remote: 'origin')
       step(
-        "Fetching deeper...",
+        _("Fetching deeper..."),
         %W[git fetch --depth=#{depth} --prune #{remote} +refs/heads/#{branch}:refs/remotes/#{remote}/#{branch}]
       ) do |output, status|
         raise "Fetch failed: #{output}" unless status.zero?

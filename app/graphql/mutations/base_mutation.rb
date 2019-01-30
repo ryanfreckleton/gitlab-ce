@@ -4,7 +4,7 @@ module Mutations
   class BaseMutation < GraphQL::Schema::RelayClassicMutation
     field :errors, [GraphQL::STRING_TYPE],
           null: false,
-          description: "Reasons why the mutation failed."
+          description: _("Reasons why the mutation failed.")
 
     def current_user
       context[:current_user]

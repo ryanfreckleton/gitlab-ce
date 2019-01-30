@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class MigrationsAreUpCheck < SystemCheck::BaseCheck
-      set_name 'All migrations up?'
+      set_name _('All migrations up?')
 
       def check?
         migration_status, _ = Gitlab::Popen.popen(%w(bundle exec rake db:migrate:status))

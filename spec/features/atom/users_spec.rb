@@ -26,7 +26,7 @@ describe "User Feed"  do
         create(:issue,
                project: project,
                author: user,
-               description: "Houston, we have a bug!\n\n***\n\nI guess.")
+               description: _("Houston, we have a bug!\n\n***\n\nI guess."))
       end
       let(:note) do
         create(:note,

@@ -26,7 +26,7 @@ describe 'Projects > Settings > User renames a project' do
       rename_project(project, name: 'foo&bar', path: 'foo&bar')
       expect(page).to have_field 'Project name', with: 'foo&bar'
       expect(page).to have_field 'Path', with: 'foo&bar'
-      expect(page).to have_content "Name can contain only letters, digits, emojis, '_', '.', dash, space. It must start with letter, digit, emoji or '_'."
+      expect(page).to have_content _("Name can contain only letters, digits, emojis, '_', '.', dash, space. It must start with letter, digit, emoji or '_'.")
       expect(page).to have_content "Path can contain only letters, digits, '_', '-' and '.'. Cannot start with '-', end in '.git' or end in '.atom'"
     end
   end
@@ -37,7 +37,7 @@ describe 'Projects > Settings > User renames a project' do
       click_button 'Save changes'
     end
 
-    expect(page).to have_content "Project 'hello world' was successfully updated."
+    expect(page).to have_content _("Project 'hello world' was successfully updated.")
   end
 
   context 'when changing project name' do
@@ -50,7 +50,7 @@ describe 'Projects > Settings > User renames a project' do
       it 'shows error for invalid project name' do
         rename_project(project, name: '🚀 foo bar ☁️')
         expect(page).to have_field 'Project name', with: '🚀 foo bar ☁️'
-        expect(page).not_to have_content "Name can contain only letters, digits, emojis '_', '.', dash and space. It must start with letter, digit, emoji or '_'."
+        expect(page).not_to have_content _("Name can contain only letters, digits, emojis '_', '.', dash and space. It must start with letter, digit, emoji or '_'.")
       end
     end
   end

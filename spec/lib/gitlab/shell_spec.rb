@@ -492,7 +492,7 @@ describe Gitlab::Shell do
 
       it 'return false when the command fails' do
         expect_any_instance_of(Gitlab::GitalyClient::RepositoryService).to receive(:fork_repository)
-          .with(repository.raw_repository) { raise GRPC::BadStatus, 'bla' }
+          .with(repository.raw_repository) { raise GRPC::BadStatus, _('bla') }
 
         is_expected.to be_falsy
       end
@@ -512,7 +512,7 @@ describe Gitlab::Shell do
 
         it 'raises an exception when the command fails' do
           expect_any_instance_of(Gitlab::GitalyClient::RepositoryService).to receive(:import_repository)
-            .with(import_url) { raise GRPC::BadStatus, 'bla' }
+            .with(import_url) { raise GRPC::BadStatus, _('bla') }
           expect_any_instance_of(Gitlab::Shell::GitalyGitlabProjects).to receive(:output) { 'error'}
 
           expect do

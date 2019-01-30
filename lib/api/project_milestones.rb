@@ -86,7 +86,7 @@ module API
       end
 
       desc 'Get all merge requests for a single project milestone' do
-        detail 'This feature was introduced in GitLab 9.'
+        detail _('This feature was introduced in GitLab 9.')
         success Entities::MergeRequestBasic
       end
       params do

@@ -56,10 +56,10 @@ module OmniAuth
           raise ClaimInvalid, "Missing required '#{field}' claim" unless @decoded.key?(field.to_s)
         end
 
-        raise ClaimInvalid, "Missing required 'iat' claim" if options.valid_within && !@decoded["iat"]
+        raise ClaimInvalid, _("Missing required 'iat' claim") if options.valid_within && !@decoded["iat"]
 
         if options.valid_within && (Time.now.to_i - @decoded["iat"]).abs > options.valid_within.to_i
-          raise ClaimInvalid, "'iat' timestamp claim is too skewed from present"
+          raise ClaimInvalid, _("'iat' timestamp claim is too skewed from present")
         end
 
         @decoded

@@ -9,7 +9,7 @@ module API
     end
     resource :markdown do
       desc "Render markdown text" do
-        detail "This feature was introduced in GitLab 11.0."
+        detail _("This feature was introduced in GitLab 11.0.")
       end
       post do
         context = { only_path: false, current_user: current_user }

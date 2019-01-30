@@ -6,7 +6,7 @@ module MergeRequests
       @merge_request = merge_request
       @repository = target_project.repository
 
-      squash || error('Failed to squash. Should be done manually.')
+      squash || error(_('Failed to squash. Should be done manually.'))
     end
 
     def squash
@@ -15,7 +15,7 @@ module MergeRequests
       end
 
       if merge_request.squash_in_progress?
-        return error('Squash task canceled: another squash is already in progress.')
+        return error(_('Squash task canceled: another squash is already in progress.'))
       end
 
       squash_sha = repository.squash(current_user, merge_request)

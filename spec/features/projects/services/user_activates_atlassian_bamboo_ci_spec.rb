@@ -21,7 +21,7 @@ describe 'User activates Atlassian Bamboo CI' do
     fill_in('Password', with: 'verySecret')
     click_button('Save')
 
-    expect(page).to have_content('Atlassian Bamboo CI activated.')
+    expect(page).to have_content(_('Atlassian Bamboo CI activated.'))
 
     # Password field should not be filled in.
     click_link('Atlassian Bamboo CI')

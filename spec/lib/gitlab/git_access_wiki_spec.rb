@@ -31,7 +31,7 @@ describe Gitlab::GitAccessWiki do
         end
 
         it 'does not give access to upload wiki code' do
-          expect { subject }.to raise_error(Gitlab::GitAccess::UnauthorizedError, "You can't push code to a read-only GitLab instance.")
+          expect { subject }.to raise_error(Gitlab::GitAccess::UnauthorizedError, _("You can't push code to a read-only GitLab instance."))
         end
       end
     end
@@ -59,7 +59,7 @@ describe Gitlab::GitAccessWiki do
           # Sanity check for rm_rf
           expect(wiki_repo.exists?).to eq(false)
 
-          expect { subject }.to raise_error(Gitlab::GitAccess::NotFoundError, 'A repository for this project does not exist yet.')
+          expect { subject }.to raise_error(Gitlab::GitAccess::NotFoundError, _('A repository for this project does not exist yet.'))
         end
       end
     end
@@ -68,7 +68,7 @@ describe Gitlab::GitAccessWiki do
       it 'does not give access to download wiki code' do
         project.project_feature.update_attribute(:wiki_access_level, ProjectFeature::DISABLED)
 
-        expect { subject }.to raise_error(Gitlab::GitAccess::UnauthorizedError, 'You are not allowed to download code from this project.')
+        expect { subject }.to raise_error(Gitlab::GitAccess::UnauthorizedError, _('You are not allowed to download code from this project.'))
       end
     end
   end

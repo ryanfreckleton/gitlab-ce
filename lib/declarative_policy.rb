@@ -92,7 +92,7 @@ module DeclarativePolicy
       seen = Set.new
 
       while subject.respond_to?(:declarative_policy_delegate)
-        raise ArgumentError, "circular delegations" if seen.include?(subject.object_id)
+        raise ArgumentError, _("circular delegations") if seen.include?(subject.object_id)
 
         seen << subject.object_id
         subject = subject.declarative_policy_delegate

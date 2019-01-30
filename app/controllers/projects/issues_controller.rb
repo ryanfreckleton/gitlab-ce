@@ -94,9 +94,9 @@ class Projects::IssuesController < Projects::ApplicationController
 
     if service.discussions_to_resolve.count(&:resolved?) > 0
       flash[:notice] = if service.discussion_to_resolve_id
-                         "Resolved 1 discussion."
+                         _("Resolved 1 discussion.")
                        else
-                         "Resolved all discussions."
+                         _("Resolved all discussions.")
                        end
     end
 
@@ -248,7 +248,7 @@ class Projects::IssuesController < Projects::ApplicationController
   def authenticate_new_issue!
     return if current_user
 
-    notice = "Please sign in to create the new issue."
+    notice = _("Please sign in to create the new issue.")
 
     redirect_to new_user_session_path, notice: notice
   end

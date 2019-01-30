@@ -42,50 +42,50 @@ module Gitlab
           end
 
           entry :before_script, Entry::Script,
-            description: 'Global before script overridden in this job.'
+            description: _('Global before script overridden in this job.')
 
           entry :script, Entry::Commands,
-            description: 'Commands that will be executed in this job.'
+            description: _('Commands that will be executed in this job.')
 
           entry :stage, Entry::Stage,
-            description: 'Pipeline stage this job will be executed into.'
+            description: _('Pipeline stage this job will be executed into.')
 
           entry :type, Entry::Stage,
             description: 'Deprecated: stage this job will be executed into.'
 
           entry :after_script, Entry::Script,
-            description: 'Commands that will be executed when finishing job.'
+            description: _('Commands that will be executed when finishing job.')
 
           entry :cache, Entry::Cache,
-            description: 'Cache definition for this job.'
+            description: _('Cache definition for this job.')
 
           entry :image, Entry::Image,
-            description: 'Image that will be used to execute this job.'
+            description: _('Image that will be used to execute this job.')
 
           entry :services, Entry::Services,
-            description: 'Services that will be used to execute this job.'
+            description: _('Services that will be used to execute this job.')
 
           entry :only, Entry::Policy,
-            description: 'Refs policy this job will be executed for.',
+            description: _('Refs policy this job will be executed for.'),
             default: { refs: %w[branches tags] }
 
           entry :except, Entry::Policy,
-            description: 'Refs policy this job will be executed for.'
+            description: _('Refs policy this job will be executed for.')
 
           entry :variables, Entry::Variables,
-            description: 'Environment variables available for this job.'
+            description: _('Environment variables available for this job.')
 
           entry :artifacts, Entry::Artifacts,
-            description: 'Artifacts configuration for this job.'
+            description: _('Artifacts configuration for this job.')
 
           entry :environment, Entry::Environment,
-            description: 'Environment configuration for this job.'
+            description: _('Environment configuration for this job.')
 
           entry :coverage, Entry::Coverage,
-            description: 'Coverage configuration for this job.'
+            description: _('Coverage configuration for this job.')
 
           entry :retry, Entry::Retry,
-               description: 'Retry configuration for this job.'
+               description: _('Retry configuration for this job.')
 
           helpers :before_script, :script, :stage, :type, :after_script,
                   :cache, :image, :services, :only, :except, :variables,

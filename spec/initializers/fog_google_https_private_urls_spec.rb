@@ -13,7 +13,7 @@ describe 'Fog::Storage::GoogleXML::File', :fog_requests do
   let(:file) do
     directory = storage.directories.create(key: 'data')
     directory.files.create(
-      body: 'Hello World!',
+      body: _('Hello World!'),
       key: 'hello_world.txt'
     )
   end

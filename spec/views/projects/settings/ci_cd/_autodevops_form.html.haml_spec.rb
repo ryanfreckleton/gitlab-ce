@@ -43,7 +43,7 @@ describe 'projects/settings/ci_cd/_autodevops_form' do
         render
 
         expect(rendered).to have_css('.auto-devops-warning-message')
-        expect(rendered).to have_text('Auto Review Apps and Auto Deploy need a domain name to work correctly.')
+        expect(rendered).to have_text(_('Auto Review Apps and Auto Deploy need a domain name to work correctly.'))
       end
     end
 

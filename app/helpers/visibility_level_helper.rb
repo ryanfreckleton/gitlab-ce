@@ -42,11 +42,11 @@ module VisibilityLevelHelper
   def group_visibility_level_description(level)
     case level
     when Gitlab::VisibilityLevel::PRIVATE
-      "The group and its projects can only be viewed by members."
+      _("The group and its projects can only be viewed by members.")
     when Gitlab::VisibilityLevel::INTERNAL
-      "The group and any internal projects can be viewed by any logged in user."
+      _("The group and any internal projects can be viewed by any logged in user.")
     when Gitlab::VisibilityLevel::PUBLIC
-      "The group and any public projects can be viewed without any authentication."
+      _("The group and any public projects can be viewed without any authentication.")
     end
   end
 
@@ -54,14 +54,14 @@ module VisibilityLevelHelper
     case level
     when Gitlab::VisibilityLevel::PRIVATE
       if snippet.is_a? ProjectSnippet
-        "The snippet is visible only to project members."
+        _("The snippet is visible only to project members.")
       else
-        "The snippet is visible only to me."
+        _("The snippet is visible only to me.")
       end
     when Gitlab::VisibilityLevel::INTERNAL
-      "The snippet is visible to any logged in user."
+      _("The snippet is visible to any logged in user.")
     when Gitlab::VisibilityLevel::PUBLIC
-      "The snippet can be accessed without any authentication."
+      _("The snippet can be accessed without any authentication.")
     end
   end
 

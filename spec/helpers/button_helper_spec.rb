@@ -29,7 +29,7 @@ describe ButtonHelper do
         it 'shows the password text on the dropdown' do
           description = element.search('.dropdown-menu-inner-content').first
 
-          expect(description.inner_text).to eq 'Set a password on your account to pull or push via HTTP.'
+          expect(description.inner_text).to eq _('Set a password on your account to pull or push via HTTP.')
         end
       end
     end
@@ -43,7 +43,7 @@ describe ButtonHelper do
         it 'has a personal access token text on the dropdown description' do
           description = element.search('.dropdown-menu-inner-content').first
 
-          expect(description.inner_text).to eq 'Create a personal access token on your account to pull or push via HTTP.'
+          expect(description.inner_text).to eq _('Create a personal access token on your account to pull or push via HTTP.')
         end
       end
 
@@ -177,13 +177,13 @@ describe ButtonHelper do
 
       context 'when `text` attribute is provided' do
         it 'shows copy to clipboard button with provided `text` to copy' do
-          expect(element(text: 'Hello World!').attr('data-clipboard-text')).to eq('Hello World!')
+          expect(element(text: _('Hello World!')).attr('data-clipboard-text')).to eq(_('Hello World!'))
         end
       end
 
       context 'when `title` attribute is provided' do
         it 'shows copy to clipboard button with provided `title` as tooltip' do
-          expect(element(title: 'Copy to my clipboard!').attr('aria-label')).to eq('Copy to my clipboard!')
+          expect(element(title: _('Copy to my clipboard!')).attr('aria-label')).to eq(_('Copy to my clipboard!'))
         end
       end
     end

@@ -18,7 +18,7 @@ module API
         resource 'releases/:tag_name', requirements: RELEASE_ENDPOINT_REQUIREMETS do
           resource :assets do
             desc 'Get a list of links of a release' do
-              detail 'This feature was introduced in GitLab 11.7.'
+              detail _('This feature was introduced in GitLab 11.7.')
               success Entities::Releases::Link
             end
             params do
@@ -31,7 +31,7 @@ module API
             end
 
             desc 'Create a link of a release' do
-              detail 'This feature was introduced in GitLab 11.7.'
+              detail _('This feature was introduced in GitLab 11.7.')
               success Entities::Releases::Link
             end
             params do
@@ -55,7 +55,7 @@ module API
             end
             resource 'links/:link_id' do
               desc 'Get a link detail of a release' do
-                detail 'This feature was introduced in GitLab 11.7.'
+                detail _('This feature was introduced in GitLab 11.7.')
                 success Entities::Releases::Link
               end
               get do
@@ -65,7 +65,7 @@ module API
               end
 
               desc 'Update a link of a release' do
-                detail 'This feature was introduced in GitLab 11.7.'
+                detail _('This feature was introduced in GitLab 11.7.')
                 success Entities::Releases::Link
               end
               params do
@@ -84,7 +84,7 @@ module API
               end
 
               desc 'Delete a link of a release' do
-                detail 'This feature was introduced in GitLab 11.7.'
+                detail _('This feature was introduced in GitLab 11.7.')
                 success Entities::Releases::Link
               end
               delete do

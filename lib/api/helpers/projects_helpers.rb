@@ -19,7 +19,7 @@ module API
             optional :resolve_outdated_diff_discussions, type: Boolean, desc: 'Automatically resolve merge request diffs discussions on lines changed with a push'
             optional :container_registry_enabled, type: Boolean, desc: 'Flag indication if the container registry is enabled for that project'
             optional :lfs_enabled, type: Boolean, desc: 'Flag indication if Git LFS is enabled for that project'
-            optional :visibility, type: String, values: Gitlab::VisibilityLevel.string_values, desc: 'The visibility of the project.'
+            optional :visibility, type: String, values: Gitlab::VisibilityLevel.string_values, desc: _('The visibility of the project.')
             optional :public_builds, type: Boolean, desc: 'Perform public builds'
             optional :request_access_enabled, type: Boolean, desc: 'Allow users to request member access'
             optional :only_allow_merge_if_pipeline_succeeds, type: Boolean, desc: 'Only allow to merge if builds succeed'

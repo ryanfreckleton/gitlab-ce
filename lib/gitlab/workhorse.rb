@@ -67,7 +67,7 @@ module Gitlab
         format ||= 'tar.gz'
         format = format.downcase
         params = repository.archive_metadata(ref, Gitlab.config.gitlab.repository_downloads_path, format, append_sha: append_sha)
-        raise "Repository or ref not found" if params.empty?
+        raise _("Repository or ref not found") if params.empty?
 
         params['GitalyServer'] = gitaly_server_hash(repository)
 

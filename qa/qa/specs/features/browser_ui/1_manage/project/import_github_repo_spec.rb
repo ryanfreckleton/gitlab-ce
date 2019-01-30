@@ -43,7 +43,7 @@ module QA
       end
 
       def verify_repository_import
-        expect(page).to have_content('This test project is used for automated GitHub import by GitLab QA.')
+        expect(page).to have_content(_('This test project is used for automated GitHub import by GitLab QA.'))
         expect(page).to have_content(imported_project.name)
       end
 
@@ -53,10 +53,10 @@ module QA
 
         click_link 'This is a sample issue'
 
-        expect(page).to have_content('We should populate this project with issues, pull requests and wiki pages.')
+        expect(page).to have_content(_('We should populate this project with issues, pull requests and wiki pages.'))
 
         # Comments
-        expect(page).to have_content('This is a comment from @rymai.')
+        expect(page).to have_content(_('This is a comment from @rymai.'))
 
         Page::Issuable::Sidebar.perform do |issuable|
           expect(issuable).to have_label('enhancement')
@@ -71,13 +71,13 @@ module QA
 
         click_link 'Improve README.md'
 
-        expect(page).to have_content('This improves the README file a bit.')
+        expect(page).to have_content(_('This improves the README file a bit.'))
 
         # Review comment are not supported yet
-        expect(page).not_to have_content('Really nice change.')
+        expect(page).not_to have_content(_('Really nice change.'))
 
         # Comments
-        expect(page).to have_content('Nice work! This is a comment from @rymai.')
+        expect(page).to have_content(_('Nice work! This is a comment from @rymai.'))
 
         # Diff comments
         expect(page).to have_content('[Review comment] I like that!')
@@ -103,7 +103,7 @@ module QA
       def verify_wiki_import
         Page::Project::Menu.act { click_wiki }
 
-        expect(page).to have_content('Welcome to the test-project wiki!')
+        expect(page).to have_content(_('Welcome to the test-project wiki!'))
       end
     end
   end

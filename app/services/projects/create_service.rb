@@ -142,7 +142,7 @@ module Projects
           end
 
           unless @project.import?
-            raise 'Failed to create repository' unless @project.create_repository
+            raise _('Failed to create repository') unless @project.create_repository
           end
         end
       end

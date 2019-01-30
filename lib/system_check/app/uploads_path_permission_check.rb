@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class UploadsPathPermissionCheck < SystemCheck::BaseCheck
-      set_name 'Uploads directory has correct permissions?'
+      set_name _('Uploads directory has correct permissions?')
       set_skip_reason 'skipped (no uploads folder found)'
 
       def skip?

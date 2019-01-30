@@ -36,7 +36,7 @@ describe 'User activates Jira', :js do
       end
 
       it 'activates the JIRA service' do
-        expect(page).to have_content('JIRA activated.')
+        expect(page).to have_content(_('JIRA activated.'))
         expect(current_path).to eq(project_settings_integrations_path(project))
       end
 
@@ -56,7 +56,7 @@ describe 'User activates Jira', :js do
         click_button('Test settings and save changes')
 
         page.within('.service-settings') do
-          expect(page).to have_content('This field is required.')
+          expect(page).to have_content(_('This field is required.'))
         end
       end
 
@@ -75,7 +75,7 @@ describe 'User activates Jira', :js do
         find('.flash-alert .flash-action').click
         wait_for_requests
 
-        expect(page).to have_content('JIRA activated.')
+        expect(page).to have_content(_('JIRA activated.'))
         expect(current_path).to eq(project_settings_integrations_path(project))
       end
     end
@@ -89,7 +89,7 @@ describe 'User activates Jira', :js do
     end
 
     it 'saves but does not activate the JIRA service' do
-      expect(page).to have_content('JIRA settings saved, but not activated.')
+      expect(page).to have_content(_('JIRA settings saved, but not activated.'))
       expect(current_path).to eq(project_settings_integrations_path(project))
     end
 

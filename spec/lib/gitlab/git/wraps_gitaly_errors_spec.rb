@@ -21,7 +21,7 @@ describe Gitlab::Git::WrapsGitalyErrors do
     end
 
     it 'does not swallow other errors' do
-      expect { wrapper.wrapped_gitaly_errors { raise 'raised' } }
+      expect { wrapper.wrapped_gitaly_errors { raise _('raised') } }
         .to raise_error(RuntimeError)
     end
   end

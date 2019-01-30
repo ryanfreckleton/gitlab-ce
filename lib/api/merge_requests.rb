@@ -91,9 +91,9 @@ module API
         optional :state, type: String, values: %w[opened closed locked merged all], default: 'all',
                          desc: 'Return opened, closed, locked, merged, or all merge requests'
         optional :order_by, type: String, values: %w[created_at updated_at], default: 'created_at',
-                            desc: 'Return merge requests ordered by `created_at` or `updated_at` fields.'
+                            desc: _('Return merge requests ordered by `created_at` or `updated_at` fields.')
         optional :sort, type: String, values: %w[asc desc], default: 'desc',
-                        desc: 'Return merge requests sorted in `asc` or `desc` order.'
+                        desc: _('Return merge requests sorted in `asc` or `desc` order.')
         optional :milestone, type: String, desc: 'Return merge requests for a specific milestone'
         optional :labels, type: String, desc: 'Comma-separated list of label names'
         optional :created_after, type: DateTime, desc: 'Return merge requests created after the specified time'

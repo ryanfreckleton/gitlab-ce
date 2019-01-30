@@ -19,6 +19,6 @@ describe 'User activates Asana' do
     fill_in('Restrict to branch', with: 'verySecret')
     click_button('Save')
 
-    expect(page).to have_content('Asana activated.')
+    expect(page).to have_content(_('Asana activated.'))
   end
 end

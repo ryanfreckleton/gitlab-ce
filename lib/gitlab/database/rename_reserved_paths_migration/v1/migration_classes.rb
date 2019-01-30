@@ -86,7 +86,7 @@ module Gitlab
             end
 
             def hashed_storage?(feature)
-              raise ArgumentError, "Invalid feature" unless HASHED_STORAGE_FEATURES.include?(feature)
+              raise ArgumentError, _("Invalid feature") unless HASHED_STORAGE_FEATURES.include?(feature)
               return false unless respond_to?(:storage_version)
 
               self.storage_version && self.storage_version >= HASHED_STORAGE_FEATURES[feature]

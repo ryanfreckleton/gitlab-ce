@@ -65,7 +65,7 @@ describe MattermostSlashCommandsService do
               headers: { 'Content-Type' => 'application/json' },
               body: {
                 id: 'api.command.duplicate_trigger.app_error',
-                message: 'This trigger word is already in use. Please choose another word.',
+                message: _('This trigger word is already in use. Please choose another word.'),
                 detailed_error: '',
                 request_id: 'obc374man7bx5r3dbc1q5qhf3r',
                 status_code: 500
@@ -77,7 +77,7 @@ describe MattermostSlashCommandsService do
           succeeded, message = subject
 
           expect(succeeded).to be(false)
-          expect(message).to eq('This trigger word is already in use. Please choose another word.')
+          expect(message).to eq(_('This trigger word is already in use. Please choose another word.'))
         end
       end
     end
@@ -109,13 +109,13 @@ describe MattermostSlashCommandsService do
               status: 500,
               headers: { 'Content-Type' => 'application/json' },
               body: {
-                message: 'Failed to get team list.'
+                message: _('Failed to get team list.')
               }.to_json
             )
         end
 
         it 'shows error messages' do
-          expect(subject).to eq([[], "Failed to get team list."])
+          expect(subject).to eq([[], _("Failed to get team list.")])
         end
       end
     end

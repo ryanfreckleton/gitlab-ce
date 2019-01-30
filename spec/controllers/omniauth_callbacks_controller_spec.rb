@@ -156,7 +156,7 @@ describe OmniauthCallbacksController, type: :controller do
 
           expect(request.env['warden']).not_to be_authenticated
           expect(response.status).to eq(302)
-          expect(controller).to set_flash[:alert].to('Wrong extern UID provided. Make sure Auth0 is configured correctly.')
+          expect(controller).to set_flash[:alert].to(_('Wrong extern UID provided. Make sure Auth0 is configured correctly.'))
         end
       end
     end

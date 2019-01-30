@@ -18,20 +18,20 @@ module DeclarativePolicy
       # `context` is a policy - an instance of
       # DeclarativePolicy::Base.
       def pass?(context)
-        raise 'abstract'
+        raise _('abstract')
       end
 
       # same as #pass? except refuses to do any I/O,
       # returning nil if the result is not yet cached.
       # used for accurately scoring And/Or
       def cached_pass?(context)
-        raise 'abstract'
+        raise _('abstract')
       end
 
       # abstractly, how long would it take to compute
       # this rule? lower-scored rules are tried first.
       def score(context)
-        raise 'abstract'
+        raise _('abstract')
       end
 
       # unwrap double negatives and nested and/or

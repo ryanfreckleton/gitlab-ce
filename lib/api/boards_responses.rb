@@ -38,7 +38,7 @@ module API
           if move_list_service.execute(list)
             present list, with: Entities::List
           else
-            render_api_error!({ error: "List could not be moved!" }, 400)
+            render_api_error!({ error: _("List could not be moved!") }, 400)
           end
         end
 
@@ -46,7 +46,7 @@ module API
           destroy_conditionally!(list) do |list|
             service = ::Boards::Lists::DestroyService.new(board_parent, current_user)
             unless service.execute(list)
-              render_api_error!({ error: 'List could not be deleted!' }, 400)
+              render_api_error!({ error: _('List could not be deleted!') }, 400)
             end
           end
         end
@@ -54,7 +54,7 @@ module API
         # rubocop: disable CodeReuse/ActiveRecord
         def authorize_list_type_resource!
           unless available_labels_for(board_parent).exists?(params[:label_id])
-            render_api_error!({ error: 'Label not found!' }, 400)
+            render_api_error!({ error: _('Label not found!') }, 400)
           end
         end
         # rubocop: enable CodeReuse/ActiveRecord

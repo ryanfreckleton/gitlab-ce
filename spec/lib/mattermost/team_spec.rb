@@ -54,7 +54,7 @@ describe Mattermost::Team do
             headers: { 'Content-Type' => 'application/json' },
             body: {
               id: 'api.team.list.app_error',
-              message: 'Cannot list teams.',
+              message: _('Cannot list teams.'),
               detailed_error: '',
               request_id: 'obc374man7bx5r3dbc1q5qhf3r',
               status_code: 500
@@ -63,7 +63,7 @@ describe Mattermost::Team do
       end
 
       it 'raises an error with message' do
-        expect { subject }.to raise_error(Mattermost::Error, 'Cannot list teams.')
+        expect { subject }.to raise_error(Mattermost::Error, _('Cannot list teams.'))
       end
     end
   end

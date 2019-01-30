@@ -26,7 +26,7 @@ module Gitlab
             raise StatementError if @lexer.lexemes.empty?
 
             unless GRAMMAR.find { |syntax| syntax == @lexer.lexemes }
-              raise StatementError, 'Unknown pipeline expression!'
+              raise StatementError, _('Unknown pipeline expression!')
             end
 
             Expression::Parser.new(@lexer.tokens).tree

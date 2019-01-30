@@ -18,6 +18,6 @@ describe 'User activates Prometheus' do
     fill_in('API URL', with: 'http://prometheus.example.com')
     click_button('Save changes')
 
-    expect(page).to have_content('Prometheus activated.')
+    expect(page).to have_content(_('Prometheus activated.'))
   end
 end

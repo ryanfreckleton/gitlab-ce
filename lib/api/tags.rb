@@ -17,9 +17,9 @@ module API
       end
       params do
         optional :sort, type: String, values: %w[asc desc], default: 'desc',
-                        desc: 'Return tags sorted in updated by `asc` or `desc` order.'
+                        desc: _('Return tags sorted in updated by `asc` or `desc` order.')
         optional :order_by, type: String, values: %w[name updated], default: 'updated',
-                            desc: 'Return tags ordered by `name` or `updated` fields.'
+                            desc: _('Return tags ordered by `name` or `updated` fields.')
         optional :search, type: String, desc: 'Return list of tags matching the search criteria'
         use :pagination
       end
@@ -45,7 +45,7 @@ module API
       end
 
       desc 'Create a new repository tag' do
-        detail 'This optional release_description parameter was deprecated in GitLab 11.7.'
+        detail _('This optional release_description parameter was deprecated in GitLab 11.7.')
         success Entities::Tag
       end
       params do
@@ -105,7 +105,7 @@ module API
       end
 
       desc 'Add a release note to a tag' do
-        detail 'This feature was deprecated in GitLab 11.7.'
+        detail _('This feature was deprecated in GitLab 11.7.')
         success Entities::TagRelease
       end
       params do
@@ -137,7 +137,7 @@ module API
       end
 
       desc "Update a tag's release note" do
-        detail 'This feature was deprecated in GitLab 11.7.'
+        detail _('This feature was deprecated in GitLab 11.7.')
         success Entities::TagRelease
       end
       params do

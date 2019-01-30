@@ -46,9 +46,9 @@ module Gitlab
       path = ['api', 'v1', type].join('/')
       get(path, args)
     rescue JSON::ParserError
-      raise PrometheusClient::Error, 'Parsing response failed'
+      raise PrometheusClient::Error, _('Parsing response failed')
     rescue Errno::ECONNREFUSED
-      raise PrometheusClient::Error, 'Connection refused'
+      raise PrometheusClient::Error, _('Connection refused')
     end
 
     def get(path, args)
@@ -62,10 +62,10 @@ module Gitlab
       if ex.response
         handle_exception_response(ex.response)
       else
-        raise PrometheusClient::Error, "Network connection error"
+        raise PrometheusClient::Error, _("Network connection error")
       end
     rescue RestClient::Exception
-      raise PrometheusClient::Error, "Network connection error"
+      raise PrometheusClient::Error, _("Network connection error")
     end
 
     def handle_response(response)

@@ -12,7 +12,7 @@ describe AnalyticsMergeRequestSerializer do
   let(:resource) do
     {
       total_time: "172802.724419",
-      title: "Eos voluptatem inventore in sed.",
+      title: _("Eos voluptatem inventore in sed."),
       iid: "1",
       id: "1",
       state: 'open',

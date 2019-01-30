@@ -11,9 +11,9 @@ class Profiles::PreferencesController < Profiles::ApplicationController
       result = Users::UpdateService.new(current_user, preferences_params.merge(user: user)).execute
 
       if result[:status] == :success
-        flash[:notice] = 'Preferences saved.'
+        flash[:notice] = _('Preferences saved.')
       else
-        flash[:alert] = 'Failed to save preferences.'
+        flash[:alert] = _('Failed to save preferences.')
       end
     rescue ArgumentError => e
       # Raised when `dashboard` is given an invalid value.

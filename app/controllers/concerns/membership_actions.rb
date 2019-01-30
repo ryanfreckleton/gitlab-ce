@@ -9,7 +9,7 @@ module MembershipActions
     result = Members::CreateService.new(current_user, create_params).execute(membershipable)
 
     if result[:status] == :success
-      redirect_to members_page_url, notice: 'Users were successfully added.'
+      redirect_to members_page_url, notice: _('Users were successfully added.')
     else
       redirect_to members_page_url, alert: result[:message]
     end
@@ -47,7 +47,7 @@ module MembershipActions
     membershipable.request_access(current_user)
 
     redirect_to polymorphic_path(membershipable),
-                notice: 'Your request for access has been queued for review.'
+                notice: _('Your request for access has been queued for review.')
   end
 
   def approve_access_request
@@ -88,9 +88,9 @@ module MembershipActions
     if member.invite?
       member.resend_invite
 
-      redirect_to members_page_url, notice: 'The invitation was successfully resent.'
+      redirect_to members_page_url, notice: _('The invitation was successfully resent.')
     else
-      redirect_to members_page_url, alert: 'The invitation has already been accepted.'
+      redirect_to members_page_url, alert: _('The invitation has already been accepted.')
     end
   end
 

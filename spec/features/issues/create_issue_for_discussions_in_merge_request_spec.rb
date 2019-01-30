@@ -65,7 +65,7 @@ describe 'Resolving all open discussions in a merge request from an issue', :js 
         end
 
         it 'shows a warning that the merge request contains unresolved discussions' do
-          expect(page).to have_content 'There are unresolved discussions.'
+          expect(page).to have_content _('There are unresolved discussions.')
         end
 
         it 'has a link to resolve all discussions by creating an issue' do

@@ -10,7 +10,7 @@ module BulkMemberAccessLoad
     #
     # Returns a Hash mapping resource ID -> maximum access level.
     def max_member_access_for_resource_ids(resource_klass, resource_ids, memoization_index = self.id, &block)
-      raise 'Block is mandatory' unless block_given?
+      raise _('Block is mandatory') unless block_given?
 
       resource_ids = resource_ids.uniq
       key = max_member_access_for_resource_key(resource_klass, memoization_index)

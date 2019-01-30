@@ -19,9 +19,9 @@ module QA
       private
 
       def do_run
-        raise ArgumentError, "Please provide GITLAB_USERNAME" unless ENV['GITLAB_USERNAME']
-        raise ArgumentError, "Please provide GITLAB_PASSWORD" unless ENV['GITLAB_PASSWORD']
-        raise ArgumentError, "Please provide GITLAB_ADDRESS" unless ENV['GITLAB_ADDRESS']
+        raise ArgumentError, _("Please provide GITLAB_USERNAME") unless ENV['GITLAB_USERNAME']
+        raise ArgumentError, _("Please provide GITLAB_PASSWORD") unless ENV['GITLAB_PASSWORD']
+        raise ArgumentError, _("Please provide GITLAB_ADDRESS") unless ENV['GITLAB_ADDRESS']
 
         STDOUT.puts 'Running...'
 

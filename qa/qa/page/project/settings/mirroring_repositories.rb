@@ -35,13 +35,13 @@ module QA
           end
 
           def mirror_direction=(value)
-            raise ArgumentError, "Mirror direction must be :push or :pull" unless [:push, :pull].include? value
+            raise ArgumentError, _("Mirror direction must be :push or :pull") unless [:push, :pull].include? value
 
             select_element(:mirror_direction, value)
           end
 
           def authentication_method=(value)
-            raise ArgumentError, "Authentication method must be :password or :none" unless [:password, :none].include? value
+            raise ArgumentError, _("Authentication method must be :password or :none") unless [:password, :none].include? value
 
             select_element(:authentication_method, value)
           end

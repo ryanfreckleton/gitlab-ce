@@ -16,7 +16,7 @@ namespace :yarn do
     unless system('yarn check --ignore-engines', out: File::NULL)
       warn(
         'Error: You have unmet dependencies. (`yarn check` command failed)'.color(:red),
-        'Run `yarn install` to install missing modules.'.color(:green)
+        _('Run `yarn install` to install missing modules.').color(:green)
       )
       abort
     end

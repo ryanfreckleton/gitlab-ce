@@ -11,7 +11,7 @@ class PushoverService < Service
   end
 
   def description
-    'Pushover makes it easy to get real-time notifications on your Android device, iPhone, iPad, and Desktop.'
+    _('Pushover makes it easy to get real-time notifications on your Android device, iPhone, iPad, and Desktop.')
   end
 
   def self.to_param

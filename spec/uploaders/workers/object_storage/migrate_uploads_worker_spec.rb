@@ -106,7 +106,7 @@ describe ObjectStorage::MigrateUploadsWorker, :sidekiq do
       context 'migration is unsuccessful' do
         before do
           allow_any_instance_of(ObjectStorage::Concern)
-            .to receive(:migrate!).and_raise(CarrierWave::UploadError, "I am a teapot.")
+            .to receive(:migrate!).and_raise(CarrierWave::UploadError, _("I am a teapot."))
         end
 
         it_behaves_like 'outputs correctly', failures: 10

@@ -210,7 +210,7 @@ describe 'Runners' do
         it 'group runners are not available' do
           visit project_runners_path(project)
 
-          expect(page).to have_content 'This project does not belong to a group and can therefore not make use of group Runners.'
+          expect(page).to have_content _('This project does not belong to a group and can therefore not make use of group Runners.')
         end
       end
 
@@ -221,10 +221,10 @@ describe 'Runners' do
         it 'group runners are not available' do
           visit project_runners_path(project)
 
-          expect(page).to have_content 'This group does not provide any group Runners yet.'
+          expect(page).to have_content _('This group does not provide any group Runners yet.')
 
           expect(page).not_to have_content 'Group maintainers can register group runners in the Group CI/CD settings'
-          expect(page).to have_content 'Ask your group maintainer to set up a group Runner.'
+          expect(page).to have_content _('Ask your group maintainer to set up a group Runner.')
         end
       end
 

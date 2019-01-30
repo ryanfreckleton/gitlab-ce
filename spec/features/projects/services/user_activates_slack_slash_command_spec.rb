@@ -26,7 +26,7 @@ describe 'Slack slash commands' do
     click_on 'Save'
 
     expect(current_path).to eq(project_settings_integrations_path(project))
-    expect(page).to have_content('Slack slash commands settings saved, but not activated.')
+    expect(page).to have_content(_('Slack slash commands settings saved, but not activated.'))
   end
 
   it 'redirects to the integrations page after activating' do
@@ -35,7 +35,7 @@ describe 'Slack slash commands' do
     click_on 'Save'
 
     expect(current_path).to eq(project_settings_integrations_path(project))
-    expect(page).to have_content('Slack slash commands activated.')
+    expect(page).to have_content(_('Slack slash commands activated.'))
   end
 
   it 'shows the correct trigger url' do

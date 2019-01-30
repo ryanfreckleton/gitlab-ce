@@ -39,8 +39,8 @@ module API
         yield if block_given?
 
         project = job.project
-        forbidden!('Project has been deleted!') if project.nil? || project.pending_delete?
-        forbidden!('Job has been erased!') if job.erased?
+        forbidden!(_('Project has been deleted!')) if project.nil? || project.pending_delete?
+        forbidden!(_('Job has been erased!')) if job.erased?
       end
 
       def authenticate_job!

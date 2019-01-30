@@ -339,9 +339,9 @@ class JiraService < IssueTrackerService
   def self.event_description(event)
     case event
     when "merge_request", "merge_request_events"
-      "JIRA comments will be created when an issue gets referenced in a merge request."
+      _("JIRA comments will be created when an issue gets referenced in a merge request.")
     when "commit", "commit_events"
-      "JIRA comments will be created when an issue gets referenced in a commit."
+      _("JIRA comments will be created when an issue gets referenced in a commit.")
     end
   end
 end

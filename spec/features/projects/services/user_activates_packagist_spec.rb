@@ -19,6 +19,6 @@ describe 'User activates Packagist' do
     fill_in('Token', with: 'verySecret')
     click_button('Save')
 
-    expect(page).to have_content('Packagist activated.')
+    expect(page).to have_content(_('Packagist activated.'))
   end
 end

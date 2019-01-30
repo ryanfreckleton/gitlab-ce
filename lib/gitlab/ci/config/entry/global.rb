@@ -12,28 +12,28 @@ module Gitlab
           include ::Gitlab::Config::Entry::Configurable
 
           entry :before_script, Entry::Script,
-            description: 'Script that will be executed before each job.'
+            description: _('Script that will be executed before each job.')
 
           entry :image, Entry::Image,
-            description: 'Docker image that will be used to execute jobs.'
+            description: _('Docker image that will be used to execute jobs.')
 
           entry :services, Entry::Services,
-            description: 'Docker images that will be linked to the container.'
+            description: _('Docker images that will be linked to the container.')
 
           entry :after_script, Entry::Script,
-            description: 'Script that will be executed after each job.'
+            description: _('Script that will be executed after each job.')
 
           entry :variables, Entry::Variables,
-            description: 'Environment variables that will be used.'
+            description: _('Environment variables that will be used.')
 
           entry :stages, Entry::Stages,
-            description: 'Configuration of stages for this pipeline.'
+            description: _('Configuration of stages for this pipeline.')
 
           entry :types, Entry::Stages,
             description: 'Deprecated: stages for this pipeline.'
 
           entry :cache, Entry::Cache,
-            description: 'Configure caching between build jobs.'
+            description: _('Configure caching between build jobs.')
 
           helpers :before_script, :image, :services, :after_script,
                   :variables, :stages, :types, :cache, :jobs

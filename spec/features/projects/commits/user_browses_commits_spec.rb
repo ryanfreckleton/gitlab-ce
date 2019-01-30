@@ -127,7 +127,7 @@ describe 'User browses commits' do
     end
 
     context 'when a commit links to a confidential issue' do
-      let(:confidential_issue) { create(:issue, confidential: true, title: 'Secret issue!', project: project) }
+      let(:confidential_issue) { create(:issue, confidential: true, title: _('Secret issue!'), project: project) }
 
       before do
         project.repository.create_file(user, 'dummy-file', 'dummy content',

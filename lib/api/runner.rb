@@ -259,12 +259,12 @@ module API
         require_gitlab_workhorse!
 
         job = authenticate_job!
-        forbidden!('Job is not running!') unless job.running?
+        forbidden!(_('Job is not running!')) unless job.running?
 
         artifacts = UploadedFile.from_params(params, :file, JobArtifactUploader.workhorse_local_upload_path)
         metadata = UploadedFile.from_params(params, :metadata, JobArtifactUploader.workhorse_local_upload_path)
 
-        bad_request!('Missing artifacts file!') unless artifacts
+        bad_request!(_('Missing artifacts file!')) unless artifacts
         file_to_large! unless artifacts.size < max_artifacts_size
 
         expire_in = params['expire_in'] ||

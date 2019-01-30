@@ -31,7 +31,7 @@ module Gitlab
         parsed = URI.parse(connection_string)
 
         unless valid_uri?(parsed)
-          raise "Invalid tracing connection string"
+          raise _("Invalid tracing connection string")
         end
 
         {

@@ -106,7 +106,7 @@ module Gitlab
                       yield key.string.strip, rstrip_except_escaped(value.string, dn_index)
                       key = StringIO.new
                       value = StringIO.new
-                    when '+' then raise(UnsupportedError, "Multivalued RDNs are not supported")
+                    when '+' then raise(UnsupportedError, _("Multivalued RDNs are not supported"))
                     else value << char
                     end
                   when :value_normal_escape then
@@ -177,12 +177,12 @@ module Gitlab
                       value = StringIO.new
                     else raise(MalformedError, "Expected the end of an attribute value, but got \"#{char}\"")
                     end
-                  else raise "Fell out of state machine"
+                  else raise _("Fell out of state machine")
                   end
                 end
 
                 # Last pair
-                raise(MalformedError, 'DN string ended unexpectedly') unless
+                raise(MalformedError, _('DN string ended unexpectedly')) unless
                   [:value, :value_normal, :value_hexstring, :value_end].include? state
 
                 yield key.string.strip, rstrip_except_escaped(value.string, @dn.length)

@@ -62,7 +62,7 @@ namespace :gettext do
     failed_linters = linters.select { |linter| linter.errors.any? }
 
     if failed_linters.empty?
-      puts 'All PO files are valid.'
+      puts _('All PO files are valid.')
     else
       failed_linters.each do |linter|
         report_errors_for_file(linter.po_path, linter.errors)

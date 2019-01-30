@@ -57,7 +57,7 @@ describe Gitlab::Highlight do
 
       expect(lines.count).to eq(3)
       expect(lines[0].text).to eq('"""This is line 1 of a multi-line comment.')
-      expect(lines[1].text).to eq('        This is line 2.')
+      expect(lines[1].text).to eq(_('        This is line 2.'))
       expect(lines[2].text).to eq('        """')
     end
 

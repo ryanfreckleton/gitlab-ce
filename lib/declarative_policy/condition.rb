@@ -90,7 +90,7 @@ module DeclarativePolicy
         when :user    then "/dp/condition/#{@condition.key}/#{user_key}"
         when :subject then "/dp/condition/#{@condition.key}/#{subject_key}"
         when :global  then "/dp/condition/#{@condition.key}"
-        else raise 'invalid scope'
+        else raise _('invalid scope')
         end
     end
 

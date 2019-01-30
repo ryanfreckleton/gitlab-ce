@@ -62,7 +62,7 @@ describe 'User visits the profile preferences page' do
 
   def expect_preferences_saved_message
     page.within('.flash-container') do
-      expect(page).to have_content('Preferences saved.')
+      expect(page).to have_content(_('Preferences saved.'))
     end
   end
 end

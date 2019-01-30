@@ -22,7 +22,7 @@ module API
       success Entities::ApplicationSetting
     end
     params do
-      optional :admin_notification_email, type: String, desc: 'Abuse reports will be sent to this address if it is set. Abuse reports are always available in the admin area.'
+      optional :admin_notification_email, type: String, desc: _('Abuse reports will be sent to this address if it is set. Abuse reports are always available in the admin area.')
       optional :after_sign_up_text, type: String, desc: 'Text shown after sign up'
       optional :after_sign_out_path, type: String, desc: 'We will redirect users to this page after they sign out'
       optional :akismet_enabled, type: Boolean, desc: 'Helps prevent bots from creating issues'
@@ -46,11 +46,11 @@ module API
         requires :domain_blacklist, type: String, desc: 'Users with e-mail addresses that match these domain(s) will NOT be able to sign-up. Wildcards allowed. Use separate lines for multiple entries. Ex: domain.com, *.domain.com'
       end
       optional :domain_whitelist, type: String, desc: 'ONLY users with e-mail addresses that match these domain(s) will be able to sign-up. Wildcards allowed. Use separate lines for multiple entries. Ex: domain.com, *.domain.com'
-      optional :email_author_in_body, type: Boolean, desc: 'Some email servers do not support overriding the email sender name. Enable this option to include the name of the author of the issue, merge request or comment in the email body instead.'
-      optional :enabled_git_access_protocol, type: String, values: %w[ssh http nil], desc: 'Allow only the selected protocols to be used for Git access.'
-      optional :gitaly_timeout_default, type: Integer, desc: 'Default Gitaly timeout, in seconds. Set to 0 to disable timeouts.'
-      optional :gitaly_timeout_fast, type: Integer, desc: 'Gitaly fast operation timeout, in seconds. Set to 0 to disable timeouts.'
-      optional :gitaly_timeout_medium, type: Integer, desc: 'Medium Gitaly timeout, in seconds. Set to 0 to disable timeouts.'
+      optional :email_author_in_body, type: Boolean, desc: _('Some email servers do not support overriding the email sender name. Enable this option to include the name of the author of the issue, merge request or comment in the email body instead.')
+      optional :enabled_git_access_protocol, type: String, values: %w[ssh http nil], desc: _('Allow only the selected protocols to be used for Git access.')
+      optional :gitaly_timeout_default, type: Integer, desc: _('Default Gitaly timeout, in seconds. Set to 0 to disable timeouts.')
+      optional :gitaly_timeout_fast, type: Integer, desc: _('Gitaly fast operation timeout, in seconds. Set to 0 to disable timeouts.')
+      optional :gitaly_timeout_medium, type: Integer, desc: _('Medium Gitaly timeout, in seconds. Set to 0 to disable timeouts.')
       optional :gravatar_enabled, type: Boolean, desc: 'Flag indicating if the Gravatar service is enabled'
       optional :help_page_hide_commercial_content, type: Boolean, desc: 'Hide marketing-related entries from help'
       optional :help_page_support_url, type: String, desc: 'Alternate support URL for help page'
@@ -58,12 +58,12 @@ module API
       optional :home_page_url, type: String, desc: 'We will redirect non-logged in users to this page'
       optional :housekeeping_enabled, type: Boolean, desc: 'Enable automatic repository housekeeping (git repack, git gc)'
       given housekeeping_enabled: ->(val) { val } do
-        requires :housekeeping_bitmaps_enabled, type: Boolean, desc: "Creating pack file bitmaps makes housekeeping take a little longer but bitmaps should accelerate 'git clone' performance."
-        requires :housekeeping_full_repack_period, type: Integer, desc: "Number of Git pushes after which a full 'git repack' is run."
-        requires :housekeeping_gc_period, type: Integer, desc: "Number of Git pushes after which 'git gc' is run."
-        requires :housekeeping_incremental_repack_period, type: Integer, desc: "Number of Git pushes after which an incremental 'git repack' is run."
+        requires :housekeeping_bitmaps_enabled, type: Boolean, desc: _("Creating pack file bitmaps makes housekeeping take a little longer but bitmaps should accelerate 'git clone' performance.")
+        requires :housekeeping_full_repack_period, type: Integer, desc: _("Number of Git pushes after which a full 'git repack' is run.")
+        requires :housekeeping_gc_period, type: Integer, desc: _("Number of Git pushes after which 'git gc' is run.")
+        requires :housekeeping_incremental_repack_period, type: Integer, desc: _("Number of Git pushes after which an incremental 'git repack' is run.")
       end
-      optional :html_emails_enabled, type: Boolean, desc: 'By default GitLab sends emails in HTML and plain text formats so mail clients can choose what format to use. Disable this option if you only want to send emails in plain text format.'
+      optional :html_emails_enabled, type: Boolean, desc: _('By default GitLab sends emails in HTML and plain text formats so mail clients can choose what format to use. Disable this option if you only want to send emails in plain text format.')
       optional :import_sources, type: Array[String], values: %w[github bitbucket gitlab google_code fogbugz git gitlab_project manifest],
                                 desc: 'Enabled sources for code import during project creation. OmniAuth must be configured for GitHub, Bitbucket, and GitLab.com'
       optional :max_artifacts_size, type: Integer, desc: "Set the maximum file size for each job's artifacts"
@@ -72,7 +72,7 @@ module API
       optional :metrics_enabled, type: Boolean, desc: 'Enable the InfluxDB metrics'
       given metrics_enabled: ->(val) { val } do
         requires :metrics_host, type: String, desc: 'The InfluxDB host'
-        requires :metrics_method_call_threshold, type: Integer, desc: 'A method call is only tracked when it takes longer to complete than the given amount of milliseconds.'
+        requires :metrics_method_call_threshold, type: Integer, desc: _('A method call is only tracked when it takes longer to complete than the given amount of milliseconds.')
         requires :metrics_packet_size, type: Integer, desc: 'The amount of points to store in a single UDP packet'
         requires :metrics_pool_size, type: Integer, desc: 'The amount of InfluxDB connections to open'
         requires :metrics_port, type: Integer, desc: 'The UDP port to use for connecting to InfluxDB'
@@ -84,13 +84,13 @@ module API
       mutually_exclusive :password_authentication_enabled_for_web, :password_authentication_enabled, :signin_enabled
       optional :password_authentication_enabled_for_git, type: Boolean, desc: 'Flag indicating if password authentication is enabled for Git over HTTP(S)'
       optional :performance_bar_allowed_group_id, type: String, desc: 'Deprecated: Use :performance_bar_allowed_group_path instead. Path of the group that is allowed to toggle the performance bar.' # support legacy names, can be removed in v6
-      optional :performance_bar_allowed_group_path, type: String, desc: 'Path of the group that is allowed to toggle the performance bar.'
+      optional :performance_bar_allowed_group_path, type: String, desc: _('Path of the group that is allowed to toggle the performance bar.')
       optional :performance_bar_enabled, type: String, desc: 'Deprecated: Pass `performance_bar_allowed_group_path: nil` instead. Allow enabling the performance.' # support legacy names, can be removed in v6
       optional :plantuml_enabled, type: Boolean, desc: 'Enable PlantUML'
       given plantuml_enabled: ->(val) { val } do
         requires :plantuml_url, type: String, desc: 'The PlantUML server URL'
       end
-      optional :polling_interval_multiplier, type: BigDecimal, desc: 'Interval multiplier used by endpoints that perform polling. Set to 0 to disable polling.'
+      optional :polling_interval_multiplier, type: BigDecimal, desc: _('Interval multiplier used by endpoints that perform polling. Set to 0 to disable polling.')
       optional :project_export_enabled, type: Boolean, desc: 'Enable project export'
       optional :prometheus_metrics_enabled, type: Boolean, desc: 'Enable Prometheus metrics'
       optional :recaptcha_enabled, type: Boolean, desc: 'Helps prevent bots from creating accounts'
@@ -98,19 +98,19 @@ module API
         requires :recaptcha_site_key, type: String, desc: 'Generate site key at http://www.google.com/recaptcha'
         requires :recaptcha_private_key, type: String, desc: 'Generate private key at http://www.google.com/recaptcha'
       end
-      optional :repository_checks_enabled, type: Boolean, desc: "GitLab will periodically run 'git fsck' in all project and wiki repositories to look for silent disk corruption issues."
+      optional :repository_checks_enabled, type: Boolean, desc: _("GitLab will periodically run 'git fsck' in all project and wiki repositories to look for silent disk corruption issues.")
       optional :repository_storages, type: Array[String], desc: 'Storage paths for new projects'
       optional :require_two_factor_authentication, type: Boolean, desc: 'Require all users to set up Two-factor authentication'
       given require_two_factor_authentication: ->(val) { val } do
         requires :two_factor_grace_period, type: Integer, desc: 'Amount of time (in hours) that users are allowed to skip forced configuration of two-factor authentication'
       end
-      optional :restricted_visibility_levels, type: Array[String], desc: 'Selected levels cannot be used by non-admin users for groups, projects or snippets. If the public level is restricted, user profiles are only visible to logged in users.'
+      optional :restricted_visibility_levels, type: Array[String], desc: _('Selected levels cannot be used by non-admin users for groups, projects or snippets. If the public level is restricted, user profiles are only visible to logged in users.')
       optional :send_user_confirmation_email, type: Boolean, desc: 'Send confirmation email on sign-up'
       optional :sentry_enabled, type: Boolean, desc: 'Sentry is an error reporting and logging tool which is currently not shipped with GitLab, get it here: https://getsentry.com'
       given sentry_enabled: ->(val) { val } do
         requires :sentry_dsn, type: String, desc: 'Sentry Data Source Name'
       end
-      optional :session_expire_delay, type: Integer, desc: 'Session duration in minutes. GitLab restart is required to apply changes.'
+      optional :session_expire_delay, type: Integer, desc: _('Session duration in minutes. GitLab restart is required to apply changes.')
       optional :shared_runners_enabled, type: Boolean, desc: 'Enable shared runners for new projects'
       given shared_runners_enabled: ->(val) { val } do
         requires :shared_runners_text, type: String, desc: 'Shared runners text '
@@ -118,8 +118,8 @@ module API
       optional :sign_in_text, type: String, desc: 'The sign in text of the GitLab application'
       optional :signin_enabled, type: Boolean, desc: 'Flag indicating if password authentication is enabled for the web interface' # support legacy names, can be removed in v5
       optional :signup_enabled, type: Boolean, desc: 'Flag indicating if sign up is enabled'
-      optional :terminal_max_session_time, type: Integer, desc: 'Maximum time for web terminal websocket connection (in seconds). Set to 0 for unlimited time.'
-      optional :usage_ping_enabled, type: Boolean, desc: 'Every week GitLab will report license usage back to GitLab, Inc.'
+      optional :terminal_max_session_time, type: Integer, desc: _('Maximum time for web terminal websocket connection (in seconds). Set to 0 for unlimited time.')
+      optional :usage_ping_enabled, type: Boolean, desc: _('Every week GitLab will report license usage back to GitLab, Inc.')
       optional :instance_statistics_visibility_private, type: Boolean, desc: 'When set to `true` Instance statistics will only be available to admins'
 
       ApplicationSetting::SUPPORTED_KEY_TYPES.each do |type|

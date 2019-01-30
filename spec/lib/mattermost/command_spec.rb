@@ -46,7 +46,7 @@ describe Mattermost::Command do
             headers: { 'Content-Type' => 'application/json' },
             body: {
               id: 'api.command.duplicate_trigger.app_error',
-              message: 'This trigger word is already in use. Please choose another word.',
+              message: _('This trigger word is already in use. Please choose another word.'),
               detailed_error: '',
               request_id: 'obc374man7bx5r3dbc1q5qhf3r',
               status_code: 400
@@ -55,7 +55,7 @@ describe Mattermost::Command do
       end
 
       it 'raises an error with message' do
-        expect { subject }.to raise_error(Mattermost::Error, 'This trigger word is already in use. Please choose another word.')
+        expect { subject }.to raise_error(Mattermost::Error, _('This trigger word is already in use. Please choose another word.'))
       end
     end
   end

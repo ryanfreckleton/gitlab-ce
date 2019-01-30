@@ -6,7 +6,7 @@ module TokenAuthenticatableStrategies
       super
 
       if migrating? && fallback?
-        raise ArgumentError, '`fallback` and `migrating` options are not compatible!'
+        raise ArgumentError, _('`fallback` and `migrating` options are not compatible!')
       end
     end
 
@@ -23,7 +23,7 @@ module TokenAuthenticatableStrategies
       elsif migrating?
         find_by_plaintext_token(token, unscoped)
       else
-        raise ArgumentError, 'Unknown encryption phase!'
+        raise ArgumentError, _('Unknown encryption phase!')
       end
     end
 
@@ -42,7 +42,7 @@ module TokenAuthenticatableStrategies
       return super if instance.has_attribute?(encrypted_field)
 
       if fully_encrypted?
-        raise ArgumentError, 'Using encrypted strategy when encrypted field is missing!'
+        raise ArgumentError, _('Using encrypted strategy when encrypted field is missing!')
       else
         insecure_strategy.ensure_token(instance)
       end

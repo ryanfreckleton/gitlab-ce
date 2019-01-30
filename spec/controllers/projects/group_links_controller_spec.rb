@@ -99,7 +99,7 @@ describe Projects::GroupLinksController do
         expect(response).to redirect_to(
           project_project_members_path(project)
         )
-        expect(flash[:alert]).to eq('Please select a group.')
+        expect(flash[:alert]).to eq(_('Please select a group.'))
       end
     end
   end

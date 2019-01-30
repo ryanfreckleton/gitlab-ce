@@ -77,7 +77,7 @@ describe Gitlab::SidekiqLogging::StructuredLogger do
 
           expect do
             subject.call(job, 'test_queue') do
-              raise ArgumentError, 'some exception'
+              raise ArgumentError, _('some exception')
             end
           end.to raise_error(ArgumentError)
         end

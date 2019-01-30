@@ -18,6 +18,6 @@ describe 'User activates Emails on push' do
     fill_in('Recipients', with: 'qa@company.name')
     click_button('Save')
 
-    expect(page).to have_content('Emails on push activated.')
+    expect(page).to have_content(_('Emails on push activated.'))
   end
 end

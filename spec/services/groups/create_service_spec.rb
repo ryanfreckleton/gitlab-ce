@@ -58,7 +58,7 @@ describe Groups::CreateService, '#execute' do
           allow(Group).to receive(:supports_nested_objects?).and_return(false)
 
           is_expected.not_to be_persisted
-          expect(subject.errors[:parent_id]).to include('You don’t have permission to create a subgroup in this group.')
+          expect(subject.errors[:parent_id]).to include(_('You don’t have permission to create a subgroup in this group.'))
           expect(subject.parent_id).to be_nil
         end
       end
@@ -73,7 +73,7 @@ describe Groups::CreateService, '#execute' do
         it 'does not save group and returns an error' do
           is_expected.not_to be_persisted
 
-          expect(subject.errors[:parent_id].first).to eq('You don’t have permission to create a subgroup in this group.')
+          expect(subject.errors[:parent_id].first).to eq(_('You don’t have permission to create a subgroup in this group.'))
           expect(subject.parent_id).to be_nil
         end
       end

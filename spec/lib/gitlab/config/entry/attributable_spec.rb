@@ -54,7 +54,7 @@ describe Gitlab::Config::Entry::Attributable do
         end
       end
 
-      expectation.to raise_error(ArgumentError, 'Method already defined!')
+      expectation.to raise_error(ArgumentError, _('Method already defined!'))
     end
   end
 end

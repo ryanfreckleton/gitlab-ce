@@ -3,8 +3,8 @@
 module Gitlab
   module Checks
     class LfsCheck < BaseChecker
-      LOG_MESSAGE = "Scanning repository for blobs stored in LFS and verifying their files have been uploaded to GitLab...".freeze
-      ERROR_MESSAGE = 'LFS objects are missing. Ensure LFS is properly set up or try a manual "git lfs push --all".'.freeze
+      LOG_MESSAGE = _("Scanning repository for blobs stored in LFS and verifying their files have been uploaded to GitLab...").freeze
+      ERROR_MESSAGE = _('LFS objects are missing. Ensure LFS is properly set up or try a manual "git lfs push --all".').freeze
 
       def validate!
         return unless project.lfs_enabled?

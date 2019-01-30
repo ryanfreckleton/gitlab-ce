@@ -54,7 +54,7 @@ describe 'Password reset' do
 
   def forgot_password(user)
     visit root_path
-    click_on 'Forgot your password?'
+    click_on _('Forgot your password?')
     fill_in 'Email', with: user.email
     click_button 'Reset password'
     user.reload

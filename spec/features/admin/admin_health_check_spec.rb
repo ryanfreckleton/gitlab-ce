@@ -29,7 +29,7 @@ describe "Admin Health Check", :feature do
         orig_token = Gitlab::CurrentSettings.health_check_access_token
         click_button 'Reset health check access token'
 
-        expect(page).to have_content('New health check access token has been generated!')
+        expect(page).to have_content(_('New health check access token has been generated!'))
         expect(find('#health-check-token').text).not_to eq orig_token
       end
     end

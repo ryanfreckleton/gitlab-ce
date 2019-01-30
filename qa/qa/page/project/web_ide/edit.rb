@@ -88,7 +88,7 @@ module QA
               end
             end
 
-            raise "The changes do not appear to have been committed successfully." unless commit_success_msg_shown
+            raise _("The changes do not appear to have been committed successfully.") unless commit_success_msg_shown
           end
         end
       end

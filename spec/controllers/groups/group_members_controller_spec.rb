@@ -49,7 +49,7 @@ describe Groups::GroupMembersController do
                         access_level: Gitlab::Access::GUEST
                       }
 
-        expect(response).to set_flash.to 'Users were successfully added.'
+        expect(response).to set_flash.to _('Users were successfully added.')
         expect(response).to redirect_to(group_group_members_path(group))
         expect(group.users).to include group_user
       end
@@ -61,7 +61,7 @@ describe Groups::GroupMembersController do
                         access_level: Gitlab::Access::GUEST
                       }
 
-        expect(response).to set_flash.to 'No users specified.'
+        expect(response).to set_flash.to _('No users specified.')
         expect(response).to redirect_to(group_group_members_path(group))
         expect(group.users).not_to include group_user
       end
@@ -126,7 +126,7 @@ describe Groups::GroupMembersController do
         it '[HTML] removes user from members' do
           delete :destroy, params: { group_id: group, id: member }
 
-          expect(response).to set_flash.to 'User was successfully removed from group.'
+          expect(response).to set_flash.to _('User was successfully removed from group.')
           expect(response).to redirect_to(group_group_members_path(group))
           expect(group.members).not_to include member
         end
@@ -196,7 +196,7 @@ describe Groups::GroupMembersController do
         it 'removes user from members' do
           delete :leave, params: { group_id: group }
 
-          expect(response).to set_flash.to 'Your access request to the group has been withdrawn.'
+          expect(response).to set_flash.to _('Your access request to the group has been withdrawn.')
           expect(response).to redirect_to(group_path(group))
           expect(group.requesters).to be_empty
           expect(group.users).not_to include user
@@ -213,7 +213,7 @@ describe Groups::GroupMembersController do
     it 'creates a new GroupMember that is not a team member' do
       post :request_access, params: { group_id: group }
 
-      expect(response).to set_flash.to 'Your request for access has been queued for review.'
+      expect(response).to set_flash.to _('Your request for access has been queued for review.')
       expect(response).to redirect_to(group_path(group))
       expect(group.requesters.exists?(user_id: user)).to be_truthy
       expect(group.users).not_to include user

@@ -21,7 +21,7 @@ class GithubImport
       .new(@options[:token], @current_user, @github_repo)
       .choose_one!
 
-    raise 'No repo found!' unless @repo
+    raise _('No repo found!') unless @repo
 
     show_warning!
 
@@ -34,7 +34,7 @@ class GithubImport
 
   def show_warning!
     puts "This will import GitHub #{@repo.full_name.bright} into GitLab #{@project_path.bright} as #{@current_user.name}"
-    puts "Permission checks are ignored. Press any key to continue.".color(:red)
+    puts _("Permission checks are ignored. Press any key to continue.").color(:red)
 
     STDIN.getch
 

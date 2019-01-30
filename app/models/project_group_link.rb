@@ -44,7 +44,7 @@ class ProjectGroupLink < ActiveRecord::Base
     group_ids = project_group.ancestors.map(&:id).push(project_group.id)
 
     if group_ids.include?(self.group.id)
-      errors.add(:base, "Project cannot be shared with the group it is in or one of its ancestors.")
+      errors.add(:base, _("Project cannot be shared with the group it is in or one of its ancestors."))
     end
   end
 

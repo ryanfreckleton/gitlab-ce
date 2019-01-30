@@ -9,7 +9,7 @@ module API
         @version = version.to_s
 
         unless API.versions.include?(version)
-          raise ArgumentError, 'Unknown API version!'
+          raise ArgumentError, _('Unknown API version!')
         end
       end
 

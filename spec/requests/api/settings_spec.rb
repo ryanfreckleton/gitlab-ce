@@ -60,7 +60,7 @@ describe API::Settings, 'Settings' do
             ecdsa_key_restriction: 384,
             ed25519_key_restriction: 256,
             enforce_terms: true,
-            terms: 'Hello world!',
+            terms: _('Hello world!'),
             performance_bar_allowed_group_path: group.full_path,
             instance_statistics_visibility_private: true,
             diff_max_patch_bytes: 150_000,
@@ -85,7 +85,7 @@ describe API::Settings, 'Settings' do
         expect(json_response['ecdsa_key_restriction']).to eq(384)
         expect(json_response['ed25519_key_restriction']).to eq(256)
         expect(json_response['enforce_terms']).to be(true)
-        expect(json_response['terms']).to eq('Hello world!')
+        expect(json_response['terms']).to eq(_('Hello world!'))
         expect(json_response['performance_bar_allowed_group_id']).to eq(group.id)
         expect(json_response['instance_statistics_visibility_private']).to be(true)
         expect(json_response['diff_max_patch_bytes']).to eq(150_000)

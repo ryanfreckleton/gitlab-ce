@@ -21,7 +21,7 @@ module Gitlab
       def self.set(gl_repository, env)
         return unless Gitlab::SafeRequestStore.active?
 
-        raise "missing gl_repository" if gl_repository.blank?
+        raise _("missing gl_repository") if gl_repository.blank?
 
         Gitlab::SafeRequestStore[:gitlab_git_env] ||= {}
         Gitlab::SafeRequestStore[:gitlab_git_env][gl_repository] = whitelist_git_env(env)

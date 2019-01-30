@@ -132,7 +132,7 @@ module QA
       end
 
       def git_protocol=(value)
-        raise ArgumentError, "Please specify the protocol you would like to use: 0, 1, or 2" unless %w[0 1 2].include?(value.to_s)
+        raise ArgumentError, _("Please specify the protocol you would like to use: 0, 1, or 2") unless %w[0 1 2].include?(value.to_s)
 
         run("git config protocol.version #{value}")
       end

@@ -71,7 +71,7 @@ describe QA::Resource::ApiFabricator do
       let(:resource) { resource_without_api_support }
 
       it 'raises a NotImplementedError exception' do
-        expect { subject.fabricate_via_api! }.to raise_error(NotImplementedError, "Resource FooBarResource does not support fabrication via the API!")
+        expect { subject.fabricate_via_api! }.to raise_error(NotImplementedError, _("Resource FooBarResource does not support fabrication via the API!"))
       end
     end
 
@@ -107,7 +107,7 @@ describe QA::Resource::ApiFabricator do
         end
 
         context 'when the POST fails' do
-          let(:post_response) { { error: "Name already taken." } }
+          let(:post_response) { { error: _("Name already taken.") } }
           let(:raw_post) { double('Raw POST response', code: 400, body: post_response.to_json) }
 
           it 'raises a ResourceFabricationFailedError exception' do

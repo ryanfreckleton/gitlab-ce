@@ -24,7 +24,7 @@ class JobArtifactUploader < GitlabUploader
   private
 
   def dynamic_segment
-    raise ObjectNotReadyError, 'JobArtifact is not ready' unless model.id
+    raise ObjectNotReadyError, _('JobArtifact is not ready') unless model.id
 
     if model.hashed_path?
       hashed_path

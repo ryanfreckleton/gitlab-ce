@@ -21,7 +21,7 @@ module Gitlab
       end
 
       def find_for_git_client(login, password, project:, ip:)
-        raise "Must provide an IP for rate limiting" if ip.nil?
+        raise _("Must provide an IP for rate limiting") if ip.nil?
 
         # `user_with_password_for_git` should be the last check
         # because it's the most expensive, especially when LDAP

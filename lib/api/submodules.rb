@@ -23,10 +23,10 @@ module API
         success Entities::Commit
       end
       params do
-        requires :submodule, type: String, desc: 'Url encoded full path to submodule.'
-        requires :commit_sha, type: String, desc: 'Commit sha to update the submodule to.'
-        requires :branch, type: String, desc: 'Name of the branch to commit into.'
-        optional :commit_message, type: String, desc: 'Commit message. If no message is provided a default one will be set.'
+        requires :submodule, type: String, desc: _('Url encoded full path to submodule.')
+        requires :commit_sha, type: String, desc: _('Commit sha to update the submodule to.')
+        requires :branch, type: String, desc: _('Name of the branch to commit into.')
+        optional :commit_message, type: String, desc: _('Commit message. If no message is provided a default one will be set.')
       end
       put ":id/repository/submodules/:submodule", requirements: Files::FILE_ENDPOINT_REQUIREMENTS do
         authorize! :push_code, user_project

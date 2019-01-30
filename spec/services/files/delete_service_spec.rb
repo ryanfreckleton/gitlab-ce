@@ -56,7 +56,7 @@ describe Files::DeleteService do
       it "returns a hash with the correct error message and a :error status " do
         expect { subject.execute }
           .to raise_error(Files::UpdateService::FileChangedError,
-                         "You are attempting to delete a file that has been previously updated.")
+                         _("You are attempting to delete a file that has been previously updated."))
       end
     end
 

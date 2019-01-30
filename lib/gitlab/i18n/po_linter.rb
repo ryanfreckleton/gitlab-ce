@@ -34,7 +34,7 @@ module Gitlab
         if entries.first[:msgid].empty?
           @metadata_entry = Gitlab::I18n::MetadataEntry.new(entries.shift)
         else
-          return 'Missing metadata entry.'
+          return _('Missing metadata entry.')
         end
 
         @translation_entries = entries.map do |entry_data|

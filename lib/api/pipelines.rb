@@ -11,7 +11,7 @@ module API
     end
     resource :projects, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
       desc 'Get all Pipelines of the project' do
-        detail 'This feature was introduced in GitLab 8.11.'
+        detail _('This feature was introduced in GitLab 8.11.')
         success Entities::PipelineBasic
       end
       params do
@@ -97,7 +97,7 @@ module API
       end
 
       desc 'Retry builds in the pipeline' do
-        detail 'This feature was introduced in GitLab 8.11.'
+        detail _('This feature was introduced in GitLab 8.11.')
         success Entities::Pipeline
       end
       params do
@@ -112,7 +112,7 @@ module API
       end
 
       desc 'Cancel all builds in the pipeline' do
-        detail 'This feature was introduced in GitLab 8.11.'
+        detail _('This feature was introduced in GitLab 8.11.')
         success Entities::Pipeline
       end
       params do

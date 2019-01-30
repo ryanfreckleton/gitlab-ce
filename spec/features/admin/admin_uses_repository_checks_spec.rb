@@ -39,7 +39,7 @@ describe 'Admin uses repository checks' do
 
     accept_confirm { find(:link, 'Clear all repository checks').send_keys(:return) }
 
-    expect(page).to have_content('Started asynchronous removal of all repository check states.')
+    expect(page).to have_content(_('Started asynchronous removal of all repository check states.'))
   end
 
   def visit_admin_project_page(project)

@@ -54,9 +54,9 @@ describe Gitlab::Ci::Config::Entry::Global do
 
         it 'sets correct description for nodes' do
           expect(global.descendants.first.description)
-            .to eq 'Script that will be executed before each job.'
+            .to eq _('Script that will be executed before each job.')
           expect(global.descendants.second.description)
-            .to eq 'Docker image that will be used to execute jobs.'
+            .to eq _('Docker image that will be used to execute jobs.')
         end
 
         describe '#leaf?' do

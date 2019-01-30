@@ -112,9 +112,9 @@ module API
           actor.update_last_used_at
         elsif params[:user_id]
           actor = User.find_by(id: params[:user_id])
-          raise ActiveRecord::RecordNotFound.new("No such user id!") unless actor
+          raise ActiveRecord::RecordNotFound.new(_("No such user id!")) unless actor
         else
-          raise ActiveRecord::RecordNotFound.new("No key_id or user_id passed!")
+          raise ActiveRecord::RecordNotFound.new(_("No key_id or user_id passed!"))
         end
 
         token_handler = Gitlab::LfsToken.new(actor)

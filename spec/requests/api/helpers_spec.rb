@@ -264,7 +264,7 @@ describe API::Helpers do
         # We need to stub at a lower level than #sentry_enabled? otherwise
         # Sentry is not enabled when the request below is made, and the test
         # would pass even without the fix
-        expect(ProjectsFinder).to receive(:new).and_raise('Runtime Error!')
+        expect(ProjectsFinder).to receive(:new).and_raise(_('Runtime Error!'))
 
         get api('/projects', personal_access_token: token)
 
@@ -281,7 +281,7 @@ describe API::Helpers do
       let(:event_data) { Raven.client.transport.events.first[1] }
 
       it 'sends the params, excluding confidential values' do
-        expect(ProjectsFinder).to receive(:new).and_raise('Runtime Error!')
+        expect(ProjectsFinder).to receive(:new).and_raise(_('Runtime Error!'))
 
         get api('/projects', user), params: { password: 'dont_send_this', other_param: 'send_this' }
 

@@ -71,7 +71,7 @@ describe 'Projects > Files > User creates files' do
 
       it 'allows Chinese characters in file name' do
         submit_new_file(file_name: '测试.md')
-        expect(page).to have_content 'The file has been successfully created.'
+        expect(page).to have_content _('The file has been successfully created.')
       end
 
       it 'allows Chinese characters in directory name' do
@@ -164,7 +164,7 @@ describe 'Projects > Files > User creates files' do
       end
 
       it 'shows a message saying the file will be committed in a fork' do
-        message = "A new branch will be created in your fork and a new merge request will be started."
+        message = _("A new branch will be created in your fork and a new merge request will be started.")
 
         expect(page).to have_content(message)
       end

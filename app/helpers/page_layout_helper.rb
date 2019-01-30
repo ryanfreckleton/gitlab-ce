@@ -59,7 +59,7 @@ module PageLayoutHelper
   #
   # Raises ArgumentError if given more than two attributes
   def page_card_attributes(map = {})
-    raise ArgumentError, 'cannot provide more than two attributes' if map.length > 2
+    raise ArgumentError, _('cannot provide more than two attributes') if map.length > 2
 
     @page_card_attributes ||= {}
     @page_card_attributes = map.reject { |_, v| v.blank? } if map.present?

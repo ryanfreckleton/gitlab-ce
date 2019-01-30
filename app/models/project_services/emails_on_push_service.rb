@@ -11,7 +11,7 @@ class EmailsOnPushService < Service
   end
 
   def description
-    'Email the commits and diff of each push to a list of recipients.'
+    _('Email the commits and diff of each push to a list of recipients.')
   end
 
   def self.to_param

@@ -20,10 +20,10 @@ module Gitlab
         Gitlab.config.repositories.storages.each do |key, val|
           if address
             if address != val['gitaly_address']
-              raise ArgumentError, "Your gitlab.yml contains more than one gitaly_address."
+              raise ArgumentError, _("Your gitlab.yml contains more than one gitaly_address.")
             end
           elsif URI(val['gitaly_address']).scheme != 'unix'
-            raise ArgumentError, "Automatic config.toml generation only supports 'unix:' addresses."
+            raise ArgumentError, _("Automatic config.toml generation only supports 'unix:' addresses.")
           else
             address = val['gitaly_address']
           end
@@ -57,7 +57,7 @@ module Gitlab
         end
       rescue Errno::EEXIST
         puts "Skipping config.toml generation:"
-        puts "A configuration file already exists."
+        puts _("A configuration file already exists.")
       rescue ArgumentError => e
         puts "Skipping config.toml generation:"
         puts e.message

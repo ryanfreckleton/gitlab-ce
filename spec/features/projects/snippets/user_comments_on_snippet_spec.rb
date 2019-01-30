@@ -14,13 +14,13 @@ describe 'Projects > Snippets > User comments on a snippet', :js do
 
   it 'leaves a comment on a snippet' do
     page.within('.js-main-target-form') do
-      fill_in('note_note', with: 'Good snippet!')
+      fill_in('note_note', with: _('Good snippet!'))
       click_button('Comment')
     end
 
     wait_for_requests
 
-    expect(page).to have_content('Good snippet!')
+    expect(page).to have_content(_('Good snippet!'))
   end
 
   it 'should have autocomplete' do

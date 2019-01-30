@@ -65,7 +65,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Update an existing label. At least one optional parameter is required.' do
+      desc _('Update an existing label. At least one optional parameter is required.') do
         success Entities::Label
       end
       params do

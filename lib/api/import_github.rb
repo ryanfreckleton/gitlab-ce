@@ -23,7 +23,7 @@ module API
     end
 
     desc 'Import a GitHub project' do
-      detail 'This feature was introduced in GitLab 11.3.4.'
+      detail _('This feature was introduced in GitLab 11.3.4.')
       success Entities::ProjectEntity
     end
     params do

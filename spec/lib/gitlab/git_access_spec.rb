@@ -257,8 +257,8 @@ describe Gitlab::GitAccess do
 
       it 'does not allow keys which are too small', :aggregate_failures do
         expect(actor).not_to be_valid
-        expect { pull_access_check }.to raise_unauthorized('Your SSH key must be at least 4096 bits.')
-        expect { push_access_check }.to raise_unauthorized('Your SSH key must be at least 4096 bits.')
+        expect { pull_access_check }.to raise_unauthorized(_('Your SSH key must be at least 4096 bits.'))
+        expect { push_access_check }.to raise_unauthorized(_('Your SSH key must be at least 4096 bits.'))
       end
     end
 
@@ -386,7 +386,7 @@ describe Gitlab::GitAccess do
         end
 
         context 'when calling git-upload-pack' do
-          it { expect { pull_access_check }.to raise_unauthorized('Pulling over HTTP is not allowed.') }
+          it { expect { pull_access_check }.to raise_unauthorized(_('Pulling over HTTP is not allowed.')) }
         end
 
         context 'when calling git-receive-pack' do
@@ -400,7 +400,7 @@ describe Gitlab::GitAccess do
         end
 
         context 'when calling git-receive-pack' do
-          it { expect { push_access_check }.to raise_unauthorized('Pushing over HTTP is not allowed.') }
+          it { expect { push_access_check }.to raise_unauthorized(_('Pushing over HTTP is not allowed.')) }
         end
 
         context 'when calling git-upload-pack' do
@@ -538,7 +538,7 @@ describe Gitlab::GitAccess do
       project.add_maintainer(user)
       user.block
 
-      expect { pull_access_check }.to raise_unauthorized('Your account has been blocked.')
+      expect { pull_access_check }.to raise_unauthorized(_('Your account has been blocked.'))
     end
 
     context 'when the project repository does not exist' do
@@ -550,7 +550,7 @@ describe Gitlab::GitAccess do
         # Sanity check for rm_rf
         expect(repo.exists?).to eq(false)
 
-        expect { pull_access_check }.to raise_error(Gitlab::GitAccess::NotFoundError, 'A repository for this project does not exist yet.')
+        expect { pull_access_check }.to raise_error(Gitlab::GitAccess::NotFoundError, _('A repository for this project does not exist yet.'))
       end
     end
 
@@ -1003,7 +1003,7 @@ describe Gitlab::GitAccess do
     it 'denies push access' do
       project.add_maintainer(user)
 
-      expect { push_access_check }.to raise_unauthorized('The repository is temporarily read-only. Please try again later.')
+      expect { push_access_check }.to raise_unauthorized(_('The repository is temporarily read-only. Please try again later.'))
     end
   end
 

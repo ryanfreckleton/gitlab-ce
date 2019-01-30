@@ -9,7 +9,7 @@ describe 'AdditionalEmailToExistingAccount' do
 
       email = create(:email, user: user)
       visit email_confirmation_path(confirmation_token: email.confirmation_token)
-      expect(page).to have_content 'Your email address has been successfully confirmed.'
+      expect(page).to have_content _('Your email address has been successfully confirmed.')
     end
   end
 end

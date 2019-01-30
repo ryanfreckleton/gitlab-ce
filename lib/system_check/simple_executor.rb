@@ -67,7 +67,7 @@ module SystemCheck
         print_check_failure(check_klass)
 
         if check.can_repair?
-          $stdout.print 'Trying to fix error automatically. ...'
+          $stdout.print _('Trying to fix error automatically. ...')
 
           if check.repair!
             print_success

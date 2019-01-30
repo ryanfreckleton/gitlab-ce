@@ -24,7 +24,7 @@ module Gitlab
       unless issue_url.start_with?('https://')
         raise(
           ArgumentError,
-          'You must provide a valid issue URL in order to whitelist a block of code'
+          _('You must provide a valid issue URL in order to whitelist a block of code')
         )
       end
 

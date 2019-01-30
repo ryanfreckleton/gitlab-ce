@@ -76,7 +76,7 @@ module MergeRequests
       if commit_id
         log_info("Git merge finished on JID #{merge_jid} commit #{commit_id}")
       else
-        raise MergeError, 'Conflicts detected during merge'
+        raise MergeError, _('Conflicts detected during merge')
       end
 
       merge_request.update!(merge_commit_sha: commit_id)
@@ -88,10 +88,10 @@ module MergeRequests
       repository.merge(current_user, source, merge_request, message)
     rescue Gitlab::Git::PreReceiveError => e
       handle_merge_error(log_message: e.message)
-      raise MergeError, 'Something went wrong during merge pre-receive hook'
+      raise MergeError, _('Something went wrong during merge pre-receive hook')
     rescue => e
       handle_merge_error(log_message: e.message)
-      raise MergeError, 'Something went wrong during merge'
+      raise MergeError, _('Something went wrong during merge')
     ensure
       merge_request.update!(in_progress_merge_commit_sha: nil)
     end

@@ -333,6 +333,6 @@ class InitSchema < ActiveRecord::Migration[4.2]
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, "The initial migration is not revertable"
+    raise ActiveRecord::IrreversibleMigration, _("The initial migration is not revertable")
   end
 end

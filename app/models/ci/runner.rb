@@ -152,7 +152,7 @@ module Ci
       if instance_type?
         self.runner_type = :project_type
       elsif group_type?
-        raise ArgumentError, 'Transitioning a group runner to a project runner is not supported'
+        raise ArgumentError, _('Transitioning a group runner to a project runner is not supported')
       end
 
       begin

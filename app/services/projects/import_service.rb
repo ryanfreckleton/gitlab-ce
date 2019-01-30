@@ -53,7 +53,7 @@ module Projects
 
     def create_repository
       unless project.create_repository
-        raise Error, 'The repository could not be created.'
+        raise Error, _('The repository could not be created.')
       end
     end
 
@@ -104,7 +104,7 @@ module Projects
       project.repository.expire_content_cache unless project.gitlab_project_import?
 
       unless importer.execute
-        raise Error, 'The remote data could not be imported.'
+        raise Error, _('The remote data could not be imported.')
       end
     end
 

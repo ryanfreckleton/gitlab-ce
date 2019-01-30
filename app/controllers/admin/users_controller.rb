@@ -107,7 +107,7 @@ class Admin::UsersController < Admin::ApplicationController
 
     respond_to do |format|
       if @user.persisted?
-        format.html { redirect_to [:admin, @user], notice: 'User was successfully created.' }
+        format.html { redirect_to [:admin, @user], notice: _('User was successfully created.') }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render "new" }
@@ -136,7 +136,7 @@ class Admin::UsersController < Admin::ApplicationController
       end
 
       if result[:status] == :success
-        format.html { redirect_to [:admin, user], notice: 'User was successfully updated.' }
+        format.html { redirect_to [:admin, user], notice: _('User was successfully updated.') }
         format.json { head :ok }
       else
         # restore username to keep form action url.
@@ -151,7 +151,7 @@ class Admin::UsersController < Admin::ApplicationController
     user.delete_async(deleted_by: current_user, params: params.permit(:hard_delete))
 
     respond_to do |format|
-      format.html { redirect_to admin_users_path, status: 302, notice: "The user is being deleted." }
+      format.html { redirect_to admin_users_path, status: 302, notice: _("The user is being deleted.") }
       format.json { head :ok }
     end
   end
@@ -162,11 +162,11 @@ class Admin::UsersController < Admin::ApplicationController
 
     respond_to do |format|
       if success
-        format.html { redirect_back_or_admin_user(notice: 'Successfully removed email.') }
+        format.html { redirect_back_or_admin_user(notice: _('Successfully removed email.')) }
         format.json { head :ok }
       else
-        format.html { redirect_back_or_admin_user(alert: 'There was an error removing the e-mail.') }
-        format.json { render json: 'There was an error removing the e-mail.', status: :bad_request }
+        format.html { redirect_back_or_admin_user(alert: _('There was an error removing the e-mail.')) }
+        format.json { render json: _('There was an error removing the e-mail.'), status: :bad_request }
       end
     end
   end

@@ -768,7 +768,7 @@ describe Ci::CreatePipelineService do
 
               it 'does not create a merge request pipeline' do
                 expect(pipeline).not_to be_persisted
-                expect(pipeline.errors[:base]).to eq(["No stages / jobs for this pipeline."])
+                expect(pipeline.errors[:base]).to eq([_("No stages / jobs for this pipeline.")])
               end
             end
           end
@@ -814,7 +814,7 @@ describe Ci::CreatePipelineService do
               expect(pipeline).not_to be_persisted
 
               expect(pipeline.errors[:base])
-                .to eq(['No stages / jobs for this pipeline.'])
+                .to eq([_('No stages / jobs for this pipeline.')])
             end
           end
 
@@ -825,7 +825,7 @@ describe Ci::CreatePipelineService do
               expect(pipeline).not_to be_persisted
 
               expect(pipeline.errors[:base])
-                .to eq(['No stages / jobs for this pipeline.'])
+                .to eq([_('No stages / jobs for this pipeline.')])
             end
           end
         end
@@ -854,7 +854,7 @@ describe Ci::CreatePipelineService do
               expect(pipeline).not_to be_persisted
 
               expect(pipeline.errors[:base])
-                .to eq(['No stages / jobs for this pipeline.'])
+                .to eq([_('No stages / jobs for this pipeline.')])
             end
           end
         end
@@ -885,7 +885,7 @@ describe Ci::CreatePipelineService do
               expect(pipeline).not_to be_persisted
 
               expect(pipeline.errors[:base])
-                .to eq(['No stages / jobs for this pipeline.'])
+                .to eq([_('No stages / jobs for this pipeline.')])
             end
           end
         end
@@ -914,7 +914,7 @@ describe Ci::CreatePipelineService do
               expect(pipeline).not_to be_persisted
 
               expect(pipeline.errors[:base])
-                .to eq(['No stages / jobs for this pipeline.'])
+                .to eq([_('No stages / jobs for this pipeline.')])
             end
           end
         end

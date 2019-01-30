@@ -298,7 +298,7 @@ describe MarkupHelper do
 
       it 'truncates the text with multiple paragraphs' do
         object = create_object("Paragraph 1\n\nParagraph 2")
-        expected = 'Paragraph 1...'
+        expected = _('Paragraph 1...')
 
         expect(first_line_in_markdown(object, attribute, 100, project: project)).to match(expected)
       end

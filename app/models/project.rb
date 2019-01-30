@@ -795,7 +795,7 @@ class Project < ActiveRecord::Base
   def mark_stuck_remote_mirrors_as_failed!
     remote_mirrors.stuck.update_all(
       update_status: :failed,
-      last_error: 'The remote mirror took to long to complete.',
+      last_error: _('The remote mirror took to long to complete.'),
       last_update_at: Time.now
     )
   end
@@ -1864,7 +1864,7 @@ class Project < ActiveRecord::Base
   #
   # @param [Symbol] feature that needs to be rolled out for the project (:repository, :attachments)
   def hashed_storage?(feature)
-    raise ArgumentError, "Invalid feature" unless HASHED_STORAGE_FEATURES.include?(feature)
+    raise ArgumentError, _("Invalid feature") unless HASHED_STORAGE_FEATURES.include?(feature)
 
     self.storage_version && self.storage_version >= HASHED_STORAGE_FEATURES[feature]
   end
@@ -2114,7 +2114,7 @@ class Project < ActiveRecord::Base
   # already have 1, 2, or n it will fail, but it if you have 0 that is lower
   # than the number of permitted boards per project it won't fail.
   def validate_board_limit(board)
-    raise BoardLimitExceeded, 'Number of permitted boards exceeded' if boards.size >= NUMBER_OF_PERMITTED_BOARDS
+    raise BoardLimitExceeded, _('Number of permitted boards exceeded') if boards.size >= NUMBER_OF_PERMITTED_BOARDS
   end
 
   def update_project_statistics
@@ -2130,7 +2130,7 @@ class Project < ActiveRecord::Base
       errors.delete(error)
     end
 
-    errors.add(:base, "The project is still being deleted. Please try again later.")
+    errors.add(:base, _("The project is still being deleted. Please try again later."))
   end
 
   def pending_delete_twin

@@ -3,8 +3,8 @@
 module Gitlab
   class GitAccessWiki < GitAccess
     ERROR_MESSAGES = {
-      read_only:     "You can't push code to a read-only GitLab instance.",
-      write_to_wiki: "You are not allowed to write to this project's wiki."
+      read_only:     _("You can't push code to a read-only GitLab instance."),
+      write_to_wiki: _("You are not allowed to write to this project's wiki.")
     }.freeze
 
     def guest_can_download_code?

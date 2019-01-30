@@ -10,7 +10,7 @@ describe 'Projects > Snippets > Create Snippet', :js do
     fill_in 'project_snippet_title', with: 'My Snippet Title'
     fill_in 'project_snippet_description', with: 'My Snippet **Description**'
     page.within('.file-editor') do
-      find('.ace_text-input', visible: false).send_keys('Hello World!')
+      find('.ace_text-input', visible: false).send_keys(_('Hello World!'))
     end
   end
 
@@ -30,7 +30,7 @@ describe 'Projects > Snippets > Create Snippet', :js do
       wait_for_requests
 
       expect(page).to have_content('My Snippet Title')
-      expect(page).to have_content('Hello World!')
+      expect(page).to have_content(_('Hello World!'))
       page.within('.snippet-header .description') do
         expect(page).to have_content('My Snippet Description')
         expect(page).to have_selector('strong')
@@ -63,7 +63,7 @@ describe 'Projects > Snippets > Create Snippet', :js do
       wait_for_requests
 
       expect(page).to have_content('My Snippet Title')
-      expect(page).to have_content('Hello World!')
+      expect(page).to have_content(_('Hello World!'))
       page.within('.snippet-header .description') do
         expect(page).to have_content('My Snippet Description')
         expect(page).to have_selector('strong')

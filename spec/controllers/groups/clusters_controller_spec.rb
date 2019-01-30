@@ -444,7 +444,7 @@ describe Groups::ClustersController do
 
       cluster.reload
       expect(response).to redirect_to(group_cluster_path(group, cluster))
-      expect(flash[:notice]).to eq('Kubernetes cluster was successfully updated.')
+      expect(flash[:notice]).to eq(_('Kubernetes cluster was successfully updated.'))
       expect(cluster.enabled).to be_falsey
       expect(cluster.name).to eq('my-new-cluster-name')
     end
@@ -525,7 +525,7 @@ describe Groups::ClustersController do
               .and change { Clusters::Providers::Gcp.count }.by(-1)
 
             expect(response).to redirect_to(group_clusters_path(group))
-            expect(flash[:notice]).to eq('Kubernetes cluster integration was successfully removed.')
+            expect(flash[:notice]).to eq(_('Kubernetes cluster integration was successfully removed.'))
           end
         end
 
@@ -538,7 +538,7 @@ describe Groups::ClustersController do
               .and change { Clusters::Providers::Gcp.count }.by(-1)
 
             expect(response).to redirect_to(group_clusters_path(group))
-            expect(flash[:notice]).to eq('Kubernetes cluster integration was successfully removed.')
+            expect(flash[:notice]).to eq(_('Kubernetes cluster integration was successfully removed.'))
           end
         end
       end
@@ -553,7 +553,7 @@ describe Groups::ClustersController do
             .and change { Clusters::Providers::Gcp.count }.by(0)
 
           expect(response).to redirect_to(group_clusters_path(group))
-          expect(flash[:notice]).to eq('Kubernetes cluster integration was successfully removed.')
+          expect(flash[:notice]).to eq(_('Kubernetes cluster integration was successfully removed.'))
         end
       end
     end

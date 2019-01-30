@@ -138,7 +138,7 @@ module API
           notes = readable_discussion_notes(noteable, params[:discussion_id])
 
           break not_found!("Discussion") if notes.empty?
-          break bad_request!("Discussion is an individual note.") unless notes.first.part_of_discussion?
+          break bad_request!(_("Discussion is an individual note.")) unless notes.first.part_of_discussion?
 
           opts = {
             note: params[:body],

@@ -31,7 +31,7 @@ describe 'Set up Mattermost slash commands', :js do
       click_on 'Save changes'
 
       expect(current_path).to eq(project_settings_integrations_path(project))
-      expect(page).to have_content('Mattermost slash commands settings saved, but not activated.')
+      expect(page).to have_content(_('Mattermost slash commands settings saved, but not activated.'))
     end
 
     it 'redirects to the integrations page after activating' do
@@ -42,7 +42,7 @@ describe 'Set up Mattermost slash commands', :js do
       click_on 'Save changes'
 
       expect(current_path).to eq(project_settings_integrations_path(project))
-      expect(page).to have_content('Mattermost slash commands activated.')
+      expect(page).to have_content(_('Mattermost slash commands activated.'))
     end
 
     it 'shows the add to mattermost button' do
@@ -64,7 +64,7 @@ describe 'Set up Mattermost slash commands', :js do
       click_link 'Add to Mattermost'
 
       expect(page).to have_content('The team where the slash commands will be used in')
-      expect(page).to have_content('This is the only available team that you are a member of.')
+      expect(page).to have_content(_('This is the only available team that you are a member of.'))
     end
 
     it 'shows a disabled prefilled select if user is a member of 1 team' do
@@ -94,7 +94,7 @@ describe 'Set up Mattermost slash commands', :js do
       click_link 'Add to Mattermost'
 
       expect(page).to have_content('Select the team where the slash commands will be used in')
-      expect(page).to have_content('The list shows all available teams that you are a member of.')
+      expect(page).to have_content(_('The list shows all available teams that you are a member of.'))
     end
 
     it 'shows a select with team options user is a member of multiple teams' do

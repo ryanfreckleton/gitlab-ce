@@ -22,6 +22,6 @@ describe 'User activates Pushover' do
     select('Bike', from: 'Sound')
     click_button('Save')
 
-    expect(page).to have_content('Pushover activated.')
+    expect(page).to have_content(_('Pushover activated.'))
   end
 end

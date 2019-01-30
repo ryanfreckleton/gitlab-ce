@@ -435,7 +435,7 @@ describe ProjectsController do
 
         expect(project.namespace).to eq(old_namespace)
         expect(response).to have_gitlab_http_status(200)
-        expect(flash[:alert]).to eq 'Please select a new namespace for your project.'
+        expect(flash[:alert]).to eq _('Please select a new namespace for your project.')
       end
     end
   end
@@ -587,7 +587,7 @@ describe ProjectsController do
               format: :js)
 
           expect(forked_project.reload.forked?).to be_falsey
-          expect(flash[:notice]).to eq('The fork relationship has been removed.')
+          expect(flash[:notice]).to eq(_('The fork relationship has been removed.'))
           expect(response).to render_template(:remove_fork)
         end
       end

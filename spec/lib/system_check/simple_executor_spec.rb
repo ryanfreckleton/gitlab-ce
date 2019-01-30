@@ -31,7 +31,7 @@ describe SystemCheck::SimpleExecutor do
     end
 
     def check?
-      raise 'should not execute this'
+      raise _('should not execute this')
     end
   end
 
@@ -45,7 +45,7 @@ describe SystemCheck::SimpleExecutor do
     end
 
     def check?
-      raise 'should not execute this'
+      raise _('should not execute this')
     end
   end
 
@@ -57,7 +57,7 @@ describe SystemCheck::SimpleExecutor do
     end
 
     def check?
-      raise 'should not execute this'
+      raise _('should not execute this')
     end
   end
 
@@ -69,7 +69,7 @@ describe SystemCheck::SimpleExecutor do
     end
 
     def multi_check
-      raise 'should not execute this'
+      raise _('should not execute this')
     end
   end
 
@@ -94,7 +94,7 @@ describe SystemCheck::SimpleExecutor do
     set_name 'my bugous check'
 
     def check?
-      raise CustomError, 'omg'
+      raise CustomError, _('omg')
     end
   end
 

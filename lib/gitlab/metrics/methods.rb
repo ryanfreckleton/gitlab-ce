@@ -64,7 +64,7 @@ module Gitlab
           when :histogram
             Gitlab::Metrics.histogram(name, options.docstring, options.base_labels, options.buckets)
           when :summary
-            raise NotImplementedError, "summary metrics are not currently supported"
+            raise NotImplementedError, _("summary metrics are not currently supported")
           else
             raise ArgumentError, "uknown metric type #{type}"
           end

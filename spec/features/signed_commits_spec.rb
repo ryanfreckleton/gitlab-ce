@@ -80,7 +80,7 @@ describe 'GPG signed commits' do
       click_on 'Unverified'
 
       within '.popover' do
-        expect(page).to have_content 'This commit was signed with an unverified signature.'
+        expect(page).to have_content _('This commit was signed with an unverified signature.')
         expect(page).to have_content "GPG Key ID: #{GpgHelpers::User2.primary_keyid}"
       end
     end
@@ -93,7 +93,7 @@ describe 'GPG signed commits' do
       click_on 'Unverified'
 
       within '.popover' do
-        expect(page).to have_content 'This commit was signed with a verified signature, but the committer email is not verified to belong to the same user.'
+        expect(page).to have_content _('This commit was signed with a verified signature, but the committer email is not verified to belong to the same user.')
         expect(page).to have_content 'Bette Cartwright'
         expect(page).to have_content '@bette.cartwright'
         expect(page).to have_content "GPG Key ID: #{GpgHelpers::User2.primary_keyid}"
@@ -108,7 +108,7 @@ describe 'GPG signed commits' do
       click_on 'Unverified'
 
       within '.popover' do
-        expect(page).to have_content "This commit was signed with a different user's verified signature."
+        expect(page).to have_content _("This commit was signed with a different user's verified signature.")
         expect(page).to have_content 'Bette Cartwright'
         expect(page).to have_content '@bette.cartwright'
         expect(page).to have_content "GPG Key ID: #{GpgHelpers::User2.primary_keyid}"
@@ -123,7 +123,7 @@ describe 'GPG signed commits' do
       click_on 'Verified'
 
       within '.popover' do
-        expect(page).to have_content 'This commit was signed with a verified signature and the committer email is verified to belong to the same user.'
+        expect(page).to have_content _('This commit was signed with a verified signature and the committer email is verified to belong to the same user.')
         expect(page).to have_content 'Nannie Bernhard'
         expect(page).to have_content '@nannie.bernhard'
         expect(page).to have_content "GPG Key ID: #{GpgHelpers::User1.primary_keyid}"
@@ -145,7 +145,7 @@ describe 'GPG signed commits' do
       click_on 'Verified'
 
       within '.popover' do
-        expect(page).to have_content 'This commit was signed with a verified signature and the committer email is verified to belong to the same user.'
+        expect(page).to have_content _('This commit was signed with a verified signature and the committer email is verified to belong to the same user.')
         expect(page).to have_content 'Nannie Bernhard'
         expect(page).to have_content 'nannie.bernhard@example.com'
         expect(page).to have_content "GPG Key ID: #{GpgHelpers::User1.primary_keyid}"

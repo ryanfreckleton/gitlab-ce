@@ -23,7 +23,7 @@ describe 'Projects > Settings > For a forked project', :js do
       fill_in('confirm_name_input', with: forked_project.name)
       click_button('Confirm')
 
-      expect(page).to have_content('The fork relationship has been removed.')
+      expect(page).to have_content(_('The fork relationship has been removed.'))
       expect(forked_project.reload.forked?).to be_falsy
     end
   end

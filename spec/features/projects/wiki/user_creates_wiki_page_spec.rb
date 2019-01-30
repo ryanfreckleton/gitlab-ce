@@ -159,14 +159,14 @@ describe "User creates wiki page" do
 
       it "creates a page from the home page" do
         page.within(".wiki-form") do
-          fill_in(:wiki_content, with: "My awesome wiki!")
+          fill_in(:wiki_content, with: _("My awesome wiki!"))
 
           click_button("Create page")
         end
 
         expect(page).to have_content("Home")
                    .and have_content("Last edited by #{user.name}")
-                   .and have_content("My awesome wiki!")
+                   .and have_content(_("My awesome wiki!"))
       end
     end
   end
@@ -195,14 +195,14 @@ describe "User creates wiki page" do
           expect(page).to have_field("wiki[message]", with: "Create foo")
 
           page.within(".wiki-form") do
-            fill_in(:wiki_content, with: "My awesome wiki!")
+            fill_in(:wiki_content, with: _("My awesome wiki!"))
 
             click_button("Create page")
           end
 
           expect(page).to have_content("foo")
                      .and have_content("Last edited by #{user.name}")
-                     .and have_content("My awesome wiki!")
+                     .and have_content(_("My awesome wiki!"))
         end
 
         it "creates a page with spaces in the name" do
@@ -218,14 +218,14 @@ describe "User creates wiki page" do
           expect(page).to have_field("wiki[message]", with: "Create Spaces in the name")
 
           page.within(".wiki-form") do
-            fill_in(:wiki_content, with: "My awesome wiki!")
+            fill_in(:wiki_content, with: _("My awesome wiki!"))
 
             click_button("Create page")
           end
 
           expect(page).to have_content("Spaces in the name")
                      .and have_content("Last edited by #{user.name}")
-                     .and have_content("My awesome wiki!")
+                     .and have_content(_("My awesome wiki!"))
         end
 
         it "creates a page with hyphens in the name" do
@@ -241,14 +241,14 @@ describe "User creates wiki page" do
           expect(page).to have_field("wiki[message]", with: "Create hyphens in the name")
 
           page.within(".wiki-form") do
-            fill_in(:wiki_content, with: "My awesome wiki!")
+            fill_in(:wiki_content, with: _("My awesome wiki!"))
 
             click_button("Create page")
           end
 
           expect(page).to have_content("hyphens in the name")
                      .and have_content("Last edited by #{user.name}")
-                     .and have_content("My awesome wiki!")
+                     .and have_content(_("My awesome wiki!"))
         end
       end
 
@@ -288,14 +288,14 @@ describe "User creates wiki page" do
           expect(page).to have_field("wiki[message]", with: "Create foo")
 
           page.within(".wiki-form") do
-            fill_in(:wiki_content, with: "My awesome wiki!")
+            fill_in(:wiki_content, with: _("My awesome wiki!"))
 
             click_button("Create page")
           end
 
           expect(page).to have_content("foo")
                      .and have_content("Last edited by #{user.name}")
-                     .and have_content("My awesome wiki!")
+                     .and have_content(_("My awesome wiki!"))
         end
       end
     end

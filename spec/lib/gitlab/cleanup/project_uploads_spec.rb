@@ -24,7 +24,7 @@ describe Gitlab::Cleanup::ProjectUploads do
         end
 
         it 'logs action as done' do
-          expect(logger).to receive(:info).with("Looking for orphaned project uploads to clean up...")
+          expect(logger).to receive(:info).with(_("Looking for orphaned project uploads to clean up..."))
           expect(logger).to receive(:info).with("Did #{action}")
 
           subject.run!(*args)
@@ -40,7 +40,7 @@ describe Gitlab::Cleanup::ProjectUploads do
         end
 
         it 'logs action as able to be done' do
-          expect(logger).to receive(:info).with("Looking for orphaned project uploads to clean up. Dry run...")
+          expect(logger).to receive(:info).with(_("Looking for orphaned project uploads to clean up. Dry run..."))
           expect(logger).to receive(:info).with("Can #{action}")
 
           subject.run!(*args)

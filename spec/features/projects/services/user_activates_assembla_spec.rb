@@ -18,6 +18,6 @@ describe 'User activates Assembla' do
     fill_in('Token', with: 'verySecret')
     click_button('Save')
 
-    expect(page).to have_content('Assembla activated.')
+    expect(page).to have_content(_('Assembla activated.'))
   end
 end

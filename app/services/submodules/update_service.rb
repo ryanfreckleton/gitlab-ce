@@ -16,7 +16,7 @@ module Submodules
     def validate!
       super
 
-      raise ValidationError, 'The repository is empty' if repository.empty?
+      raise ValidationError, _('The repository is empty') if repository.empty?
     end
 
     def execute
@@ -32,7 +32,7 @@ module Submodules
                                   message: @commit_message,
                                   branch: @branch_name)
     rescue ArgumentError, TypeError
-      raise ValidationError, 'Invalid parameters'
+      raise ValidationError, _('Invalid parameters')
     end
   end
 end

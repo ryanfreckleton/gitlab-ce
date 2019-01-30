@@ -24,7 +24,7 @@ module API
     end
 
     desc 'Get the list of the available license template' do
-      detail 'This feature was introduced in GitLab 8.7.'
+      detail _('This feature was introduced in GitLab 8.7.')
       success ::API::Entities::License
     end
     params do
@@ -41,7 +41,7 @@ module API
     end
 
     desc 'Get the text for a specific license' do
-      detail 'This feature was introduced in GitLab 8.7.'
+      detail _('This feature was introduced in GitLab 8.7.')
       success ::API::Entities::License
     end
     params do

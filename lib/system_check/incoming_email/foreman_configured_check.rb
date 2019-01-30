@@ -3,7 +3,7 @@
 module SystemCheck
   module IncomingEmail
     class ForemanConfiguredCheck < SystemCheck::BaseCheck
-      set_name 'Foreman configured correctly?'
+      set_name _('Foreman configured correctly?')
 
       def check?
         path = Rails.root.join('Procfile')
@@ -13,7 +13,7 @@ module SystemCheck
 
       def show_error
         try_fixing_it(
-          'Enable mail_room in your Procfile.'
+          _('Enable mail_room in your Procfile.')
         )
         for_more_information(
           'doc/administration/reply_by_email.md'

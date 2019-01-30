@@ -105,7 +105,7 @@ describe 'Project Badges' do
 
       click_delete_button(rows[1])
 
-      expect(find('.modal .modal-title')).to have_content 'Delete badge?'
+      expect(find('.modal .modal-title')).to have_content _('Delete badge?')
     end
 
     it 'deletes a badge when confirming the modal' do

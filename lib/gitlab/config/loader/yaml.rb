@@ -16,7 +16,7 @@ module Gitlab
 
         def load!
           unless valid?
-            raise Loader::FormatError, 'Invalid configuration format'
+            raise Loader::FormatError, _('Invalid configuration format')
           end
 
           @config.deep_symbolize_keys

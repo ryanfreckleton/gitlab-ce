@@ -101,7 +101,7 @@ describe SessionsController do
           post(:create, params: { user: user_params })
 
           expect(response).to render_template(:new)
-          expect(flash[:alert]).to include 'There was an error with the reCAPTCHA. Please solve the reCAPTCHA again.'
+          expect(flash[:alert]).to include _('There was an error with the reCAPTCHA. Please solve the reCAPTCHA again.')
           expect(subject.current_user).to be_nil
         end
 

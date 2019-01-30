@@ -8,7 +8,7 @@ module Gitlab
           issuable_collection.respond_to?(:limit_value) &&
           issuable_collection.limit_value.nil?
 
-        raise 'Collection must have a limit applied for preloading meta-data'
+        raise _('Collection must have a limit applied for preloading meta-data')
       end
 
       # map has to be used here since using pluck or select will

@@ -42,7 +42,7 @@ describe 'Import multiple repositories by uploading a manifest file', :js, :post
     attach_file('manifest', Rails.root.join('spec/fixtures/banana_sample.gif'))
     click_on 'List available repositories'
 
-    expect(page).to have_content 'The uploaded file is not a valid XML file.'
+    expect(page).to have_content _('The uploaded file is not a valid XML file.')
   end
 
   def first_row

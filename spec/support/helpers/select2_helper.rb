@@ -12,7 +12,7 @@
 
 module Select2Helper
   def select2(value, options = {})
-    raise ArgumentError, 'options must be a Hash' unless options.is_a?(Hash)
+    raise ArgumentError, _('options must be a Hash') unless options.is_a?(Hash)
 
     selector = options.fetch(:from)
 

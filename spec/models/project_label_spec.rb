@@ -44,7 +44,7 @@ describe ProjectLabel do
       it 'does not returns error when title does not change' do
         project_label = create(:label, project: project, name: 'Security')
         create(:group_label, group: group, name: 'Security')
-        project_label.description = 'Security related stuff.'
+        project_label.description = _('Security related stuff.')
 
         project_label.valid?
 

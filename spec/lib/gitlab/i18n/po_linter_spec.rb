@@ -49,14 +49,14 @@ describe Gitlab::I18n::PoLinter do
       let(:po_path) { 'spec/fixtures/newlines.po' }
 
       it 'has an error for a normal string' do
-        message_id = "You are going to remove %{group_name}.\\nRemoved groups CANNOT be restored!\\nAre you ABSOLUTELY sure?"
+        message_id = _("You are going to remove %{group_name}.\\nRemoved groups CANNOT be restored!\\nAre you ABSOLUTELY sure?")
         expected_message = "is defined over multiple lines, this breaks some tooling."
 
         expect(errors[message_id]).to include(expected_message)
       end
 
       it 'has an error when a translation is defined over multiple lines' do
-        message_id = "You are going to remove %{group_name}.\\nRemoved groups CANNOT be restored!\\nAre you ABSOLUTELY sure?"
+        message_id = _("You are going to remove %{group_name}.\\nRemoved groups CANNOT be restored!\\nAre you ABSOLUTELY sure?")
         expected_message = "has translations defined over multiple lines, this breaks some tooling."
 
         expect(errors[message_id]).to include(expected_message)
@@ -137,7 +137,7 @@ describe Gitlab::I18n::PoLinter do
       let(:po_path) { 'spec/fixtures/unescaped_chars.po' }
 
       it 'contains an error' do
-        message_id = 'You are going to transfer %{project_name_with_namespace} to another owner. Are you ABSOLUTELY sure?'
+        message_id = _('You are going to transfer %{project_name_with_namespace} to another owner. Are you ABSOLUTELY sure?')
         expected_error = 'translation contains unescaped `%`, escape it using `%%`'
 
         expect(errors[message_id]).to include(expected_error)
@@ -324,7 +324,7 @@ describe Gitlab::I18n::PoLinter do
     it 'adds an error message when translating fails' do
       errors = []
 
-      expect(FastGettext::Translation).to receive(:_) { raise 'broken' }
+      expect(FastGettext::Translation).to receive(:_) { raise _('broken') }
 
       linter.validate_translation(errors, entry)
 
@@ -335,7 +335,7 @@ describe Gitlab::I18n::PoLinter do
       entry = fake_translation(msgid: 'Tests|Hello', translation: 'broken')
       errors = []
 
-      expect(FastGettext::Translation).to receive(:s_) { raise 'broken' }
+      expect(FastGettext::Translation).to receive(:s_) { raise _('broken') }
 
       linter.validate_translation(errors, entry)
 

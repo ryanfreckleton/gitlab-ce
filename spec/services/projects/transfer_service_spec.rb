@@ -168,7 +168,7 @@ describe Projects::TransferService do
 
     it { expect(@result).to eq false }
     it { expect(project.namespace).to eq(user.namespace) }
-    it { expect(project.errors.messages[:new_namespace].first).to eq 'Please select a new namespace for your project.' }
+    it { expect(project.errors.messages[:new_namespace].first).to eq _('Please select a new namespace for your project.') }
   end
 
   context 'disallow transferring of project with tags' do
@@ -202,7 +202,7 @@ describe Projects::TransferService do
       group.add_owner(user)
 
       unless gitlab_shell.create_repository(repository_storage, "#{group.full_path}/#{project.path}")
-        raise 'failed to add repository'
+        raise _('failed to add repository')
       end
 
       @result = transfer_project(project, user, group)

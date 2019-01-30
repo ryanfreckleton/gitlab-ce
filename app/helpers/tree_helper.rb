@@ -87,12 +87,12 @@ module TreeHelper
 
   def edit_in_new_fork_notice_now
     "You're not allowed to make changes to this project directly." +
-      " A fork of this project is being created that you can make changes in, so you can submit a merge request."
+      _(" A fork of this project is being created that you can make changes in, so you can submit a merge request.")
   end
 
   def edit_in_new_fork_notice
     "You're not allowed to make changes to this project directly." +
-      " A fork of this project has been created that you can make changes in, so you can submit a merge request."
+      _(" A fork of this project has been created that you can make changes in, so you can submit a merge request.")
   end
 
   def edit_in_new_fork_notice_action(action)

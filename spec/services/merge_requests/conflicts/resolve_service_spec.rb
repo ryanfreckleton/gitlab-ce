@@ -48,7 +48,7 @@ describe MergeRequests::Conflicts::ResolveService do
               }
             }
           ],
-          commit_message: 'This is a commit message!'
+          commit_message: _('This is a commit message!')
         }
       end
 
@@ -146,7 +146,7 @@ describe MergeRequests::Conflicts::ResolveService do
               }
             }
           ],
-          commit_message: 'This is a commit message!'
+          commit_message: _('This is a commit message!')
         }
       end
 
@@ -189,7 +189,7 @@ describe MergeRequests::Conflicts::ResolveService do
               sections: { '6eb14e00385d2fb284765eb1cd8d420d33d63fc9_9_9' => 'head' }
             }
           ],
-          commit_message: 'This is a commit message!'
+          commit_message: _('This is a commit message!')
         }
       end
 
@@ -220,7 +220,7 @@ describe MergeRequests::Conflicts::ResolveService do
               content: regex_conflict.content
             }
           ],
-          commit_message: 'This is a commit message!'
+          commit_message: _('This is a commit message!')
         }
       end
 
@@ -240,7 +240,7 @@ describe MergeRequests::Conflicts::ResolveService do
               content: ''
             }
           ],
-          commit_message: 'This is a commit message!'
+          commit_message: _('This is a commit message!')
         }
       end
 

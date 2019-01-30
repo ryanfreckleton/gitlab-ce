@@ -3,7 +3,7 @@
 module SystemCheck
   module IncomingEmail
     class ImapAuthenticationCheck < SystemCheck::BaseCheck
-      set_name 'IMAP server credentials are correct?'
+      set_name _('IMAP server credentials are correct?')
 
       def check?
         if config

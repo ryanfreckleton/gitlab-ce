@@ -10,7 +10,7 @@ module Gitlab
 
         def initialize(config, **metadata)
           unless self.class.const_defined?(:UnknownStrategy)
-            raise ArgumentError, 'UndefinedStrategy not available!'
+            raise ArgumentError, _('UndefinedStrategy not available!')
           end
 
           strategy = self.class.strategies.find do |variant|

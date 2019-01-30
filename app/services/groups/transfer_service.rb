@@ -3,11 +3,11 @@
 module Groups
   class TransferService < Groups::BaseService
     ERROR_MESSAGES = {
-      database_not_supported: 'Database is not supported.',
-      namespace_with_same_path: 'The parent group already has a subgroup with the same path.',
-      group_is_already_root: 'Group is already a root group.',
-      same_parent_as_current: 'Group is already associated to the parent group.',
-      invalid_policies: "You don't have enough permissions."
+      database_not_supported: _('Database is not supported.'),
+      namespace_with_same_path: _('The parent group already has a subgroup with the same path.'),
+      group_is_already_root: _('Group is already a root group.'),
+      same_parent_as_current: _('Group is already associated to the parent group.'),
+      invalid_policies: _("You don't have enough permissions.")
     }.freeze
 
     TransferError = Class.new(StandardError)

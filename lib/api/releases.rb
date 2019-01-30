@@ -14,7 +14,7 @@ module API
     end
     resource :projects, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
       desc 'Get a project releases' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::Release
       end
       params do
@@ -27,7 +27,7 @@ module API
       end
 
       desc 'Get a single project release' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::Release
       end
       params do
@@ -40,7 +40,7 @@ module API
       end
 
       desc 'Create a new release' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::Release
       end
       params do
@@ -70,7 +70,7 @@ module API
       end
 
       desc 'Update a release' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::Release
       end
       params do
@@ -93,7 +93,7 @@ module API
       end
 
       desc 'Delete a release' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::Release
       end
       params do

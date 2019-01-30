@@ -65,7 +65,7 @@ module Gitlab
     def self.fabricate(pattern)
       matches = pattern.match(%r{^/(?<regexp>.+)/(?<flags>[ismU]*)$})
 
-      raise RegexpError, 'Invalid regular expression!' if matches.nil?
+      raise RegexpError, _('Invalid regular expression!') if matches.nil?
 
       expression = matches[:regexp]
       flags = matches[:flags]

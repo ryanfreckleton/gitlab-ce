@@ -262,7 +262,7 @@ describe Gitlab::Database::RenameReservedPathsMigration::V1::RenameBase, :delete
       subject.track_rename('project', 'old_path', 'new_path')
 
       subject.reverts_for_type('project') do
-        raise 'whatever happens, keep going!'
+        raise _('whatever happens, keep going!')
       end
 
       key = 'rename:FakeRenameReservedPathMigrationV1:project'

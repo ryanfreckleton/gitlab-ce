@@ -33,7 +33,7 @@ describe Admin::GroupsController do
                              access_level: Gitlab::Access::GUEST
                            }
 
-      expect(response).to set_flash.to 'Users were successfully added.'
+      expect(response).to set_flash.to _('Users were successfully added.')
       expect(response).to redirect_to(admin_group_path(group))
       expect(group.users).to include group_user
     end
@@ -45,7 +45,7 @@ describe Admin::GroupsController do
                              access_level: Gitlab::Access::GUEST
                            }
 
-      expect(response).to set_flash.to 'Users were successfully added.'
+      expect(response).to set_flash.to _('Users were successfully added.')
       expect(response).to redirect_to(admin_group_path(group))
     end
 
@@ -56,7 +56,7 @@ describe Admin::GroupsController do
                              access_level: Gitlab::Access::GUEST
                            }
 
-      expect(response).to set_flash.to 'No users specified.'
+      expect(response).to set_flash.to _('No users specified.')
       expect(response).to redirect_to(admin_group_path(group))
       expect(group.users).not_to include group_user
     end

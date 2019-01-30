@@ -20,7 +20,7 @@ module ObjectStorage
       end
 
       def to_s
-        success? ? "Migration successful." : "Error while migrating #{upload.id}: #{error.message}"
+        success? ? _("Migration successful.") : "Error while migrating #{upload.id}: #{error.message}"
       end
     end
 
@@ -110,9 +110,9 @@ module ObjectStorage
       return if args.count == 4
 
       case args.count
-      when 3 then raise SanityCheckError, "Job is missing the `model_type` argument."
+      when 3 then raise SanityCheckError, _("Job is missing the `model_type` argument.")
       else
-        raise SanityCheckError, "Job has wrong arguments format."
+        raise SanityCheckError, _("Job has wrong arguments format.")
       end
     end
 

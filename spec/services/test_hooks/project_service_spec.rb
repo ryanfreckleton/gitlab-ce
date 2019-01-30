@@ -33,7 +33,7 @@ describe TestHooks::ProjectService do
         allow(project).to receive(:empty_repo?).and_return(true)
 
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the project has at least one commit.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the project has at least one commit.') })
       end
 
       it 'executes hook' do
@@ -53,7 +53,7 @@ describe TestHooks::ProjectService do
         allow(project).to receive(:empty_repo?).and_return(true)
 
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the project has at least one commit.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the project has at least one commit.') })
       end
 
       it 'executes hook' do
@@ -71,7 +71,7 @@ describe TestHooks::ProjectService do
 
       it 'returns error message if not enough data' do
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the project has notes.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the project has notes.') })
       end
 
       it 'executes hook' do
@@ -90,7 +90,7 @@ describe TestHooks::ProjectService do
 
       it 'returns error message if not enough data' do
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the project has issues.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the project has issues.') })
       end
 
       it 'executes hook' do
@@ -109,7 +109,7 @@ describe TestHooks::ProjectService do
 
       it 'returns error message if not enough data' do
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the project has issues.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the project has issues.') })
       end
 
       it 'executes hook' do
@@ -127,7 +127,7 @@ describe TestHooks::ProjectService do
 
       it 'returns error message if not enough data' do
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the project has merge requests.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the project has merge requests.') })
       end
 
       it 'executes hook' do
@@ -145,7 +145,7 @@ describe TestHooks::ProjectService do
 
       it 'returns error message if not enough data' do
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the project has CI jobs.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the project has CI jobs.') })
       end
 
       it 'executes hook' do
@@ -163,7 +163,7 @@ describe TestHooks::ProjectService do
 
       it 'returns error message if not enough data' do
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the project has CI pipelines.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the project has CI pipelines.') })
       end
 
       it 'executes hook' do
@@ -184,12 +184,12 @@ describe TestHooks::ProjectService do
         allow(project).to receive(:wiki_enabled?).and_return(false)
 
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the wiki is enabled and has pages.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the wiki is enabled and has pages.') })
       end
 
       it 'returns error message if not enough data' do
         expect(hook).not_to receive(:execute)
-        expect(service.execute).to include({ status: :error, message: 'Ensure the wiki is enabled and has pages.' })
+        expect(service.execute).to include({ status: :error, message: _('Ensure the wiki is enabled and has pages.') })
       end
 
       it 'executes hook' do

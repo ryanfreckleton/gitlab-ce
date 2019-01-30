@@ -1265,7 +1265,7 @@ describe QuickActions::InterpretService do
       it 'includes issuable name' do
         _, explanations = service.explain(content, issue)
 
-        expect(explanations).to eq(['Closes this issue.'])
+        expect(explanations).to eq([_('Closes this issue.')])
       end
     end
 
@@ -1276,7 +1276,7 @@ describe QuickActions::InterpretService do
       it 'includes issuable name' do
         _, explanations = service.explain(content, merge_request)
 
-        expect(explanations).to eq(['Reopens this merge request.'])
+        expect(explanations).to eq([_('Reopens this merge request.')])
       end
     end
 
@@ -1286,7 +1286,7 @@ describe QuickActions::InterpretService do
       it 'includes new title' do
         _, explanations = service.explain(content, issue)
 
-        expect(explanations).to eq(['Changes the title to "This is new title".'])
+        expect(explanations).to eq([_('Changes the title to "This is new title".')])
       end
     end
 
@@ -1329,7 +1329,7 @@ describe QuickActions::InterpretService do
       it 'includes current milestone name' do
         _, explanations = service.explain(content, merge_request)
 
-        expect(explanations).to eq(['Removes %"9.10" milestone.'])
+        expect(explanations).to eq([_('Removes %"9.10" milestone.')])
       end
     end
 
@@ -1351,7 +1351,7 @@ describe QuickActions::InterpretService do
         merge_request.update!(label_ids: [bug.id])
         _, explanations = service.explain(content, merge_request)
 
-        expect(explanations).to eq(['Removes all labels.'])
+        expect(explanations).to eq([_('Removes all labels.')])
       end
     end
 
@@ -1374,7 +1374,7 @@ describe QuickActions::InterpretService do
       it 'includes issuable name' do
         _, explanations = service.explain(content, issue)
 
-        expect(explanations).to eq(['Subscribes to this issue.'])
+        expect(explanations).to eq([_('Subscribes to this issue.')])
       end
     end
 
@@ -1385,7 +1385,7 @@ describe QuickActions::InterpretService do
         merge_request.subscribe(developer, project)
         _, explanations = service.explain(content, merge_request)
 
-        expect(explanations).to eq(['Unsubscribes from this merge request.'])
+        expect(explanations).to eq([_('Unsubscribes from this merge request.')])
       end
     end
 
@@ -1395,7 +1395,7 @@ describe QuickActions::InterpretService do
       it 'includes the date' do
         _, explanations = service.explain(content, issue)
 
-        expect(explanations).to eq(['Sets the due date to Apr 1, 2016.'])
+        expect(explanations).to eq([_('Sets the due date to Apr 1, 2016.')])
       end
     end
 
@@ -1405,7 +1405,7 @@ describe QuickActions::InterpretService do
       it 'includes the new status' do
         _, explanations = service.explain(content, merge_request)
 
-        expect(explanations).to eq(['Marks this merge request as Work In Progress.'])
+        expect(explanations).to eq([_('Marks this merge request as Work In Progress.')])
       end
     end
 
@@ -1415,7 +1415,7 @@ describe QuickActions::InterpretService do
       it 'includes the emoji' do
         _, explanations = service.explain(content, issue)
 
-        expect(explanations).to eq(['Toggles :confetti_ball: emoji award.'])
+        expect(explanations).to eq([_('Toggles :confetti_ball: emoji award.')])
       end
     end
 
@@ -1425,7 +1425,7 @@ describe QuickActions::InterpretService do
       it 'includes the formatted duration' do
         _, explanations = service.explain(content, merge_request)
 
-        expect(explanations).to eq(['Sets time estimate to 3mo 3w 4d.'])
+        expect(explanations).to eq([_('Sets time estimate to 3mo 3w 4d.')])
       end
     end
 
@@ -1435,7 +1435,7 @@ describe QuickActions::InterpretService do
       it 'includes the formatted duration and proper verb' do
         _, explanations = service.explain(content, issue)
 
-        expect(explanations).to eq(['Subtracts 2h spent time.'])
+        expect(explanations).to eq([_('Subtracts 2h spent time.')])
       end
     end
 
@@ -1445,7 +1445,7 @@ describe QuickActions::InterpretService do
       it 'includes the branch name' do
         _, explanations = service.explain(content, merge_request)
 
-        expect(explanations).to eq(['Sets target branch to my-feature.'])
+        expect(explanations).to eq([_('Sets target branch to my-feature.')])
       end
     end
 
@@ -1467,7 +1467,7 @@ describe QuickActions::InterpretService do
       it 'includes the project name' do
         _, explanations = service.explain(content, issue)
 
-        expect(explanations).to eq(["Moves this issue to test/project."])
+        expect(explanations).to eq([_("Moves this issue to test/project.")])
       end
     end
 
@@ -1479,7 +1479,7 @@ describe QuickActions::InterpretService do
           it 'includes the tag name only' do
             _, explanations = service.explain(content, commit)
 
-            expect(explanations).to eq(["Tags this commit to v1.2.3."])
+            expect(explanations).to eq([_("Tags this commit to v1.2.3.")])
           end
         end
 
@@ -1489,7 +1489,7 @@ describe QuickActions::InterpretService do
           it 'includes the tag name only' do
             _, explanations = service.explain(content, commit)
 
-            expect(explanations).to eq(["Tags this commit to v1.2.3."])
+            expect(explanations).to eq([_("Tags this commit to v1.2.3.")])
           end
         end
       end
@@ -1500,7 +1500,7 @@ describe QuickActions::InterpretService do
         it 'includes the tag name and message' do
           _, explanations = service.explain(content, commit)
 
-          expect(explanations).to eq(["Tags this commit to v1.2.3 with \"Stable release\"."])
+          expect(explanations).to eq([_("Tags this commit to v1.2.3 with \"Stable release\".")])
         end
       end
     end

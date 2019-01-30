@@ -12,7 +12,7 @@ module API
     end
     resource :projects, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
       desc 'Get a list of merge request diff versions' do
-        detail 'This feature was introduced in GitLab 8.12.'
+        detail _('This feature was introduced in GitLab 8.12.')
         success Entities::MergeRequestDiff
       end
 
@@ -27,7 +27,7 @@ module API
       end
 
       desc 'Get a single merge request diff version' do
-        detail 'This feature was introduced in GitLab 8.12.'
+        detail _('This feature was introduced in GitLab 8.12.')
         success Entities::MergeRequestDiffFull
       end
 

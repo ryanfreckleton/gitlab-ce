@@ -18,7 +18,7 @@ module QA
           file.commit_message = commit_message_for_create
         end
 
-        expect(page).to have_content('The file has been successfully created.')
+        expect(page).to have_content(_('The file has been successfully created.'))
         expect(page).to have_content(file_name)
         expect(page).to have_content(file_content)
         expect(page).to have_content(commit_message_for_create)
@@ -36,7 +36,7 @@ module QA
           commit_changes
         end
 
-        expect(page).to have_content('Your changes have been successfully committed.')
+        expect(page).to have_content(_('Your changes have been successfully committed.'))
         expect(page).to have_content(updated_file_content)
         expect(page).to have_content(commit_message_for_update)
 
@@ -49,7 +49,7 @@ module QA
           click_delete_file
         end
 
-        expect(page).to have_content('The file has been successfully deleted.')
+        expect(page).to have_content(_('The file has been successfully deleted.'))
         expect(page).to have_content(commit_message_for_delete)
         expect(page).to have_no_content(file_name)
       end

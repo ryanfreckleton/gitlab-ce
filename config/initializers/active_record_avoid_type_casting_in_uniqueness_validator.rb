@@ -40,7 +40,7 @@ module ActiveRecord
           if finder_class.primary_key
             relation = relation.where.not(finder_class.primary_key => record.id_was || record.id)
           else
-            raise UnknownPrimaryKey.new(finder_class, "Can not validate uniqueness for persisted record without primary key.")
+            raise UnknownPrimaryKey.new(finder_class, _("Can not validate uniqueness for persisted record without primary key."))
           end
         end
 

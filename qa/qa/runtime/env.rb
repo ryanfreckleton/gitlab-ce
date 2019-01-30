@@ -172,7 +172,7 @@ module QA
       def require_github_access_token!
         return unless github_access_token.empty?
 
-        raise ArgumentError, "Please provide GITHUB_ACCESS_TOKEN"
+        raise ArgumentError, _("Please provide GITHUB_ACCESS_TOKEN")
       end
 
       # Returns true if there is an environment variable that indicates that

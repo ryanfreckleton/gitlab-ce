@@ -201,10 +201,10 @@ describe Commit do
     end
 
     it 'truncates a message without a newline at natural break to 80 characters' do
-      message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales id felis id blandit. Vivamus egestas lacinia lacus, sed rutrum mauris.'
+      message = _('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales id felis id blandit. Vivamus egestas lacinia lacus, sed rutrum mauris.')
 
       allow(commit).to receive(:safe_message).and_return(message)
-      expect(commit.title).to eq('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales id...')
+      expect(commit.title).to eq(_('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales id...'))
     end
 
     it "truncates a message with a newline before 80 characters at the newline" do
@@ -232,7 +232,7 @@ eos
     end
 
     it "returns entire message if there is no newline" do
-      message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales id felis id blandit. Vivamus egestas lacinia lacus, sed rutrum mauris.'
+      message = _('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales id felis id blandit. Vivamus egestas lacinia lacus, sed rutrum mauris.')
 
       allow(commit).to receive(:safe_message).and_return(message)
       expect(commit.full_title).to eq(message)
@@ -260,7 +260,7 @@ Vivamus egestas lacinia lacus, sed rutrum mauris.
 eos
 
       allow(commit).to receive(:safe_message).and_return(message)
-      expect(commit.description).to eq('Vivamus egestas lacinia lacus, sed rutrum mauris.')
+      expect(commit.description).to eq(_('Vivamus egestas lacinia lacus, sed rutrum mauris.'))
     end
 
     it 'returns full commit message if commit title more than 100 characters' do

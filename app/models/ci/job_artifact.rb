@@ -153,7 +153,7 @@ module Ci
 
     def each_blob(&blk)
       unless file_format_adapter_class
-        raise NotSupportedAdapterError, 'This file format requires a dedicated adapter'
+        raise NotSupportedAdapterError, _('This file format requires a dedicated adapter')
       end
 
       file.open do |stream|

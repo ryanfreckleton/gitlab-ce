@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class LogWritableCheck < SystemCheck::BaseCheck
-      set_name 'Log directory writable?'
+      set_name _('Log directory writable?')
 
       def check?
         File.writable?(log_path)

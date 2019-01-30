@@ -128,13 +128,13 @@ describe 'Admin updates settings' do
       accept_terms(admin)
 
       page.within('.as-terms') do
-        check 'Require all users to accept Terms of Service and Privacy Policy when they access GitLab.'
-        fill_in 'Terms of Service Agreement', with: 'Be nice!'
+        check _('Require all users to accept Terms of Service and Privacy Policy when they access GitLab.')
+        fill_in 'Terms of Service Agreement', with: _('Be nice!')
         click_button 'Save changes'
       end
 
       expect(Gitlab::CurrentSettings.enforce_terms).to be(true)
-      expect(Gitlab::CurrentSettings.terms).to eq 'Be nice!'
+      expect(Gitlab::CurrentSettings.terms).to eq _('Be nice!')
       expect(page).to have_content 'Application settings saved successfully'
     end
 

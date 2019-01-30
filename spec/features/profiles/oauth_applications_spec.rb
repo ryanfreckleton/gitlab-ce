@@ -39,7 +39,7 @@ describe 'Profile > Applications' do
         accept_confirm { click_button 'Revoke' }
       end
 
-      expect(page).to have_content('The application was revoked access.')
+      expect(page).to have_content(_('The application was revoked access.'))
       expect(page).to have_content('Your applications (0)')
       expect(page).to have_content('Authorized applications (0)')
     end

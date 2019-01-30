@@ -69,13 +69,13 @@ describe 'Explore Groups page', :js do
 
   describe 'landing component' do
     it 'should show a landing component' do
-      expect(page).to have_content('Below you will find all the groups that are public.')
+      expect(page).to have_content(_('Below you will find all the groups that are public.'))
     end
 
     it 'should be dismissable' do
       find('.dismiss-button').click
 
-      expect(page).not_to have_content('Below you will find all the groups that are public.')
+      expect(page).not_to have_content(_('Below you will find all the groups that are public.'))
     end
 
     it 'should persistently not show once dismissed' do
@@ -83,7 +83,7 @@ describe 'Explore Groups page', :js do
 
       visit explore_groups_path
 
-      expect(page).not_to have_content('Below you will find all the groups that are public.')
+      expect(page).not_to have_content(_('Below you will find all the groups that are public.'))
     end
   end
 end

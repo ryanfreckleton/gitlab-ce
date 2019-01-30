@@ -146,7 +146,7 @@ FactoryBot.define do
       end
 
       after :create do |project, evaluator|
-        raise "Failed to create repository!" unless project.create_repository
+        raise _("Failed to create repository!") unless project.create_repository
 
         evaluator.files.each do |filename, content|
           project.repository.create_file(
@@ -196,7 +196,7 @@ FactoryBot.define do
 
     trait :empty_repo do
       after(:create) do |project|
-        raise "Failed to create repository!" unless project.create_repository
+        raise _("Failed to create repository!") unless project.create_repository
       end
     end
 
@@ -220,7 +220,7 @@ FactoryBot.define do
 
     trait :wiki_repo do
       after(:create) do |project|
-        raise 'Failed to create wiki repository!' unless project.create_wiki
+        raise _('Failed to create wiki repository!') unless project.create_wiki
       end
     end
 
@@ -230,7 +230,7 @@ FactoryBot.define do
 
     trait :broken_repo do
       after(:create) do |project|
-        raise "Failed to create repository!" unless project.create_repository
+        raise _("Failed to create repository!") unless project.create_repository
 
         project.gitlab_shell.rm_directory(project.repository_storage,
                                           File.join("#{project.disk_path}.git", 'refs'))

@@ -16,7 +16,7 @@ module Gitlab
         Open3.popen2(*cmd) do |stdin, stdout, status_thread|
           yield_paths_in_batches(stdout, batch_size, &block)
 
-          raise "Find command failed" unless status_thread.value.success?
+          raise _("Find command failed") unless status_thread.value.success?
         end
       end
 

@@ -852,7 +852,7 @@ class Repository
 
   def ff_merge(user, source, target_branch, merge_request: nil)
     their_commit_id = commit(source)&.id
-    raise 'Invalid merge source' if their_commit_id.nil?
+    raise _('Invalid merge source') if their_commit_id.nil?
 
     merge_request&.update(in_progress_merge_commit_sha: their_commit_id)
 

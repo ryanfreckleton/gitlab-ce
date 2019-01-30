@@ -179,25 +179,25 @@ describe TeamcityService, :use_clean_rails_memory_store_caching do
       end
 
       it 'sets commit status to "success" when build status contains SUCCESS' do
-        stub_request(build_status: 'YAY SUCCESS!')
+        stub_request(build_status: _('YAY SUCCESS!'))
 
         is_expected.to eq('success')
       end
 
       it 'sets commit status to "failed" when build status contains FAILURE' do
-        stub_request(build_status: 'NO FAILURE!')
+        stub_request(build_status: _('NO FAILURE!'))
 
         is_expected.to eq('failed')
       end
 
       it 'sets commit status to "pending" when build status contains Pending' do
-        stub_request(build_status: 'NO Pending!')
+        stub_request(build_status: _('NO Pending!'))
 
         is_expected.to eq('pending')
       end
 
       it 'sets commit status to :error when build status is unknown' do
-        stub_request(build_status: 'FOO BAR!')
+        stub_request(build_status: _('FOO BAR!'))
 
         is_expected.to eq(:error)
       end

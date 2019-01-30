@@ -150,7 +150,7 @@ module API
 
         build = find_build!(params[:job_id])
         authorize!(:erase_build, build)
-        break forbidden!('Job is not erasable!') unless build.erasable?
+        break forbidden!(_('Job is not erasable!')) unless build.erasable?
 
         build.erase(erased_by: current_user)
         present build, with: Entities::Job

@@ -19,6 +19,6 @@ describe 'User activates Irker (IRC gateway)' do
     fill_in('Recipients', with: 'irc://chat.freenode.net/#commits')
     click_button('Save')
 
-    expect(page).to have_content('Irker (IRC gateway) activated.')
+    expect(page).to have_content(_('Irker (IRC gateway) activated.'))
   end
 end

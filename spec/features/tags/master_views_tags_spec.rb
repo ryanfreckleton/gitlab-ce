@@ -20,7 +20,7 @@ describe 'Maintainer views tags' do
     end
 
     it 'displays a specific message' do
-      expect(page).to have_content 'Repository has no tags yet.'
+      expect(page).to have_content _('Repository has no tags yet.')
     end
   end
 
@@ -50,7 +50,7 @@ describe 'Maintainer views tags' do
       expect(current_path).to eq(
         project_tag_path(project, 'v1.0.0'))
       expect(page).to have_content 'v1.0.0'
-      expect(page).to have_content 'This tag has no release notes.'
+      expect(page).to have_content _('This tag has no release notes.')
     end
 
     describe 'links on the tag page' do

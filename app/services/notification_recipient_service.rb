@@ -31,11 +31,11 @@ module NotificationRecipientService
   module Builder
     class Base
       def initialize(*)
-        raise 'abstract'
+        raise _('abstract')
       end
 
       def build!
-        raise 'abstract'
+        raise _('abstract')
       end
 
       def filter!
@@ -47,7 +47,7 @@ module NotificationRecipientService
       end
 
       def target
-        raise 'abstract'
+        raise _('abstract')
       end
 
       def project

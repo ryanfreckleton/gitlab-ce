@@ -122,7 +122,7 @@ describe AutoDevopsHelper do
         allow(helper).to receive(:missing_auto_devops_domain?).and_return(true)
       end
 
-      it { is_expected.to eq('Auto Review Apps and Auto Deploy need a domain name to work correctly.') }
+      it { is_expected.to eq(_('Auto Review Apps and Auto Deploy need a domain name to work correctly.')) }
     end
   end
 end

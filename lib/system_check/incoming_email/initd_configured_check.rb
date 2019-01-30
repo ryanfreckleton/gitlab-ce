@@ -15,7 +15,7 @@ module SystemCheck
 
       def show_error
         try_fixing_it(
-          'Enable mail_room in the init.d configuration.'
+          _('Enable mail_room in the init.d configuration.')
         )
         for_more_information(
           'doc/administration/reply_by_email.md'

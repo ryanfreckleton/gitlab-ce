@@ -45,7 +45,7 @@ describe 'Login' do
 
       visit root_path
       expect(current_path).to eq edit_user_password_path
-      expect(page).to have_content('Please create a password for your new account.')
+      expect(page).to have_content(_('Please create a password for your new account.'))
 
       fill_in 'user_password',              with: 'password'
       fill_in 'user_password_confirmation', with: 'password'
@@ -63,7 +63,7 @@ describe 'Login' do
 
     it 'does not show flash messages when login page' do
       visit root_path
-      expect(page).not_to have_content('You need to sign in or sign up before continuing.')
+      expect(page).not_to have_content(_('You need to sign in or sign up before continuing.'))
     end
   end
 
@@ -78,7 +78,7 @@ describe 'Login' do
 
       gitlab_sign_in(user)
 
-      expect(page).to have_content('Your account has been blocked.')
+      expect(page).to have_content(_('Your account has been blocked.'))
     end
 
     it 'does not update Devise trackable attributes', :clean_gitlab_redis_shared_state do
@@ -101,7 +101,7 @@ describe 'Login' do
 
       gitlab_sign_in(User.ghost)
 
-      expect(page).to have_content('Invalid Login or password.')
+      expect(page).to have_content(_('Invalid Login or password.'))
     end
 
     it 'does not update Devise trackable attributes', :clean_gitlab_redis_shared_state do
@@ -137,7 +137,7 @@ describe 'Login' do
 
         enter_code(user.current_otp)
 
-        expect(page).not_to have_content('You are already signed in.')
+        expect(page).not_to have_content(_('You are already signed in.'))
       end
 
       context 'using one-time code' do
@@ -244,7 +244,7 @@ describe 'Login' do
             expect(user.reload.otp_backup_codes.size).to eq 9
 
             enter_code(code)
-            expect(page).to have_content('Invalid two-factor code.')
+            expect(page).to have_content(_('Invalid two-factor code.'))
           end
         end
       end
@@ -317,7 +317,7 @@ describe 'Login' do
         gitlab_sign_in(user)
 
         expect(current_path).to eq root_path
-        expect(page).not_to have_content('You are already signed in.')
+        expect(page).not_to have_content(_('You are already signed in.'))
       end
     end
 
@@ -331,7 +331,7 @@ describe 'Login' do
 
         gitlab_sign_in(user)
 
-        expect(page).to have_content('Invalid Login or password.')
+        expect(page).to have_content(_('Invalid Login or password.'))
       end
     end
   end
@@ -384,7 +384,7 @@ describe 'Login' do
 
             expect(current_path).to eq profile_two_factor_auth_path
             expect(page).to have_content(
-              'The global settings require you to enable Two-Factor Authentication for your account.'
+              _('The global settings require you to enable Two-Factor Authentication for your account.')
             )
           end
 
@@ -413,7 +413,7 @@ describe 'Login' do
 
           expect(current_path).to eq profile_two_factor_auth_path
           expect(page).to have_content(
-            'The global settings require you to enable Two-Factor Authentication for your account.'
+            _('The global settings require you to enable Two-Factor Authentication for your account.')
           )
         end
       end
@@ -572,7 +572,7 @@ describe 'Login' do
       click_button 'Accept terms'
 
       expect(current_path).to eq(root_path)
-      expect(page).not_to have_content('You are already signed in.')
+      expect(page).not_to have_content(_('You are already signed in.'))
     end
 
     it 'does not ask for terms when the user already accepted them' do

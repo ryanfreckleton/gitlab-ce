@@ -49,16 +49,16 @@ describe 'Merge request > User posts notes', :js do
   describe 'when posting a note' do
     before do
       page.within('.js-main-target-form') do
-        fill_in 'note[note]', with: 'This is awesome!'
+        fill_in 'note[note]', with: _('This is awesome!')
         find('.js-md-preview-button').click
         click_button 'Comment'
       end
     end
 
     it 'is added and form reset' do
-      is_expected.to have_content('This is awesome!')
+      is_expected.to have_content(_('This is awesome!'))
       page.within('.js-main-target-form') do
-        expect(page).to have_no_field('note[note]', with: 'This is awesome!')
+        expect(page).to have_no_field('note[note]', with: _('This is awesome!'))
         expect(page).to have_css('.js-vue-md-preview', visible: :hidden)
       end
       wait_for_requests

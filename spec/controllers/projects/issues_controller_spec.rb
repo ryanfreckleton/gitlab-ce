@@ -131,7 +131,7 @@ describe Projects::IssuesController do
     it 'redirects to signin if not logged in' do
       get :new, params: { namespace_id: project.namespace, project_id: project }
 
-      expect(flash[:notice]).to eq 'Please sign in to create the new issue.'
+      expect(flash[:notice]).to eq _('Please sign in to create the new issue.')
       expect(response).to redirect_to(new_user_session_path)
     end
 
@@ -768,7 +768,7 @@ describe Projects::IssuesController do
       it 'sets a flash message' do
         post_issue(title: 'Hello')
 
-        expect(flash[:notice]).to eq('Resolved all discussions.')
+        expect(flash[:notice]).to eq(_('Resolved all discussions.'))
       end
 
       describe "resolving a single discussion" do
@@ -782,7 +782,7 @@ describe Projects::IssuesController do
         end
 
         it 'sets a flash message that one discussion was resolved' do
-          expect(flash[:notice]).to eq('Resolved 1 discussion.')
+          expect(flash[:notice]).to eq(_('Resolved 1 discussion.'))
         end
       end
     end
@@ -1067,7 +1067,7 @@ describe Projects::IssuesController do
 
         import_csv
 
-        expect(flash[:alert]).to include('File upload error.')
+        expect(flash[:alert]).to include(_('File upload error.'))
         expect(response).to redirect_to(project_issues_path(project))
       end
     end

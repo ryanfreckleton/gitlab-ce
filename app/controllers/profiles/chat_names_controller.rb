@@ -17,7 +17,7 @@ class Profiles::ChatNamesController < Profiles::ApplicationController
     if new_chat_name.save
       flash[:notice] = "Authorized #{new_chat_name.chat_name}"
     else
-      flash[:alert] = "Could not authorize chat nickname. Try again!"
+      flash[:alert] = _("Could not authorize chat nickname. Try again!")
     end
 
     delete_chat_name_token

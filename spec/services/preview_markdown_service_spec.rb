@@ -86,7 +86,7 @@ describe PreviewMarkdownService do
     it 'explains quick actions effect' do
       result = service.execute
 
-      expect(result[:commands]).to eq 'Sets time estimate to 2y.'
+      expect(result[:commands]).to eq _('Sets time estimate to 2y.')
     end
   end
 
@@ -111,7 +111,7 @@ describe PreviewMarkdownService do
     it 'explains quick actions effect' do
       result = service.execute
 
-      expect(result[:commands]).to eq 'Tags this commit to v1.2.3 with "Stable release".'
+      expect(result[:commands]).to eq _('Tags this commit to v1.2.3 with "Stable release".')
     end
   end
 

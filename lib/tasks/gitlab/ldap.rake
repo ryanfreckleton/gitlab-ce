@@ -13,7 +13,7 @@ namespace :gitlab do
 
       if identities.empty?
         puts "Found no user identities with '#{old_provider}' provider."
-        puts 'Please check the provider name and try again.'
+        puts _('Please check the provider name and try again.')
         exit 1
       end
 

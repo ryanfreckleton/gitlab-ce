@@ -17,11 +17,11 @@ module Projects
       @new_namespace = new_namespace
 
       if @new_namespace.blank?
-        raise TransferError, 'Please select a new namespace for your project.'
+        raise TransferError, _('Please select a new namespace for your project.')
       end
 
       unless allowed_transfer?(current_user, project)
-        raise TransferError, 'Transfer failed, please contact an admin.'
+        raise TransferError, _('Transfer failed, please contact an admin.')
       end
 
       transfer(project)

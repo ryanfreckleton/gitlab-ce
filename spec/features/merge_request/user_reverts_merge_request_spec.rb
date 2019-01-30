@@ -26,7 +26,7 @@ describe 'User reverts a merge request', :js do
       click_button('Revert')
     end
 
-    expect(page).to have_content('The merge request has been successfully reverted.')
+    expect(page).to have_content(_('The merge request has been successfully reverted.'))
 
     wait_for_requests
   end
@@ -56,7 +56,7 @@ describe 'User reverts a merge request', :js do
       click_button('Revert')
     end
 
-    expect(page).to have_content('The merge request has been successfully reverted. You can now submit a merge request to get this change into the original branch.')
+    expect(page).to have_content(_('The merge request has been successfully reverted. You can now submit a merge request to get this change into the original branch.'))
   end
 
   it 'cannot revert a merge requests for an archived project' do

@@ -23,8 +23,8 @@ module Projects
       @status.enqueue!
       @status.run!
 
-      raise InvalidStateError, 'missing pages artifacts' unless build.artifacts?
-      raise InvalidStateError, 'pages are outdated' unless latest?
+      raise InvalidStateError, _('missing pages artifacts') unless build.artifacts?
+      raise InvalidStateError, _('pages are outdated') unless latest?
 
       # Create temporary directory in which we will extract the artifacts
       FileUtils.mkdir_p(tmp_path)
@@ -33,8 +33,8 @@ module Projects
 
         # Check if we did extract public directory
         archive_public_path = File.join(archive_path, 'public')
-        raise InvalidStateError, 'pages miss the public folder' unless Dir.exist?(archive_public_path)
-        raise InvalidStateError, 'pages are outdated' unless latest?
+        raise InvalidStateError, _('pages miss the public folder') unless Dir.exist?(archive_public_path)
+        raise InvalidStateError, _('pages are outdated') unless latest?
 
         deploy_page!(archive_public_path)
         success
@@ -77,12 +77,12 @@ module Projects
       if artifacts.ends_with?('.zip')
         extract_zip_archive!(temp_path)
       else
-        raise InvalidStateError, 'unsupported artifacts format'
+        raise InvalidStateError, _('unsupported artifacts format')
       end
     end
 
     def extract_zip_archive!(temp_path)
-      raise InvalidStateError, 'missing artifacts metadata' unless build.artifacts_metadata?
+      raise InvalidStateError, _('missing artifacts metadata') unless build.artifacts_metadata?
 
       # Calculate page size after extract
       public_entry = build.artifacts_metadata_entry(SITE_PATH, recursive: true)
@@ -98,7 +98,7 @@ module Projects
       site_path = File.join(SITE_PATH, '*')
       build.artifacts_file.use_file do |artifacts_path|
         unless system(*%W(unzip -n #{artifacts_path} #{site_path} -d #{temp_path}))
-          raise FailedToExtractError, 'pages failed to extract'
+          raise FailedToExtractError, _('pages failed to extract')
         end
       end
     end

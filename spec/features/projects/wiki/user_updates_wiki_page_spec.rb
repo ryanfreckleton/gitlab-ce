@@ -77,12 +77,12 @@ describe 'User updates wiki page' do
         # Commit message field should have correct value.
         expect(page).to have_field('wiki[message]', with: 'Update home')
 
-        fill_in(:wiki_content, with: 'My awesome wiki!')
+        fill_in(:wiki_content, with: _('My awesome wiki!'))
         click_button('Save changes')
 
         expect(page).to have_content('Home')
         expect(page).to have_content("Last edited by #{user.name}")
-        expect(page).to have_content('My awesome wiki!')
+        expect(page).to have_content(_('My awesome wiki!'))
       end
 
       it 'shows a validation error message' do
@@ -108,7 +108,7 @@ describe 'User updates wiki page' do
 
         click_button('Save changes')
 
-        expect(page).to have_content('Someone edited the page the same time you did.')
+        expect(page).to have_content(_('Someone edited the page the same time you did.'))
       end
 
       it 'updates a page' do
@@ -136,13 +136,13 @@ describe 'User updates wiki page' do
         # Commit message field should have correct value.
         expect(page).to have_field('wiki[message]', with: 'Update home')
 
-        fill_in(:wiki_content, with: 'My awesome wiki!')
+        fill_in(:wiki_content, with: _('My awesome wiki!'))
 
         click_button('Save changes')
 
         expect(page).to have_content('Home')
         expect(page).to have_content("Last edited by #{user.name}")
-        expect(page).to have_content('My awesome wiki!')
+        expect(page).to have_content(_('My awesome wiki!'))
       end
 
       it_behaves_like 'wiki file attachments'

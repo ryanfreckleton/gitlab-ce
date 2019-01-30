@@ -95,8 +95,8 @@ namespace :gitlab do
     ensure_write_to_authorized_keys_is_enabled
 
     unless ENV['force'] == 'yes'
-      puts "This task will now rebuild the authorized_keys file."
-      puts "You will lose any data stored in the authorized_keys file."
+      puts _("This task will now rebuild the authorized_keys file.")
+      puts _("You will lose any data stored in the authorized_keys file.")
       ask_to_continue
       puts ""
     end
@@ -112,7 +112,7 @@ namespace :gitlab do
     puts ""
 
     unless $?.success?
-      puts "Failed to add keys...".color(:red)
+      puts _("Failed to add keys...").color(:red)
       exit 1
     end
 
@@ -127,14 +127,14 @@ namespace :gitlab do
     puts authorized_keys_is_disabled_warning
 
     unless ENV['force'] == 'yes'
-      puts 'Do you want to permanently enable the "Write to authorized_keys file" setting now?'
+      puts _('Do you want to permanently enable the "Write to authorized_keys file" setting now?')
       ask_to_continue
     end
 
-    puts 'Enabling the "Write to authorized_keys file" setting...'
+    puts _('Enabling the "Write to authorized_keys file" setting...')
     Gitlab::CurrentSettings.current_application_settings.update!(authorized_keys_enabled: true)
 
-    puts 'Successfully enabled "Write to authorized_keys file"!'
+    puts _('Successfully enabled "Write to authorized_keys file"!')
     puts ''
   end
 

@@ -117,7 +117,7 @@ describe API::Tags do
     end
 
     context 'with releases' do
-      let(:description) { 'Awesome release!' }
+      let(:description) { _('Awesome release!') }
 
       let!(:release) do
         create(:release,
@@ -371,7 +371,7 @@ describe API::Tags do
 
   describe 'POST /projects/:id/repository/tags/:tag_name/release' do
     let(:route) { "/projects/#{project_id}/repository/tags/#{tag_name}/release" }
-    let(:description) { 'Awesome release!' }
+    let(:description) { _('Awesome release!') }
 
     shared_examples_for 'repository new release' do
       it 'creates description for existing git tag' do
@@ -427,8 +427,8 @@ describe API::Tags do
 
   describe 'PUT id/repository/tags/:tag_name/release' do
     let(:route) { "/projects/#{project_id}/repository/tags/#{tag_name}/release" }
-    let(:description) { 'Awesome release!' }
-    let(:new_description) { 'The best release!' }
+    let(:description) { _('Awesome release!') }
+    let(:new_description) { _('The best release!') }
 
     shared_examples_for 'repository update release' do
       context 'on tag with existing release' do

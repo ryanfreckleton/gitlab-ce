@@ -220,7 +220,7 @@ describe 'File blob', :js do
           expect(page).to have_selector('.blob-viewer[data-type="rich"]')
 
           # shows an error message
-          expect(page).to have_content('The rendered file could not be displayed because it is stored in LFS. You can download it instead.')
+          expect(page).to have_content(_('The rendered file could not be displayed because it is stored in LFS. You can download it instead.'))
 
           # shows a viewer switcher
           expect(page).to have_selector('.js-blob-viewer-switcher')
@@ -247,7 +247,7 @@ describe 'File blob', :js do
             expect(page).to have_selector('.blob-viewer[data-type="rich"]', visible: false)
 
             # shows an error message
-            expect(page).to have_content('The source could not be displayed because it is stored in LFS. You can download it instead.')
+            expect(page).to have_content(_('The source could not be displayed because it is stored in LFS. You can download it instead.'))
 
             # does not show a copy button
             expect(page).not_to have_selector('.js-copy-blob-source-btn')
@@ -482,7 +482,7 @@ describe 'File blob', :js do
     it 'displays an auxiliary viewer' do
       aggregate_failures do
         # shows that configuration is valid
-        expect(page).to have_content('This GitLab CI configuration is valid.')
+        expect(page).to have_content(_('This GitLab CI configuration is valid.'))
 
         # shows a learn more link
         expect(page).to have_link('Learn more')
@@ -514,7 +514,7 @@ describe 'File blob', :js do
     it 'displays an auxiliary viewer' do
       aggregate_failures do
         # shows that map is valid
-        expect(page).to have_content('This Route Map is valid.')
+        expect(page).to have_content(_('This Route Map is valid.'))
 
         # shows a learn more link
         expect(page).to have_link('Learn more')
@@ -530,7 +530,7 @@ describe 'File blob', :js do
     it 'displays an auxiliary viewer' do
       aggregate_failures do
         # shows license
-        expect(page).to have_content('This project is licensed under the MIT License.')
+        expect(page).to have_content(_('This project is licensed under the MIT License.'))
 
         # shows a learn more link
         expect(page).to have_link('Learn more', href: 'http://choosealicense.com/licenses/mit/')
@@ -563,7 +563,7 @@ describe 'File blob', :js do
     it 'displays an auxiliary viewer' do
       aggregate_failures do
         # shows names of dependency manager and package
-        expect(page).to have_content('This project manages its dependencies using RubyGems and defines a gem named activerecord.')
+        expect(page).to have_content(_('This project manages its dependencies using RubyGems and defines a gem named activerecord.'))
 
         # shows a link to the gem
         expect(page).to have_link('activerecord', href: 'https://rubygems.org/gems/activerecord')

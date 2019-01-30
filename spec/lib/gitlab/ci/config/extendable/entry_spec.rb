@@ -5,7 +5,7 @@ describe Gitlab::Ci::Config::Extendable::Entry do
     context 'when entry key is not included in the context hash' do
       it 'raises error' do
         expect { described_class.new(:test, something: 'something') }
-          .to raise_error StandardError, 'Invalid entry key!'
+          .to raise_error StandardError, _('Invalid entry key!')
       end
     end
   end

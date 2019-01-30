@@ -44,7 +44,7 @@ class Admin::GroupsController < Admin::ApplicationController
 
   def update
     if @group.update(group_params)
-      redirect_to [:admin, @group], notice: 'Group was successfully updated.'
+      redirect_to [:admin, @group], notice: _('Group was successfully updated.')
     else
       render "edit"
     end
@@ -55,7 +55,7 @@ class Admin::GroupsController < Admin::ApplicationController
     result = Members::CreateService.new(current_user, member_params.merge(limit: -1)).execute(@group)
 
     if result[:status] == :success
-      redirect_to [:admin, @group], notice: 'Users were successfully added.'
+      redirect_to [:admin, @group], notice: _('Users were successfully added.')
     else
       redirect_to [:admin, @group], alert: result[:message]
     end

@@ -10,7 +10,7 @@ namespace :gitlab do
       Gitlab::GitalyClient::ServerService.new(name).info
     end
   rescue GRPC::Unavailable => ex
-    puts "Failed to connect to Gitaly...".color(:red)
+    puts _("Failed to connect to Gitaly...").color(:red)
     puts "Error: #{ex}"
     exit 1
   end
@@ -19,8 +19,8 @@ namespace :gitlab do
     warn_user_is_not_gitlab
 
     unless ENV['force'] == 'yes'
-      puts "This will create the necessary database tables and seed the database."
-      puts "You will lose any previous data stored in the database."
+      puts _("This will create the necessary database tables and seed the database.")
+      puts _("You will lose any previous data stored in the database.")
       ask_to_continue
       puts ""
     end

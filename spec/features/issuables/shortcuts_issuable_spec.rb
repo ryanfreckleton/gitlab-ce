@@ -5,7 +5,7 @@ describe 'Blob shortcuts', :js do
   let(:project) { create(:project, :public, :repository) }
   let(:issue) { create(:issue, project: project, author: user) }
   let(:merge_request) { create(:merge_request, source_project: project) }
-  let(:note_text) { 'I got this!' }
+  let(:note_text) { _('I got this!') }
 
   before do
     project.add_developer(user)

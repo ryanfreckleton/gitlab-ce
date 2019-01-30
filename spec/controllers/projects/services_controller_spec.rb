@@ -28,7 +28,7 @@ describe Projects::ServicesController do
       it 'returns error messages in JSON response' do
         put :test, params: { namespace_id: project.namespace, project_id: project, id: service.to_param, service: service_params }
 
-        expect(json_response['message']).to eq "Validations failed."
+        expect(json_response['message']).to eq _("Validations failed.")
         expect(json_response['service_response']).to include "Url can't be blank"
         expect(response).to have_gitlab_http_status(200)
       end
@@ -111,7 +111,7 @@ describe Projects::ServicesController do
         expect(response).to have_gitlab_http_status(200)
         expect(json_response).to eq(
           'error' => true,
-          'message' => 'Test failed.',
+          'message' => _('Test failed.'),
           'service_response' => '',
           'test_failed' => true
         )
@@ -126,7 +126,7 @@ describe Projects::ServicesController do
           params: { namespace_id: project.namespace, project_id: project, id: service.to_param, service: { active: true } }
 
         expect(response).to redirect_to(project_settings_integrations_path(project))
-        expect(flash[:notice]).to eq 'JIRA activated.'
+        expect(flash[:notice]).to eq _('JIRA activated.')
       end
     end
 
@@ -135,7 +135,7 @@ describe Projects::ServicesController do
         put :update,
           params: { namespace_id: project.namespace, project_id: project, id: service.to_param, service: { active: false } }
 
-        expect(flash[:notice]).to eq 'JIRA settings saved, but not activated.'
+        expect(flash[:notice]).to eq _('JIRA settings saved, but not activated.')
       end
     end
 

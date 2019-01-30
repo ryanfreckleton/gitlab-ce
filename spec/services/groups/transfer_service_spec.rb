@@ -18,7 +18,7 @@ describe Groups::TransferService, :postgresql do
 
       it 'should add an error on group' do
         transfer_service.execute(new_parent_group)
-        expect(transfer_service.error).to eq('Transfer failed: Database is not supported.')
+        expect(transfer_service.error).to eq(_('Transfer failed: Database is not supported.'))
       end
     end
 
@@ -52,7 +52,7 @@ describe Groups::TransferService, :postgresql do
 
         it 'should add an error on group' do
           transfer_service.execute(nil)
-          expect(transfer_service.error).to eq('Transfer failed: Group is already a root group.')
+          expect(transfer_service.error).to eq(_('Transfer failed: Group is already a root group.'))
         end
       end
 
@@ -65,7 +65,7 @@ describe Groups::TransferService, :postgresql do
 
         it "should add an error on group" do
           transfer_service.execute(new_parent_group)
-          expect(transfer_service.error).to eq("Transfer failed: You don't have enough permissions.")
+          expect(transfer_service.error).to eq(_("Transfer failed: You don't have enough permissions."))
         end
       end
 
@@ -82,7 +82,7 @@ describe Groups::TransferService, :postgresql do
 
         it 'should add an error on group' do
           transfer_service.execute(nil)
-          expect(transfer_service.error).to eq('Transfer failed: The parent group already has a subgroup with the same path.')
+          expect(transfer_service.error).to eq(_('Transfer failed: The parent group already has a subgroup with the same path.'))
         end
       end
 
@@ -128,7 +128,7 @@ describe Groups::TransferService, :postgresql do
 
         it 'should add an error on group' do
           transfer_service.execute(new_parent_group)
-          expect(transfer_service.error).to eq('Transfer failed: Group is already associated to the parent group.')
+          expect(transfer_service.error).to eq(_('Transfer failed: Group is already associated to the parent group.'))
         end
       end
 
@@ -141,7 +141,7 @@ describe Groups::TransferService, :postgresql do
 
         it "should add an error on group" do
           transfer_service.execute(new_parent_group)
-          expect(transfer_service.error).to eq("Transfer failed: You don't have enough permissions.")
+          expect(transfer_service.error).to eq(_("Transfer failed: You don't have enough permissions."))
         end
       end
 
@@ -158,7 +158,7 @@ describe Groups::TransferService, :postgresql do
 
         it 'should add an error on group' do
           transfer_service.execute(new_parent_group)
-          expect(transfer_service.error).to eq('Transfer failed: The parent group already has a subgroup with the same path.')
+          expect(transfer_service.error).to eq(_('Transfer failed: The parent group already has a subgroup with the same path.'))
         end
       end
 

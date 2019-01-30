@@ -142,7 +142,7 @@ module API
         present user.status || {}, with: Entities::UserStatus
       end
 
-      desc 'Create a user. Available only for admins.' do
+      desc _('Create a user. Available only for admins.') do
         success Entities::UserPublic
       end
       params do
@@ -176,7 +176,7 @@ module API
         end
       end
 
-      desc 'Update a user. Available only for admins.' do
+      desc _('Update a user. Available only for admins.') do
         success Entities::UserPublic
       end
       params do
@@ -229,7 +229,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Add an SSH key to a specified user. Available only for admins.' do
+      desc _('Add an SSH key to a specified user. Available only for admins.') do
         success Entities::SSHKey
       end
       params do
@@ -254,7 +254,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Get the SSH keys of a specified user.' do
+      desc _('Get the SSH keys of a specified user.') do
         success Entities::SSHKey
       end
       params do
@@ -270,7 +270,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Delete an existing SSH key from a specified user. Available only for admins.' do
+      desc _('Delete an existing SSH key from a specified user. Available only for admins.') do
         success Entities::SSHKey
       end
       params do
@@ -291,7 +291,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Add a GPG key to a specified user. Available only for admins.' do
+      desc _('Add a GPG key to a specified user. Available only for admins.') do
         detail 'This feature was added in GitLab 10.0'
         success Entities::GPGKey
       end
@@ -316,7 +316,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Get the GPG keys of a specified user. Available only for admins.' do
+      desc _('Get the GPG keys of a specified user. Available only for admins.') do
         detail 'This feature was added in GitLab 10.0'
         success Entities::GPGKey
       end
@@ -335,7 +335,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Delete an existing GPG key from a specified user. Available only for admins.' do
+      desc _('Delete an existing GPG key from a specified user. Available only for admins.') do
         detail 'This feature was added in GitLab 10.0'
       end
       params do
@@ -357,7 +357,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Revokes an existing GPG key from a specified user. Available only for admins.' do
+      desc _('Revokes an existing GPG key from a specified user. Available only for admins.') do
         detail 'This feature was added in GitLab 10.0'
       end
       params do
@@ -379,7 +379,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Add an email address to a specified user. Available only for admins.' do
+      desc _('Add an email address to a specified user. Available only for admins.') do
         success Entities::Email
       end
       params do
@@ -404,7 +404,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Get the emails addresses of a specified user. Available only for admins.' do
+      desc _('Get the emails addresses of a specified user. Available only for admins.') do
         success Entities::Email
       end
       params do
@@ -421,7 +421,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Delete an email address of a specified user. Available only for admins.' do
+      desc _('Delete an email address of a specified user. Available only for admins.') do
         success Entities::Email
       end
       params do
@@ -443,7 +443,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Delete a user. Available only for admins.' do
+      desc _('Delete a user. Available only for admins.') do
         success Entities::Email
       end
       params do
@@ -465,7 +465,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Block a user. Available only for admins.'
+      desc _('Block a user. Available only for admins.')
       params do
         requires :id, type: Integer, desc: 'The ID of the user'
       end
@@ -483,7 +483,7 @@ module API
       end
       # rubocop: enable CodeReuse/ActiveRecord
 
-      desc 'Unblock a user. Available only for admins.'
+      desc _('Unblock a user. Available only for admins.')
       params do
         requires :id, type: Integer, desc: 'The ID of the user'
       end
@@ -519,7 +519,7 @@ module API
 
           before { authenticated_as_admin! }
 
-          desc 'Retrieve impersonation tokens. Available only for admins.' do
+          desc _('Retrieve impersonation tokens. Available only for admins.') do
             detail 'This feature was introduced in GitLab 9.0'
             success Entities::ImpersonationToken
           end
@@ -529,7 +529,7 @@ module API
           end
           get { present paginate(finder(declared_params(include_missing: false)).execute), with: Entities::ImpersonationToken }
 
-          desc 'Create a impersonation token. Available only for admins.' do
+          desc _('Create a impersonation token. Available only for admins.') do
             detail 'This feature was introduced in GitLab 9.0'
             success Entities::ImpersonationTokenWithToken
           end
@@ -548,7 +548,7 @@ module API
             end
           end
 
-          desc 'Retrieve impersonation token. Available only for admins.' do
+          desc _('Retrieve impersonation token. Available only for admins.') do
             detail 'This feature was introduced in GitLab 9.0'
             success Entities::ImpersonationToken
           end
@@ -559,7 +559,7 @@ module API
             present find_impersonation_token, with: Entities::ImpersonationToken
           end
 
-          desc 'Revoke a impersonation token. Available only for admins.' do
+          desc _('Revoke a impersonation token. Available only for admins.') do
             detail 'This feature was introduced in GitLab 9.0'
           end
           params do

@@ -6,7 +6,7 @@ class BaseCountService
   def relation_for_count
     raise(
       NotImplementedError,
-      '"relation_for_count" must be implemented and return an ActiveRecord::Relation'
+      _('"relation_for_count" must be implemented and return an ActiveRecord::Relation')
     )
   end
 
@@ -35,7 +35,7 @@ class BaseCountService
   end
 
   def cache_key
-    raise NotImplementedError, 'cache_key must be implemented and return a String'
+    raise NotImplementedError, _('cache_key must be implemented and return a String')
   end
 
   # subclasses can override to add any specific options, such as

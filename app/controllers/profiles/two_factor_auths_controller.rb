@@ -18,7 +18,7 @@ class Profiles::TwoFactorAuthsController < Profiles::ApplicationController
       two_factor_authentication_reason(
         global: lambda do
           flash.now[:alert] =
-            'The global settings require you to enable Two-Factor Authentication for your account.'
+            _('The global settings require you to enable Two-Factor Authentication for your account.')
         end,
         group: lambda do |groups|
           group_links = groups.map { |group| view_context.link_to group.full_name, group_path(group) }.to_sentence
@@ -63,7 +63,7 @@ class Profiles::TwoFactorAuthsController < Profiles::ApplicationController
 
     if @u2f_registration.persisted?
       session.delete(:challenges)
-      redirect_to profile_two_factor_auth_path, notice: "Your U2F device was registered!"
+      redirect_to profile_two_factor_auth_path, notice: _("Your U2F device was registered!")
     else
       @qr_code = build_qr_code
       setup_u2f_registration

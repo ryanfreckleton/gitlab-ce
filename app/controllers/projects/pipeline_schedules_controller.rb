@@ -85,7 +85,7 @@ class Projects::PipelineSchedulesController < Projects::ApplicationController
 
     return unless limiter.throttled?([current_user, schedule], 1)
 
-    flash[:alert] = 'You cannot play this scheduled pipeline at the moment. Please wait a minute.'
+    flash[:alert] = _('You cannot play this scheduled pipeline at the moment. Please wait a minute.')
     redirect_to pipeline_schedules_path(@project)
   end
 

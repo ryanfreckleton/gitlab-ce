@@ -29,12 +29,12 @@ module Gitlab
             gzip do |gz|
               read_string(gz) # version
               errors = read_string(gz)
-              raise ParserError, 'Errors field not found!' unless errors
+              raise ParserError, _('Errors field not found!') unless errors
 
               begin
                 JSON.parse(errors)
               rescue JSON::ParserError
-                raise ParserError, 'Invalid errors field!'
+                raise ParserError, _('Invalid errors field!')
               end
             end
           end
@@ -85,11 +85,11 @@ module Gitlab
               version_string = read_string(gz)
 
               unless version_string
-                raise ParserError, 'Artifacts metadata file empty!'
+                raise ParserError, _('Artifacts metadata file empty!')
               end
 
               unless version_string =~ VERSION_PATTERN
-                raise ParserError, 'Invalid version!'
+                raise ParserError, _('Invalid version!')
               end
 
               version_string.chomp
@@ -109,7 +109,7 @@ module Gitlab
           end
 
           def gzip(&block)
-            raise InvalidStreamError, "Invalid stream" unless @stream
+            raise InvalidStreamError, _("Invalid stream") unless @stream
 
             # restart gzip reading
             @stream.seek(0)

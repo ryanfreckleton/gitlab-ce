@@ -3,7 +3,7 @@ namespace :gitlab do
     desc 'GitLab | Storage | Migrate existing projects to Hashed Storage'
     task migrate_to_hashed: :environment do
       if Gitlab::Database.read_only?
-        warn 'This task requires database write access. Exiting.'
+        warn _('This task requires database write access. Exiting.')
 
         next
       end
@@ -29,7 +29,7 @@ namespace :gitlab do
       legacy_projects_count = Project.with_unmigrated_storage.count
 
       if legacy_projects_count == 0
-        warn 'There are no projects requiring storage migration. Nothing to do!'
+        warn _('There are no projects requiring storage migration. Nothing to do!')
 
         next
       end

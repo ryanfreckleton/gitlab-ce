@@ -91,13 +91,13 @@ describe Banzai::Filter::EmojiFilter do
   end
 
   it 'keeps whitespace intact' do
-    doc = filter('This deserves a :+1:, big time.')
+    doc = filter(_('This deserves a :+1:, big time.'))
 
     expect(doc.to_html).to match(/^This deserves a <gl-emoji.+>, big time\.\z/)
   end
 
   it 'unicode keeps whitespace intact' do
-    doc = filter('This deserves a 🎱, big time.')
+    doc = filter(_('This deserves a 🎱, big time.'))
 
     expect(doc.to_html).to match(/^This deserves a <gl-emoji.+>, big time\.\z/)
   end

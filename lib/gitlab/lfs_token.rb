@@ -26,7 +26,7 @@ module Gitlab
         when Key
           actor.user
         else
-          raise 'Bad Actor'
+          raise _('Bad Actor')
         end
     end
 

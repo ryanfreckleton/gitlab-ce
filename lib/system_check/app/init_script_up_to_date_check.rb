@@ -5,7 +5,7 @@ module SystemCheck
     class InitScriptUpToDateCheck < SystemCheck::BaseCheck
       SCRIPT_PATH = '/etc/init.d/gitlab'.freeze
 
-      set_name 'Init script up-to-date?'
+      set_name _('Init script up-to-date?')
       set_skip_reason 'skipped (omnibus-gitlab has no init script)'
 
       def skip?

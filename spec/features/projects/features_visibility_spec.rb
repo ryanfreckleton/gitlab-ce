@@ -192,7 +192,7 @@ describe 'Edit Project Settings' do
 
       visit project_path(project)
 
-      expect(page).to have_content "Customize your workflow!"
+      expect(page).to have_content _("Customize your workflow!")
     end
 
     it "hides project activity tabs" do

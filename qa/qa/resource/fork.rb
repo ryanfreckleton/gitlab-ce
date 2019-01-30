@@ -42,7 +42,7 @@ module QA
         end
 
         Page::Layout::Banner.perform do |page|
-          page.has_notice?('The project was successfully forked.')
+          page.has_notice?(_('The project was successfully forked.'))
         end
 
         populate(:project)

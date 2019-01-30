@@ -3,7 +3,7 @@
 module SystemCheck
   module IncomingEmail
     class MailRoomRunningCheck < SystemCheck::BaseCheck
-      set_name 'MailRoom running?'
+      set_name _('MailRoom running?')
 
       def skip?
         return true if omnibus_gitlab?

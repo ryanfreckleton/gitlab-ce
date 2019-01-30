@@ -27,7 +27,7 @@ describe 'Group milestones' do
 
       preview = find('.js-md-preview')
 
-      expect(preview).to have_content('Nothing to preview.')
+      expect(preview).to have_content(_('Nothing to preview.'))
 
       click_button('Write')
 

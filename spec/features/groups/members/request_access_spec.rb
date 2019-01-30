@@ -26,7 +26,7 @@ describe 'Groups > Members > Request access' do
     expect(ActionMailer::Base.deliveries.last.subject).to match "Request to join the #{group.name} group"
 
     expect(group.requesters.exists?(user_id: user)).to be_truthy
-    expect(page).to have_content 'Your request for access has been queued for review.'
+    expect(page).to have_content _('Your request for access has been queued for review.')
 
     expect(page).to have_content 'Withdraw Access Request'
     expect(page).not_to have_content 'Leave group'
@@ -66,7 +66,7 @@ describe 'Groups > Members > Request access' do
     click_link 'Withdraw Access Request'
 
     expect(group.requesters.exists?(user_id: user)).to be_falsey
-    expect(page).to have_content 'Your access request to the group has been withdrawn.'
+    expect(page).to have_content _('Your access request to the group has been withdrawn.')
   end
 
   it 'member does not see the request access button' do

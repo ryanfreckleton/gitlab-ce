@@ -74,7 +74,7 @@ module QA
 
           Page::File::Form.perform(&:commit_changes)
 
-          expect(page).to have_content('The file has been successfully created.')
+          expect(page).to have_content(_('The file has been successfully created.'))
           expect(page).to have_content(template[:file_name])
           expect(page).to have_content('Add new file')
           expect(page).to have_content(content[0..100])

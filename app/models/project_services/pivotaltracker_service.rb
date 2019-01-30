@@ -23,7 +23,7 @@ class PivotaltrackerService < Service
       {
         type: 'text',
         name: 'token',
-        placeholder: 'Pivotal Tracker API token.',
+        placeholder: _('Pivotal Tracker API token.'),
         required: true
       },
       {

@@ -202,7 +202,7 @@ describe Gitlab::Ci::Config do
       it 'raises error YamlProcessor validationError' do
         expect { config }.to raise_error(
           described_class::ConfigError,
-          "Included file `invalid` does not have YAML extension!"
+          _("Included file `invalid` does not have YAML extension!")
         )
       end
     end
@@ -219,7 +219,7 @@ describe Gitlab::Ci::Config do
       it 'raises error YamlProcessor validationError' do
         expect { config }.to raise_error(
           described_class::ConfigError,
-          'Include `{"remote":"http://url","local":"/local/file.yml"}` needs to match exactly one accessor!'
+          _('Include `{"remote":"http://url","local":"/local/file.yml"}` needs to match exactly one accessor!')
         )
       end
     end

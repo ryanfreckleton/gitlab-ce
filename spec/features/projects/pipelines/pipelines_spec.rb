@@ -87,7 +87,7 @@ describe 'Pipelines', :js do
         it 'updates content when tab is clicked' do
           page.find('.js-pipelines-tab-pending').click
           wait_for_requests
-          expect(page).to have_content('There are currently no pending pipelines.')
+          expect(page).to have_content(_('There are currently no pending pipelines.'))
         end
       end
 
@@ -662,7 +662,7 @@ describe 'Pipelines', :js do
           it 'increments jobs_cache_index' do
             click_button 'Clear Runner Caches'
             wait_for_requests
-            expect(page.find('.flash-notice')).to have_content 'Project cache successfully reset.'
+            expect(page.find('.flash-notice')).to have_content _('Project cache successfully reset.')
           end
         end
 
@@ -670,7 +670,7 @@ describe 'Pipelines', :js do
           it 'sets jobs_cache_index to 1' do
             click_button 'Clear Runner Caches'
             wait_for_requests
-            expect(page.find('.flash-notice')).to have_content 'Project cache successfully reset.'
+            expect(page.find('.flash-notice')).to have_content _('Project cache successfully reset.')
           end
         end
       end
@@ -699,7 +699,7 @@ describe 'Pipelines', :js do
       let(:project) { create(:project, :public, :repository) }
 
       context 'without pipelines' do
-        it { expect(page).to have_content 'This project is not currently set up to run pipelines.' }
+        it { expect(page).to have_content _('This project is not currently set up to run pipelines.') }
       end
     end
 

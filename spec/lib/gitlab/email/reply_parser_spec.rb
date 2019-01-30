@@ -38,7 +38,7 @@ describe Gitlab::Email::ReplyParser do
     end
 
     it "supports a Dutch reply" do
-      expect(test_parse_body(fixture_file("emails/dutch.eml"))).to eq("Dit is een antwoord in het Nederlands.")
+      expect(test_parse_body(fixture_file("emails/dutch.eml"))).to eq(_("Dit is een antwoord in het Nederlands."))
     end
 
     it "removes an 'on date wrote' quoting line" do

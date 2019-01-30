@@ -29,7 +29,7 @@ shared_examples "migrates" do |to_store:, from_store: nil|
     elsif from == described_class::Store::LOCAL
       expect(subject.file).to be_a(CarrierWave::SanitizedFile)
     else
-      raise 'Unexpected file type'
+      raise _('Unexpected file type')
     end
   end
 
@@ -117,18 +117,18 @@ shared_examples "migrates" do |to_store:, from_store: nil|
     context 'upon a fog failure' do
       before do
         storage_class = subject.send(:storage_for, to).class
-        expect_any_instance_of(storage_class).to receive(:store!).and_raise("Store failure.")
+        expect_any_instance_of(storage_class).to receive(:store!).and_raise(_("Store failure."))
       end
 
-      include_examples "handles gracefully", error: "Store failure."
+      include_examples "handles gracefully", error: _("Store failure.")
     end
 
     context 'upon a database failure' do
       before do
-        expect(uploader).to receive(:persist_object_store!).and_raise("ActiveRecord failure.")
+        expect(uploader).to receive(:persist_object_store!).and_raise(_("ActiveRecord failure."))
       end
 
-      include_examples "handles gracefully", error: "ActiveRecord failure."
+      include_examples "handles gracefully", error: _("ActiveRecord failure.")
     end
   end
 end

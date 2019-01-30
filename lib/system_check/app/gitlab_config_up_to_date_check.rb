@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class GitlabConfigUpToDateCheck < SystemCheck::BaseCheck
-      set_name 'GitLab config up to date?'
+      set_name _('GitLab config up to date?')
       set_skip_reason "can't check because of previous errors"
 
       def skip?

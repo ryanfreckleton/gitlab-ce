@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Spammable do
-  let(:issue) { create(:issue, description: 'Test Desc.') }
+  let(:issue) { create(:issue, description: _('Test Desc.')) }
 
   describe 'Associations' do
     subject { build(:issue) }

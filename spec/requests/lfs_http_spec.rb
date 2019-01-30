@@ -42,7 +42,7 @@ describe 'Git LFS API and storage' do
 
     it 'responds with 501' do
       expect(response).to have_gitlab_http_status(501)
-      expect(json_response).to include('message' => 'Git LFS is not enabled on this GitLab server, contact your admin.')
+      expect(json_response).to include('message' => _('Git LFS is not enabled on this GitLab server, contact your admin.'))
     end
   end
 
@@ -119,14 +119,14 @@ describe 'Git LFS API and storage' do
           post_lfs_json "#{project.http_url_to_repo}/info/lfs/objects/batch", body, headers
 
           expect(response).to have_gitlab_http_status(403)
-          expect(json_response).to include('message' => 'Access forbidden. Check your access level.')
+          expect(json_response).to include('message' => _('Access forbidden. Check your access level.'))
         end
 
         it 'responds with a 403 message on download' do
           get "#{project.http_url_to_repo}/gitlab-lfs/objects/#{sample_oid}", params: {}, headers: headers
 
           expect(response).to have_gitlab_http_status(403)
-          expect(json_response).to include('message' => 'Access forbidden. Check your access level.')
+          expect(json_response).to include('message' => _('Access forbidden. Check your access level.'))
         end
       end
 
@@ -164,7 +164,7 @@ describe 'Git LFS API and storage' do
       end
 
       it 'returns deprecated message' do
-        expect(json_response).to include('message' => 'Server supports batch API only, please update your Git LFS client to version 1.0.1 and up.')
+        expect(json_response).to include('message' => _('Server supports batch API only, please update your Git LFS client to version 1.0.1 and up.'))
       end
     end
 
@@ -922,7 +922,7 @@ describe 'Git LFS API and storage' do
       post_lfs_json path, body.merge('operation' => 'upload'), headers
 
       expect(response).to have_gitlab_http_status(403)
-      expect(json_response).to include('message' => 'You cannot write to this read-only GitLab instance.')
+      expect(json_response).to include('message' => _('You cannot write to this read-only GitLab instance.'))
     end
   end
 

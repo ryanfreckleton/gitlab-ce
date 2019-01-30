@@ -49,7 +49,7 @@ describe Gitlab::Ci::Config::External::File::Template do
 
       it 'should return false' do
         expect(subject).not_to be_valid
-        expect(subject.error_message).to include('Template file `Template.yml` is not a valid location!')
+        expect(subject.error_message).to include(_('Template file `Template.yml` is not a valid location!'))
       end
     end
 
@@ -58,7 +58,7 @@ describe Gitlab::Ci::Config::External::File::Template do
 
       it 'should return false' do
         expect(subject).not_to be_valid
-        expect(subject.error_message).to include('Included file `I-Do-Not-Have-This-Template.gitlab-ci.yml` is empty or does not exist!')
+        expect(subject.error_message).to include(_('Included file `I-Do-Not-Have-This-Template.gitlab-ci.yml` is empty or does not exist!'))
       end
     end
   end

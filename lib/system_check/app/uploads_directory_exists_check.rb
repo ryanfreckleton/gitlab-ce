@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class UploadsDirectoryExistsCheck < SystemCheck::BaseCheck
-      set_name 'Uploads directory exists?'
+      set_name _('Uploads directory exists?')
 
       def check?
         File.directory?(Rails.root.join('public/uploads'))

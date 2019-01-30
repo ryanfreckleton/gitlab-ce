@@ -96,7 +96,7 @@ module BlobHelper
   end
 
   def leave_edit_message
-    "Leave edit mode?\nAll unsaved changes will be lost."
+    _("Leave edit mode?\nAll unsaved changes will be lost.")
   end
 
   def editing_preview_title(filename)

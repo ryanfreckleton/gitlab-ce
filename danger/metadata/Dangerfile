@@ -1,11 +1,11 @@
 # rubocop:disable Style/SignalException
 
 if gitlab.mr_body.size < 5
-  fail "Please provide a proper merge request description."
+  fail _("Please provide a proper merge request description.")
 end
 
 if gitlab.mr_labels.empty?
-  fail "Please add labels to this merge request."
+  fail _("Please add labels to this merge request.")
 end
 
 unless gitlab.mr_json["assignee"]

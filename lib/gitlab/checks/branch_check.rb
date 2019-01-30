@@ -4,19 +4,19 @@ module Gitlab
   module Checks
     class BranchCheck < BaseChecker
       ERROR_MESSAGES = {
-        delete_default_branch: 'The default branch of a project cannot be deleted.',
-        force_push_protected_branch: 'You are not allowed to force push code to a protected branch on this project.',
-        non_master_delete_protected_branch: 'You are not allowed to delete protected branches from this project. Only a project maintainer or owner can delete a protected branch.',
-        non_web_delete_protected_branch: 'You can only delete protected branches using the web interface.',
-        merge_protected_branch: 'You are not allowed to merge code into protected branches on this project.',
-        push_protected_branch: 'You are not allowed to push code to protected branches on this project.'
+        delete_default_branch: _('The default branch of a project cannot be deleted.'),
+        force_push_protected_branch: _('You are not allowed to force push code to a protected branch on this project.'),
+        non_master_delete_protected_branch: _('You are not allowed to delete protected branches from this project. Only a project maintainer or owner can delete a protected branch.'),
+        non_web_delete_protected_branch: _('You can only delete protected branches using the web interface.'),
+        merge_protected_branch: _('You are not allowed to merge code into protected branches on this project.'),
+        push_protected_branch: _('You are not allowed to push code to protected branches on this project.')
       }.freeze
 
       LOG_MESSAGES = {
-        delete_default_branch_check: "Checking if default branch is being deleted...",
-        protected_branch_checks: "Checking if you are force pushing to a protected branch...",
-        protected_branch_push_checks: "Checking if you are allowed to push to the protected branch...",
-        protected_branch_deletion_checks: "Checking if you are allowed to delete the protected branch..."
+        delete_default_branch_check: _("Checking if default branch is being deleted..."),
+        protected_branch_checks: _("Checking if you are force pushing to a protected branch..."),
+        protected_branch_push_checks: _("Checking if you are allowed to push to the protected branch..."),
+        protected_branch_deletion_checks: _("Checking if you are allowed to delete the protected branch...")
       }.freeze
 
       def validate!

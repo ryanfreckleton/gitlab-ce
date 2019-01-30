@@ -109,8 +109,8 @@ module QA
       end
 
       def validate_dependencies
-        find_executable('gcloud') || raise("You must first install `gcloud` executable to run these tests.")
-        find_executable('kubectl') || raise("You must first install `kubectl` executable to run these tests.")
+        find_executable('gcloud') || raise(_("You must first install `gcloud` executable to run these tests."))
+        find_executable('kubectl') || raise(_("You must first install `kubectl` executable to run these tests."))
       end
 
       def login_if_not_already_logged_in
@@ -119,7 +119,7 @@ module QA
         else
           account = `gcloud auth list --filter=status:ACTIVE --format="value(account)"`
           if account.empty?
-            raise "Failed to login to gcloud. No credentials provided in environment and no credentials found locally."
+            raise _("Failed to login to gcloud. No credentials provided in environment and no credentials found locally.")
           else
             puts "gcloud account found. Using: #{account} for creating K8s cluster."
           end
@@ -127,7 +127,7 @@ module QA
       end
 
       def attempt_login_with_env_vars
-        puts "No gcloud account. Attempting to login from env vars GCLOUD_ACCOUNT_EMAIL and GCLOUD_ACCOUNT_KEY."
+        puts _("No gcloud account. Attempting to login from env vars GCLOUD_ACCOUNT_EMAIL and GCLOUD_ACCOUNT_KEY.")
         gcloud_account_key = Tempfile.new('gcloud-account-key')
         gcloud_account_key.write(Runtime::Env.gcloud_account_key)
         gcloud_account_key.close

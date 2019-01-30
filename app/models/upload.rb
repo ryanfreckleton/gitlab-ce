@@ -45,7 +45,7 @@ class Upload < ActiveRecord::Base
   end
 
   def absolute_path
-    raise ObjectStorage::RemoteStoreError, "Remote object has no absolute path." unless local?
+    raise ObjectStorage::RemoteStoreError, _("Remote object has no absolute path.") unless local?
     return path unless relative_path?
 
     uploader_class.absolute_path(self)

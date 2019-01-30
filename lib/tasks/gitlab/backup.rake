@@ -72,7 +72,7 @@ namespace :gitlab do
 
     namespace :repo do
       task create: :gitlab_environment do
-        progress.puts "Dumping repositories ...".color(:blue)
+        progress.puts _("Dumping repositories ...").color(:blue)
 
         if ENV["SKIP"] && ENV["SKIP"].include?("repositories")
           progress.puts "[SKIPPED]".color(:cyan)
@@ -83,7 +83,7 @@ namespace :gitlab do
       end
 
       task restore: :gitlab_environment do
-        progress.puts "Restoring repositories ...".color(:blue)
+        progress.puts _("Restoring repositories ...").color(:blue)
         Backup::Repository.new(progress).restore
         progress.puts "done".color(:green)
       end

@@ -98,7 +98,7 @@ module API
       end
 
       desc 'Upload an attachment to the wiki repository' do
-        detail 'This feature was introduced in GitLab 11.3.'
+        detail _('This feature was introduced in GitLab 11.3.')
         success Entities::WikiAttachment
       end
       params do

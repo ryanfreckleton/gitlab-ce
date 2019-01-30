@@ -8,10 +8,10 @@ module Gitlab
       begin
         entries = YAML.safe_load(data)
       rescue
-        raise FormatError, 'Route map is not valid YAML'
+        raise FormatError, _('Route map is not valid YAML')
       end
 
-      raise FormatError, 'Route map is not an array' unless entries.is_a?(Array)
+      raise FormatError, _('Route map is not an array') unless entries.is_a?(Array)
 
       @map = entries.map { |entry| parse_entry(entry) }
     end
@@ -30,9 +30,9 @@ module Gitlab
     private
 
     def parse_entry(entry)
-      raise FormatError, 'Route map entry is not a hash' unless entry.is_a?(Hash)
-      raise FormatError, 'Route map entry does not have a source key' unless entry.key?('source')
-      raise FormatError, 'Route map entry does not have a public key' unless entry.key?('public')
+      raise FormatError, _('Route map entry is not a hash') unless entry.is_a?(Hash)
+      raise FormatError, _('Route map entry does not have a source key') unless entry.key?('source')
+      raise FormatError, _('Route map entry does not have a public key') unless entry.key?('public')
 
       source_pattern = entry['source']
       public_path = entry['public']

@@ -136,7 +136,7 @@ describe Gitlab::Ci::Config::External::File::Project do
 
       it 'should return false' do
         expect(subject).not_to be_valid
-        expect(subject.error_message).to include('Included file `/invalid-file` does not have YAML extension!')
+        expect(subject.error_message).to include(_('Included file `/invalid-file` does not have YAML extension!'))
       end
     end
   end

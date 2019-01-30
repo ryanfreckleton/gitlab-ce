@@ -63,7 +63,7 @@ describe 'Gcp Cluster', :js do
         it 'user sees a cluster details page and creation status' do
           subject
 
-          expect(page).to have_content('Kubernetes cluster is being created on Google Kubernetes Engine...')
+          expect(page).to have_content(_('Kubernetes cluster is being created on Google Kubernetes Engine...'))
 
           Clusters::Cluster.last.provider.make_created!
 
@@ -73,11 +73,11 @@ describe 'Gcp Cluster', :js do
         it 'user sees a error if something wrong during creation' do
           subject
 
-          expect(page).to have_content('Kubernetes cluster is being created on Google Kubernetes Engine...')
+          expect(page).to have_content(_('Kubernetes cluster is being created on Google Kubernetes Engine...'))
 
-          Clusters::Cluster.last.provider.make_errored!('Something wrong!')
+          Clusters::Cluster.last.provider.make_errored!(_('Something wrong!'))
 
-          expect(page).to have_content('Something wrong!')
+          expect(page).to have_content(_('Something wrong!'))
         end
 
         it 'user sees RBAC is enabled by default' do
@@ -116,7 +116,7 @@ describe 'Gcp Cluster', :js do
         end
 
         it 'user sees the successful message' do
-          expect(page).to have_content('Kubernetes cluster was successfully updated.')
+          expect(page).to have_content(_('Kubernetes cluster was successfully updated.'))
         end
       end
 
@@ -128,7 +128,7 @@ describe 'Gcp Cluster', :js do
         end
 
         it 'user sees the successful message' do
-          expect(page).to have_content('Kubernetes cluster was successfully updated.')
+          expect(page).to have_content(_('Kubernetes cluster was successfully updated.'))
           expect(cluster.reload.platform_kubernetes.namespace).to eq('my-namespace')
         end
       end
@@ -141,7 +141,7 @@ describe 'Gcp Cluster', :js do
         end
 
         it 'user sees creation form with the successful message' do
-          expect(page).to have_content('Kubernetes cluster integration was successfully removed.')
+          expect(page).to have_content(_('Kubernetes cluster integration was successfully removed.'))
           expect(page).to have_link('Add Kubernetes cluster')
         end
       end

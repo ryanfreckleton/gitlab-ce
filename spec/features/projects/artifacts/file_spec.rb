@@ -23,7 +23,7 @@ describe 'Artifact file', :js do
     it 'displays an error' do
       aggregate_failures do
         # shows an error message
-        expect(page).to have_content('The source could not be displayed because it is stored as a job artifact. You can download it instead.')
+        expect(page).to have_content(_('The source could not be displayed because it is stored as a job artifact. You can download it instead.'))
 
         # does not show a viewer switcher
         expect(page).not_to have_selector('.js-blob-viewer-switcher')

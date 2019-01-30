@@ -52,7 +52,7 @@ describe 'Invites' do
 
       expect(current_path).to eq(invite_path(group_invite.raw_invite_token))
       expect(page).to have_content(
-        'You have been invited by John Doe to join group Owned as Developer.'
+        _('You have been invited by John Doe to join group Owned as Developer.')
       )
       expect(page).to have_link('Accept invitation')
       expect(page).to have_link('Decline')
@@ -80,7 +80,7 @@ describe 'Invites' do
       page.click_link 'Accept invitation'
       expect(current_path).to eq(group_path(group))
       expect(page).to have_content(
-        'You have been granted Developer access to group Owned.'
+        _('You have been granted Developer access to group Owned.')
       )
     end
   end
@@ -96,7 +96,7 @@ describe 'Invites' do
         page.click_link 'Decline'
         expect(current_path).to eq(dashboard_projects_path)
         expect(page).to have_content(
-          'You have declined the invitation to join group Owned.'
+          _('You have declined the invitation to join group Owned.')
         )
       end
     end
@@ -109,7 +109,7 @@ describe 'Invites' do
       it 'declines application and redirects to sign in page' do
         expect(current_path).to eq(new_user_session_path)
         expect(page).to have_content(
-          'You have declined the invitation to join group Owned.'
+          _('You have declined the invitation to join group Owned.')
         )
       end
     end

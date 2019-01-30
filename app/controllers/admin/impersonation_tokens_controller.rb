@@ -12,7 +12,7 @@ class Admin::ImpersonationTokensController < Admin::ApplicationController
 
     if @impersonation_token.save
       PersonalAccessToken.redis_store!(current_user.id, @impersonation_token.token)
-      redirect_to admin_user_impersonation_tokens_path, notice: "A new impersonation token has been created."
+      redirect_to admin_user_impersonation_tokens_path, notice: _("A new impersonation token has been created.")
     else
       set_index_vars
       render :index

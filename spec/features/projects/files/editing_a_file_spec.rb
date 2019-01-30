@@ -26,6 +26,6 @@ describe 'Projects > Files > User wants to edit a file' do
 
     click_button 'Commit changes'
 
-    expect(page).to have_content 'Someone edited the file the same time you did.'
+    expect(page).to have_content _('Someone edited the file the same time you did.')
   end
 end

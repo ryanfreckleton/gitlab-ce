@@ -21,7 +21,7 @@ module API
     end
     resource :projects, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
       desc 'Get all clusters from the project' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::Cluster
       end
       params do
@@ -34,7 +34,7 @@ module API
       end
 
       desc 'Get specific cluster for the project' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::ClusterProject
       end
       params do
@@ -47,7 +47,7 @@ module API
       end
 
       desc 'Adds an existing cluster' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::ClusterProject
       end
       params do
@@ -77,7 +77,7 @@ module API
       end
 
       desc 'Update an existing cluster' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::ClusterProject
       end
       params do
@@ -104,7 +104,7 @@ module API
       end
 
       desc 'Remove a cluster' do
-        detail 'This feature was introduced in GitLab 11.7.'
+        detail _('This feature was introduced in GitLab 11.7.')
         success Entities::ClusterProject
       end
       params do

@@ -14,14 +14,14 @@ module Gitlab
               @value = regexp
 
               unless Gitlab::UntrustedRegexp.valid?(@value)
-                raise Lexer::SyntaxError, 'Invalid regular expression!'
+                raise Lexer::SyntaxError, _('Invalid regular expression!')
               end
             end
 
             def evaluate(variables = {})
               Gitlab::UntrustedRegexp.fabricate(@value)
             rescue RegexpError
-              raise Expression::RuntimeError, 'Invalid regular expression!'
+              raise Expression::RuntimeError, _('Invalid regular expression!')
             end
 
             def self.build(string)

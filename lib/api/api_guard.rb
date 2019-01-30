@@ -110,22 +110,22 @@ module API
             when Gitlab::Auth::TokenNotFoundError
               Rack::OAuth2::Server::Resource::Bearer::Unauthorized.new(
                 :invalid_token,
-                "Bad Access Token.")
+                _("Bad Access Token."))
 
             when Gitlab::Auth::ExpiredError
               Rack::OAuth2::Server::Resource::Bearer::Unauthorized.new(
                 :invalid_token,
-                "Token is expired. You can either do re-authorization or token refresh.")
+                _("Token is expired. You can either do re-authorization or token refresh."))
 
             when Gitlab::Auth::RevokedError
               Rack::OAuth2::Server::Resource::Bearer::Unauthorized.new(
                 :invalid_token,
-                "Token was revoked. You have to re-authorize from the user.")
+                _("Token was revoked. You have to re-authorize from the user."))
 
             when Gitlab::Auth::ImpersonationDisabled
               Rack::OAuth2::Server::Resource::Bearer::Unauthorized.new(
                 :invalid_token,
-                "Token is an impersonation token but impersonation was disabled.")
+                _("Token is an impersonation token but impersonation was disabled."))
 
             when Gitlab::Auth::InsufficientScopeError
               # FIXME: ForbiddenError (inherited from Bearer::Forbidden of Rack::Oauth2)

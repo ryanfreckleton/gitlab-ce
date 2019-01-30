@@ -19,7 +19,7 @@ describe MergeRequests::BuildService do
   let(:merge_request) { service.execute }
   let(:compare) { double(:compare, commits: commits) }
   let(:commit_1) { double(:commit_1, sha: 'f00ba7', safe_message: "Initial commit\n\nCreate the app") }
-  let(:commit_2) { double(:commit_2, sha: 'f00ba7', safe_message: 'This is a bad commit message!') }
+  let(:commit_2) { double(:commit_2, sha: 'f00ba7', safe_message: _('This is a bad commit message!')) }
   let(:commits) { nil }
 
   let(:params) do

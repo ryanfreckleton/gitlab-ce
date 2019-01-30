@@ -41,7 +41,7 @@ describe 'Merge request > User sees pipelines', :js do
         visit project_merge_request_path(project, merge_request)
         wait_for_requests
 
-        expect(page.find('.ci-widget')).to have_text("Could not retrieve the pipeline status. For troubleshooting steps, read the documentation.")
+        expect(page.find('.ci-widget')).to have_text(_("Could not retrieve the pipeline status. For troubleshooting steps, read the documentation."))
       end
     end
 

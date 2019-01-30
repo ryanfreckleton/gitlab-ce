@@ -382,7 +382,7 @@ shared_examples 'issuable record that supports quick actions in its description 
 
         expect(page).to have_content 'Awesome!'
         expect(page).not_to have_content '/assign @bob'
-        expect(page).to have_content 'Assigns @bob.'
+        expect(page).to have_content _('Assigns @bob.')
       end
     end
   end

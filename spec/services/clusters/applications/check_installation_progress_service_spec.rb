@@ -37,7 +37,7 @@ describe Clusters::Applications::CheckInstallationProgressService do
           service.execute
 
           expect(application).to be_errored
-          expect(application.status_reason).to eq("Installation timed out. Check pod logs for install-helm for more details.")
+          expect(application.status_reason).to eq(_("Installation timed out. Check pod logs for install-helm for more details."))
         end
       end
     end
@@ -84,7 +84,7 @@ describe Clusters::Applications::CheckInstallationProgressService do
         service.execute
 
         expect(application).to be_errored
-        expect(application.status_reason).to eq("Installation failed. Check pod logs for install-helm for more details.")
+        expect(application.status_reason).to eq(_("Installation failed. Check pod logs for install-helm for more details."))
       end
     end
 

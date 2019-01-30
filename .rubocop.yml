@@ -25,6 +25,11 @@ AllCops:
 
 GetText:
   Enabled: true
+  Exclude:
+    - 'scripts/**/*'
+    - 'rubocop/**/*'
+    - 'db/**/*'
+    - 'danger/**/*'
 RailsI18n:
   Enabled: false
 

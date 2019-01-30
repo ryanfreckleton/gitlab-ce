@@ -162,7 +162,7 @@ describe 'Project' do
 
       remove_with_confirm('Remove fork relationship', project.path)
 
-      expect(page).to have_content 'The fork relationship has been removed.'
+      expect(page).to have_content _('The fork relationship has been removed.')
       expect(project.reload.forked?).to be_falsey
       expect(page).not_to have_content 'Remove fork relationship'
     end

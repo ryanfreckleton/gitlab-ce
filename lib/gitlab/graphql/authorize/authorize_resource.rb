@@ -30,7 +30,7 @@ module Gitlab
         def authorize!(object)
           unless authorized?(object)
             raise Gitlab::Graphql::Errors::ResourceNotAvailable,
-                  "The resource that you are attempting to access does not exist or you don't have permission to perform this action"
+                  _("The resource that you are attempting to access does not exist or you don't have permission to perform this action")
           end
         end
 

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Users > Terms' do
   include TermsHelper
 
-  let!(:term) { create(:term, terms: 'By accepting, you promise to be nice!') }
+  let!(:term) { create(:term, terms: _('By accepting, you promise to be nice!')) }
 
   before do
     stub_env('IN_MEMORY_APPLICATION_SETTINGS', 'false')
@@ -12,7 +12,7 @@ describe 'Users > Terms' do
   it 'shows the terms' do
     visit terms_path
 
-    expect(page).to have_content('By accepting, you promise to be nice!')
+    expect(page).to have_content(_('By accepting, you promise to be nice!'))
   end
 
   it 'does not show buttons to accept, decline or sign out', :aggregate_failures do

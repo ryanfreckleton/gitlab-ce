@@ -28,7 +28,7 @@ module Backup
 
         unless status.zero?
           puts output
-          raise Backup::Error, 'Backup failed'
+          raise Backup::Error, _('Backup failed')
         end
 
         run_pipeline!([%W(#{tar} --exclude=lost+found -C #{@backup_files_dir} -cf - .), %w(gzip -c -1)], out: [backup_tarball, 'w', 0600])
@@ -78,7 +78,7 @@ module Backup
       return if status.compact.all?(&:success?)
 
       regex = /^g?tar: \.: Cannot mkdir: No such file or directory$/
-      raise Backup::Error, 'Backup failed' unless err_r.read =~ regex
+      raise Backup::Error, _('Backup failed') unless err_r.read =~ regex
     end
   end
 end

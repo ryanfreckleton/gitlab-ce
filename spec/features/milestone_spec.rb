@@ -23,7 +23,7 @@ describe 'Milestone' do
 
       find('input[name="commit"]').click
 
-      expect(find('.alert-success')).to have_content('Assign some issues to this milestone.')
+      expect(find('.alert-success')).to have_content(_('Assign some issues to this milestone.'))
       expect(page).to have_content('Nov 16, 2016–Dec 16, 2016')
     end
   end
@@ -35,7 +35,7 @@ describe 'Milestone' do
       create(:issue, title: "Bugfix1", project: project, milestone: milestone, state: "closed")
       visit project_milestone_path(project, milestone)
 
-      expect(find('.alert-success')).to have_content('All issues for this milestone are closed. You may close this milestone now.')
+      expect(find('.alert-success')).to have_content(_('All issues for this milestone are closed. You may close this milestone now.'))
     end
   end
 

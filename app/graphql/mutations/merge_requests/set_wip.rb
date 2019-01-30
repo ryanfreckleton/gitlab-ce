@@ -8,7 +8,7 @@ module Mutations
       argument :wip,
                GraphQL::BOOLEAN_TYPE,
                required: true,
-               description: <<~DESC
+               description: _(<<~DESC)
                             Whether or not to set the merge request as a WIP.
                             DESC
 

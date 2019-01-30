@@ -22,7 +22,7 @@ describe 'User activates Slack notifications' do
       fill_in('Webhook', with: 'https://hooks.slack.com/services/SVRWFV0VVAR97N/B02R25XN3/ZBqu7xMupaEEICInN685')
       click_button('Save')
 
-      expect(page).to have_content('Slack notifications activated.')
+      expect(page).to have_content(_('Slack notifications activated.'))
     end
   end
 

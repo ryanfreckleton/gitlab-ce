@@ -15,7 +15,7 @@ module Gitlab
           "You (#{@user.to_reference}) must accept the Terms of Service in order to perform this action. "\
           "Please access GitLab from a web browser to accept these terms."
         else
-          "Your account has been blocked."
+          _("Your account has been blocked.")
         end
       end
 

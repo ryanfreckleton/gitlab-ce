@@ -39,7 +39,7 @@ module Gitlab
         #
         def where(options)
           repo = options.delete(:repo)
-          raise 'Gitlab::Git::Repository is required' unless repo.respond_to?(:log)
+          raise _('Gitlab::Git::Repository is required') unless repo.respond_to?(:log)
 
           repo.log(options)
         end
@@ -180,7 +180,7 @@ module Gitlab
       end
 
       def initialize(repository, raw_commit, head = nil)
-        raise "Nil as raw commit passed" unless raw_commit
+        raise _("Nil as raw commit passed") unless raw_commit
 
         @repository = repository
         @head = head

@@ -57,7 +57,7 @@ module Gitlab
           -1
         end
 
-      raise 'new position is outside of file' if new_pos < 0 || new_pos > size
+      raise _('new position is outside of file') if new_pos < 0 || new_pos > size
 
       @tell = new_pos
     end

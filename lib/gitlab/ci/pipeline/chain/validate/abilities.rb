@@ -11,7 +11,7 @@ module Gitlab
 
             def perform!
               unless project.builds_enabled?
-                return error('Pipelines are disabled!')
+                return error(_('Pipelines are disabled!'))
               end
 
               unless allowed_to_trigger_pipeline?

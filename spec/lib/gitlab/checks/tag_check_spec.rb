@@ -12,7 +12,7 @@ describe Gitlab::Checks::TagCheck do
       allow(user_access).to receive(:can_do_action?).with(:push_code).and_return(true)
       expect(user_access).to receive(:can_do_action?).with(:admin_project).and_return(false)
 
-      expect { subject.validate! }.to raise_error(Gitlab::GitAccess::UnauthorizedError, 'You are not allowed to change existing tags on this project.')
+      expect { subject.validate! }.to raise_error(Gitlab::GitAccess::UnauthorizedError, _('You are not allowed to change existing tags on this project.'))
     end
 
     context 'with protected tag' do

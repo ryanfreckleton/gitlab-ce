@@ -199,25 +199,25 @@ describe BambooService, :use_clean_rails_memory_store_caching do
       end
 
       it 'sets commit status to "success" when build state contains Success' do
-        stub_request(body: bamboo_response(build_state: 'YAY Success!'))
+        stub_request(body: bamboo_response(build_state: _('YAY Success!')))
 
         is_expected.to eq('success')
       end
 
       it 'sets commit status to "failed" when build state contains Failed' do
-        stub_request(body: bamboo_response(build_state: 'NO Failed!'))
+        stub_request(body: bamboo_response(build_state: _('NO Failed!')))
 
         is_expected.to eq('failed')
       end
 
       it 'sets commit status to "pending" when build state contains Pending' do
-        stub_request(body: bamboo_response(build_state: 'NO Pending!'))
+        stub_request(body: bamboo_response(build_state: _('NO Pending!')))
 
         is_expected.to eq('pending')
       end
 
       it 'sets commit status to :error when build state is unknown' do
-        stub_request(body: bamboo_response(build_state: 'FOO BAR!'))
+        stub_request(body: bamboo_response(build_state: _('FOO BAR!')))
 
         is_expected.to eq(:error)
       end

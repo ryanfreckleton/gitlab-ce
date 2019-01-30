@@ -50,7 +50,7 @@ module Gitlab
               -1
             end
 
-          raise ArgumentError, 'new position is outside of file' if new_pos < 0 || new_pos > size
+          raise ArgumentError, _('new position is outside of file') if new_pos < 0 || new_pos > size
 
           @tell = new_pos
         end
@@ -141,7 +141,7 @@ module Gitlab
 
         # rubocop: disable CodeReuse/ActiveRecord
         def truncate(offset)
-          raise ArgumentError, 'Outside of file' if offset > size || offset < 0
+          raise ArgumentError, _('Outside of file') if offset > size || offset < 0
           return if offset == size # Skip the following process as it doesn't affect anything
 
           @tell = offset

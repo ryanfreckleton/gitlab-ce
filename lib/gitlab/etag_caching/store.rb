@@ -27,7 +27,7 @@ module Gitlab
       end
 
       def redis_shared_state_key(key)
-        raise 'Invalid key' if !Rails.env.production? && !Gitlab::EtagCaching::Router.match(key)
+        raise _('Invalid key') if !Rails.env.production? && !Gitlab::EtagCaching::Router.match(key)
 
         "#{SHARED_STATE_NAMESPACE}#{key}"
       end

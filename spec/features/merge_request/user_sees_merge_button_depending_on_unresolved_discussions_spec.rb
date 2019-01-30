@@ -19,7 +19,7 @@ describe 'Merge request > User sees merge button depending on unresolved discuss
     context 'with unresolved discussions' do
       it 'does not allow to merge' do
         expect(page).not_to have_button 'Merge'
-        expect(page).to have_content('There are unresolved discussions.')
+        expect(page).to have_content(_('There are unresolved discussions.'))
       end
     end
 

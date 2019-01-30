@@ -199,7 +199,7 @@ describe Gitlab::BitbucketServerImport::Importer do
         file_path: '.gitmodules',
         old_pos: 8,
         new_pos: 9,
-        note: 'This is a note with an invalid line position.',
+        note: _('This is a note with an invalid line position.'),
         author_email: project.owner.email,
         author_username: 'Owner',
         comments: [reply],

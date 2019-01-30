@@ -23,7 +23,7 @@ describe 'gitlab:uploads:migrate rake tasks' do
     it do
       expect(ObjectStorage::MigrateUploadsWorker)
         .to receive(:perform_async).exactly(batch).times
-              .and_return("A fake job.")
+              .and_return(_("A fake job."))
 
       run
     end

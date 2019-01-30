@@ -97,7 +97,7 @@ module API
       end
 
       params :create_params do
-        optional :namespace_id, type: Integer, desc: 'Namespace ID for the new project. Default to the user namespace.'
+        optional :namespace_id, type: Integer, desc: _('Namespace ID for the new project. Default to the user namespace.')
         optional :import_url, type: String, desc: 'URL from which the project is imported'
       end
 
@@ -190,7 +190,7 @@ module API
         end
       end
 
-      desc 'Create new project for a specified user. Only available to admin users.' do
+      desc _('Create new project for a specified user. Only available to admin users.') do
         success Entities::Project
       end
       params do
@@ -249,7 +249,7 @@ module API
         present project, options
       end
 
-      desc 'Fork new project for the current user or provided namespace.' do
+      desc _('Fork new project for the current user or provided namespace.') do
         success Entities::Project
       end
       params do
@@ -493,7 +493,7 @@ module API
       end
 
       desc 'Start the housekeeping task for a project' do
-        detail 'This feature was introduced in GitLab 9.0.'
+        detail _('This feature was introduced in GitLab 9.0.')
       end
       post ':id/housekeeping' do
         authorize_admin_project

@@ -19,7 +19,7 @@ module Gitlab
             @parent = parent
 
             unless @context.key?(@key)
-              raise StandardError, 'Invalid entry key!'
+              raise StandardError, _('Invalid entry key!')
             end
           end
 

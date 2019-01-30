@@ -291,10 +291,10 @@ class Milestone < ActiveRecord::Base
   end
 
   def milestone_format_reference(format = :iid)
-    raise ArgumentError, 'Unknown format' unless [:iid, :name].include?(format)
+    raise ArgumentError, _('Unknown format') unless [:iid, :name].include?(format)
 
     if group_milestone? && format == :iid
-      raise ArgumentError, 'Cannot refer to a group milestone by an internal id!'
+      raise ArgumentError, _('Cannot refer to a group milestone by an internal id!')
     end
 
     if format == :name && !name.include?('"')

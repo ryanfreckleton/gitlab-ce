@@ -25,8 +25,8 @@ describe 'Issues' do
         visit project_issues_path(project)
 
         expect(page).to have_content('Register / Sign In')
-        expect(page).to have_content('The Issue Tracker is the place to add things that need to be improved or solved in a project.')
-        expect(page).to have_content('You can register or sign in to create issues for this project.')
+        expect(page).to have_content(_('The Issue Tracker is the place to add things that need to be improved or solved in a project.'))
+        expect(page).to have_content(_('You can register or sign in to create issues for this project.'))
       end
 
       it_behaves_like 'empty state with filters'
@@ -47,7 +47,7 @@ describe 'Issues' do
         visit project_issues_path(project)
 
         expect(page).to have_content('The Issue Tracker is the place to add things that need to be improved or solved in a project')
-        expect(page).to have_content('Issues can be bugs, tasks or ideas to be discussed. Also, issues are searchable and filterable.')
+        expect(page).to have_content(_('Issues can be bugs, tasks or ideas to be discussed. Also, issues are searchable and filterable.'))
         expect(page).to have_content('New issue')
       end
 

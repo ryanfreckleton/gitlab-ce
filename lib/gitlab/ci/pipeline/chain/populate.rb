@@ -30,11 +30,11 @@ module Gitlab
             end
 
             if pipeline.stages.none?
-              return error('No stages / jobs for this pipeline.')
+              return error(_('No stages / jobs for this pipeline.'))
             end
 
             if pipeline.invalid?
-              return error('Failed to build the pipeline!')
+              return error(_('Failed to build the pipeline!'))
             end
 
             raise Populate::PopulateError if pipeline.persisted?

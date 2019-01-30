@@ -24,7 +24,7 @@ module API
       end
       resource source_type.pluralize, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
         desc "Gets a list of #{source_type} badges viewable by the authenticated user." do
-          detail 'This feature was introduced in GitLab 10.6.'
+          detail _('This feature was introduced in GitLab 10.6.')
           success Entities::Badge
         end
         params do
@@ -37,7 +37,7 @@ module API
         end
 
         desc "Preview a badge from a #{source_type}." do
-          detail 'This feature was introduced in GitLab 10.6.'
+          detail _('This feature was introduced in GitLab 10.6.')
           success Entities::BasicBadgeDetails
         end
         params do
@@ -60,7 +60,7 @@ module API
         end
 
         desc "Gets a badge of a #{source_type}." do
-          detail 'This feature was introduced in GitLab 10.6.'
+          detail _('This feature was introduced in GitLab 10.6.')
           success Entities::Badge
         end
         params do
@@ -74,7 +74,7 @@ module API
         end
 
         desc "Adds a badge to a #{source_type}." do
-          detail 'This feature was introduced in GitLab 10.6.'
+          detail _('This feature was introduced in GitLab 10.6.')
           success Entities::Badge
         end
         params do
@@ -94,7 +94,7 @@ module API
         end
 
         desc "Updates a badge of a #{source_type}." do
-          detail 'This feature was introduced in GitLab 10.6.'
+          detail _('This feature was introduced in GitLab 10.6.')
           success Entities::Badge
         end
         params do
@@ -114,8 +114,8 @@ module API
           end
         end
 
-        desc 'Removes a badge from a project or group.' do
-          detail 'This feature was introduced in GitLab 10.6.'
+        desc _('Removes a badge from a project or group.') do
+          detail _('This feature was introduced in GitLab 10.6.')
         end
         params do
           requires :badge_id, type: Integer, desc: 'The badge ID'

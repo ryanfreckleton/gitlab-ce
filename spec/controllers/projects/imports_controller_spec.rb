@@ -69,7 +69,7 @@ describe Projects::ImportsController do
 
             get :show, params: { namespace_id: project.namespace.to_param, project_id: project }
 
-            expect(flash[:notice]).to eq 'The project was successfully forked.'
+            expect(flash[:notice]).to eq _('The project was successfully forked.')
             expect(response).to redirect_to project_path(project)
           end
         end
@@ -78,7 +78,7 @@ describe Projects::ImportsController do
           it 'redirects to namespace_project_path' do
             get :show, params: { namespace_id: project.namespace.to_param, project_id: project }
 
-            expect(flash[:notice]).to eq 'The project was successfully imported.'
+            expect(flash[:notice]).to eq _('The project was successfully imported.')
             expect(response).to redirect_to project_path(project)
           end
         end

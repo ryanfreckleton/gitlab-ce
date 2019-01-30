@@ -162,7 +162,7 @@ module QA
 
       def self.errors
         if views.empty?
-          return ["Page class does not have views / elements defined!"]
+          return [_("Page class does not have views / elements defined!")]
         end
 
         views.map(&:errors).flatten

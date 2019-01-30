@@ -73,7 +73,7 @@ module API
         detail 'This feature was introduced in GitLab 8.13'
       end
       params do
-        requires :branch, type: String, desc: 'Name of the branch to commit into. To create a new branch, also provide `start_branch`.', allow_blank: false
+        requires :branch, type: String, desc: _('Name of the branch to commit into. To create a new branch, also provide `start_branch`.'), allow_blank: false
         requires :commit_message, type: String, desc: 'Commit message'
         requires :actions, type: Array, desc: 'Actions to perform in commit' do
           requires :action, type: String, desc: 'The action to perform, `create`, `delete`, `move`, `update`, `chmod`', values: %w[create update move delete chmod].freeze
@@ -92,7 +92,7 @@ module API
             optional :last_commit_id, type: String, desc: 'Last known file commit id'
           end
           given action: ->(action) { action == 'chmod' } do
-            requires :execute_filemode, type: Boolean, desc: 'When `true/false` enables/disables the execute flag on the file.'
+            requires :execute_filemode, type: Boolean, desc: _('When `true/false` enables/disables the execute flag on the file.')
           end
         end
         optional :start_branch, type: String, desc: 'Name of the branch to start the new commit from'

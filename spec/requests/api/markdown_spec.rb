@@ -41,7 +41,7 @@ describe API::Markdown do
       end
 
       context "when project is not found" do
-        let(:params) { { text: "Hello world!", gfm: true, project: "Dummy project" } }
+        let(:params) { { text: _("Hello world!"), gfm: true, project: "Dummy project" } }
 
         it_behaves_like "404 Project Not Found"
       end
@@ -82,7 +82,7 @@ describe API::Markdown do
             expect(response).to have_http_status(201)
             expect(response.headers["Content-Type"]).to eq("application/json")
             expect(json_response).to be_a(Hash)
-            expect(json_response["html"]).to include("Hello world!")
+            expect(json_response["html"]).to include(_("Hello world!"))
                                         .and include('data-name="tada"')
                                         .and include('data-name="100"')
                                         .and include("#1")
@@ -99,7 +99,7 @@ describe API::Markdown do
             expect(response).to have_http_status(201)
             expect(response.headers["Content-Type"]).to eq("application/json")
             expect(json_response).to be_a(Hash)
-            expect(json_response["html"]).to include("Hello world!")
+            expect(json_response["html"]).to include(_("Hello world!"))
                                         .and include('data-name="tada"')
                                         .and include('data-name="100"')
                                         .and include("<a href=\"#{IssuesHelper.url_for_issue(issue.iid, project)}\"")
@@ -119,7 +119,7 @@ describe API::Markdown do
               expect(response).to have_http_status(201)
               expect(json_response["html"]).not_to include('Confidential title')
               expect(json_response["html"]).not_to include('<a href=')
-              expect(json_response["html"]).to include('Hello world!')
+              expect(json_response["html"]).to include(_('Hello world!'))
                                           .and include('data-name="tada"')
                                           .and include('data-name="100"')
                                           .and include('#1</p>')
@@ -144,7 +144,7 @@ describe API::Markdown do
             it 'renders the title or link' do
               expect(response).to have_http_status(201)
               expect(json_response["html"]).to include('Confidential title')
-              expect(json_response["html"]).to include('Hello world!')
+              expect(json_response["html"]).to include(_('Hello world!'))
                                           .and include('data-name="tada"')
                                           .and include('data-name="100"')
                                           .and include("<a href=\"#{IssuesHelper.url_for_issue(confidential_issue.iid, public_project)}\"")

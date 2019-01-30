@@ -45,7 +45,7 @@ module Milestones
     end
 
     def check_project_milestone!(milestone)
-      raise_error('Only project milestones can be promoted.') unless milestone.project_milestone?
+      raise_error(_('Only project milestones can be promoted.')) unless milestone.project_milestone?
     end
 
     def clone_project_milestone(milestone)
@@ -73,7 +73,7 @@ module Milestones
     # rubocop: enable CodeReuse/ActiveRecord
 
     def group
-      @group ||= parent.group || raise_error('Project does not belong to a group.')
+      @group ||= parent.group || raise_error(_('Project does not belong to a group.'))
     end
 
     # rubocop: disable CodeReuse/ActiveRecord

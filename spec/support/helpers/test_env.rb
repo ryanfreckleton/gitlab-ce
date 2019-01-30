@@ -181,7 +181,7 @@ module TestEnv
 
     spawn_script = Rails.root.join('scripts/gitaly-test-spawn').to_s
     Bundler.with_original_env do
-      raise "gitaly spawn failed" unless system(spawn_script)
+      raise _("gitaly spawn failed") unless system(spawn_script)
     end
     @gitaly_pid = Integer(File.read('tmp/tests/gitaly.pid'))
 
@@ -282,7 +282,7 @@ module TestEnv
   def eager_load_driver_server
     return unless defined?(Capybara)
 
-    puts "Starting the Capybara driver server..."
+    puts _("Starting the Capybara driver server...")
     Capybara.current_session.visit '/'
   end
 
@@ -338,7 +338,7 @@ module TestEnv
 
     # Try to reset without fetching to avoid using the network.
     unless reset.call
-      raise 'Could not fetch test seed repository.' unless system(*%W(#{Gitlab.config.git.bin_path} -C #{repo_path} fetch origin))
+      raise _('Could not fetch test seed repository.') unless system(*%W(#{Gitlab.config.git.bin_path} -C #{repo_path} fetch origin))
 
       # Before we used Git clone's --mirror option, bare repos could end up
       # with missing refs, clearing them and retrying should fix the issue.

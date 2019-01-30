@@ -19,7 +19,7 @@ module Gitlab
     # Returns Result
     def popen_with_detail(cmd, path = nil, vars = {})
       unless cmd.is_a?(Array)
-        raise "System commands must be given as an array of strings"
+        raise _("System commands must be given as an array of strings")
       end
 
       path ||= Dir.pwd

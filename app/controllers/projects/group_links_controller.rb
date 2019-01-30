@@ -17,7 +17,7 @@ class Projects::GroupLinksController < Projects::ApplicationController
 
       Projects::GroupLinks::CreateService.new(project, current_user, group_link_create_params).execute(group)
     else
-      flash[:alert] = 'Please select a group.'
+      flash[:alert] = _('Please select a group.')
     end
 
     redirect_to project_project_members_path(project)

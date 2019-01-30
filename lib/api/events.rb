@@ -33,7 +33,7 @@ module API
       allow_access_with_scope :read_user, if: -> (request) { request.get? }
 
       desc "List currently authenticated user's events" do
-        detail 'This feature was introduced in GitLab 9.3.'
+        detail _('This feature was introduced in GitLab 9.3.')
         success Entities::Event
       end
       params do
@@ -58,7 +58,7 @@ module API
       allow_access_with_scope :read_user, if: -> (request) { request.get? }
 
       desc 'Get the contribution events of a specified user' do
-        detail 'This feature was introduced in GitLab 8.13.'
+        detail _('This feature was introduced in GitLab 8.13.')
         success Entities::Event
       end
       params do

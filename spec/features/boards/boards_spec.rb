@@ -27,7 +27,7 @@ describe 'Issue Boards', :js do
     end
 
     it 'shows blank state' do
-      expect(page).to have_content('Welcome to your Issue Board!')
+      expect(page).to have_content(_('Welcome to your Issue Board!'))
     end
 
     it 'shows tooltip on add issues button' do

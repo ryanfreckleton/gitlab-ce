@@ -38,9 +38,9 @@ module API
         optional :labels, type: String, desc: 'Comma-separated list of label names'
         optional :milestone, type: String, desc: 'Milestone title'
         optional :order_by, type: String, values: %w[created_at updated_at], default: 'created_at',
-                            desc: 'Return issues ordered by `created_at` or `updated_at` fields.'
+                            desc: _('Return issues ordered by `created_at` or `updated_at` fields.')
         optional :sort, type: String, values: %w[asc desc], default: 'desc',
-                        desc: 'Return issues sorted in `asc` or `desc` order.'
+                        desc: _('Return issues sorted in `asc` or `desc` order.')
         optional :milestone, type: String, desc: 'Return issues for a specific milestone'
         optional :iids, type: Array[Integer], desc: 'The IID array of issues'
         optional :search, type: String, desc: 'Search issues for text present in the title or description'
@@ -171,13 +171,13 @@ module API
       params do
         requires :title, type: String, desc: 'The title of an issue'
         optional :created_at, type: DateTime,
-                              desc: 'Date time when the issue was created. Available only for admins and project owners.'
+                              desc: _('Date time when the issue was created. Available only for admins and project owners.')
         optional :merge_request_to_resolve_discussions_of, type: Integer,
                                                            desc: 'The IID of a merge request for which to resolve discussions'
         optional :discussion_to_resolve, type: String,
                                          desc: 'The ID of a discussion to resolve, also pass `merge_request_to_resolve_discussions_of`'
         optional :iid, type: Integer,
-                       desc: 'The internal ID of a project issue. Available only for admins and project owners.'
+                       desc: _('The internal ID of a project issue. Available only for admins and project owners.')
 
         use :issue_params
       end
@@ -215,7 +215,7 @@ module API
         requires :issue_iid, type: Integer, desc: 'The internal ID of a project issue'
         optional :title, type: String, desc: 'The title of an issue'
         optional :updated_at, type: DateTime,
-                              desc: 'Date time when the issue was updated. Available only for admins and project owners.'
+                              desc: _('Date time when the issue was updated. Available only for admins and project owners.')
         optional :state_event, type: String, values: %w[reopen close], desc: 'State of the issue'
         use :issue_params
         at_least_one_of :title, :description, :assignee_ids, :assignee_id, :milestone_id, :discussion_locked,

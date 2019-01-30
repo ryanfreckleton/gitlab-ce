@@ -14,7 +14,7 @@ module Gitlab
         delegate :username, to: :author, prefix: :author
 
         def initialize(notify, project_id, opts = {})
-          raise ArgumentError, 'Missing options: author_id, ref, action' unless
+          raise ArgumentError, _('Missing options: author_id, ref, action') unless
             opts[:author_id] && opts[:ref] && opts[:action]
 
           @notify = notify

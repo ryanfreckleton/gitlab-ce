@@ -437,7 +437,7 @@ describe API::Releases do
   end
 
   describe 'PUT /projects/:id/releases/:tag_name' do
-    let(:params) { { description: 'Best release ever!' } }
+    let(:params) { { description: _('Best release ever!') } }
 
     let!(:release) do
       create(:release,
@@ -456,7 +456,7 @@ describe API::Releases do
     it 'updates the description' do
       put api("/projects/#{project.id}/releases/v0.1", maintainer), params: params
 
-      expect(project.releases.last.description).to eq('Best release ever!')
+      expect(project.releases.last.description).to eq(_('Best release ever!'))
     end
 
     it 'does not change other attributes' do

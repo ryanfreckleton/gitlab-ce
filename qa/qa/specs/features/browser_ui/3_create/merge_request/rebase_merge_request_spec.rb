@@ -23,7 +23,7 @@ module QA
         Resource::Repository::ProjectPush.fabricate! do |push|
           push.project = project
           push.file_name = "other.txt"
-          push.file_content = "New file added!"
+          push.file_content = _("New file added!")
           push.branch_name = "master"
           push.new_branch = false
         end

@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class DatabaseConfigExistsCheck < SystemCheck::BaseCheck
-      set_name 'Database config exists?'
+      set_name _('Database config exists?')
 
       def check?
         database_config_file = Rails.root.join('config', 'database.yml')

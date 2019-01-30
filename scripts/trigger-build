@@ -196,7 +196,7 @@ module Trigger
           puts "Pipeline succeeded in #{duration} minutes!"
           break
         else
-          raise "Pipeline did not succeed!"
+          raise _("Pipeline did not succeed!")
         end
 
         STDOUT.flush

@@ -31,7 +31,7 @@ class Admin::LabelsController < Admin::ApplicationController
     @label = Labels::UpdateService.new(label_params).execute(@label)
 
     if @label.valid?
-      redirect_to admin_labels_path, notice: 'Label was successfully updated.'
+      redirect_to admin_labels_path, notice: _('Label was successfully updated.')
     else
       render :edit
     end

@@ -60,7 +60,7 @@ module Gitlab
         uri_str = uri.to_s
         sanitized_uri = ActionController::Base.helpers.sanitize(uri_str, tags: [])
         if sanitized_uri != uri_str
-          raise BlockedUrlError, 'HTML/CSS/JS tags are not allowed'
+          raise BlockedUrlError, _('HTML/CSS/JS tags are not allowed')
         end
       end
 
@@ -69,7 +69,7 @@ module Gitlab
 
         Addressable::URI.parse(url)
       rescue Addressable::URI::InvalidURIError, URI::InvalidURIError
-        raise BlockedUrlError, 'URI is invalid'
+        raise BlockedUrlError, _('URI is invalid')
       end
 
       def multiline?(url)
@@ -95,7 +95,7 @@ module Gitlab
         return if value.blank?
         return if value =~ /\A\p{Alnum}/
 
-        raise BlockedUrlError, "Username needs to start with an alphanumeric character"
+        raise BlockedUrlError, _("Username needs to start with an alphanumeric character")
       end
 
       def validate_hostname!(value)
@@ -103,7 +103,7 @@ module Gitlab
         return if IPAddress.valid?(value)
         return if value =~ /\A\p{Alnum}/
 
-        raise BlockedUrlError, "Hostname or IP address invalid"
+        raise BlockedUrlError, _("Hostname or IP address invalid")
       end
 
       def validate_unicode_restriction!(uri)
@@ -118,26 +118,26 @@ module Gitlab
 
         return if (local_ips & addrs_info.map(&:ip_address)).empty?
 
-        raise BlockedUrlError, "Requests to localhost are not allowed"
+        raise BlockedUrlError, _("Requests to localhost are not allowed")
       end
 
       def validate_loopback!(addrs_info)
         return unless addrs_info.any? { |addr| addr.ipv4_loopback? || addr.ipv6_loopback? }
 
-        raise BlockedUrlError, "Requests to loopback addresses are not allowed"
+        raise BlockedUrlError, _("Requests to loopback addresses are not allowed")
       end
 
       def validate_local_network!(addrs_info)
         return unless addrs_info.any? { |addr| addr.ipv4_private? || addr.ipv6_sitelocal? || addr.ipv6_unique_local? }
 
-        raise BlockedUrlError, "Requests to the local network are not allowed"
+        raise BlockedUrlError, _("Requests to the local network are not allowed")
       end
 
       def validate_link_local!(addrs_info)
         netmask = IPAddr.new('169.254.0.0/16')
         return unless addrs_info.any? { |addr| addr.ipv6_linklocal? || netmask.include?(addr.ip_address) }
 
-        raise BlockedUrlError, "Requests to the link local network are not allowed"
+        raise BlockedUrlError, _("Requests to the link local network are not allowed")
       end
 
       def internal?(uri)

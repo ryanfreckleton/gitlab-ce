@@ -7,12 +7,12 @@ describe Gitlab::QuickActions::Dsl do
 
       desc 'A command with no args'
       command :no_args, :none do
-        "Hello World!"
+        _("Hello World!")
       end
 
       params 'The first argument'
       explanation 'Static explanation'
-      warning 'Possible problem!'
+      warning _('Possible problem!')
       command :explanation_with_aliases, :once, :first do |arg|
         arg
       end
@@ -75,7 +75,7 @@ describe Gitlab::QuickActions::Dsl do
       expect(explanation_with_aliases_def.condition_block).to be_nil
       expect(explanation_with_aliases_def.action_block).to be_a_kind_of(Proc)
       expect(explanation_with_aliases_def.parse_params_block).to be_nil
-      expect(explanation_with_aliases_def.warning).to eq('Possible problem!')
+      expect(explanation_with_aliases_def.warning).to eq(_('Possible problem!'))
 
       expect(dynamic_description_def.name).to eq(:dynamic_description)
       expect(dynamic_description_def.aliases).to eq([])

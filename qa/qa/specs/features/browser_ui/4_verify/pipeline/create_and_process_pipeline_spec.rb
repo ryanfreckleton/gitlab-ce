@@ -15,7 +15,7 @@ module QA
 
         project = Resource::Project.fabricate! do |project|
           project.name = 'project-with-pipelines'
-          project.description = 'Project with CI/CD Pipelines.'
+          project.description = _('Project with CI/CD Pipelines.')
         end
 
         Resource::Runner.fabricate! do |runner|

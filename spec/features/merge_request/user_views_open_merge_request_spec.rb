@@ -43,7 +43,7 @@ describe 'User views an open merge request' do
         page.within('.gfm-form') do
           click_button('Preview')
 
-          expect(find('.js-md-preview')).to have_content('Nothing to preview.')
+          expect(find('.js-md-preview')).to have_content(_('Nothing to preview.'))
         end
       end
 

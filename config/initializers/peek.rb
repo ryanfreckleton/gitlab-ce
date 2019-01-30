@@ -11,7 +11,7 @@ elsif Gitlab::Database.postgresql?
   PEEK_DB_CLIENT = ::PG::Connection
   PEEK_DB_VIEW = Peek::Views::PG
 else
-  raise "Unsupported database adapter for peek!"
+  raise _("Unsupported database adapter for peek!")
 end
 
 Peek.into PEEK_DB_VIEW

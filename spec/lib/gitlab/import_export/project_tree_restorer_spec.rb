@@ -47,7 +47,7 @@ describe Gitlab::ImportExport::ProjectTreeRestorer do
       end
 
       it 'has the project description' do
-        expect(Project.find_by_path('project').description).to eq('Nisi et repellendus ut enim quo accusamus vel magnam.')
+        expect(Project.find_by_path('project').description).to eq(_('Nisi et repellendus ut enim quo accusamus vel magnam.'))
       end
 
       it 'has the same label associated to two issues' do
@@ -71,7 +71,7 @@ describe Gitlab::ImportExport::ProjectTreeRestorer do
       end
 
       it 'preserves updated_at on issues' do
-        issue = Issue.where(description: 'Aliquam enim illo et possimus.').first
+        issue = Issue.where(description: _('Aliquam enim illo et possimus.')).first
 
         expect(issue.reload.updated_at.to_s).to eq('2016-06-14 15:02:47 UTC')
       end

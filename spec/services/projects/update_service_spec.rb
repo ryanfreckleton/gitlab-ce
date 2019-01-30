@@ -68,7 +68,7 @@ describe Projects::UpdateService do
           it 'does not update the project to public' do
             result = update_project(project, user, visibility_level: Gitlab::VisibilityLevel::PUBLIC)
 
-            expect(result).to eq({ status: :error, message: 'New visibility level not allowed!' })
+            expect(result).to eq({ status: :error, message: _('New visibility level not allowed!') })
             expect(project).to be_private
           end
 
@@ -93,7 +93,7 @@ describe Projects::UpdateService do
         it 'does not update project visibility level' do
           result = update_project(project, admin, visibility_level: Gitlab::VisibilityLevel::PUBLIC)
 
-          expect(result).to eq({ status: :error, message: 'Visibility level public is not allowed in a internal group.' })
+          expect(result).to eq({ status: :error, message: _('Visibility level public is not allowed in a internal group.') })
           expect(project.reload).to be_internal
         end
       end
@@ -315,7 +315,7 @@ describe Projects::UpdateService do
 
         expect(result).to eq({
           status: :error,
-          message: "Name can contain only letters, digits, emojis, '_', '.', dash, space. It must start with letter, digit, emoji or '_'."
+          message: _("Name can contain only letters, digits, emojis, '_', '.', dash, space. It must start with letter, digit, emoji or '_'.")
         })
       end
     end

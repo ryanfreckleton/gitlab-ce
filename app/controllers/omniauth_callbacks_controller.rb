@@ -162,7 +162,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def fail_auth0_login
-    flash[:alert] = 'Wrong extern UID provided. Make sure Auth0 is configured correctly.'
+    flash[:alert] = _('Wrong extern UID provided. Make sure Auth0 is configured correctly.')
 
     redirect_to new_user_session_path
   end

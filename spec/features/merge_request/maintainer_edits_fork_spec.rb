@@ -29,7 +29,7 @@ describe 'a maintainer edits files on a source-branch of an MR from a fork', :js
   end
 
   it 'mentions commits will go to the source branch' do
-    expect(page).to have_content('Your changes can be committed to fix because a merge request is open.')
+    expect(page).to have_content(_('Your changes can be committed to fix because a merge request is open.'))
   end
 
   it 'allows committing to the source branch' do

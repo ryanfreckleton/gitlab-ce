@@ -7,7 +7,7 @@ module OptionallySearch
     def search(*)
       raise(
         NotImplementedError,
-        'Your model must implement the "search" class method'
+        _('Your model must implement the "search" class method')
       )
     end
 

@@ -11,7 +11,7 @@ module Gitlab
             InvalidStreamError = Class.new(StandardError)
 
             def initialize(stream)
-              raise InvalidStreamError, "Stream is required" unless stream
+              raise InvalidStreamError, _("Stream is required") unless stream
 
               @stream = stream
             end

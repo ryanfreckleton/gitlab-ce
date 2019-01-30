@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class InitScriptExistsCheck < SystemCheck::BaseCheck
-      set_name 'Init script exists?'
+      set_name _('Init script exists?')
       set_skip_reason 'skipped (omnibus-gitlab has no init script)'
 
       def skip?

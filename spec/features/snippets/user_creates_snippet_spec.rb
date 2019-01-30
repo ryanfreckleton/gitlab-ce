@@ -14,7 +14,7 @@ describe 'User creates snippet', :js do
     fill_in 'personal_snippet_title', with: 'My Snippet Title'
     fill_in 'personal_snippet_description', with: 'My Snippet **Description**'
     page.within('.file-editor') do
-      find('.ace_text-input', visible: false).send_keys 'Hello World!'
+      find('.ace_text-input', visible: false).send_keys _('Hello World!')
     end
   end
 
@@ -29,7 +29,7 @@ describe 'User creates snippet', :js do
       expect(page).to have_content('My Snippet Description')
       expect(page).to have_selector('strong')
     end
-    expect(page).to have_content('Hello World!')
+    expect(page).to have_content(_('Hello World!'))
   end
 
   it 'previews a snippet with file' do
@@ -82,7 +82,7 @@ describe 'User creates snippet', :js do
       expect(page).to have_content('My Snippet Description')
       expect(page).to have_selector('strong')
     end
-    expect(page).to have_content('Hello World!')
+    expect(page).to have_content(_('Hello World!'))
     link = find('a.no-attachment-icon img[alt="banana_sample"]')['src']
     expect(link).to match(%r{/uploads/-/system/personal_snippet/#{Snippet.last.id}/\h{32}/banana_sample\.gif\z})
 
@@ -94,7 +94,7 @@ describe 'User creates snippet', :js do
     fill_in 'personal_snippet_title', with: 'My Snippet Title'
     page.within('.file-editor') do
       find(:xpath, "//input[@id='personal_snippet_file_name']").set 'snippet+file+name'
-      find('.ace_text-input', visible: false).send_keys 'Hello World!'
+      find('.ace_text-input', visible: false).send_keys _('Hello World!')
     end
 
     click_button 'Create snippet'
@@ -102,6 +102,6 @@ describe 'User creates snippet', :js do
 
     expect(page).to have_content('My Snippet Title')
     expect(page).to have_content('snippet+file+name')
-    expect(page).to have_content('Hello World!')
+    expect(page).to have_content(_('Hello World!'))
   end
 end

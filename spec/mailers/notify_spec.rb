@@ -25,7 +25,7 @@ describe Notify do
     create(:issue, author: current_user,
                    assignees: [assignee],
                    project: project,
-                   description: 'My awesome description!')
+                   description: _('My awesome description!'))
   end
 
   context 'for a project' do

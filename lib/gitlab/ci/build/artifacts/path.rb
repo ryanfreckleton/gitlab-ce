@@ -28,11 +28,11 @@ module Gitlab
           def to_s
             @path.tap do |path|
               unless nonzero?
-                raise ArgumentError, 'Path contains zero byte character!'
+                raise ArgumentError, _('Path contains zero byte character!')
               end
 
               unless utf8?
-                raise ArgumentError, 'Path contains non-UTF-8 byte sequence!'
+                raise ArgumentError, _('Path contains non-UTF-8 byte sequence!')
               end
             end
           end

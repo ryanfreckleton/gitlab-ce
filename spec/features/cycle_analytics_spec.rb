@@ -32,7 +32,7 @@ describe 'Cycle Analytics', :js do
 
       it 'shows active stage with empty message' do
         expect(page).to have_selector('.stage-nav-item.active', text: 'Issue')
-        expect(page).to have_content("We don't have enough data to show this stage.")
+        expect(page).to have_content(_("We don't have enough data to show this stage."))
       end
     end
 
@@ -129,10 +129,10 @@ describe 'Cycle Analytics', :js do
       expect(find('.stage-events')).to have_content(issue.title)
 
       click_stage('Code')
-      expect(find('.stage-events')).to have_content('You need permission.')
+      expect(find('.stage-events')).to have_content(_('You need permission.'))
 
       click_stage('Review')
-      expect(find('.stage-events')).to have_content('You need permission.')
+      expect(find('.stage-events')).to have_content(_('You need permission.'))
     end
   end
 

@@ -8,7 +8,7 @@ describe Labels::FindOrCreateService do
     let(:params) do
       {
         title: 'Security',
-        description: 'Security related stuff.',
+        description: _('Security related stuff.'),
         color: '#FF0000'
       }
     end

@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class OrphanedGroupMembersCheck < SystemCheck::BaseCheck
-      set_name 'Database contains orphaned GroupMembers?'
+      set_name _('Database contains orphaned GroupMembers?')
       set_check_pass 'no'
       set_check_fail 'yes'
 

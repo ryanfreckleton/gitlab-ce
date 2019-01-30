@@ -85,7 +85,7 @@ module QA
             end
             Page::Project::Operations::Environments::Show.perform do |show|
               show.view_deployment do
-                expect(page).to have_content('Hello World!')
+                expect(page).to have_content(_('Hello World!'))
               end
             end
           end
@@ -127,7 +127,7 @@ module QA
 
             Page::Project::Operations::Environments::Show.perform do |show|
               show.view_deployment do
-                expect(page).to have_content('Hello World!')
+                expect(page).to have_content(_('Hello World!'))
                 expect(page).to have_content('You can see this application secret')
               end
             end

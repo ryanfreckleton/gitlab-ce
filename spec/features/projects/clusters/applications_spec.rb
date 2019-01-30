@@ -189,7 +189,7 @@ describe 'Clusters Applications', :js do
     retries = 0
 
     while Clusters::Cluster.last.application_helm.nil?
-      raise "Timed out waiting for helm application to be created in DB" if (retries += 1) > 3
+      raise _("Timed out waiting for helm application to be created in DB") if (retries += 1) > 3
 
       sleep(1)
     end

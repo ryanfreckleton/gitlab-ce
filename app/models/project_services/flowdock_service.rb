@@ -9,7 +9,7 @@ class FlowdockService < Service
   end
 
   def description
-    'Flowdock is a collaboration web app for technical teams.'
+    _('Flowdock is a collaboration web app for technical teams.')
   end
 
   def self.to_param

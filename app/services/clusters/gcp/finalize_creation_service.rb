@@ -77,7 +77,7 @@ module Clusters
       end
 
       def build_kube_client!(api_url, ca_pem, username, password)
-        raise "Incomplete settings" unless api_url && username && password
+        raise _("Incomplete settings") unless api_url && username && password
 
         Gitlab::Kubernetes::KubeClient.new(
           api_url,

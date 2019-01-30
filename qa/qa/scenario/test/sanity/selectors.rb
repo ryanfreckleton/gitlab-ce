@@ -45,7 +45,7 @@ module QA
 
             validators.each(&:validate!)
 
-            puts 'Views / selectors validation passed!'
+            puts _('Views / selectors validation passed!')
           end
         end
       end

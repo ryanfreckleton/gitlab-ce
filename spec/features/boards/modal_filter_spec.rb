@@ -24,7 +24,7 @@ describe 'Issue Boards add issue modal filtering', :js do
 
       wait_for_requests
 
-      expect(page).to have_content('There are no issues to show.')
+      expect(page).to have_content(_('There are no issues to show.'))
     end
   end
 

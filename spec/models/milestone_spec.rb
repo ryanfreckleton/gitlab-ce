@@ -396,7 +396,7 @@ describe Milestone do
 
       it 'raises an error when using iid format' do
         expect { milestone.to_reference(format: :iid) }
-          .to raise_error(ArgumentError, 'Cannot refer to a group milestone by an internal id!')
+          .to raise_error(ArgumentError, _('Cannot refer to a group milestone by an internal id!'))
       end
     end
   end

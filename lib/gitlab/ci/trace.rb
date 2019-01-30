@@ -115,7 +115,7 @@ module Gitlab
       def unsafe_write!(mode, &blk)
         stream = Gitlab::Ci::Trace::Stream.new do
           if trace_artifact
-            raise AlreadyArchivedError, 'Could not write to the archived trace'
+            raise AlreadyArchivedError, _('Could not write to the archived trace')
           elsif current_path
             File.open(current_path, mode)
           elsif Feature.enabled?('ci_enable_live_trace')
@@ -133,8 +133,8 @@ module Gitlab
       end
 
       def unsafe_archive!
-        raise AlreadyArchivedError, 'Could not archive again' if trace_artifact
-        raise ArchiveError, 'Job is not finished yet' unless job.complete?
+        raise AlreadyArchivedError, _('Could not archive again') if trace_artifact
+        raise ArchiveError, _('Job is not finished yet') unless job.complete?
 
         if job.trace_chunks.any?
           Gitlab::Ci::Trace::ChunkedIO.new(job) do |stream|
@@ -171,7 +171,7 @@ module Gitlab
           temp_path = File.join(dir_path, "job.log")
           FileUtils.touch(temp_path)
           size = IO.copy_stream(src_stream, temp_path)
-          raise ArchiveError, 'Failed to copy stream' unless size == src_stream.size
+          raise ArchiveError, _('Failed to copy stream') unless size == src_stream.size
 
           yield(temp_path)
         end

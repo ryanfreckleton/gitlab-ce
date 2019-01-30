@@ -4,7 +4,7 @@ module Lfs
   class LockFileService < BaseService
     def execute
       unless can?(current_user, :push_code, project)
-        raise Gitlab::GitAccess::UnauthorizedError, 'You have no permissions'
+        raise Gitlab::GitAccess::UnauthorizedError, _('You have no permissions')
       end
 
       create_lock!

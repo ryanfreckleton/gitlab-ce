@@ -282,7 +282,7 @@ class ApplicationController < ActionController::Base
 
       unless Gitlab::Auth::LDAP::Access.allowed?(current_user)
         sign_out current_user
-        flash[:alert] = "Access denied for your LDAP account."
+        flash[:alert] = _("Access denied for your LDAP account.")
         redirect_to new_user_session_path
       end
     end

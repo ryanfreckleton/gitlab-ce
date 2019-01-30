@@ -29,14 +29,14 @@ class Import::FogbugzController < Import::BaseController
     user_map = params[:users]
 
     unless user_map.is_a?(Hash) && user_map.all? { |k, v| !v[:name].blank? }
-      flash.now[:alert] = 'All users must have a name.'
+      flash.now[:alert] = _('All users must have a name.')
 
       return render 'new_user_map'
     end
 
     session[:fogbugz_user_map] = user_map
 
-    flash[:notice] = 'The user map has been saved. Continue by selecting the projects you want to import.'
+    flash[:notice] = _('The user map has been saved. Continue by selecting the projects you want to import.')
 
     redirect_to status_import_fogbugz_path
   end

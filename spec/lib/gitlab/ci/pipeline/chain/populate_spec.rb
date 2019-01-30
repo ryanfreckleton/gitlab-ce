@@ -71,7 +71,7 @@ describe Gitlab::Ci::Pipeline::Chain::Populate do
 
     it 'appends an error about missing stages' do
       expect(pipeline.errors.to_a)
-        .to include 'No stages / jobs for this pipeline.'
+        .to include _('No stages / jobs for this pipeline.')
     end
 
     it 'wastes pipeline iid' do
@@ -119,7 +119,7 @@ describe Gitlab::Ci::Pipeline::Chain::Populate do
 
     it 'appends validation error' do
       expect(pipeline.errors.to_a)
-        .to include 'Failed to build the pipeline!'
+        .to include _('Failed to build the pipeline!')
     end
 
     it 'wastes pipeline iid' do

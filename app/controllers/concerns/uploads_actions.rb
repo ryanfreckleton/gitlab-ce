@@ -16,7 +16,7 @@ module UploadsActions
         end
       else
         format.json do
-          render json: 'Invalid file.', status: :unprocessable_entity
+          render json: _('Invalid file.'), status: :unprocessable_entity
         end
       end
     end

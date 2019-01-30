@@ -327,9 +327,9 @@ describe JiraService do
       it 'returns result with the error' do
         test_url = 'http://jira.example.com/rest/api/2/serverInfo'
         WebMock.stub_request(:get, test_url).with(basic_auth: %w(jira_username jira_password))
-          .to_raise(JIRA::HTTPError.new(double(message: 'Some specific failure.')))
+          .to_raise(JIRA::HTTPError.new(double(message: _('Some specific failure.'))))
 
-        expect(jira_service.test(nil)).to eq( { success: false, result: 'Some specific failure.' })
+        expect(jira_service.test(nil)).to eq( { success: false, result: _('Some specific failure.') })
       end
     end
   end

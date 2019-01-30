@@ -59,7 +59,7 @@ describe Gitlab::GoogleCodeImport::Importer do
       expect(issue.description).to include("schattenpr\\.\\.\\.")
       expect(issue.description).to include("November 18, 2009 00:20")
       expect(issue.description).to include("Google Code")
-      expect(issue.description).to include('I like to scroll through the tasks with my scrollwheel (like in fluxbox).')
+      expect(issue.description).to include(_('I like to scroll through the tasks with my scrollwheel (like in fluxbox).'))
       expect(issue.description).to include('Patch is attached that adds two new mouse-actions (next_task+prev_task)')
       expect(issue.description).to include('that can be used for exactly that purpose.')
       expect(issue.description).to include('all the best!')

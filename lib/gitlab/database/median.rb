@@ -117,7 +117,7 @@ module Gitlab
         if Gitlab::Database.postgresql?
           pg_median_datetime_sql(arel_table, query_so_far, column_sym, partition_column)
         elsif Gitlab::Database.mysql?
-          raise NotSupportedError, "partition_column is not supported for MySQL" if partition_column
+          raise NotSupportedError, _("partition_column is not supported for MySQL") if partition_column
 
           mysql_median_datetime_sql(arel_table, query_so_far, column_sym)
         end

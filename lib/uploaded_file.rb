@@ -32,7 +32,7 @@ class UploadedFile
 
   def self.from_params(params, field, upload_paths)
     unless params["#{field}.path"]
-      raise InvalidPathError, "file is invalid" if params["#{field}.remote_id"]
+      raise InvalidPathError, _("file is invalid") if params["#{field}.remote_id"]
 
       return
     end

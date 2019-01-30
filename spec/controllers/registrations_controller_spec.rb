@@ -55,7 +55,7 @@ describe RegistrationsController do
         post(:create, params: user_params)
 
         expect(response).to render_template(:new)
-        expect(flash[:alert]).to include 'There was an error with the reCAPTCHA. Please solve the reCAPTCHA again.'
+        expect(flash[:alert]).to include _('There was an error with the reCAPTCHA. Please solve the reCAPTCHA again.')
       end
 
       it 'redirects to the dashboard when the recaptcha is solved' do
@@ -112,7 +112,7 @@ describe RegistrationsController do
     end
 
     def expect_success
-      expect(flash[:notice]).to eq 'Account scheduled for removal.'
+      expect(flash[:notice]).to eq _('Account scheduled for removal.')
       expect(response.status).to eq(303)
       expect(response).to redirect_to new_user_session_path
     end

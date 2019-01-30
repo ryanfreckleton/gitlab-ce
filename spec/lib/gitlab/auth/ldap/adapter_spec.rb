@@ -125,7 +125,7 @@ describe Gitlab::Auth::LDAP::Adapter do
     context "when the search raises an LDAP exception" do
       before do
         allow(adapter).to receive(:renew_connection_adapter).and_return(ldap)
-        allow(ldap).to receive(:search) { raise Net::LDAP::Error, "some error" }
+        allow(ldap).to receive(:search) { raise Net::LDAP::Error, _("some error") }
         allow(Rails.logger).to receive(:warn)
       end
 

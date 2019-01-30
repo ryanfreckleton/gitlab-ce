@@ -13,7 +13,7 @@ describe ProjectPathValidator do
     it 'adds a message when the path is not in the correct format' do
       project = build(:project)
 
-      validator.validate_each(project, :path, "Path with spaces, and comma's!")
+      validator.validate_each(project, :path, _("Path with spaces, and comma's!"))
 
       expect(project.errors[:path]).to include(Gitlab::PathRegex.project_path_format_message)
     end

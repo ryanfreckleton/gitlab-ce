@@ -1835,7 +1835,7 @@ describe Gitlab::Git::Repository, :seed_helper do
 
     it 'cleans up the files' do
       create_worktree = %W[git -C #{repository_path} worktree add --detach #{worktree_path} master]
-      raise 'preparation failed' unless system(*create_worktree, err: '/dev/null')
+      raise _('preparation failed') unless system(*create_worktree, err: '/dev/null')
 
       FileUtils.touch(worktree_path, mtime: Time.now - 8.hours)
       # git rev-list --all will fail in git 2.16 if HEAD is pointing to a non-existent object,

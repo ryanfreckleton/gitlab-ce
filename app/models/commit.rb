@@ -117,7 +117,7 @@ class Commit
   attr_accessor :raw
 
   def initialize(raw_commit, project)
-    raise "Nil as raw commit passed" unless raw_commit
+    raise _("Nil as raw commit passed") unless raw_commit
 
     @raw = raw_commit
     @project = project

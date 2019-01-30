@@ -83,7 +83,7 @@ describe 'Profile > Active Sessions', :clean_gitlab_redis_shared_state do
     using_session :session2 do
       visit profile_active_sessions_path
 
-      expect(page).to have_content('You need to sign in or sign up before continuing.')
+      expect(page).to have_content(_('You need to sign in or sign up before continuing.'))
     end
   end
 end

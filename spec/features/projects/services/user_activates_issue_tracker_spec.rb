@@ -54,7 +54,7 @@ describe 'User activates issue tracker', :js do
           click_button('Test settings and save changes')
           wait_for_requests
 
-          expect(find('.flash-container-page')).to have_content 'Test failed.'
+          expect(find('.flash-container-page')).to have_content _('Test failed.')
           expect(find('.flash-container-page')).to have_content 'Save anyway'
 
           find('.flash-alert .flash-action').click

@@ -38,8 +38,8 @@ describe 'projects/services/_form' do
       it 'display merge_request_events and commit_events descriptions' do
         render
 
-        expect(rendered).to have_content('JIRA comments will be created when an issue gets referenced in a commit.')
-        expect(rendered).to have_content('JIRA comments will be created when an issue gets referenced in a merge request.')
+        expect(rendered).to have_content(_('JIRA comments will be created when an issue gets referenced in a commit.'))
+        expect(rendered).to have_content(_('JIRA comments will be created when an issue gets referenced in a merge request.'))
       end
     end
   end

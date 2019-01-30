@@ -20,7 +20,7 @@ describe 'User activates HipChat' do
       fill_in('Token', with: 'verySecret')
       click_button('Save')
 
-      expect(page).to have_content('HipChat activated.')
+      expect(page).to have_content(_('HipChat activated.'))
     end
   end
 
@@ -32,7 +32,7 @@ describe 'User activates HipChat' do
       fill_in('Server', with: 'https://chat.example.com')
       click_button('Save')
 
-      expect(page).to have_content('HipChat activated.')
+      expect(page).to have_content(_('HipChat activated.'))
     end
   end
 end

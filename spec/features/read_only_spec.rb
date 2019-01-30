@@ -12,7 +12,7 @@ describe 'read-only message' do
 
     visit root_dashboard_path
 
-    expect(page).to have_content('You are on a read-only GitLab instance.')
+    expect(page).to have_content(_('You are on a read-only GitLab instance.'))
   end
 
   it 'does not show read-only banner when database is able to read-write' do
@@ -20,6 +20,6 @@ describe 'read-only message' do
 
     visit root_dashboard_path
 
-    expect(page).not_to have_content('You are on a read-only GitLab instance.')
+    expect(page).not_to have_content(_('You are on a read-only GitLab instance.'))
   end
 end

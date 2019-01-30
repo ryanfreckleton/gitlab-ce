@@ -148,7 +148,7 @@ describe 'User views a wiki page' do
 
     it 'shows error' do
       page.within(:css, '.flash-notice') do
-        expect(page).to have_content('The content of this page is not encoded in UTF-8. Edits can only be made via the Git repository.')
+        expect(page).to have_content(_('The content of this page is not encoded in UTF-8. Edits can only be made via the Git repository.'))
       end
     end
   end

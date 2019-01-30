@@ -31,7 +31,7 @@ describe 'Triggers', :js do
       click_button 'Add trigger'
 
       # See if "trigger creation successful" message displayed and description and owner are correct
-      expect(page.find('.flash-notice')).to have_content 'Trigger was created successfully.'
+      expect(page.find('.flash-notice')).to have_content _('Trigger was created successfully.')
       expect(page.find('.triggers-list')).to have_content 'trigger desc'
       expect(page.find('.triggers-list .trigger-owner')).to have_content user.name
     end
@@ -59,7 +59,7 @@ describe 'Triggers', :js do
       click_button 'Save trigger'
 
       # See if "trigger updated successfully" message displayed and description and owner are correct
-      expect(page.find('.flash-notice')).to have_content 'Trigger was successfully updated.'
+      expect(page.find('.flash-notice')).to have_content _('Trigger was successfully updated.')
       expect(page.find('.triggers-list')).to have_content new_trigger_title
       expect(page.find('.triggers-list .trigger-owner')).to have_content user.name
     end
@@ -76,7 +76,7 @@ describe 'Triggers', :js do
       # See if trigger can be updated with description and saved successfully
       fill_in 'trigger_description', with: new_trigger_title
       click_button 'Save trigger'
-      expect(page.find('.flash-notice')).to have_content 'Trigger was successfully updated.'
+      expect(page.find('.flash-notice')).to have_content _('Trigger was successfully updated.')
       expect(page.find('.triggers-list')).to have_content new_trigger_title
     end
   end
@@ -88,7 +88,7 @@ describe 'Triggers', :js do
     end
 
     it 'button "Take ownership" has correct alert' do
-      expected_alert = 'By taking ownership you will bind this trigger to your user account. With this the trigger will have access to all your projects as if it was you. Are you sure?'
+      expected_alert = _('By taking ownership you will bind this trigger to your user account. With this the trigger will have access to all your projects as if it was you. Are you sure?')
       expect(page.find('a.btn-trigger-take-ownership')['data-confirm']).to eq expected_alert
     end
 
@@ -98,7 +98,7 @@ describe 'Triggers', :js do
         first(:link, "Take ownership").send_keys(:return)
       end
 
-      expect(page.find('.flash-notice')).to have_content 'Trigger was re-assigned.'
+      expect(page.find('.flash-notice')).to have_content _('Trigger was re-assigned.')
       expect(page.find('.triggers-list')).to have_content trigger_title
       expect(page.find('.triggers-list .trigger-owner')).to have_content user.name
     end
@@ -111,7 +111,7 @@ describe 'Triggers', :js do
     end
 
     it 'button "Revoke" has correct alert' do
-      expected_alert = 'By revoking a trigger you will break any processes making use of it. Are you sure?'
+      expected_alert = _('By revoking a trigger you will break any processes making use of it. Are you sure?')
       expect(page.find('a.btn-trigger-revoke')['data-confirm']).to eq expected_alert
     end
 

@@ -21,6 +21,6 @@ describe 'User activates JetBrains TeamCity CI' do
     fill_in('Password', with: 'verySecret')
     click_button('Save')
 
-    expect(page).to have_content('JetBrains TeamCity CI activated.')
+    expect(page).to have_content(_('JetBrains TeamCity CI activated.'))
   end
 end

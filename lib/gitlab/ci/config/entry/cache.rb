@@ -20,13 +20,13 @@ module Gitlab
           end
 
           entry :key, Entry::Key,
-            description: 'Cache key used to define a cache affinity.'
+            description: _('Cache key used to define a cache affinity.')
 
           entry :untracked, ::Gitlab::Config::Entry::Boolean,
-            description: 'Cache all untracked files.'
+            description: _('Cache all untracked files.')
 
           entry :paths, Entry::Paths,
-            description: 'Specify which paths should be cached across builds.'
+            description: _('Specify which paths should be cached across builds.')
 
           helpers :key
 

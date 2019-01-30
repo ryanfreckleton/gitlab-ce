@@ -71,7 +71,7 @@ describe 'Profile > Chat' do
     it 'removes chat account' do
       click_link 'Remove'
 
-      expect(page).to have_content("You don't have any active chat names.")
+      expect(page).to have_content(_("You don't have any active chat names."))
     end
   end
 end

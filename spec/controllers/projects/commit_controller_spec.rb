@@ -191,7 +191,7 @@ describe Projects::CommitController do
             })
 
         expect(response).to redirect_to project_commits_path(project, 'master')
-        expect(flash[:notice]).to eq('The commit has been successfully reverted.')
+        expect(flash[:notice]).to eq(_('The commit has been successfully reverted.'))
       end
     end
 
@@ -248,7 +248,7 @@ describe Projects::CommitController do
             })
 
         expect(response).to redirect_to project_commits_path(project, 'master')
-        expect(flash[:notice]).to eq('The commit has been successfully cherry-picked into master.')
+        expect(flash[:notice]).to eq(_('The commit has been successfully cherry-picked into master.'))
       end
     end
 

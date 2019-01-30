@@ -5,7 +5,7 @@ module Members
     DEFAULT_LIMIT = 100
 
     def execute(source)
-      return error('No users specified.') if params[:user_ids].blank?
+      return error(_('No users specified.')) if params[:user_ids].blank?
 
       user_ids = params[:user_ids].split(',').uniq
 

@@ -13,7 +13,7 @@ module API
         requires :id, type: String, desc: "The #{source_type} ID"
       end
       resource source_type.pluralize, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
-        desc 'Gets a list of group or project members viewable by the authenticated user.' do
+        desc _('Gets a list of group or project members viewable by the authenticated user.') do
           success Entities::Member
         end
         params do
@@ -32,7 +32,7 @@ module API
         end
         # rubocop: enable CodeReuse/ActiveRecord
 
-        desc 'Gets a list of group or project members viewable by the authenticated user, including those who gained membership through ancestor group.' do
+        desc _('Gets a list of group or project members viewable by the authenticated user, including those who gained membership through ancestor group.') do
           success Entities::Member
         end
         params do
@@ -51,7 +51,7 @@ module API
         end
         # rubocop: enable CodeReuse/ActiveRecord
 
-        desc 'Gets a member of a group or project.' do
+        desc _('Gets a member of a group or project.') do
           success Entities::Member
         end
         params do
@@ -68,7 +68,7 @@ module API
         end
         # rubocop: enable CodeReuse/ActiveRecord
 
-        desc 'Adds a member to a group or project.' do
+        desc _('Adds a member to a group or project.') do
           success Entities::Member
         end
         params do
@@ -99,7 +99,7 @@ module API
         end
         # rubocop: enable CodeReuse/ActiveRecord
 
-        desc 'Updates a member of a group or project.' do
+        desc _('Updates a member of a group or project.') do
           success Entities::Member
         end
         params do
@@ -126,7 +126,7 @@ module API
         end
         # rubocop: enable CodeReuse/ActiveRecord
 
-        desc 'Removes a user from a group or project.'
+        desc _('Removes a user from a group or project.')
         params do
           requires :user_id, type: Integer, desc: 'The user ID of the member'
         end

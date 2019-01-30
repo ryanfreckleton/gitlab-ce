@@ -36,7 +36,7 @@ module Gitlab
           profile_mri(&block)
         else
           raise NotImplementedError,
-            'Line profiling is not supported on this platform'
+            _('Line profiling is not supported on this platform')
         end
       end
 

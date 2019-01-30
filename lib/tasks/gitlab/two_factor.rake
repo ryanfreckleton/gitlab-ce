@@ -16,7 +16,7 @@ namespace :gitlab do
           puts "Quitting...".color(:red)
         end
       else
-        puts "There are currently no users with 2FA enabled.".color(:yellow)
+        puts _("There are currently no users with 2FA enabled.").color(:yellow)
       end
     end
 

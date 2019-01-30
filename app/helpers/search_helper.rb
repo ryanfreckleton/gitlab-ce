@@ -153,7 +153,7 @@ module SearchHelper
     opts =
       {
         id: "filtered-search-#{type}",
-        placeholder: 'Search or filter results...',
+        placeholder: _('Search or filter results...'),
         data: {
           'username-params' => UserSerializer.new.represent(@users)
         },

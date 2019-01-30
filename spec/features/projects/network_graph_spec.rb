@@ -94,7 +94,7 @@ describe 'Project Network Graph', :js do
         find('button').click
       end
 
-      expect(page).to have_selector '.flash-alert', text: "Git revision ';' does not exist."
+      expect(page).to have_selector '.flash-alert', text: _("Git revision ';' does not exist.")
     end
   end
 

@@ -15,11 +15,11 @@ describe 'User expands diff', :js do
 
   it 'allows user to expand diff' do
     page.within find('[id="2f6fcd96b88b36ce98c38da085c795a27d92a3dd"]') do
-      click_link 'Click to expand it.'
+      click_link _('Click to expand it.')
 
       wait_for_requests
 
-      expect(page).not_to have_content('Click to expand it.')
+      expect(page).not_to have_content(_('Click to expand it.'))
       expect(page).to have_selector('.code')
     end
   end

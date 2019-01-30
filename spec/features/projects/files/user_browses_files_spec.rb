@@ -113,7 +113,7 @@ describe "User browses files" do
         click_link("Users")
 
         expect(current_path).to eq(project_blob_path(project, "markdown/doc/api/users.md"))
-        expect(page).to have_content("Get a list of users.")
+        expect(page).to have_content(_("Get a list of users."))
 
         page.go_back
 
@@ -161,7 +161,7 @@ describe "User browses files" do
         click_link("Users")
 
         expect(current_path).to eq(project_blob_path(project, "markdown/doc/api/users.md"))
-        expect(page).to have_content("List users").and have_content("Get a list of users.")
+        expect(page).to have_content("List users").and have_content(_("Get a list of users."))
       end
     end
   end
@@ -189,7 +189,7 @@ describe "User browses files" do
 
       visit(project_tree_path(project, "'test'"))
 
-      expect(page).to have_css(".tree-commit-link").and have_no_content("Loading commit data...")
+      expect(page).to have_css(".tree-commit-link").and have_no_content(_("Loading commit data..."))
     end
 
     it "shows the code with a leading dot in the directory", :js do
@@ -201,7 +201,7 @@ describe "User browses files" do
 
       visit(project_tree_path(project, "fix/.testdir"))
 
-      expect(page).to have_css(".tree-commit-link").and have_no_content("Loading commit data...")
+      expect(page).to have_css(".tree-commit-link").and have_no_content(_("Loading commit data..."))
     end
 
     it "does not show the permalink link" do

@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class TmpWritableCheck < SystemCheck::BaseCheck
-      set_name 'Tmp directory writable?'
+      set_name _('Tmp directory writable?')
 
       def check?
         File.writable?(tmp_path)

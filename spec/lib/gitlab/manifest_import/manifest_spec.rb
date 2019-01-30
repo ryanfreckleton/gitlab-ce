@@ -31,8 +31,8 @@ describe Gitlab::ManifestImport::Manifest, :postgresql do
           manifest.valid?
         end
 
-        it { expect(manifest.errors).to include('Make sure a <remote> tag is present and is valid.') }
-        it { expect(manifest.errors).to include('Make sure every <project> tag has name and path attributes.') }
+        it { expect(manifest.errors).to include(_('Make sure a <remote> tag is present and is valid.')) }
+        it { expect(manifest.errors).to include(_('Make sure every <project> tag has name and path attributes.')) }
       end
     end
   end

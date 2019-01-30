@@ -189,7 +189,7 @@ describe 'Merge request > User resolves conflicts', :js do
         visit current_url + '/conflicts'
         wait_for_requests
 
-        expect(find('#conflicts')).to have_content('Please try to resolve them locally.')
+        expect(find('#conflicts')).to have_content(_('Please try to resolve them locally.'))
       end
     end
   end

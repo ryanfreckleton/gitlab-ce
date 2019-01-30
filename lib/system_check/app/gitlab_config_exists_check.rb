@@ -3,7 +3,7 @@
 module SystemCheck
   module App
     class GitlabConfigExistsCheck < SystemCheck::BaseCheck
-      set_name 'GitLab config exists?'
+      set_name _('GitLab config exists?')
 
       def check?
         gitlab_config_file = Rails.root.join('config', 'gitlab.yml')

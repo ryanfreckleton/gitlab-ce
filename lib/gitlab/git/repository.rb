@@ -449,7 +449,7 @@ module Gitlab
 
       # Returns a RefName for a given SHA
       def ref_name_for_sha(ref_path, sha)
-        raise ArgumentError, "sha can't be empty" unless sha.present?
+        raise ArgumentError, _("sha can't be empty") unless sha.present?
 
         gitaly_ref_client.find_ref_name(sha, ref_path)
       end
@@ -854,7 +854,7 @@ module Gitlab
         return unless full_path.present?
 
         # This guard avoids Gitaly log/error spam
-        raise NoRepository, 'repository does not exist' unless exists?
+        raise NoRepository, _('repository does not exist') unless exists?
 
         set_config('gitlab.fullpath' => full_path)
       end
@@ -971,7 +971,7 @@ module Gitlab
 
       def checksum
         # The exists? RPC is much cheaper, so we perform this request first
-        raise NoRepository, "Repository does not exists" unless exists?
+        raise NoRepository, _("Repository does not exists") unless exists?
 
         gitaly_repository_client.calculate_checksum
       rescue GRPC::NotFound

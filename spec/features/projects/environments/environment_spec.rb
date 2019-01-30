@@ -26,7 +26,7 @@ describe 'Environment' do
 
     context 'without deployments' do
       it 'does not show deployments' do
-        expect(page).to have_content('You don\'t have any deployments right now.')
+        expect(page).to have_content(_('You don\'t have any deployments right now.'))
       end
     end
 
@@ -65,7 +65,7 @@ describe 'Environment' do
         end
 
         it 'does not show deployments' do
-          expect(page).to have_content('You don\'t have any deployments right now.')
+          expect(page).to have_content(_('You don\'t have any deployments right now.'))
         end
       end
 
@@ -78,7 +78,7 @@ describe 'Environment' do
         end
 
         it 'does not show deployments' do
-          expect(page).to have_content('You don\'t have any deployments right now.')
+          expect(page).to have_content(_('You don\'t have any deployments right now.'))
         end
       end
 

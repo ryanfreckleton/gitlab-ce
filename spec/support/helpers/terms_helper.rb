@@ -14,6 +14,6 @@ module TermsHelper
 
   def expect_to_be_on_terms_page
     expect(current_path).to eq terms_path
-    expect(page).to have_content('Please accept the Terms of Service before continuing.')
+    expect(page).to have_content(_('Please accept the Terms of Service before continuing.'))
   end
 end

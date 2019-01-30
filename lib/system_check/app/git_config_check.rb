@@ -7,7 +7,7 @@ module SystemCheck
         'core.autocrlf' => 'input'
       }.freeze
 
-      set_name 'Git configured correctly?'
+      set_name _('Git configured correctly?')
 
       def check?
         correct_options = OPTIONS.map do |name, value|

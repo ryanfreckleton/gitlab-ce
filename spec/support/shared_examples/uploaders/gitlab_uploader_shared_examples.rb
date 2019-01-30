@@ -4,7 +4,7 @@ shared_examples "matches the method pattern" do |method|
   let(:pattern) { patterns[method] }
 
   it do
-    skip "No pattern provided, skipping." unless pattern
+    skip _("No pattern provided, skipping.") unless pattern
 
     expect(target.method(method).call(*args)).to match(pattern)
   end
@@ -35,7 +35,7 @@ shared_examples "builds correct paths" do |**patterns|
 
   describe "#relative_path" do
     it 'is relative' do
-      skip 'Path not set, skipping.' unless subject.path
+      skip _('Path not set, skipping.') unless subject.path
 
       expect(Pathname.new(subject.relative_path)).to be_relative
     end

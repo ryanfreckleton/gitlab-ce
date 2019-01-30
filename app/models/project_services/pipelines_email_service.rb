@@ -14,7 +14,7 @@ class PipelinesEmailService < Service
   end
 
   def description
-    'Email the pipelines status to a list of recipients.'
+    _('Email the pipelines status to a list of recipients.')
   end
 
   def self.to_param

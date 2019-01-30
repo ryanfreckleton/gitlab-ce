@@ -92,7 +92,7 @@ describe 'User Cluster', :js do
       end
 
       it 'user sees the successful message' do
-        expect(page).to have_content('Kubernetes cluster was successfully updated.')
+        expect(page).to have_content(_('Kubernetes cluster was successfully updated.'))
       end
     end
 
@@ -104,7 +104,7 @@ describe 'User Cluster', :js do
       end
 
       it 'user sees the successful message' do
-        expect(page).to have_content('Kubernetes cluster was successfully updated.')
+        expect(page).to have_content(_('Kubernetes cluster was successfully updated.'))
         expect(cluster.reload.name).to eq('my-dev-cluster')
         expect(cluster.reload.platform_kubernetes.token).to eq('new-token')
       end
@@ -118,7 +118,7 @@ describe 'User Cluster', :js do
       end
 
       it 'user sees creation form with the successful message' do
-        expect(page).to have_content('Kubernetes cluster integration was successfully removed.')
+        expect(page).to have_content(_('Kubernetes cluster integration was successfully removed.'))
         expect(page).to have_link('Add Kubernetes cluster')
       end
     end

@@ -14,7 +14,7 @@ describe PasswordsController do
         post :create
 
         expect(response).to have_gitlab_http_status(302)
-        expect(flash[:alert]).to eq 'Password authentication is unavailable.'
+        expect(flash[:alert]).to eq _('Password authentication is unavailable.')
       end
     end
 
@@ -24,7 +24,7 @@ describe PasswordsController do
       it 'prevents a password reset' do
         post :create, params: { user: { email: user.email } }
 
-        expect(flash[:alert]).to eq 'Password authentication is unavailable.'
+        expect(flash[:alert]).to eq _('Password authentication is unavailable.')
       end
     end
   end

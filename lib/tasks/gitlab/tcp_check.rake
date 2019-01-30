@@ -13,7 +13,7 @@ namespace :gitlab do
     else
       puts "TCP connection to #{checker.remote} failed: #{checker.error}".color(:red)
       puts
-      puts 'Check that host and port are correct, and that the traffic is permitted through any firewalls.'
+      puts _('Check that host and port are correct, and that the traffic is permitted through any firewalls.')
       exit 1
     end
   end

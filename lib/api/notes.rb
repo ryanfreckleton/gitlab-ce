@@ -25,9 +25,9 @@ module API
         params do
           requires :noteable_id, type: Integer, desc: 'The ID of the noteable'
           optional :order_by, type: String, values: %w[created_at updated_at], default: 'created_at',
-                              desc: 'Return notes ordered by `created_at` or `updated_at` fields.'
+                              desc: _('Return notes ordered by `created_at` or `updated_at` fields.')
           optional :sort, type: String, values: %w[asc desc], default: 'desc',
-                          desc: 'Return notes sorted in `asc` or `desc` order.'
+                          desc: _('Return notes sorted in `asc` or `desc` order.')
           use :pagination
         end
         # rubocop: disable CodeReuse/ActiveRecord

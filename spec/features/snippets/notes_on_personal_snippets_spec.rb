@@ -67,20 +67,20 @@ describe 'Comments on personal snippets', :js do
     end
 
     it 'previews a note' do
-      fill_in 'note[note]', with: 'This is **awesome**!'
+      fill_in 'note[note]', with: _('This is **awesome**!')
       find('.js-md-preview-button').click
 
       page.within('.new-note .md-preview') do
-        expect(page).to have_content('This is awesome!')
+        expect(page).to have_content(_('This is awesome!'))
         expect(page).to have_selector('strong')
       end
     end
 
     it 'creates a note' do
-      fill_in 'note[note]', with: 'This is **awesome**!'
+      fill_in 'note[note]', with: _('This is **awesome**!')
       click_button 'Comment'
 
-      expect(find('div#notes')).to have_content('This is awesome!')
+      expect(find('div#notes')).to have_content(_('This is awesome!'))
     end
 
     it 'should not have autocomplete' do

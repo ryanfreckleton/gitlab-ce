@@ -99,7 +99,7 @@ module QA
               job.completed? && !job.trace_loading?
             end
 
-            expect(job.passed?).to be_truthy, "Job status did not become \"passed\"."
+            expect(job.passed?).to be_truthy, _("Job status did not become \"passed\".")
             expect(job.output).to include(sha1sum)
           end
         end

@@ -10,7 +10,7 @@ class ExternalWikiService < Service
   end
 
   def description
-    'Replaces the link to the internal wiki with a link to an external wiki.'
+    _('Replaces the link to the internal wiki with a link to an external wiki.')
   end
 
   def self.to_param

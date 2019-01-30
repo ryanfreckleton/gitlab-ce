@@ -50,11 +50,11 @@ module Gitlab
               end
 
               unless lexeme.present?
-                raise Lexer::SyntaxError, 'Unknown lexeme found!'
+                raise Lexer::SyntaxError, _('Unknown lexeme found!')
               end
             end
 
-            raise Lexer::SyntaxError, 'Too many tokens!'
+            raise Lexer::SyntaxError, _('Too many tokens!')
           end
         end
       end

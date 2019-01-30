@@ -9,7 +9,7 @@ module Gitlab
         define_method(method) do |*args|
           raise(
             ActiveRecord::ReadOnlyRecord,
-            "This relation is marked as read-only"
+            _("This relation is marked as read-only")
           )
         end
       end

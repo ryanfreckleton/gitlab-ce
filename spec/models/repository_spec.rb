@@ -650,7 +650,7 @@ describe Repository do
     context "when an author is specified" do
       it "uses the given email/name to set the commit's author" do
         expect do
-          repository.update_file(user, 'README', 'Updated README!',
+          repository.update_file(user, 'README', _('Updated README!'),
                                  branch_name: 'master',
                                  previous_path: 'README',
                                  message: 'Update README',
@@ -926,7 +926,7 @@ describe Repository do
     end
 
     it 'returns nil when the content is not recognizable' do
-      repository.create_file(user, 'LICENSE', 'Gitlab B.V.',
+      repository.create_file(user, 'LICENSE', _('Gitlab B.V.'),
         message: 'Add LICENSE', branch_name: 'master')
 
       expect(repository.license_key).to be_nil
@@ -970,7 +970,7 @@ describe Repository do
     end
 
     it 'returns nil when the content is not recognizable' do
-      repository.create_file(user, 'LICENSE', 'Gitlab B.V.',
+      repository.create_file(user, 'LICENSE', _('Gitlab B.V.'),
         message: 'Add LICENSE', branch_name: 'master')
 
       expect(repository.license).to be_nil

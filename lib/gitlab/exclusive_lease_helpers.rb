@@ -12,7 +12,7 @@ module Gitlab
     #       because it holds the connection until all `retries` is consumed.
     #       This could potentially eat up all connection pools.
     def in_lock(key, ttl: 1.minute, retries: 10, sleep_sec: 0.01.seconds)
-      raise ArgumentError, 'Key needs to be specified' unless key
+      raise ArgumentError, _('Key needs to be specified') unless key
 
       lease = Gitlab::ExclusiveLease.new(key, timeout: ttl)
 
@@ -23,7 +23,7 @@ module Gitlab
         break if (retries -= 1) < 0
       end
 
-      raise FailedToObtainLockError, 'Failed to obtain a lock' unless uuid
+      raise FailedToObtainLockError, _('Failed to obtain a lock') unless uuid
 
       yield
     ensure

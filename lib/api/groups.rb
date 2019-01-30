@@ -106,7 +106,7 @@ module API
         present_groups params, groups
       end
 
-      desc 'Create a group. Available only for users who can create groups.' do
+      desc _('Create a group. Available only for users who can create groups.') do
         success Entities::Group
       end
       params do
@@ -141,7 +141,7 @@ module API
       requires :id, type: String, desc: 'The ID of a group'
     end
     resource :groups, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
-      desc 'Update a group. Available only for users who can administrate groups.' do
+      desc _('Update a group. Available only for users who can administrate groups.') do
         success Entities::Group
       end
       params do
@@ -160,7 +160,7 @@ module API
         end
       end
 
-      desc 'Get a single group, with containing projects.' do
+      desc _('Get a single group, with containing projects.') do
         success Entities::GroupDetail
       end
       params do
@@ -180,7 +180,7 @@ module API
         present group, options
       end
 
-      desc 'Remove a group.'
+      desc _('Remove a group.')
       delete ":id" do
         group = find_group!(params[:id])
         authorize! :admin_group, group
@@ -193,7 +193,7 @@ module API
         accepted!
       end
 
-      desc 'Get a list of projects in this group.' do
+      desc _('Get a list of projects in this group.') do
         success Entities::Project
       end
       params do
@@ -230,7 +230,7 @@ module API
         present options[:with].prepare_relation(projects), options
       end
 
-      desc 'Get a list of subgroups in this group.' do
+      desc _('Get a list of subgroups in this group.') do
         success Entities::Group
       end
       params do
@@ -242,7 +242,7 @@ module API
         present_groups params, groups
       end
 
-      desc 'Transfer a project to the group namespace. Available only for admin.' do
+      desc _('Transfer a project to the group namespace. Available only for admin.') do
         success Entities::GroupDetail
       end
       params do

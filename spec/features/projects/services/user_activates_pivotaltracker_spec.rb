@@ -18,6 +18,6 @@ describe 'User activates PivotalTracker' do
     fill_in('Token', with: 'verySecret')
     click_button('Save')
 
-    expect(page).to have_content('PivotalTracker activated.')
+    expect(page).to have_content(_('PivotalTracker activated.'))
   end
 end

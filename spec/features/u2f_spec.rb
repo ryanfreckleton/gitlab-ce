@@ -226,12 +226,12 @@ describe 'Using U2F (Universal 2nd Factor) Devices for Authentication', :js do
         user = gitlab_sign_in(:user)
         user.update_attribute(:otp_required_for_login, true)
         visit profile_two_factor_auth_path
-        expect(page).to have_content("Your U2F device needs to be set up.")
+        expect(page).to have_content(_("Your U2F device needs to be set up."))
         first_device = register_u2f_device
 
         # Register second device
         visit profile_two_factor_auth_path
-        expect(page).to have_content("Your U2F device needs to be set up.")
+        expect(page).to have_content(_("Your U2F device needs to be set up."))
         second_device = register_u2f_device(name: 'My other device')
         gitlab_sign_out
 
@@ -255,7 +255,7 @@ describe 'Using U2F (Universal 2nd Factor) Devices for Authentication', :js do
         user.update_attribute(:otp_required_for_login, true)
         visit profile_account_path
         manage_two_factor_authentication
-        expect(page).to have_content("Your U2F device needs to be set up.")
+        expect(page).to have_content(_("Your U2F device needs to be set up."))
         register_u2f_device
       end
 

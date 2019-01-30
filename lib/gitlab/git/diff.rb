@@ -146,7 +146,7 @@ module Gitlab
         when Gitaly::CommitDelta
           init_from_gitaly(raw_diff)
         when nil
-          raise "Nil as raw diff passed"
+          raise _("Nil as raw diff passed")
         else
           raise "Invalid raw diff type: #{raw_diff.class}"
         end

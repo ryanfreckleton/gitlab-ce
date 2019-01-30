@@ -29,7 +29,7 @@ module QA
             Page::Main::Menu.act { has_personal_area? }
           end
 
-          raise "Failed to register and sign in" unless signed_in
+          raise _("Failed to register and sign in") unless signed_in
         end
       end
     end

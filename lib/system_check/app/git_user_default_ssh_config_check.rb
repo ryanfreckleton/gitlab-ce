@@ -12,7 +12,7 @@ module SystemCheck
         known_hosts
       ].freeze
 
-      set_name 'Git user has default SSH configuration?'
+      set_name _('Git user has default SSH configuration?')
       set_skip_reason 'skipped (git user is not present / configured)'
 
       def skip?

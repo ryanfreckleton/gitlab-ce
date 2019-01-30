@@ -45,7 +45,7 @@ module QA
       def validate!
         return if errors.none?
 
-        raise ValidationError, 'Page views / elements validation error!'
+        raise ValidationError, _('Page views / elements validation error!')
       end
     end
   end

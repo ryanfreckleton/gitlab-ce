@@ -60,7 +60,7 @@ describe 'Project milestone' do
     end
 
     it 'does not show an informative message' do
-      expect(page).not_to have_content('Assign some issues to this milestone.')
+      expect(page).not_to have_content(_('Assign some issues to this milestone.'))
     end
   end
 

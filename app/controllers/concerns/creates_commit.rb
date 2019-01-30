@@ -60,7 +60,7 @@ module CreatesCommit
   private
 
   def update_flash_notice(success_notice)
-    flash[:notice] = success_notice || "Your changes have been successfully committed."
+    flash[:notice] = success_notice || _("Your changes have been successfully committed.")
 
     if create_merge_request?
       if merge_request_exists?

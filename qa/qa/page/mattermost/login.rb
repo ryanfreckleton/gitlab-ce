@@ -12,7 +12,7 @@ module QA
         def sign_in_using_oauth
           click_link class: 'btn btn-custom-login gitlab'
 
-          if page.has_content?('Authorize GitLab Mattermost to use your account?')
+          if page.has_content?(_('Authorize GitLab Mattermost to use your account?'))
             click_button 'Authorize'
           end
         end

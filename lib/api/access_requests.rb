@@ -14,7 +14,7 @@ module API
       end
       resource source_type.pluralize, requirements: API::NAMESPACE_OR_PROJECT_REQUIREMENTS do
         desc "Gets a list of access requests for a #{source_type}." do
-          detail 'This feature was introduced in GitLab 8.11.'
+          detail _('This feature was introduced in GitLab 8.11.')
           success Entities::AccessRequester
         end
         params do
@@ -32,7 +32,7 @@ module API
         # rubocop: enable CodeReuse/ActiveRecord
 
         desc "Requests access for the authenticated user to a #{source_type}." do
-          detail 'This feature was introduced in GitLab 8.11.'
+          detail _('This feature was introduced in GitLab 8.11.')
           success Entities::AccessRequester
         end
         post ":id/access_requests" do
@@ -46,8 +46,8 @@ module API
           end
         end
 
-        desc 'Approves an access request for the given user.' do
-          detail 'This feature was introduced in GitLab 8.11.'
+        desc _('Approves an access request for the given user.') do
+          detail _('This feature was introduced in GitLab 8.11.')
           success Entities::Member
         end
         params do
@@ -68,8 +68,8 @@ module API
         end
         # rubocop: enable CodeReuse/ActiveRecord
 
-        desc 'Denies an access request for the given user.' do
-          detail 'This feature was introduced in GitLab 8.11.'
+        desc _('Denies an access request for the given user.') do
+          detail _('This feature was introduced in GitLab 8.11.')
         end
         params do
           requires :user_id, type: Integer, desc: 'The user ID of the access requester'

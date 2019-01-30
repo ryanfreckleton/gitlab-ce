@@ -52,7 +52,7 @@ describe Projects::ProjectMembersController do
                         access_level: Gitlab::Access::GUEST
                       }
 
-        expect(response).to set_flash.to 'Users were successfully added.'
+        expect(response).to set_flash.to _('Users were successfully added.')
         expect(response).to redirect_to(project_project_members_path(project))
       end
 
@@ -225,7 +225,7 @@ describe Projects::ProjectMembersController do
                            project_id: project
                          }
 
-          expect(response).to set_flash.to 'Your access request to the project has been withdrawn.'
+          expect(response).to set_flash.to _('Your access request to the project has been withdrawn.')
           expect(response).to redirect_to(project_path(project))
           expect(project.requesters).to be_empty
           expect(project.users).not_to include user
@@ -245,7 +245,7 @@ describe Projects::ProjectMembersController do
                               project_id: project
                             }
 
-      expect(response).to set_flash.to 'Your request for access has been queued for review.'
+      expect(response).to set_flash.to _('Your request for access has been queued for review.')
       expect(response).to redirect_to(
         project_path(project)
       )

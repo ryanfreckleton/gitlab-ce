@@ -12,7 +12,7 @@ module API
     end
     resource :projects, requirements: { id: %r{[^/]+} } do
       desc 'Get export status' do
-        detail 'This feature was introduced in GitLab 10.6.'
+        detail _('This feature was introduced in GitLab 10.6.')
         success Entities::ProjectExportStatus
       end
       get ':id/export' do
@@ -20,7 +20,7 @@ module API
       end
 
       desc 'Download export' do
-        detail 'This feature was introduced in GitLab 10.6.'
+        detail _('This feature was introduced in GitLab 10.6.')
       end
       get ':id/export/download' do
         if user_project.export_file_exists?
@@ -31,7 +31,7 @@ module API
       end
 
       desc 'Start export' do
-        detail 'This feature was introduced in GitLab 10.6.'
+        detail _('This feature was introduced in GitLab 10.6.')
       end
       params do
         optional :description, type: String, desc: 'Override the project description'

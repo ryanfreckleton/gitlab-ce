@@ -41,7 +41,7 @@ module TokenAuthenticatableStrategies
 
     def fallback?
       unless options[:fallback].in?([true, false, nil])
-        raise ArgumentError, 'fallback: needs to be a boolean value!'
+        raise ArgumentError, _('fallback: needs to be a boolean value!')
       end
 
       options[:fallback] == true
@@ -49,7 +49,7 @@ module TokenAuthenticatableStrategies
 
     def migrating?
       unless options[:migrating].in?([true, false, nil])
-        raise ArgumentError, 'migrating: needs to be a boolean value!'
+        raise ArgumentError, _('migrating: needs to be a boolean value!')
       end
 
       options[:migrating] == true
@@ -57,7 +57,7 @@ module TokenAuthenticatableStrategies
 
     def self.fabricate(model, field, options)
       if options[:digest] && options[:encrypted]
-        raise ArgumentError, 'Incompatible options set!'
+        raise ArgumentError, _('Incompatible options set!')
       end
 
       if options[:digest]

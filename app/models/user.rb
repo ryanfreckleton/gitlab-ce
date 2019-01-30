@@ -507,7 +507,7 @@ class User < ActiveRecord::Base
     def ghost
       email = 'ghost%s@example.com'
       unique_internal(where(ghost: true), 'ghost', email) do |u|
-        u.bio = 'This is a "Ghost User", created to hold all issues authored by users that have since been deleted. This user cannot be removed.'
+        u.bio = _('This is a "Ghost User", created to hold all issues authored by users that have since been deleted. This user cannot be removed.')
         u.name = 'Ghost User'
       end
     end

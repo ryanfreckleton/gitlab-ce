@@ -27,7 +27,7 @@ module ObjectStorage
 
     def initialize(credentials, bucket_name, object_name, has_length:, maximum_size: nil)
       unless has_length
-        raise ArgumentError, 'maximum_size has to be specified if length is unknown' unless maximum_size
+        raise ArgumentError, _('maximum_size has to be specified if length is unknown') unless maximum_size
       end
 
       @credentials = credentials

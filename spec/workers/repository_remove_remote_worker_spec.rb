@@ -30,7 +30,7 @@ describe RepositoryRemoveRemoteWorker do
 
         expect(subject)
           .to receive(:log_error)
-          .with('Cannot obtain an exclusive lease. There must be another instance already in execution.')
+          .with(_('Cannot obtain an exclusive lease. There must be another instance already in execution.'))
 
         subject.perform(project.id, remote_name)
       end

@@ -9,7 +9,7 @@ describe 'Group' do
 
   matcher :have_namespace_error_message do
     match do |page|
-      page.has_content?("Group URL can contain only letters, digits, '_', '-' and '.'. Cannot start with '-' or end in '.', '.git' or '.atom'.")
+      page.has_content?(_("Group URL can contain only letters, digits, '_', '-' and '.'. Cannot start with '-' or end in '.', '.git' or '.atom'."))
     end
   end
 
@@ -119,7 +119,7 @@ describe 'Group' do
         click_button 'Create group'
 
         expect(current_path).to eq(group_path('foo/bar'))
-        expect(page).to have_content("Group 'bar' was successfully created.")
+        expect(page).to have_content(_("Group 'bar' was successfully created."))
       end
     end
 
@@ -138,7 +138,7 @@ describe 'Group' do
         click_button 'Create group'
 
         expect(current_path).to eq(group_path('foo/bar'))
-        expect(page).to have_content("Group 'bar' was successfully created.")
+        expect(page).to have_content(_("Group 'bar' was successfully created."))
       end
     end
   end

@@ -160,7 +160,7 @@ describe Gitlab::LegacyGithubImport::Importer do
 
     it 'stores error messages' do
       error = {
-        message: 'The remote data could not be fully imported.',
+        message: _('The remote data could not be fully imported.'),
         errors: [
           { type: :label, url: "#{api_root}/repos/octocat/Hello-World/labels/bug", errors: "Validation failed: Title can't be blank, Title is invalid" },
           { type: :issue, url: "#{api_root}/repos/octocat/Hello-World/issues/1348", errors: "Validation failed: Title can't be blank" },

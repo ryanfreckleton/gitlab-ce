@@ -23,7 +23,7 @@ module Gitlab
       def check!
         data = File.open(filename, 'r') { |f| f.read(MAGIC.size) }
 
-        raise InvalidBundleError, 'Invalid bundle file' unless data == MAGIC
+        raise InvalidBundleError, _('Invalid bundle file') unless data == MAGIC
       end
     end
   end

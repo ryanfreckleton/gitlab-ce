@@ -87,7 +87,7 @@ module QuickActions
     end
 
     desc 'Merge (when the pipeline succeeds)'
-    explanation 'Merges this merge request when the pipeline succeeds.'
+    explanation _('Merges this merge request when the pipeline succeeds.')
     condition do
       last_diff_sha = params && params[:merge_request_diff_head_sha]
       issuable.is_a?(MergeRequest) &&
@@ -232,7 +232,7 @@ module QuickActions
         labels = find_label_references(labels_param)
         "Removes #{labels.join(' ')} #{'label'.pluralize(labels.count)}." if labels.any?
       else
-        'Removes all labels.'
+        _('Removes all labels.')
       end
     end
     params '~label1 ~"label 2"'
@@ -301,7 +301,7 @@ module QuickActions
     end
 
     desc 'Add a todo'
-    explanation 'Adds a todo.'
+    explanation _('Adds a todo.')
     condition do
       issuable.is_a?(Issuable) &&
         issuable.persisted? &&
@@ -312,7 +312,7 @@ module QuickActions
     end
 
     desc 'Mark todo as done'
-    explanation 'Marks todo as done.'
+    explanation _('Marks todo as done.')
     condition do
       issuable.persisted? &&
         TodoService.new.todo_exist?(issuable, current_user)
@@ -364,7 +364,7 @@ module QuickActions
     end
 
     desc 'Remove due date'
-    explanation 'Removes the due date.'
+    explanation _('Removes the due date.')
     condition do
       issuable.persisted? &&
         issuable.respond_to?(:due_date) &&
@@ -461,7 +461,7 @@ module QuickActions
     end
 
     desc 'Remove time estimate'
-    explanation 'Removes time estimate.'
+    explanation _('Removes time estimate.')
     condition do
       issuable.persisted? &&
         current_user.can?(:"admin_#{issuable.to_ability_name}", project)
@@ -471,7 +471,7 @@ module QuickActions
     end
 
     desc 'Remove spent time'
-    explanation 'Removes spent time.'
+    explanation _('Removes spent time.')
     condition do
       issuable.persisted? &&
         current_user.can?(:"admin_#{issuable.to_ability_name}", project)
@@ -584,7 +584,7 @@ module QuickActions
       end
     end
 
-    desc 'Move this issue to another project.'
+    desc _('Move this issue to another project.')
     explanation do |path_to_project|
       "Moves this issue to #{path_to_project}."
     end
@@ -602,7 +602,7 @@ module QuickActions
       end
     end
 
-    desc 'Make issue confidential.'
+    desc _('Make issue confidential.')
     explanation do
       'Makes this issue confidential'
     end
@@ -613,7 +613,7 @@ module QuickActions
       @updates[:confidential] = true
     end
 
-    desc 'Tag this commit.'
+    desc _('Tag this commit.')
     explanation do |tag_name, message|
       with_message = %{ with "#{message}"} if message.present?
       "Tags this commit to #{tag_name}#{with_message}."
@@ -630,7 +630,7 @@ module QuickActions
       @updates[:tag_message] = message
     end
 
-    desc 'Create a merge request.'
+    desc _('Create a merge request.')
     explanation do |branch_name = nil|
       branch_text = branch_name ? "branch '#{branch_name}'" : 'a branch'
       "Creates #{branch_text} and a merge request to resolve this issue"

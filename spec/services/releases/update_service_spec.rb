@@ -4,7 +4,7 @@ describe Releases::UpdateService do
   let(:project) { create(:project, :repository) }
   let(:user) { create(:user) }
   let(:new_name) { 'A new name' }
-  let(:new_description) { 'The best release!' }
+  let(:new_description) { _('The best release!') }
   let(:params) { { name: new_name, description: new_description, tag: tag_name } }
   let(:service) { described_class.new(project, user, params) }
   let!(:release) { create(:release, project: project, author: user, tag: tag_name) }

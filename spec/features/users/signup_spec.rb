@@ -47,7 +47,7 @@ describe 'Signup' do
 
       click_button "Register"
 
-      expect(page).to have_content("Please create a username with only alphanumeric characters.")
+      expect(page).to have_content(_("Please create a username with only alphanumeric characters."))
     end
   end
 
