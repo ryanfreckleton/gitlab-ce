@@ -46,7 +46,6 @@ export default {
     showReply: {
       type: Boolean,
       required: true,
-      default: false,
     },
     canEdit: {
       type: Boolean,
