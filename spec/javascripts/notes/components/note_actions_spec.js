@@ -121,6 +121,10 @@ describe('noteActions', () => {
       };
     });
 
+    afterEach(() => {
+      gon.features = {};
+    });
+
     describe('for showReply = true', () => {
       beforeEach(() => {
         wrapper = createWrapper({
@@ -157,6 +161,10 @@ describe('noteActions', () => {
       gon.features = {
         replyToIndividualNotes: false,
       };
+    });
+
+    afterEach(() => {
+      gon.features = {};
     });
 
     describe('for showReply = true', () => {
