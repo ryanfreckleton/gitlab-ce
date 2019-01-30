@@ -4,8 +4,6 @@ class DiffFileEntity < DiffFileBaseEntity
   include CommitsHelper
   include IconsHelper
 
-  expose :too_large?, as: :too_large
-  expose :empty?, as: :empty
   expose :added_lines
   expose :removed_lines
 
@@ -34,10 +32,6 @@ class DiffFileEntity < DiffFileBaseEntity
     next unless diff_file.content_sha
 
     project_blob_path(project, tree_join(diff_file.content_sha, diff_file.new_path))
-  end
-
-  expose :viewer, using: DiffViewerEntity do |diff_file|
-    diff_file.rich_viewer || diff_file.simple_viewer
   end
 
   expose :replaced_view_path, if: -> (_, options) { options[:merge_request] } do |diff_file|

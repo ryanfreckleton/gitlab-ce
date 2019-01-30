@@ -72,16 +72,20 @@ class DiffFileBaseEntity < Grape::Entity
   expose :old_path
   expose :new_path
   expose :new_file?, as: :new_file
-  expose :collapsed?, as: :collapsed
-  expose :text?, as: :text
-  expose :diff_refs
-  expose :stored_externally?, as: :stored_externally
-  expose :external_storage
   expose :renamed_file?, as: :renamed_file
   expose :deleted_file?, as: :deleted_file
-  expose :mode_changed?, as: :mode_changed
+
+  expose :diff_refs
+
+  expose :stored_externally?, as: :stored_externally
+  expose :external_storage
+
   expose :a_mode
   expose :b_mode
+
+  expose :viewer, using: DiffViewerEntity do |diff_file|
+    diff_file.rich_viewer || diff_file.simple_viewer
+  end
 
   private
 

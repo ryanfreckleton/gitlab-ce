@@ -58,7 +58,7 @@ export default {
       return this.diffViewerMode === diffViewerModes.not_diffable;
     },
     errorMessage() {
-      return this.diffFile.viewer.error;
+      return this.diffFile.viewer.error_message;
     },
     diffFileCommentForm() {
       return this.getCommentFormForDiffFile(this.diffFile.file_hash);
