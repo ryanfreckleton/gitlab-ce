@@ -20,9 +20,6 @@ export default {
   },
   methods: {
     ...mapActions(['convertToDiscussion']),
-    onReply() {
-      this.convertToDiscussion(this.noteId);
-    },
   },
 };
 </script>
@@ -32,11 +29,10 @@ export default {
     <gl-button
       ref="button"
       v-gl-tooltip.bottom
-      type="button"
       class="note-action-button"
       variant="transparent"
       :title="__('Reply to comment')"
-      @click="onReply"
+      @click="convertToDiscussion(noteId)"
     >
       <icon name="comment" css-classes="link-highlight" />
     </gl-button>
