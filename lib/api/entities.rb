@@ -549,6 +549,15 @@ module API
       expose :time_stats, using: 'API::Entities::IssuableTimeStats' do |issue|
         issue
       end
+
+      expose :merge_requests_count do |issue, options|
+        if options[:issuable_metadata]
+          # Avoids an N+1 query when metadata is included
+          options[:issuable_metadata][issue.id].merge_requests_count
+        else
+          []
+        end
+      end
     end
 
     class Issue < IssueBasic
