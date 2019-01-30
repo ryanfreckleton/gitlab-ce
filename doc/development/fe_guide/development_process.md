@@ -71,7 +71,5 @@ GitLab's architecture.
 sharing a Merge Request with a reviewer or a maintainer.
 
 ### Vue features
-1. Follow the steps in [Vue.js Best Practices](vue.md)
+1. Follow the steps in [Vue.js Best Practices](vue.md).
 1. Follow the style guide.
-1. Only a handful of people are allowed to merge Vue related features.
-Reach out to one of Vue experts early in this process.
