@@ -1,6 +1,8 @@
 require_relative '../qa'
 
-Dir[::File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }
+Dir[::File.join(__dir__, 'support', '**', '*.rb')].each do |f|
+  require f unless /_spec.rb$/ =~ f
+end
 
 RSpec.configure do |config|
   config.before do |example|

@@ -27,21 +27,8 @@ module QA
         attributes.each(&method(:public_send))
       end
 
-      def wait(max: 60, time: 0.1)
-        QA::Runtime::Logger.debug("with wait: max #{max}; time #{time}")
-        start = Time.now
-
-        while Time.now - start < max
-          result = yield
-          if result
-            QA::Runtime::Logger.debug("ended wait after #{Time.now - start} seconds")
-            return result
-          end
-
-          sleep(time)
-        end
-
-        false
+      def wait(max: 60, interval: 0.1)
+        QA::Support::Waiter.wait(max: max, interval: interval)
       end
 
       private

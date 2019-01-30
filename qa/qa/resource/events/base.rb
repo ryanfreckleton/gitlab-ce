@@ -21,7 +21,7 @@ module QA
         end
 
         def wait_for_event
-          event_found = wait(max: max_wait) do
+          event_found = QA::Support::Waiter.wait(max: max_wait) do
             yield
           end
 

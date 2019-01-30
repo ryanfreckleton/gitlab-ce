@@ -366,6 +366,7 @@ module QA
       autoload :Logging, 'qa/support/page/logging'
     end
     autoload :Api, 'qa/support/api'
+    autoload :Waiter, 'qa/support/waiter'
   end
 end
 
