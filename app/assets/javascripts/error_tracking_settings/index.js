@@ -17,7 +17,7 @@ export default () => {
       } = containerEl;
       if (slug !== undefined) {
         return {
-          project: {
+          initialProject: {
             id: slug + organizationSlug,
             slug,
             name,
@@ -26,12 +26,12 @@ export default () => {
           },
         };
       }
-      return { projects: null };
+      return { initialProject: null };
     },
     render(createElement) {
       return createElement(ProjectDropdown, {
         props: {
-          initialProject: this.project,
+          initialProject: this.initialProject,
         },
       });
     },

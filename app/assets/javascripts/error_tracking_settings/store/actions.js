@@ -1,7 +1,6 @@
 import axios from '~/lib/utils/axios_utils';
 import types from './mutation_types';
 
-// TODO: If the only purpose is to strip out certain properties, use an existing library like underscore
 const transformBackendProject = ({
   slug,
   name,
@@ -22,26 +21,17 @@ export default {
     const token = document.getElementById('js-error-tracking-token').value;
 
     return axios
-      .post(
-        `${data.listProjectsEndpoint}.json`,
-        {
-          error_tracking_setting: {
-            api_host: apiHost,
-            token,
-          },
+      .post(`${data.listProjectsEndpoint}.json`, {
+        error_tracking_setting: {
+          api_host: apiHost,
+          token,
         },
-        {
-          headers: {
-            Accept: 'application/json, text/plain, */*',
-            'Content-Type': 'application/json',
-          },
-        },
-      )
+      })
       .then(res => {
-        console.log(res.data.projects[0]);
         dispatch('receiveLoadProjects', res.data.projects.map(transformBackendProject));
       })
       .catch(err => {
+        // TODO: error handling
         console.log(err);
       });
   },
