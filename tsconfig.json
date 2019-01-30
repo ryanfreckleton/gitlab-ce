@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "app/assets/javascripts/*/index.js",
+        "app/assets/javascripts/*.js"
+      ],
+      "vendor/*": [
+        "vendor/assets/javascripts/*/index.js",
+        "vendor/assets/javascripts/*.min.js",
+        "vendor/assets/javascripts/*.js"
+      ]
+    },
+    // Not to sure???
+    "target": "ES2017",
+    // Not to sure???
+    "module": "commonjs",
+    // Not too sure???
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    // Compile JS files
+    "allowJs": true,
+    // Check JS files
+    "checkJs": true,
+    // Emit no files, we are just using it as a type checker
+    "noEmit": true,
+    // False for now to reduce amount of errors
+    "strict": false,
+    // False for now to reduce amount of errors
+    "noImplicitReturns": false,
+    // False for now to reduce amount of errors
+    "noFallthroughCasesInSwitch": false,
+    // Not too sure???
+    "moduleResolution": "node",
+    // Not too sure???
+    "esModuleInterop": true
+  },
+  "include": [
+    "app/assets/javascripts/**/*",
+    "config/typescript/vue-shims.d.ts"
+  ],
+  "exclude": [
+    "app/assets/javascripts/locale/**/app.js"
+  ]
+}

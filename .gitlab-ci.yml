@@ -532,6 +532,12 @@ static-analysis:
       - .yarn-cache/
       - tmp/rubocop_cache
 
+type-check:
+  <<: *dedicated-no-docs-no-db-pull-cache-job
+  script:
+    - scripts/type-check.sh
+  allow_failure: true
+
 # Documentation checks:
 # - Check validity of relative links
 # - Make sure cURL examples in API docs use the full switches

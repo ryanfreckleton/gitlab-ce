@@ -168,6 +168,7 @@
     "nodemon": "^1.18.9",
     "pixelmatch": "^4.0.2",
     "prettier": "1.16.1",
+    "typescript": "^3.2.4",
     "vue-jest": "^3.0.2",
     "webpack-dev-server": "^3.1.14",
     "yarn-deduplicate": "^1.1.0"
