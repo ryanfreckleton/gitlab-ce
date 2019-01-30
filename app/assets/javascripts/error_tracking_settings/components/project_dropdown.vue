@@ -1,17 +1,8 @@
 <script>
-// Similar to app/assets/javascripts/badges/components/badge.vue
-
 import { s__ } from '~/locale';
 import Icon from '~/vue_shared/components/icon.vue';
 
-import {
-  // GlLoadingIcon,
-  // GlSearchBox,
-  GlDropdown,
-  // GlDropdownDivider,
-  GlDropdownHeader,
-  GlDropdownItem,
-} from '@gitlab/ui';
+import { GlDropdown, GlDropdownHeader, GlDropdownItem } from '@gitlab/ui';
 
 export default {
   name: 'Dropdown',

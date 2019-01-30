@@ -3,6 +3,7 @@
 - setting = error_tracking_setting
 - p @project.id
 - p namespace_project_list_projects_url(project_id: @project, namespace_id: @project.namespace)
+- p setting[:project]
 
 %section.settings.expanded.border-0.no-animate
   .settings-header
@@ -37,7 +38,7 @@
           .form-group
             %label.label-bold
               = _('Project')
-            .dropdown#vue-dropdown-placeholder{ data: { project: { id: '1', name: 'Test Project' }} }
+            .dropdown#vue-dropdown-placeholder{ data: { project: setting[:project] } }
               %button.dropdown-menu-toggle.dropdown-menu-full-width.js-dropdown-toggle{ type: 'button', disabled: true }
                 %span.dropdown-toggle-text
                   = _('Select project')

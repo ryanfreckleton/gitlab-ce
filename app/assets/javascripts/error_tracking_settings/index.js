@@ -1,4 +1,3 @@
-// Similar to app/assets/javascripts/pages/shared/mount_badge_settings.js
 import Vue from 'vue';
 import store from './store';
 import ProjectDropdown from './components/project_dropdown.vue';

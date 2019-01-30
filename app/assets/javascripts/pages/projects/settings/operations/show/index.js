@@ -1,4 +1,3 @@
-// Similar to app/assets/javascripts/pages/groups/edit/index.js
 import $ from 'jquery';
 import store from '~/error_tracking_settings/store';
 import mountProjectDropdown from '~/error_tracking_settings';
