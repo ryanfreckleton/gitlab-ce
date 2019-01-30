@@ -80,16 +80,12 @@ export default {
       return !this.hasExistingProject && !this.areProjectsLoaded;
     },
   },
-  // TODO: Disable dropdown when projects haven't been loaded
   methods: {
     // TODO: Is there a better way to do this? v-model doesn't seem to bind directly to gl-dropdown because it's not a typical select element,
     // but it feels like there should be a better solution.
     // Perhaps some way to get this to work https://vuejs.org/v2/guide/forms.html#v-model-with-Components?
     handleClick(event) {
       this.selected = event.target.value;
-      // TODO: Ensure that initial values are also preserved
-      document.getElementById('project_error_tracking_setting_attributes_project').value =
-        event.target.value;
     },
     getDisplayName(project) {
       return `${project.organizationName} | ${project.name}`;
