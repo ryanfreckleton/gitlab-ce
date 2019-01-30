@@ -18,6 +18,7 @@ export default () => {
       if (slug !== undefined) {
         return {
           project: {
+            id: slug + organizationSlug,
             slug,
             name,
             organizationName,

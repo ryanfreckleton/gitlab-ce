@@ -27,13 +27,15 @@ export default {
   computed: {
     // TODO: tidy up this logic
     dropdownText() {
-      if (this.selected === '' && this.initialProject) {
-        return this.initialProject.name;
-      }
       if (this.selected === '' && !this.initialProject) {
         return s__('Error Tracking|Select Project');
       }
-      return this.$store.state.projects.find(item => item.id === this.selected).name;
+      if (this.selected === '' && this.initialProject) {
+        return this.getDisplayName(this.initialProject);
+      }
+      return this.getDisplayName(
+        this.$store.state.projects.find(item => item.id === this.selected),
+      );
     },
     errorText() {
       // TODO: read up on best way to handle translations with interpolation in JS
@@ -89,6 +91,9 @@ export default {
       document.getElementById('project_error_tracking_setting_attributes_project').value =
         event.target.value;
     },
+    getDisplayName(project) {
+      return `${project.organizationName} | ${project.name}`;
+    },
   },
 };
 </script>
@@ -126,7 +131,7 @@ export default {
         :value="project.id"
         class="w-100"
         @click="handleClick"
-      >{{ project.name }}</gl-dropdown-item>
+      >{{ getDisplayName(project) }}</gl-dropdown-item>
     </gl-dropdown>
     <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
     <!-- TODO: possibly convert to else-if? -->

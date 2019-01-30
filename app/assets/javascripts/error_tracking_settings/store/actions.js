@@ -2,9 +2,17 @@ import axios from '~/lib/utils/axios_utils';
 import types from './mutation_types';
 
 // TODO: If the only purpose is to strip out certain properties, use an existing library like underscore
-const transformBackendProject = project => ({
-  id: project.id,
-  name: project.name,
+const transformBackendProject = ({
+  slug,
+  name,
+  organization_name: organizationName,
+  organization_slug: organizationSlug,
+}) => ({
+  id: slug + organizationSlug,
+  slug,
+  name,
+  organizationName,
+  organizationSlug,
 });
 
 export default {
