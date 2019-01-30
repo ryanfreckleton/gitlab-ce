@@ -535,6 +535,7 @@ static-analysis:
 type-check:
   <<: *dedicated-no-docs-no-db-pull-cache-job
   script:
+    - yarn install --frozen-lockfile --cache-folder .yarn-cache
     - scripts/type-check.sh
   allow_failure: true
 
