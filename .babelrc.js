@@ -10,6 +10,7 @@ const presets = [
       },
     },
   ],
+  '@babel/preset-typescript'
 ];
 
 // include stage 3 proposals

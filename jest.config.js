@@ -29,6 +29,7 @@ module.exports = {
   restoreMocks: true,
   transform: {
     '^.+\\.js$': 'babel-jest',
+    '^.+\\.ts$': 'babel-jest',
     '^.+\\.vue$': 'vue-jest',
   },
 };

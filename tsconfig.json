@@ -40,7 +40,7 @@
   },
   "include": [
     "app/assets/javascripts/**/*",
-    "config/typescript/vue-shims.d.ts"
+    "config/typescript/*.d.ts"
   ],
   "exclude": [
     "app/assets/javascripts/locale/**/app.js"

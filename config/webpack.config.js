@@ -84,7 +84,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.gql', '.graphql'],
+    extensions: ['.js', '.ts', '.gql', '.graphql'],
     alias: {
       '~': path.join(ROOT_PATH, 'app/assets/javascripts'),
       emojis: path.join(ROOT_PATH, 'fixtures/emojis'),
@@ -106,7 +106,7 @@ module.exports = {
         use: [],
       },
       {
-        test: /\.js$/,
+        test: /\.(js|ts)$/,
         exclude: path => /node_modules|vendor[\\/]assets/.test(path) && !/\.vue\.js/.test(path),
         loader: 'babel-loader',
         options: {

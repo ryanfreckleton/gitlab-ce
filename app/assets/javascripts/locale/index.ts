@@ -3,6 +3,7 @@ import ensureSingleLine from './ensure_single_line';
 import sprintf from './sprintf';
 
 const languageCode = () => document.querySelector('html').getAttribute('lang') || 'en';
+
 const locale = new Jed(window.translations || {});
 delete window.translations;
 
@@ -40,10 +41,10 @@ const ngettext = (text, pluralText, count) => {
   @param keyOrContext Can be either the key to translate including the context
                       (eg. 'Context|Text') or just the context for the translation
                       (eg. 'Context')
-  @param key Is the dynamic variable you want to be translated
+  @param key {String?} Is the dynamic variable you want to be translated
   @returns {String} Translated context based text
 */
-const pgettext = (keyOrContext, key) => {
+const pgettext = (keyOrContext: string, key?: string): string => {
   const normalizedKey = ensureSingleLine(key ? `${keyOrContext}|${key}` : keyOrContext);
   const translated = gettext(normalizedKey).split('|');
 
