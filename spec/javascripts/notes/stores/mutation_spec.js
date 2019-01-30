@@ -536,10 +536,8 @@ describe('Notes Store mutations', () => {
       expect(discussion.individual_note).toBe(false);
     });
 
-    it('does nothing if discussion was not found', () => {
-      mutations.CONVERT_TO_DISCUSSION(state, 99);
-
-      expect(discussion.individual_note).toBe(true);
+    it('throws if discussion was not found', () => {
+      expect(() => mutations.CONVERT_TO_DISCUSSION(state, 99)).toThrow();
     });
   });
 });
