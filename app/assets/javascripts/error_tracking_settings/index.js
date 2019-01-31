@@ -1,22 +1,33 @@
+import $ from 'jquery';
 import Vue from 'vue';
 import store from './store';
-import ProjectDropdown from './components/project_dropdown.vue';
+import ErrorTrackingSettings from './components/error_tracking_settings.vue';
 
 export default () => {
+  // TODO: make all dom searches relative to this element to save cycles
+  const formContainerEl = $('.js-error-tracking-form').first();
   const containerEl = document.getElementById('vue-dropdown-placeholder');
+
+  console.log(formContainerEl.data());
 
   return new Vue({
     el: containerEl,
     store,
     components: {
-      ProjectDropdown,
+      ErrorTrackingSettings,
     },
     data() {
       const {
         dataset: { slug, name, organizationName, organizationSlug },
       } = containerEl;
+      const { apiHost, token } = formContainerEl.data();
+      console.log(apiHost);
+      console.log(token);
+
       if (slug !== undefined) {
         return {
+          initialToken: token,
+          initialApiHost: apiHost,
           initialProject: {
             id: slug + organizationSlug,
             slug,
@@ -29,7 +40,7 @@ export default () => {
       return { initialProject: null };
     },
     render(createElement) {
-      return createElement(ProjectDropdown, {
+      return createElement(ErrorTrackingSettings, {
         props: {
           initialProject: this.initialProject,
         },

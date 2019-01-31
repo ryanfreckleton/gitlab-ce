@@ -5,7 +5,7 @@ import Icon from '~/vue_shared/components/icon.vue';
 import { GlDropdown, GlDropdownHeader, GlDropdownItem } from '@gitlab/ui';
 
 export default {
-  name: 'Dropdown',
+  name: 'ErrorSettingsProjectDropdown',
   components: {
     GlDropdown,
     GlDropdownHeader,
