@@ -422,7 +422,9 @@ group :ed25519 do
 end
 
 # Gitaly GRPC client
-gem 'gitaly-proto', '~> 1.5.0', require: 'gitaly'
+# gem 'gitaly-proto', '~> 1.5.0', require: 'gitaly'
+gem 'gitaly-proto', require: 'gitaly', git: 'https://gitlab.com/gitlab-org/gitaly-proto', branch: 'osw-add-user-dry-merge-to-ref-rpc'
+
 gem 'grpc', '~> 1.15.0'
 
 gem 'google-protobuf', '~> 3.6'

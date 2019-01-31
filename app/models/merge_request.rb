@@ -1067,6 +1067,10 @@ class MergeRequest < ActiveRecord::Base
     "refs/#{Repository::REF_MERGE_REQUEST}/#{iid}/head"
   end
 
+  def merge_ref_path
+    "refs/#{Repository::REF_MERGE_REQUEST}/#{iid}/merge"
+  end
+
   def in_locked_state
     begin
       lock_mr

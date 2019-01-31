@@ -850,6 +850,13 @@ class Repository
     end
   end
 
+  def merge_to_ref(user, source_sha, merge_request, target_ref)
+    branch = merge_request.target_branch
+    message = merge_request.merge_commit_message
+
+    raw.dry_merge_to_ref(user, source_sha, branch, target_ref, message)
+  end
+
   def ff_merge(user, source, target_branch, merge_request: nil)
     their_commit_id = commit(source)&.id
     raise 'Invalid merge source' if their_commit_id.nil?

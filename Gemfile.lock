@@ -1,3 +1,11 @@
+GIT
+  remote: https://gitlab.com/gitlab-org/gitaly-proto
+  revision: 51c73b75fa618cdbe78ab3ceee7ba7a232b30fc4
+  branch: osw-add-user-dry-merge-to-ref-rpc
+  specs:
+    gitaly-proto (1.10.0)
+      grpc (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -277,8 +285,6 @@ GEM
       gettext_i18n_rails (>= 0.7.1)
       po_to_json (>= 1.0.0)
       rails (>= 3.2.0)
-    gitaly-proto (1.5.0)
-      grpc (~> 1.0)
     github-markup (1.7.0)
     gitlab-default_value_for (3.1.1)
       activerecord (>= 3.2.0, < 6.0)
@@ -1016,7 +1022,7 @@ DEPENDENCIES
   gettext (~> 3.2.2)
   gettext_i18n_rails (~> 1.8.0)
   gettext_i18n_rails_js (~> 1.3)
-  gitaly-proto (~> 1.5.0)
+  gitaly-proto!
   github-markup (~> 1.7.0)
   gitlab-default_value_for (~> 3.1.1)
   gitlab-markup (~> 1.6.5)
