@@ -68,6 +68,9 @@ export default {
     fileIsText() {
       return this.file.viewer.name === diffViewerModes.text;
     },
+    errorMessage() {
+      return this.file.viewer.error_message;
+    },
   },
   watch: {
     isCollapsed: function fileCollapsedWatch(newVal, oldVal) {
@@ -159,20 +162,22 @@ export default {
         Cancel
       </button>
     </div>
-
-    <diff-content
-      v-if="!isCollapsed && renderIt"
-      :class="{ hidden: isCollapsed || fileTooLarge }"
-      :diff-file="file"
-      :help-page-path="helpPagePath"
-    />
-    <gl-loading-icon v-if="showLoadingIcon" class="diff-content loading" />
+    <div v-if="errorMessage" class="diff-viewer">
+      <div class="nothing-here-block" v-html="errorMessage"></div>
+    </div>
     <div v-else-if="isCollapsed" class="nothing-here-block diff-collapsed">
       {{ __('This diff is collapsed.') }}
       <a class="click-to-expand js-click-to-expand" href="#" @click.prevent="handleToggle">{{
         __('Click to expand it.')
       }}</a>
     </div>
+    <diff-content
+      v-else
+      :class="{ hidden: isCollapsed || fileTooLarge }"
+      :diff-file="file"
+      :help-page-path="helpPagePath"
+    />
+    <gl-loading-icon v-if="showLoadingIcon" class="diff-content loading" />
     <div v-if="fileTooLarge" class="nothing-here-block diff-collapsed js-too-large-diff">
       {{ __('This source diff could not be displayed because it is too large.') }}
       <span v-html="viewBlobLink"></span>
