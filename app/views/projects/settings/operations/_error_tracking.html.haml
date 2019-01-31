@@ -1,9 +1,9 @@
 - return unless can?(current_user, :read_environment, @project)
 
 - setting = error_tracking_setting
+-# TODO: remove these
 - p @project.id
 - p namespace_project_list_projects_url(project_id: @project, namespace_id: @project.namespace)
-- p setting[:token]
 
 %section.settings.expanded.border-0.no-animate
   .settings-header
@@ -12,13 +12,15 @@
     %p
       = _('To link Sentry to GitLab, enter your Sentry URL and Auth Token.')
   .settings-content
-    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'}, data: { host_url: setting[:host_url], token: setting[:token] } do |f|
+    -# TODO: Remove hardcoding of api_host once helper method exists on the backend
+    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'}, data: { api_host: 'http://35.228.54.90:9000/', enabled: setting.enabled, token: setting.token } do |f|
       = form_errors(@project)
       .form-group
         = f.fields_for :error_tracking_setting_attributes, setting do |form|
           .form-check.form-group
             = form.check_box :enabled, class: 'form-check-input'
             = form.label :enabled, _('Active'), class: 'form-check-label'
+          %div
           .form-group
             = form.label :api_url, _('Sentry API URL'), class: 'label-bold'
             = form.url_field :api_url, class: 'form-control', placeholder: _('https://mysentryserver.com'), id: 'js-error-tracking-api-url'

@@ -1,15 +1,19 @@
 <script>
-import projectDropdown from './project_dropdown.vue';
-import serverConfiguration from './server_configuration.vue';
+import ProjectDropdown from './project_dropdown.vue';
+import ErrorTrackingForm from './error_tracking_form.vue';
 
 export default {
   name: 'Dropdown',
-  components: { projectDropdown, serverConfiguration },
+  components: { ProjectDropdown, ErrorTrackingForm },
   props: {
     initialProject: {
       type: Object,
       required: false,
       default: null,
+    },
+    listProjectsEndpoint: {
+      type: String,
+      required: true,
     },
   },
 };
@@ -17,7 +21,7 @@ export default {
 
 <template>
   <div>
-    <serverConfiguration/>
-    <projectDropdown iniital-project="initialProject"/>
+    <ErrorTrackingForm :list-projects-endpoint="listProjectsEndpoint"/>
+    <ProjectDropdown :initial-project="initialProject"/>
   </div>
 </template>

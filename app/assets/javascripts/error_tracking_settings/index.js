@@ -7,6 +7,9 @@ export default () => {
   // TODO: make all dom searches relative to this element to save cycles
   const formContainerEl = $('.js-error-tracking-form').first();
   const containerEl = document.getElementById('vue-dropdown-placeholder');
+  const listProjectsEl = document.getElementById('js-error-tracking-list-projects');
+
+  const { listProjectsEndpoint } = listProjectsEl.dataset;
 
   console.log(formContainerEl.data());
 
@@ -21,8 +24,6 @@ export default () => {
         dataset: { slug, name, organizationName, organizationSlug },
       } = containerEl;
       const { apiHost, token } = formContainerEl.data();
-      console.log(apiHost);
-      console.log(token);
 
       if (slug !== undefined) {
         return {
@@ -43,6 +44,7 @@ export default () => {
       return createElement(ErrorTrackingSettings, {
         props: {
           initialProject: this.initialProject,
+          listProjectsEndpoint,
         },
       });
     },
