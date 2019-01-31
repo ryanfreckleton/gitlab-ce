@@ -539,6 +539,14 @@ $note-form-margin-left: 72px;
     }
   }
 
+  .note-header-author-name {
+    display: none;
+
+    @include media-breakpoint-up(sm) {
+      display: initial;
+    }
+  }
+
   .author-link {
     color: $gl-text-color;
   }
@@ -561,11 +569,19 @@ $note-form-margin-left: 72px;
 .note-header {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
 }
 
 .note-header-info {
   min-width: 0;
-  padding-bottom: $gl-padding-8;
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: $gl-padding-8;
+  }
 
   &.discussion {
     padding-bottom: 0;
@@ -636,15 +652,19 @@ $note-form-margin-left: 72px;
 
 .note-actions {
   align-self: flex-start;
+  display: flex;
   flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  margin-left: 10px;
+  justify-content: flex-end;
+  width: 100%;
+  padding-bottom: $gl-padding-8;
   color: $gray-darkest;
 
-  @include notes-media('max', map-get($grid-breakpoints, sm) - 1) {
-    float: none;
-    margin-left: 0;
+  @include media-breakpoint-up(md) {
+    width: auto;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    padding-bottom: 0;
   }
 }
 
@@ -711,7 +731,11 @@ $note-form-margin-left: 72px;
 }
 
 .note-role {
-  margin: 0 3px;
+  margin: 0 auto 0 0;
+
+  @include media-breakpoint-up(md) {
+    margin: 0 3px;
+  }
 }
 
 .note-role-special {
