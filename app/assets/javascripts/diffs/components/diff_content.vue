@@ -1,7 +1,7 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 import DiffViewer from '~/vue_shared/components/diff_viewer/diff_viewer.vue';
-import NotDiffablViewer from '~/vue_shared/components/diff_viewer/viewers/not_diffable.vue';
+import NotDiffableViewer from '~/vue_shared/components/diff_viewer/viewers/not_diffable.vue';
 import NoPreviewViewer from '~/vue_shared/components/diff_viewer/viewers/no_preview.vue';
 import InlineDiffView from './inline_diff_view.vue';
 import ParallelDiffView from './parallel_diff_view.vue';
@@ -20,7 +20,7 @@ export default {
     NoteForm,
     DiffDiscussions,
     ImageDiffOverlay,
-    NotDiffablViewer,
+    NotDiffableViewer,
     NoPreviewViewer,
   },
   props: {
@@ -103,7 +103,7 @@ export default {
         />
       </template>
       <not-diffable-viewer v-else-if="notDiffable" />
-      <no-review-viewer v-else-if="noPreview" />
+      <no-preview-viewer v-else-if="noPreview" />
       <diff-viewer
         v-else
         :diff-mode="diffMode"

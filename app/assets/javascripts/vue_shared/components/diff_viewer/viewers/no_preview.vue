@@ -1,5 +1,5 @@
 <template>
   <div class="nothing-here-block">
-    {{ __('This diff was suppressed by a .gitattributes entry') }}
+    {{ __('No preview for this file type') }}
   </div>
 </template>
