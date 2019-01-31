@@ -4,6 +4,7 @@
 -# TODO: remove these
 - p @project.id
 - p namespace_project_list_projects_url(project_id: @project, namespace_id: @project.namespace)
+- p setting.api_host
 
 %section.settings.expanded.border-0.no-animate
   .settings-header
@@ -12,8 +13,7 @@
     %p
       = _('To link Sentry to GitLab, enter your Sentry URL and Auth Token.')
   .settings-content
-    -# TODO: Remove hardcoding of api_host once helper method exists on the backend
-    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'}, data: { api_host: 'http://35.228.54.90:9000/', enabled: setting.enabled, token: setting.token } do |f|
+    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'}, data: { api_host: setting.api_host, enabled: setting.enabled, token: setting.token } do |f|
       = form_errors(@project)
       .form-group
         = f.fields_for :error_tracking_setting_attributes, setting do |form|
@@ -22,8 +22,8 @@
             = form.label :enabled, _('Active'), class: 'form-check-label'
           %div
           .form-group
-            = form.label :api_url, _('Sentry API URL'), class: 'label-bold'
-            = form.url_field :api_url, class: 'form-control', placeholder: _('https://mysentryserver.com'), id: 'js-error-tracking-api-url'
+            = form.label :api_host, _('Sentry API URL'), class: 'label-bold'
+            = form.url_field :api_host, class: 'form-control', placeholder: _('https://mysentryserver.com'), id: 'js-error-tracking-api-url'
             %p.form-text.text-muted
               = _('Find your hostname in your Sentry account settings page')
           .form-group#js-error-tracking-host-url
