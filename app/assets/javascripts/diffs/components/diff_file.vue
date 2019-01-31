@@ -52,17 +52,6 @@ export default {
         false,
       );
     },
-    showExpandMessage() {
-      return (
-        this.isCollapsed ||
-        (!this.file.highlighted_diff_lines &&
-          !this.isLoadingCollapsedDiff &&
-          !this.fileTooLarge &&
-          this.fileIsText &&
-          !(this.file.viewer.name === diffViewerModes.renamed) &&
-          !(this.file.viewer.name === diffViewerModes.mode_changed))
-      );
-    },
     showLoadingIcon() {
       return this.isLoadingCollapsedDiff || (!this.renderIt && !this.isCollapsed);
     },
@@ -178,7 +167,7 @@ export default {
       :help-page-path="helpPagePath"
     />
     <gl-loading-icon v-if="showLoadingIcon" class="diff-content loading" />
-    <div v-else-if="showExpandMessage" class="nothing-here-block diff-collapsed">
+    <div v-else-if="isCollapsed" class="nothing-here-block diff-collapsed">
       {{ __('This diff is collapsed.') }}
       <a class="click-to-expand js-click-to-expand" href="#" @click.prevent="handleToggle">{{
         __('Click to expand it.')
