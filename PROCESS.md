@@ -108,7 +108,12 @@ Merge requests that make changes hidden behind a feature flag, or remove an
 existing feature flag because a feature is deemed stable, may be merged (and
 picked into the stable branches) up to the 19th of the month. Such merge
 requests should have the ~"feature flag" label assigned, and don't require a
-corresponding exception request to be created.
+corresponding exception request to be created. 
+
+Feature flags utilized for deployment risk, if the changes may not
+function or scale correctly, should be enabled by default. Feature flags
+utilized for feature risk, when a change isn't ready for full deployment,
+should be disabled by default.
 
 In order to build the final package and present the feature for self-hosted
 customers, the feature flag should be removed. This should happen before the
