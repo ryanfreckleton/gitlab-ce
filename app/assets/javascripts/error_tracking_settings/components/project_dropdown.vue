@@ -45,6 +45,9 @@ export default {
         } is no longer available. Select another project to continue.`,
       );
     },
+    projectLabel() {
+      return s__('Project');
+    },
     projectSelectionText() {
       return s__('Error Tracking|To enable project selection, enter a valid Auth Token');
     },
@@ -112,6 +115,10 @@ export default {
     <!--
       Given how many classes are required here, could add a full-width option to gl-dropdown
     -->
+    <label
+      class="label-bold"
+      for="project_error_tracking_setting_attributes_project"
+    >{{projectLabel}}</label>
     <gl-dropdown
       id="project_error_tracking_setting_attributes_project"
       name="project[error_tracking_setting_attributes][project]"

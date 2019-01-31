@@ -9,6 +9,18 @@ export default {
   name: 'ErrorTrackingForm',
   components: { GlFormGroup, GlFormInput, Icon },
   props: {
+    initialApiHost: {
+      type: String,
+      required: true,
+    },
+    initialEnabled: {
+      type: Boolean,
+      required: true,
+    },
+    initialToken: {
+      type: String,
+      required: true,
+    },
     listProjectsEndpoint: {
       type: String,
       required: true,
@@ -22,9 +34,9 @@ export default {
         "After adding your Auth Token, use the 'Connect' button to load projects",
       ),
       urlDescription: s__('Find your hostname in your Sentry account settings page'),
-      apiUrl: '',
-      enabled: false,
-      token: '',
+      apiHost: this.initialApiHost,
+      enabled: this.initialEnabled,
+      token: this.initialToken,
     };
   },
   computed: {},
@@ -32,7 +44,7 @@ export default {
     ...mapActions(['loadProjects']),
     handleClick() {
       this.loadProjects({ listProjectsEndpoint: this.listProjectsEndpoint });
-      console.log(this.apiUrl, this.token);
+      console.log(this.enabled, this.apiHost, this.token);
     },
   },
 };
@@ -59,7 +71,7 @@ export default {
     >
       <gl-form-input
         id="project_error_tracking_setting_attributes_host_url"
-        v-model="apiUrl"
+        v-model="apiHost"
         :placeholder="s__('https://mysentryserver.com')"
       />
       <p class="form-text text-muted">{{ urlDescription }}</p>

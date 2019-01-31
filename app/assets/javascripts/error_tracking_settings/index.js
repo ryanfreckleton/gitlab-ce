@@ -11,10 +11,10 @@ export default () => {
 
   const { listProjectsEndpoint } = listProjectsEl.dataset;
 
-  console.log(formContainerEl.data());
+  console.log('data: ', formContainerEl.data());
 
   return new Vue({
-    el: containerEl,
+    el: formContainerEl[0],
     store,
     components: {
       ErrorTrackingSettings,
@@ -23,12 +23,17 @@ export default () => {
       const {
         dataset: { slug, name, organizationName, organizationSlug },
       } = containerEl;
-      const { apiHost, token } = formContainerEl.data();
+      const { apiHost, enabled, token } = formContainerEl.data();
+
+      const data = {
+        initialEnabled: enabled,
+        initialToken: token,
+        initialApiHost: apiHost,
+      };
 
       if (slug !== undefined) {
         return {
-          initialToken: token,
-          initialApiHost: apiHost,
+          ...data,
           initialProject: {
             id: slug + organizationSlug,
             slug,
@@ -38,11 +43,14 @@ export default () => {
           },
         };
       }
-      return { initialProject: null };
+      return { ...data, initialProject: null };
     },
     render(createElement) {
       return createElement(ErrorTrackingSettings, {
         props: {
+          initialEnabled: this.initialEnabled,
+          initialToken: this.initialToken,
+          initialApiHost: this.initialApiHost,
           initialProject: this.initialProject,
           listProjectsEndpoint,
         },
