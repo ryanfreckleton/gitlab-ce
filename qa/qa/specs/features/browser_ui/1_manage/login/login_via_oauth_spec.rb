@@ -3,7 +3,7 @@
 module QA
   context 'Manage', :orchestrated, :oauth do
     describe 'OAuth login' do
-      it 'User logs in to gitlab with github oauth' do
+      it 'User logs in to GitLab with GitHub OAuth' do
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
 
         Page::Main::Login.perform(&:sign_in_with_github)

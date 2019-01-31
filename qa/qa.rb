@@ -342,6 +342,7 @@ module QA
         autoload :Login, 'qa/vendor/saml_idp/page/login'
       end
     end
+
     module Github
       module Page
         autoload :Base, 'qa/vendor/github/page/base'

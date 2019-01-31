@@ -31,9 +31,9 @@ module QA
           element :register_tab
         end
 
-        view 'app/views/devise/shared/_omniauth_box.html.haml' do
-          element :saml_login_button, 'qa-#{provider}-login-button' # rubocop:disable QA/ElementWithPattern, Lint/InterpolationCheck
-          element :github_login_button, 'qa-#{provider}-login-button' # rubocop:disable QA/ElementWithPattern, Lint/InterpolationCheck
+        view 'app/helpers/auth_helper.rb' do
+          element :saml_login_button
+          element :github_login_button
         end
 
         view 'app/views/layouts/devise.html.haml' do
