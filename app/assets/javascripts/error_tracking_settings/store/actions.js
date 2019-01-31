@@ -16,15 +16,12 @@ const transformBackendProject = ({
 
 export default {
   loadProjects({ dispatch }, data) {
-    // Hack to grab form element data
-    const apiHost = document.getElementById('js-error-tracking-api-url').value;
-    const token = document.getElementById('js-error-tracking-token').value;
-
+    console.log('request data:', data);
     return axios
       .post(`${data.listProjectsEndpoint}.json`, {
         error_tracking_setting: {
-          api_host: apiHost,
-          token,
+          api_host: data.apiHost,
+          token: data.token,
         },
       })
       .then(res => {

@@ -27,6 +27,7 @@ export default {
     },
   },
   data() {
+    console.log(this.initialApiHost);
     return {
       connectText: s__('Connect'),
       enabledText: s__('Active'),
@@ -43,8 +44,14 @@ export default {
   methods: {
     ...mapActions(['loadProjects']),
     handleClick() {
-      this.loadProjects({ listProjectsEndpoint: this.listProjectsEndpoint });
       console.log(this.enabled, this.apiHost, this.token);
+      // this.apiHost = 'test';
+      this.loadProjects({
+        listProjectsEndpoint: this.listProjectsEndpoint,
+        enabled: this.enabled,
+        apiHost: this.apiHost,
+        token: this.token,
+      });
     },
   },
 };
