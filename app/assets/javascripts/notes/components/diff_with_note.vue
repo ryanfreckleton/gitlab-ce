@@ -32,7 +32,7 @@ export default {
     diffMode() {
       return getDiffMode(this.discussion.diff_file);
     },
-    diffVieweMode() {
+    diffViewerMode() {
       return this.discussion.diff_file.viewer.name;
     },
     isTextFile() {
