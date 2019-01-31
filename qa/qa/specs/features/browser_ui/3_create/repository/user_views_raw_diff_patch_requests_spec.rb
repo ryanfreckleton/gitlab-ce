@@ -2,10 +2,7 @@
 
 module QA
   context 'Create' do
-    # failure reported: https://gitlab.com/gitlab-org/quality/nightly/issues/42
-    # also failing in staging until the fix is picked into the next release:
-    #  https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/24533
-    describe 'Commit data', :quarantine do
+    describe 'Commit data' do
       before(:context) do
         Runtime::Browser.visit(:gitlab, Page::Main::Login)
         Page::Main::Login.perform(&:sign_in_using_credentials)

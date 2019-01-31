@@ -191,10 +191,6 @@ class Projects::IssuesController < Projects::ApplicationController
 
   protected
 
-  def issuable_sorting_field
-    Issue::SORTING_PREFERENCE_FIELD
-  end
-
   # rubocop: disable CodeReuse/ActiveRecord
   def issue
     return @issue if defined?(@issue)

@@ -2,7 +2,8 @@
 
 class GroupsController < Groups::ApplicationController
   include API::Helpers::RelatedResourcesHelpers
-  include IssuableCollectionsAction
+  include IssuesAction
+  include MergeRequestsAction
   include ParamsBackwardCompatibility
   include PreviewMarkdown
 

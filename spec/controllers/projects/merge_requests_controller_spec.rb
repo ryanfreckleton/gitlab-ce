@@ -153,9 +153,7 @@ describe Projects::MergeRequestsController do
 
     it_behaves_like "issuables list meta-data", :merge_request
 
-    it_behaves_like 'set sort order from user preference' do
-      let(:sorting_param) { 'updated_asc' }
-    end
+    it_behaves_like 'set sort order from user preference'
 
     context 'when page param' do
       let(:last_page) { project.merge_requests.page.total_pages }

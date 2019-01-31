@@ -32,7 +32,8 @@ module QA
         end
 
         view 'app/views/devise/shared/_omniauth_box.html.haml' do
-          element :saml_login_button
+          element :saml_login_button, 'qa-#{provider}-login-button' # rubocop:disable QA/ElementWithPattern, Lint/InterpolationCheck
+          element :github_login_button, 'qa-#{provider}-login-button' # rubocop:disable QA/ElementWithPattern, Lint/InterpolationCheck
         end
 
         view 'app/views/layouts/devise.html.haml' do
@@ -145,6 +146,11 @@ module QA
         def sign_in_with_saml
           set_initial_password_if_present
           click_element :saml_login_button
+        end
+
+        def sign_in_with_github
+          set_initial_password_if_present
+          click_element :github_login_button
         end
 
         def sign_in_using_gitlab_credentials(user)
