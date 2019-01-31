@@ -1,19 +1,17 @@
 import $ from 'jquery';
 import Chart from 'chart.js';
 
+import {
+  chartOptions,
+  commonTooltips,
+  barChartTooltips,
+  yAxesConfig,
+} from '~/lib/utils/chart_utils';
+
 const options = {
-  scaleOverlay: true,
-  responsive: true,
-  maintainAspectRatio: false,
-  legend: false,
+  ...chartOptions(),
   scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    ],
+    ...yAxesConfig(),
   },
 };
 
@@ -50,30 +48,12 @@ const buildChart = chartScope => {
       ...options,
       elements: {
         point: {
-          hitRadius: (ctx.canvas.width - 10) / chartScope.totalValues.length,
+          hitRadius: ctx.canvas.width / (chartScope.totalValues.length * 2),
         },
       },
-      scales: {
-        xAxes: [
-          {
-            ticks: {
-              autoSkip: false,
-              minRotation: 90,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
-          },
-        ],
-      },
       tooltips: {
+        ...commonTooltips(),
         caretSize: 0,
-        mode: 'x',
-        intersect: false,
         multiKeyBackground: 'rgba(0,0,0,0)',
         callbacks: {
           labelColor({ datasetIndex }, { config }) {
@@ -86,11 +66,12 @@ const buildChart = chartScope => {
       },
     },
   });
+
   window.addEventListener('resize', () => {
     chart.update({
       elements: {
         point: {
-          hitRadius: (ctx.canvas.width - 10) / chartScope.totalValues.length,
+          hitRadius: ctx.canvas.width / (chartScope.totalValues.length * 2),
         },
       },
     });
@@ -100,7 +81,6 @@ const buildChart = chartScope => {
 document.addEventListener('DOMContentLoaded', () => {
   const chartTimesData = JSON.parse(document.getElementById('pipelinesTimesChartsData').innerHTML);
   const chartsData = JSON.parse(document.getElementById('pipelinesChartsData').innerHTML);
-  chartTimesData.values = chartTimesData.values.map((_, i) => i * 10);
   const data = {
     labels: chartTimesData.labels,
     datasets: [
@@ -120,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     options.scaleFontSize = 8;
   }
 
-  /* eslint-disable no-new */
+  // eslint-disable-next-line no-new
   new Chart(
     $('#build_timesChart')
       .get(0)
@@ -130,24 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
       data,
       options: {
         ...options,
-        tooltips: {
-          mode: 'x',
-          intersect: false,
-          displayColors: false,
-          callbacks: {
-            title() {
-              return '';
-            },
-            label({ xLabel, yLabel }) {
-              return `${xLabel}: ${yLabel}`;
-            },
-          },
-        },
+        tooltips: barChartTooltips(),
       },
     },
   );
-
-  /* eslint-enable no-new */
 
   chartsData.forEach(scope => buildChart(scope));
 });

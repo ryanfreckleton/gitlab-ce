@@ -2,38 +2,20 @@ import $ from 'jquery';
 import Chart from 'chart.js';
 import _ from 'underscore';
 
+import { chartOptions, barChartTooltips, yAxesConfig } from '~/lib/utils/chart_utils';
+
 document.addEventListener('DOMContentLoaded', () => {
   const projectChartData = JSON.parse(document.getElementById('projectChartData').innerHTML);
 
   const responsiveChart = (selector, data) => {
     const options = {
-      scaleOverlay: true,
-      responsive: true,
-      pointHitDetectionRadius: 2,
+      ...chartOptions(),
       maintainAspectRatio: false,
       legend: false,
       scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-            },
-          },
-        ],
+        ...yAxesConfig(),
       },
-      tooltips: {
-        mode: 'x',
-        intersect: false,
-        displayColors: false,
-        callbacks: {
-          title() {
-            return '';
-          },
-          label({ xLabel, yLabel }) {
-            return `${xLabel}: ${yLabel}`;
-          },
-        },
-      },
+      tooltips: barChartTooltips(),
     };
     // get selector by context
     const ctx = selector.get(0).getContext('2d');
@@ -106,18 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const ctx = $('#languages-chart')
     .get(0)
     .getContext('2d');
-  const options = {
-    scaleOverlay: true,
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: false,
-  };
+  const options = chartOptions();
 
-  /* eslint-disable no-new */
+  // eslint-disable-next-line no-new
   new Chart(ctx, {
     type: 'pie',
     data,
     options,
   });
-  /* eslint-enable no-new */
 });
