@@ -274,3 +274,37 @@ label {
   max-width: $input-lg-width;
   width: 100%;
 }
+
+/*
+* Bootstrap-vue form-checkbox
+* Override styles to handle vue-bootstrap's use of REMs
+*/
+
+.custom-control.custom-checkbox.custom-control-inline {
+  min-height: 1.5 * $gl-font-size;
+  padding-left: 1.5 * $gl-font-size;
+
+  .custom-control {
+    max-height: 1.5 * $gl-font-size;
+    padding-left: 1.5 * $gl-font-size;
+    min-height: 1.5 * $gl-font-size;
+  }
+
+  .custom-control-inline {
+    margin-right: $gl-font-size;
+  }
+
+  .custom-control-label::before {
+    top: $gl-padding-4;
+    left: -1.5 * $gl-font-size;
+    width: $gl-font-size;
+    height: $gl-font-size;
+  }
+
+  .custom-control-label::after {
+    top: $gl-padding-4;
+    left: -1.5 * $gl-font-size;
+    width: $gl-font-size;
+    height: $gl-font-size;
+  }
+}
