@@ -74,9 +74,39 @@ module QA
             Page::Project::Pipeline::Index.act { go_to_latest_pipeline }
 
             Page::Project::Pipeline::Show.perform do |pipeline|
-              expect(pipeline).to have_build('build', status: :success, wait: 600)
-              expect(pipeline).to have_build('test', status: :success, wait: 600)
-              expect(pipeline).to have_build('production', status: :success, wait: 1200)
+              pipeline.go_to_job('build')
+            end
+            Page::Project::Job::Show.perform do |job|
+              job.wait(reload: false, max: 600) do
+                job.completed? && !job.trace_loading?
+              end
+              expect(job.passed?).to be_truthy, "Job status did not become \"passed\"."
+
+              job.click_element(:pipeline_path)
+            end
+
+            Page::Project::Pipeline::Show.perform do |pipeline|
+              pipeline.go_to_job('test')
+            end
+            Page::Project::Job::Show.perform do |job|
+              job.wait(reload: false, max: 600) do
+                job.completed? && !job.trace_loading?
+              end
+              expect(job.passed?).to be_truthy, "Job status did not become \"passed\"."
+
+              job.click_element(:pipeline_path)
+            end
+
+            Page::Project::Pipeline::Show.perform do |pipeline|
+              pipeline.go_to_job('production')
+            end
+            Page::Project::Job::Show.perform do |job|
+              job.wait(reload: false, max: 1200) do
+                job.completed? && !job.trace_loading?
+              end
+              expect(job.passed?).to be_truthy, "Job status did not become \"passed\"."
+
+              job.click_element(:pipeline_path)
             end
 
             Page::Project::Menu.act { click_operations_environments }
@@ -114,9 +144,39 @@ module QA
             Page::Project::Pipeline::Index.act { go_to_latest_pipeline }
 
             Page::Project::Pipeline::Show.perform do |pipeline|
-              expect(pipeline).to have_build('build', status: :success, wait: 600)
-              expect(pipeline).to have_build('test', status: :success, wait: 600)
-              expect(pipeline).to have_build('production', status: :success, wait: 1200)
+              pipeline.go_to_job('build')
+            end
+            Page::Project::Job::Show.perform do |job|
+              job.wait(reload: false, max: 600) do
+                job.completed? && !job.trace_loading?
+              end
+              expect(job.passed?).to be_truthy, "Job status did not become \"passed\"."
+
+              job.click_element(:pipeline_path)
+            end
+
+            Page::Project::Pipeline::Show.perform do |pipeline|
+              pipeline.go_to_job('test')
+            end
+            Page::Project::Job::Show.perform do |job|
+              job.wait(reload: false, max: 600) do
+                job.completed? && !job.trace_loading?
+              end
+              expect(job.passed?).to be_truthy, "Job status did not become \"passed\"."
+
+              job.click_element(:pipeline_path)
+            end
+
+            Page::Project::Pipeline::Show.perform do |pipeline|
+              pipeline.go_to_job('production')
+            end
+            Page::Project::Job::Show.perform do |job|
+              job.wait(reload: false, max: 1200) do
+                job.completed? && !job.trace_loading?
+              end
+              expect(job.passed?).to be_truthy, "Job status did not become \"passed\"."
+
+              job.click_element(:pipeline_path)
             end
 
             Page::Project::Menu.act { click_operations_environments }

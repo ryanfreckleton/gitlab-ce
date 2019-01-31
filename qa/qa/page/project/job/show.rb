@@ -16,6 +16,10 @@ module QA::Page
         element :status_badge
       end
 
+      view 'app/assets/javascripts/jobs/components/stages_dropdown.vue' do
+        element :pipeline_path
+      end
+
       def completed?
         COMPLETED_STATUSES.include?(status_badge)
       end
