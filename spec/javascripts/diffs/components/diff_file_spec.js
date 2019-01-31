@@ -52,8 +52,7 @@ describe('DiffFile', () => {
 
       it('should have collapsed text and link', done => {
         vm.renderIt = true;
-        vm.isCollapsed = false;
-        vm.file.highlighted_diff_lines = null;
+        vm.isCollapsed = true;
 
         vm.$nextTick(() => {
           expect(vm.$el.innerText).toContain('This diff is collapsed');
