@@ -2,12 +2,13 @@
 import { s__ } from '~/locale';
 import { mapActions } from 'vuex';
 import Icon from '~/vue_shared/components/icon.vue';
+import BFormInput from 'bootstrap-vue/es/components/form-input/form-input';
 
 import { GlFormGroup, GlFormInput } from '@gitlab/ui';
 
 export default {
   name: 'ErrorTrackingForm',
-  components: { GlFormGroup, GlFormInput, Icon },
+  components: { BFormInput, GlFormGroup, GlFormInput, Icon },
   props: {
     initialApiHost: {
       type: String,
@@ -45,13 +46,16 @@ export default {
     ...mapActions(['loadProjects']),
     handleClick() {
       console.log(this.enabled, this.apiHost, this.token);
-      // this.apiHost = 'test';
       this.loadProjects({
         listProjectsEndpoint: this.listProjectsEndpoint,
-        enabled: this.enabled,
         apiHost: this.apiHost,
         token: this.token,
       });
+    },
+    mounted() {
+      const inputElement = this.$refs.input.$el;
+      inputElement.value = 'some value';
+      inputElement.dispatchEvent(new Event('input'));
     },
   },
 };
@@ -71,31 +75,39 @@ export default {
         for="project_error_tracking_setting_attributes_enabled"
       >{{ enabledText }}</label>
     </div>
-    <gl-form-group
-      :label="s__('Sentry API URL')"
-      label-class="label-bold"
-      label-for="project_error_tracking_setting_attributes_host_url"
-    >
-      <gl-form-input
-        id="project_error_tracking_setting_attributes_host_url"
-        v-model="apiHost"
-        :placeholder="s__('https://mysentryserver.com')"
-      />
-      <p class="form-text text-muted">{{ urlDescription }}</p>
-    </gl-form-group>
-    <gl-form-group
-      :label="s__('Auth Token')"
-      label-class="label-bold"
-      label-for="project_error_tracking_setting_attributes_token"
-    >
-      <gl-form-input
-        id="project_error_tracking_setting_attributes_token"
-        v-model="token"
-        class="form-control form-control-inline"
-        style="width: auto;"
-      />
-      <div class="btn btn-success prepend-left-10" @click="handleClick">{{ connectText }}</div>
-      <p class="form-text text-muted">{{ tokenDescription }}</p>
-    </gl-form-group>
+    <div class="form-group">
+      <div>
+        <label
+          class="label-bold"
+          for="project_error_tracking_setting_attributes_api_host"
+        >{{s__('Sentry API URL')}}</label>
+        <input
+          id="project_error_tracking_setting_attributes_api_host"
+          v-model="apiHost"
+          class="form-control"
+          :placeholder="s__('https://mysentryserver.com')"
+        >
+        <p class="form-text text-muted">{{ urlDescription }}</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <div>
+        <!-- TODO: remove inline styles -->
+        <label
+          class="label-bold"
+          for="project_error_tracking_setting_attributes_token"
+          style="display: block;"
+        >{{s__('Auth Token')}}</label>
+        <!-- TODO: Figure out how to make this wide enough -->
+        <input
+          id="project_error_tracking_setting_attributes_token"
+          v-model="token"
+          class="form-control form-control-inline"
+          style="width: auto;"
+        >
+        <div class="btn btn-success prepend-left-10" @click="handleClick">{{ connectText }}</div>
+        <p class="form-text text-muted">{{ tokenDescription }}</p>
+      </div>
+    </div>
   </div>
 </template>
