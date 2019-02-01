@@ -41,16 +41,15 @@ export default {
   },
   computed: {
     showCheck() {
-      // TODO
-      return true;
+      return this.$store.state.connectSuccessful;
     },
     // Two-way computed property pattern: https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
     apiHost: {
       get() {
         return this.$store.state.apiHost;
       },
-      set(value) {
-        this.$store.commit(types.UPDATE_API_HOST, value);
+      set(apiHost) {
+        this.updateApiHost(apiHost);
       },
     },
     enabled: {
@@ -65,13 +64,13 @@ export default {
       get() {
         return this.$store.state.token;
       },
-      set(value) {
-        this.$store.commit(types.UPDATE_TOKEN, value);
+      set(token) {
+        this.updateToken(token);
       },
     },
   },
   methods: {
-    ...mapActions(['loadProjects']),
+    ...mapActions(['loadProjects', 'updateApiHost', 'updateToken']),
     handleConnectClick() {
       this.loadProjects({
         listProjectsEndpoint: this.listProjectsEndpoint,
@@ -133,11 +132,13 @@ export default {
           style="width: auto;"
         >
         <button class="btn btn-success prepend-left-5" @click="handleConnectClick">{{ connectText }}</button>
+        <!-- TODO: Find color and vertical align utility classes -->
         <icon
           v-show="showCheck"
           class="prepend-left-5"
           :aria-label="__('Projects Successfully Retrieved')"
           name="check-circle"
+          style="color: green; vertical-align: middle;"
         />
         <p class="form-text text-muted">{{ tokenDescription }}</p>
       </div>

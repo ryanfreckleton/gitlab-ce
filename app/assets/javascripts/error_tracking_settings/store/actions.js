@@ -15,7 +15,7 @@ const transformBackendProject = ({
 });
 
 export default {
-  loadProjects({ dispatch, state }, data) {
+  loadProjects({ commit, dispatch, state }, data) {
     return axios
       .post(`${data.listProjectsEndpoint}.json`, {
         error_tracking_setting: {
@@ -25,8 +25,10 @@ export default {
       })
       .then(res => {
         dispatch('receiveLoadProjects', res.data.projects.map(transformBackendProject));
+        commit(types.UPDATE_CONNECT_SUCCESSFUL, true);
       })
       .catch(err => {
+        commit(types.UPDATE_CONNECT_SUCCESSFUL, false);
         // TODO: error handling
         console.log(err);
       });
@@ -61,5 +63,13 @@ export default {
         // TODO: error handling
         console.log(err);
       });
+  },
+  updateApiHost({ commit }, apiHost) {
+    commit(types.UPDATE_API_HOST, apiHost);
+    commit(types.UPDATE_CONNECT_SUCCESSFUL, false);
+  },
+  updateToken({ commit }, token) {
+    commit(types.UPDATE_TOKEN, token);
+    commit(types.UPDATE_CONNECT_SUCCESSFUL, false);
   },
 };

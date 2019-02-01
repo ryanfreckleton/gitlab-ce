@@ -22,4 +22,9 @@ export default {
       token,
     });
   },
+  [types.UPDATE_CONNECT_SUCCESSFUL](state, connectSuccessful) {
+    Object.assign(state, {
+      connectSuccessful,
+    });
+  },
 };
