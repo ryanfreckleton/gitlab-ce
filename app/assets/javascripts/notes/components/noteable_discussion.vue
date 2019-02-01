@@ -398,7 +398,9 @@ Please check your network connection and try again.`;
                     :line="line"
                     :commit="commit"
                     :help-page-path="helpPagePath"
+                    :show-reply-button="canReply"
                     @handleDeleteNote="deleteNoteHandler"
+                    @startReplying="startReplying(discussion.id)"
                   >
                     <note-edited-text
                       v-if="discussion.resolved"
