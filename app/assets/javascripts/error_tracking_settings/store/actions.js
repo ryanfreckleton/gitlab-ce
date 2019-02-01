@@ -3,7 +3,7 @@ import types from './mutation_types';
 import createFlash from '~/flash';
 import { s__ } from '~/locale';
 
-const transformBackendProject = ({
+export const transformBackendProject = ({
   slug,
   name,
   organization_name: organizationName,
@@ -14,6 +14,13 @@ const transformBackendProject = ({
   name,
   organizationName,
   organizationSlug,
+});
+
+const transformFrontendProject = project => ({
+  slug: project.slug,
+  name: project.slug,
+  organization_name: project.organizationName,
+  organization_slug: project.organizationSlug,
 });
 
 // TODO: determine action naming conventions
@@ -46,7 +53,7 @@ export default {
             api_host: state.apiHost,
             enabled: state.enabled,
             token: state.token,
-            project: state.selectedProject,
+            project: state.selectedProject ? transformFrontendProject(state.selectedProject) : null,
           },
         },
       })

@@ -2,19 +2,21 @@ import $ from 'jquery';
 import Vue from 'vue';
 import store from './store';
 import types from './store/mutation_types';
+// TODO: move this into a utility somewhere
+import { transformBackendProject } from './store/actions';
 import ErrorTrackingSettings from './components/error_tracking_settings.vue';
 
 const getInitialProject = projectDataElement => {
   const {
-    project: { name, slug, organizationName, organizationSlug },
+    project: { name, slug, organization_name, organization_slug },
   } = projectDataElement.data();
   if (slug) {
-    return {
+    return transformBackendProject({
       slug,
       name,
-      organizationName,
-      organizationSlug,
-    };
+      organization_name,
+      organization_slug,
+    });
   }
   return null;
 };
