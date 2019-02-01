@@ -517,4 +517,29 @@ describe('Notes Store mutations', () => {
       );
     });
   });
+
+  describe('CONVERT_TO_DISCUSSION', () => {
+    let discussion;
+    let state;
+
+    beforeEach(() => {
+      discussion = {
+        id: 42,
+        individual_note: true,
+      };
+      state = { discussions: [discussion] };
+    });
+
+    it('toggles individual_note', () => {
+      mutations.CONVERT_TO_DISCUSSION(state, discussion.id);
+
+      expect(discussion.individual_note).toBe(false);
+    });
+
+    it('does nothing if discussion was not found', () => {
+      mutations.CONVERT_TO_DISCUSSION(state, 99);
+
+      expect(discussion.individual_note).toBe(true);
+    });
+  });
 });
