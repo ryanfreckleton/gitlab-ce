@@ -98,24 +98,22 @@ export default {
         v-model="enabled"
         class="form-check-input"
         type="checkbox"
-      >
-      <label
-        class="form-check-label"
-        for="project_error_tracking_setting_attributes_enabled"
-      >{{ enabledText }}</label>
+      />
+      <label class="form-check-label" for="project_error_tracking_setting_attributes_enabled">{{
+        enabledText
+      }}</label>
     </div>
     <div class="form-group">
       <div>
-        <label
-          class="label-bold"
-          for="project_error_tracking_setting_attributes_api_host"
-        >{{s__('Sentry API URL')}}</label>
+        <label class="label-bold" for="project_error_tracking_setting_attributes_api_host">{{
+          s__('Sentry API URL')
+        }}</label>
         <input
           id="project_error_tracking_setting_attributes_api_host"
           v-model="apiHost"
           class="form-control"
           :placeholder="s__('https://mysentryserver.com')"
-        >
+        />
         <p class="form-text text-muted">{{ urlDescription }}</p>
       </div>
     </div>
@@ -126,15 +124,18 @@ export default {
           class="label-bold"
           for="project_error_tracking_setting_attributes_token"
           style="display: block;"
-        >{{s__('Auth Token')}}</label>
+          >{{ s__('Auth Token') }}</label
+        >
         <!-- TODO: Figure out how to make this wide enough -->
         <input
           id="project_error_tracking_setting_attributes_token"
           v-model="token"
           class="form-control form-control-inline gl-field-error-outline"
           style="width: auto;"
-        >
-        <button class="btn btn-success prepend-left-5" @click="handleConnectClick">{{ connectText }}</button>
+        />
+        <button class="btn btn-success prepend-left-5" @click="handleConnectClick">
+          {{ connectText }}
+        </button>
         <!-- TODO: Find color and vertical align utility classes -->
         <icon
           v-show="showCheck"

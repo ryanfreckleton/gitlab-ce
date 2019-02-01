@@ -92,10 +92,9 @@ export default {
     <!--
       Given how many classes are required here, could add a full-width option to gl-dropdown
     -->
-    <label
-      class="label-bold"
-      for="project_error_tracking_setting_attributes_project"
-    >{{projectLabel}}</label>
+    <label class="label-bold" for="project_error_tracking_setting_attributes_project">{{
+      projectLabel
+    }}</label>
     <gl-dropdown
       id="project_error_tracking_setting_attributes_project"
       name="project[error_tracking_setting_attributes][project]"
@@ -111,11 +110,14 @@ export default {
         :value="project.id"
         class="w-100"
         @click="handleClick"
-      >{{ getDisplayName(project) }}</gl-dropdown-item>
+        >{{ getDisplayName(project) }}</gl-dropdown-item
+      >
     </gl-dropdown>
     <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
     <!-- TODO: possibly convert to else-if? -->
-    <span v-if="isProjectValid" class="form-text gl-field-error-message">{{errorText}}</span>
-    <span v-else-if="!areProjectsLoaded" class="form-text text-muted">{{projectSelectionText}}</span>
+    <span v-if="isProjectValid" class="form-text gl-field-error-message">{{ errorText }}</span>
+    <span v-else-if="!areProjectsLoaded" class="form-text text-muted">{{
+      projectSelectionText
+    }}</span>
   </div>
 </template>

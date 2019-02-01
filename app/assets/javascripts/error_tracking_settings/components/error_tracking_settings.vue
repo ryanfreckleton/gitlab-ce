@@ -55,8 +55,8 @@ export default {
       :list-projects-endpoint="listProjectsEndpoint"
     />
     <div class="form-group">
-      <ProjectDropdown/>
+      <ProjectDropdown />
     </div>
-    <button class="btn btn-success" @click="handleSubmit">{{saveChangesText}}</button>
+    <button class="btn btn-success" @click="handleSubmit">{{ saveChangesText }}</button>
   </div>
 </template>
