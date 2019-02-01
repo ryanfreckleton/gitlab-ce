@@ -4,11 +4,11 @@ class AlexCommand
   Result = Struct.new(:stdout, :stderr, :status)
 
   def self.from_paths(paths)
-    execute(%W[node_modules/.bin/alex #{paths.join(' ')}])
+    execute(%W[alex #{paths.join(' ')}])
   end
 
   def self.from_text(text)
-    execute(%w[node_modules/.bin/alex --stdin], text)
+    execute(%w[alex --stdin], text)
   end
 
   def self.execute(cmd, input = nil)
