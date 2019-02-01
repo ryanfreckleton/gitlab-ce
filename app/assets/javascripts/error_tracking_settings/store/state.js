@@ -1,7 +1,10 @@
 export default () => ({
+  // TODO: alphabetize?
   apiHost: '',
+  enabled: '',
   token: '',
   projects: null,
   selectedProject: '',
-  // potentially store error states here too
+  connectSuccessful: false,
+  // TODO: potentially store error states here too
 });

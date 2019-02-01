@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import Vue from 'vue';
 import store from './store';
+import types from './store/mutation_types';
 import ErrorTrackingSettings from './components/error_tracking_settings.vue';
 
 export default () => {
@@ -12,7 +13,12 @@ export default () => {
   const operationsSettingsEndpoint = formContainerEl.attr('action');
   const { listProjectsEndpoint } = listProjectsEl.dataset;
 
-  console.log('data: ', formContainerEl.data());
+  const { apiHost, enabled, token } = formContainerEl.data();
+
+  // Set up initial data from DOM
+  store.commit(types.UPDATE_API_HOST, apiHost);
+  store.commit(types.UPDATE_ENABLED, enabled);
+  store.commit(types.UPDATE_TOKEN, token);
 
   return new Vue({
     el: formContainerEl[0],
@@ -24,7 +30,6 @@ export default () => {
       const {
         dataset: { slug, name, organizationName, organizationSlug },
       } = containerEl;
-      const { apiHost, enabled, token } = formContainerEl.data();
 
       const data = {
         initialEnabled: enabled,

@@ -2,6 +2,7 @@
 import { s__ } from '~/locale';
 import { mapActions } from 'vuex';
 import Icon from '~/vue_shared/components/icon.vue';
+import types from '../store/mutation_types';
 
 import { GlFormGroup, GlFormInput } from '@gitlab/ui';
 
@@ -9,6 +10,7 @@ export default {
   name: 'ErrorTrackingForm',
   components: { GlFormGroup, GlFormInput, Icon },
   props: {
+    // TODO: Remove initial values if not required for error states
     initialApiHost: {
       type: String,
       required: true,
@@ -35,9 +37,6 @@ export default {
         "After adding your Auth Token, use the 'Connect' button to load projects",
       ),
       urlDescription: s__('Find your hostname in your Sentry account settings page'),
-      apiHost: this.initialApiHost,
-      enabled: this.initialEnabled,
-      token: this.initialToken,
     };
   },
   computed: {
@@ -45,11 +44,35 @@ export default {
       // TODO
       return true;
     },
+    // Two-way computed property pattern: https://vuex.vuejs.org/guide/forms.html#two-way-computed-property
+    apiHost: {
+      get() {
+        return this.$store.state.apiHost;
+      },
+      set(value) {
+        this.$store.commit(types.UPDATE_API_HOST, value);
+      },
+    },
+    enabled: {
+      get() {
+        return this.$store.state.enabled;
+      },
+      set(value) {
+        this.$store.commit(types.UPDATE_ENABLED, value);
+      },
+    },
+    token: {
+      get() {
+        return this.$store.state.token;
+      },
+      set(value) {
+        this.$store.commit(types.UPDATE_TOKEN, value);
+      },
+    },
   },
   methods: {
     ...mapActions(['loadProjects']),
-    handleClick() {
-      console.log(this.enabled, this.apiHost, this.token);
+    handleConnectClick() {
       this.loadProjects({
         listProjectsEndpoint: this.listProjectsEndpoint,
         apiHost: this.apiHost,
@@ -109,7 +132,7 @@ export default {
           class="form-control form-control-inline"
           style="width: auto;"
         >
-        <button class="btn btn-success prepend-left-5" @click="handleClick">{{ connectText }}</button>
+        <button class="btn btn-success prepend-left-5" @click="handleConnectClick">{{ connectText }}</button>
         <icon
           v-show="showCheck"
           class="prepend-left-5"

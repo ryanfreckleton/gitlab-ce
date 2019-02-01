@@ -1,10 +1,6 @@
 - return unless can?(current_user, :read_environment, @project)
 
 - setting = error_tracking_setting
--# TODO: remove these
-- p @project.id
-- p namespace_project_list_projects_url(project_id: @project, namespace_id: @project.namespace)
-- p setting.api_host
 
 %section.settings.expanded.border-0.no-animate
   .settings-header
@@ -26,22 +22,21 @@
             = form.url_field :api_host, class: 'form-control', placeholder: _('https://mysentryserver.com'), id: 'js-error-tracking-api-url'
             %p.form-text.text-muted
               = _('Find your hostname in your Sentry account settings page')
-          .form-group#js-error-tracking-host-url
 
           .form-group
             -# TODO: is there a better way to do this?
             = form.label :token, _('Auth Token'), class: 'label-bold', style: 'display: block;'
             -# TODO: figure out why form-control-inline gets overridden. Remove hardcoded style.
             = form.text_field :token, class: 'form-control form-control-inline', style: 'width: auto;', id: 'js-error-tracking-token'
-            .btn.btn-success.prepend-left-10#js-error-tracking-list-projects{ data: { list_projects_endpoint: namespace_project_list_projects_url(project_id: @project, namespace_id: @project.namespace) } }
+            .btn.btn-success.prepend-left-5#js-error-tracking-list-projects{ data: { list_projects_endpoint: namespace_project_list_projects_url(project_id: @project, namespace_id: @project.namespace) } }
               = _('Connect')
             %p.form-text.text-muted
               = _("After adding your Auth Token, use the 'Connect' button to load projects")
-          .form-group#js-error-tracking-token
 
           .form-group
             %label.label-bold
               = _('Project')
+            -# TODO: Move all data objects to root level form element
             .dropdown#vue-dropdown-placeholder{ data: { project: setting[:project] } }
               %button.dropdown-menu-toggle.dropdown-menu-full-width.js-dropdown-toggle{ type: 'button', disabled: true }
                 %span.dropdown-toggle-text

@@ -7,4 +7,19 @@ export default {
       projects,
     });
   },
+  [types.UPDATE_API_HOST](state, apiHost) {
+    Object.assign(state, {
+      apiHost,
+    });
+  },
+  [types.UPDATE_ENABLED](state, enabled) {
+    Object.assign(state, {
+      enabled,
+    });
+  },
+  [types.UPDATE_TOKEN](state, token) {
+    Object.assign(state, {
+      token,
+    });
+  },
 };
