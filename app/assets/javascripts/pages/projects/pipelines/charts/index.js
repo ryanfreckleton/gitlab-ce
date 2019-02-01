@@ -1,36 +1,28 @@
 import $ from 'jquery';
 import Chart from 'chart.js';
 
-import {
-  chartOptions,
-  commonTooltips,
-  barChartTooltips,
-  yAxesConfig,
-} from '~/lib/utils/chart_utils';
+import { barChartOptions, lineChartOptions } from '~/lib/utils/chart_utils';
 
-const options = {
-  ...chartOptions(),
-  scales: {
-    ...yAxesConfig(),
-  },
-};
+const SUCCESS_LINE_COLOR = '#1aaa55';
 
-const buildChart = chartScope => {
+const TOTAL_LINE_COLOR = '#707070';
+
+const buildChart = (chartScope, shouldAdjustFontSize) => {
   const data = {
     labels: chartScope.labels,
     datasets: [
       {
-        backgroundColor: '#1aaa55',
-        borderColor: '#1aaa55',
-        pointBackgroundColor: '#1aaa55',
+        backgroundColor: SUCCESS_LINE_COLOR,
+        borderColor: SUCCESS_LINE_COLOR,
+        pointBackgroundColor: SUCCESS_LINE_COLOR,
         pointBorderColor: '#fff',
         data: chartScope.successValues,
         fill: 'origin',
       },
       {
-        backgroundColor: '#707070',
-        borderColor: '#707070',
-        pointBackgroundColor: '#707070',
+        backgroundColor: TOTAL_LINE_COLOR,
+        borderColor: TOTAL_LINE_COLOR,
+        pointBackgroundColor: TOTAL_LINE_COLOR,
         pointBorderColor: '#EEE',
         data: chartScope.totalValues,
         fill: '-1',
@@ -41,46 +33,18 @@ const buildChart = chartScope => {
     .get(0)
     .getContext('2d');
 
-  const chart = new Chart(ctx, {
+  return new Chart(ctx, {
     type: 'line',
     data,
-    options: {
-      ...options,
-      elements: {
-        point: {
-          hitRadius: ctx.canvas.width / (chartScope.totalValues.length * 2),
-        },
-      },
-      tooltips: {
-        ...commonTooltips(),
-        caretSize: 0,
-        multiKeyBackground: 'rgba(0,0,0,0)',
-        callbacks: {
-          labelColor({ datasetIndex }, { config }) {
-            return {
-              backgroundColor: config.data.datasets[datasetIndex].backgroundColor,
-              borderColor: 'rgba(0,0,0,0)',
-            };
-          },
-        },
-      },
-    },
-  });
-
-  window.addEventListener('resize', () => {
-    chart.update({
-      elements: {
-        point: {
-          hitRadius: ctx.canvas.width / (chartScope.totalValues.length * 2),
-        },
-      },
-    });
+    options: lineChartOptions({
+      width: ctx.canvas.width,
+      numberOfPoints: chartScope.totalValues.length,
+      shouldAdjustFontSize,
+    }),
   });
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  const chartTimesData = JSON.parse(document.getElementById('pipelinesTimesChartsData').innerHTML);
-  const chartsData = JSON.parse(document.getElementById('pipelinesChartsData').innerHTML);
+const buildBarChart = (chartTimesData, shouldAdjustFontSize) => {
   const data = {
     labels: chartTimesData.labels,
     datasets: [
@@ -94,26 +58,26 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     ],
   };
-
-  if (window.innerWidth < 768) {
-    // Scale fonts if window width lower than 768px (iPad portrait)
-    options.scaleFontSize = 8;
-  }
-
-  // eslint-disable-next-line no-new
-  new Chart(
+  return new Chart(
     $('#build_timesChart')
       .get(0)
       .getContext('2d'),
     {
       type: 'bar',
       data,
-      options: {
-        ...options,
-        tooltips: barChartTooltips(),
-      },
+      options: barChartOptions(shouldAdjustFontSize),
     },
   );
+};
 
-  chartsData.forEach(scope => buildChart(scope));
+document.addEventListener('DOMContentLoaded', () => {
+  const chartTimesData = JSON.parse(document.getElementById('pipelinesTimesChartsData').innerHTML);
+  const chartsData = JSON.parse(document.getElementById('pipelinesChartsData').innerHTML);
+
+  // Scale fonts if window width lower than 768px (iPad portrait)
+  const shouldAdjustFontSize = window.innerWidth < 768;
+
+  buildBarChart(chartTimesData, shouldAdjustFontSize);
+
+  chartsData.forEach(scope => buildChart(scope, shouldAdjustFontSize));
 });
