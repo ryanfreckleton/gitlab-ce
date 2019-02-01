@@ -5,7 +5,6 @@ require "spec_helper"
 describe "User creates issue" do
   let(:project) { create(:project_empty_repo, :public) }
   let(:user) { create(:user) }
-  let(:user_special) { create(:user, name: "Jon O'Shea") }
 
   context "when signed in as guest" do
     before do
@@ -96,6 +95,8 @@ describe "User creates issue" do
   end
 
   context "when signed in as user with special characters in their name" do
+    let(:user_special) { create(:user, name: "Jon O'Shea") }
+
     before do
       project.add_developer(user_special)
       sign_in(user_special)
@@ -107,7 +108,7 @@ describe "User creates issue" do
       first('.assign-to-me-link').click
 
       expect(page).to have_content(user_special.name)
-      expect(page.find('input[name="issue[assignee_ids][]"]', visible: false)['data-meta']).to eq user_special.name
+      expect(page.find('input[name="issue[assignee_ids][]"]', visible: false)['data-meta']).to eq(user_special.name)
     end
   end
 end

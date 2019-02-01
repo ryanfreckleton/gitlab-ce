@@ -93,25 +93,22 @@ function UsersSelect(currentUser, els, options = {}) {
           }
 
           // Save current selected user to the DOM
-          const currentUserInfo = $dropdown.data('currentUserInfo');
-
-          const userName = currentUserInfo ? currentUserInfo.name : null;
+          const currentUserInfo = $dropdown.data('currentUserInfo') || {};
+          const currentUser = _this.currentUser || {};
           const fieldName = $dropdown.data('fieldName');
-          const userId = (function() {
-            if (currentUserInfo) {
-              return currentUserInfo.id;
-            }
-            return _this.currentUser && _this.currentUser.id ? _this.currentUser.id : null;
-          })();
+          const userName = currentUserInfo.name;
+          const userId = currentUserInfo.id || currentUser.id;
 
-          const input = `<input type="hidden" name="${_.escape(fieldName)}"
-              ${userName ? `data-meta="${_.escape(userName)}"` : ''}
-              ${userId ? `value="${_.escape(userId)}"` : ''} />`;
+          const inputHtmlString = _.template(`
+            <input type="hidden" name="<%- fieldName %>"
+              data-meta="<%- userName %>"
+              value="<%- userId %>" />
+            `)({ fieldName, userName, userId });
 
           if ($selectbox) {
-            $dropdown.parent().before(input);
+            $dropdown.parent().before(inputHtmlString);
           } else {
-            $dropdown.after(input);
+            $dropdown.after(inputHtmlString);
           }
         };
 
