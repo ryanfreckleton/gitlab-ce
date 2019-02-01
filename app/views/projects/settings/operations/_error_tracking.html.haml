@@ -22,7 +22,6 @@
             = form.url_field :api_host, class: 'form-control', placeholder: _('https://mysentryserver.com'), id: 'js-error-tracking-api-url'
             %p.form-text.text-muted
               = _('Find your hostname in your Sentry account settings page')
-
           .form-group
             -# TODO: is there a better way to do this?
             = form.label :token, _('Auth Token'), class: 'label-bold', style: 'display: block;'
@@ -32,15 +31,15 @@
               = _('Connect')
             %p.form-text.text-muted
               = _("After adding your Auth Token, use the 'Connect' button to load projects")
-
           .form-group
             %label.label-bold
               = _('Project')
-            -# TODO: Move all data objects to root level form element
             .dropdown
               %button.dropdown-menu-toggle.dropdown-menu-full-width.js-dropdown-toggle{ type: 'button', disabled: true }
                 %span.dropdown-toggle-text
-                  = _('Select project')
+                  = _('No projects available')
                   = icon('chevron-down')
+            %p.form-text.text-muted
+              = _("Click 'Connect' to re-establish the connection to Sentry and activate the dropdown.")
 
       = f.submit _('Save changes'), class: 'btn btn-success'

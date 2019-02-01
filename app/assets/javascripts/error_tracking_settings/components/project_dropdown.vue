@@ -31,7 +31,10 @@ export default {
       if (this.selectedProject !== null) {
         return this.getDisplayName(this.selectedProject);
       }
-      return s__('Error Tracking|Select Project');
+      if (!this.areProjectsLoaded || this.isProjectListEmpty) {
+        return s__('No projects available');
+      }
+      return s__('Select project');
     },
     errorText() {
       // TODO: read up on best way to handle translations with interpolation in JS
@@ -82,15 +85,6 @@ export default {
 
 <template>
   <div :class="[isProjectValid ? 'gl-show-field-errors' : '']">
-    <!-- Following: HTML-only boostrap dropdown menu, for comparison -->
-    <!-- <div class="dropdown">
-      <button class="dropdown-menu-toggle js-dropdown-toggle w-100" type="button">
-        <span class="dropdown-toggle-text">
-          {{ dropdownText }}
-          <icon :aria-label="__('Error Tracking|Select Project')" name="chevron-down"/>
-        </span>
-      </button>
-    </div>-->
     <!--
       Note: dropdown-menu-toggle class is required to push the toggle to the right of the dropdown.
       Could fix this in the gitlab-ui component, or in css
