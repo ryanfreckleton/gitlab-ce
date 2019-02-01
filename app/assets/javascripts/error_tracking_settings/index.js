@@ -5,9 +5,7 @@ import types from './store/mutation_types';
 import ErrorTrackingSettings from './components/error_tracking_settings.vue';
 
 const getInitialProject = projectDataElement => {
-  const {
-    dataset: { slug, name, organizationName, organizationSlug },
-  } = projectDataElement;
+  const { slug, name, organizationName, organizationSlug } = projectDataElement.data();
   if (slug) {
     return {
       slug,
@@ -22,14 +20,13 @@ const getInitialProject = projectDataElement => {
 export default () => {
   // TODO: make all dom searches relative to this element to save cycles
   const formContainerEl = $('.js-error-tracking-form').first();
-  const projectContainerEl = document.getElementById('vue-dropdown-placeholder');
   const listProjectsEl = document.getElementById('js-error-tracking-list-projects');
 
   const operationsSettingsEndpoint = formContainerEl.attr('action');
   const { listProjectsEndpoint } = listProjectsEl.dataset;
 
   const { apiHost, enabled, token } = formContainerEl.data();
-  const initialProject = getInitialProject(projectContainerEl);
+  const initialProject = getInitialProject(formContainerEl);
 
   // Set up initial data from DOM
   store.commit(types.UPDATE_API_HOST, apiHost);

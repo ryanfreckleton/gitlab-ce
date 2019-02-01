@@ -9,7 +9,7 @@
     %p
       = _('To link Sentry to GitLab, enter your Sentry URL and Auth Token.')
   .settings-content
-    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'}, data: { api_host: setting.api_host, enabled: setting.enabled, token: setting.token } do |f|
+    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'}, data: { api_host: setting.api_host, enabled: setting.enabled, token: setting.token, project: setting[:project] } do |f|
       = form_errors(@project)
       .form-group
         = f.fields_for :error_tracking_setting_attributes, setting do |form|
@@ -37,7 +37,7 @@
             %label.label-bold
               = _('Project')
             -# TODO: Move all data objects to root level form element
-            .dropdown#vue-dropdown-placeholder{ data: { project: setting[:project] } }
+            .dropdown
               %button.dropdown-menu-toggle.dropdown-menu-full-width.js-dropdown-toggle{ type: 'button', disabled: true }
                 %span.dropdown-toggle-text
                   = _('Select project')
