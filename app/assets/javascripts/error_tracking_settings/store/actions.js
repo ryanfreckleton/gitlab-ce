@@ -15,7 +15,7 @@ const transformBackendProject = ({
 });
 
 export default {
-  loadProjects({ commit, dispatch, state }, data) {
+  loadProjects({ dispatch, state }, data) {
     return axios
       .post(`${data.listProjectsEndpoint}.json`, {
         error_tracking_setting: {
@@ -25,12 +25,11 @@ export default {
       })
       .then(res => {
         dispatch('receiveLoadProjects', res.data.projects.map(transformBackendProject));
-        commit(types.UPDATE_CONNECT_SUCCESSFUL, true);
+        dispatch('connectSuccess');
       })
-      .catch(err => {
-        commit(types.UPDATE_CONNECT_SUCCESSFUL, false);
-        // TODO: error handling
-        console.log(err);
+      .catch(() => {
+        dispatch('connectFailed');
+        dispatch('receiveLoadProjects', null);
       });
   },
   receiveLoadProjects({ commit }, projects) {
@@ -38,7 +37,6 @@ export default {
   },
   // TODO: Add mutations
   saveSettings({ state }, data) {
-    console.log(data.operationsSettingsEndpoint);
     return axios
       .patch(data.operationsSettingsEndpoint, {
         project: {
@@ -64,12 +62,24 @@ export default {
         console.log(err);
       });
   },
-  updateApiHost({ commit }, apiHost) {
+  updateApiHost({ commit, dispatch }, apiHost) {
     commit(types.UPDATE_API_HOST, apiHost);
-    commit(types.UPDATE_CONNECT_SUCCESSFUL, false);
+    dispatch('connectReset');
   },
-  updateToken({ commit }, token) {
+  updateToken({ commit, dispatch }, token) {
     commit(types.UPDATE_TOKEN, token);
+    dispatch('connectReset');
+  },
+  connectFailed({ commit }) {
     commit(types.UPDATE_CONNECT_SUCCESSFUL, false);
+    commit(types.UPDATE_CONNECT_ERROR, true);
+  },
+  connectReset({ commit }) {
+    commit(types.UPDATE_CONNECT_SUCCESSFUL, false);
+    commit(types.UPDATE_CONNECT_ERROR, false);
+  },
+  connectSuccess({ commit }) {
+    commit(types.UPDATE_CONNECT_SUCCESSFUL, true);
+    commit(types.UPDATE_CONNECT_ERROR, false);
   },
 };

@@ -27,4 +27,9 @@ export default {
       connectSuccessful,
     });
   },
+  [types.UPDATE_CONNECT_ERROR](state, connectError) {
+    Object.assign(state, {
+      connectError,
+    });
+  },
 };

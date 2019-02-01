@@ -29,8 +29,8 @@ export default {
     },
   },
   data() {
-    console.log(this.initialApiHost);
     return {
+      connectErrorDescription: s__('Connection has failed. Re-check Auth Token and try again.'),
       connectText: s__('Connect'),
       enabledText: s__('Active'),
       tokenDescription: s__(
@@ -40,6 +40,9 @@ export default {
     };
   },
   computed: {
+    hasConnectError() {
+      return this.$store.state.connectError;
+    },
     showCheck() {
       return this.$store.state.connectSuccessful;
     },
@@ -117,7 +120,7 @@ export default {
       </div>
     </div>
     <div class="form-group">
-      <div>
+      <div :class="hasConnectError ? 'gl-show-field-errors' : ''">
         <!-- TODO: remove inline styles -->
         <label
           class="label-bold"
@@ -128,7 +131,7 @@ export default {
         <input
           id="project_error_tracking_setting_attributes_token"
           v-model="token"
-          class="form-control form-control-inline"
+          class="form-control form-control-inline gl-field-error-outline"
           style="width: auto;"
         >
         <button class="btn btn-success prepend-left-5" @click="handleConnectClick">{{ connectText }}</button>
@@ -140,7 +143,8 @@ export default {
           name="check-circle"
           style="color: green; vertical-align: middle;"
         />
-        <p class="form-text text-muted">{{ tokenDescription }}</p>
+        <p v-if="hasConnectError" class="gl-field-error">{{ connectErrorDescription }}</p>
+        <p v-else class="form-text text-muted">{{ tokenDescription }}</p>
       </div>
     </div>
   </div>
