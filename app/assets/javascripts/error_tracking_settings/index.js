@@ -29,7 +29,6 @@ export default () => {
 
   const { apiHost, enabled, token } = formContainerEl.data();
   const initialProject = getInitialProject(formContainerEl);
-  console.log(initialProject);
 
   // Set up initial data from DOM
   store.commit(types.UPDATE_API_HOST, apiHost);
