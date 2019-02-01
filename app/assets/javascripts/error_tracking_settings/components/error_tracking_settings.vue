@@ -1,9 +1,10 @@
 <script>
+import { mapActions } from 'vuex';
 import ProjectDropdown from './project_dropdown.vue';
 import ErrorTrackingForm from './error_tracking_form.vue';
 
 export default {
-  name: 'Dropdown',
+  name: 'ErrorTrackingSettings',
   components: { ProjectDropdown, ErrorTrackingForm },
   props: {
     // TODO: Can prop definitions be composed / passed through transparently?
@@ -28,10 +29,19 @@ export default {
       type: String,
       required: true,
     },
+    operationsSettingsEndpoint: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
+    ...mapActions(['saveSettings']),
     handleSubmit() {
-      console.log(this.$store.state);
+      this.saveSettings({
+        // TODO: Fix this
+        token: this.initialToken,
+        operationsSettingsEndpoint: this.operationsSettingsEndpoint,
+      });
     },
   },
 };

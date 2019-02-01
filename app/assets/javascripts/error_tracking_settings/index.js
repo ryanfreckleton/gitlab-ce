@@ -9,6 +9,7 @@ export default () => {
   const containerEl = document.getElementById('vue-dropdown-placeholder');
   const listProjectsEl = document.getElementById('js-error-tracking-list-projects');
 
+  const operationsSettingsEndpoint = formContainerEl.attr('action');
   const { listProjectsEndpoint } = listProjectsEl.dataset;
 
   console.log('data: ', formContainerEl.data());
@@ -53,6 +54,7 @@ export default () => {
           initialApiHost: this.initialApiHost,
           initialProject: this.initialProject,
           listProjectsEndpoint,
+          operationsSettingsEndpoint,
         },
       });
     },

@@ -16,7 +16,6 @@ const transformBackendProject = ({
 
 export default {
   loadProjects({ dispatch }, data) {
-    console.log('request data:', data);
     return axios
       .post(`${data.listProjectsEndpoint}.json`, {
         error_tracking_setting: {
@@ -34,5 +33,33 @@ export default {
   },
   receiveLoadProjects({ commit }, projects) {
     commit(types.RECEIVE_PROJECTS, projects);
+  },
+  // TODO: Add mutations
+  saveSettings(store, data) {
+    console.log(data.operationsSettingsEndpoint);
+    return axios
+      .patch(data.operationsSettingsEndpoint, {
+        project: {
+          error_tracking_setting_attributes: {
+            enabled: true,
+            // TODO: Fix this
+            api_host: 'http://35.228.54.90:9000/',
+            token: data.token,
+            project: {
+              name: 'sentry-example',
+              slug: 'sentry-example',
+              organization_name: 'Sentry',
+              organization_slug: 'sentry',
+            },
+          },
+        },
+      })
+      .then(res => {
+        console.log('Saved successfully: ', res.data);
+      })
+      .catch(err => {
+        // TODO: error handling
+        console.log(err);
+      });
   },
 };
