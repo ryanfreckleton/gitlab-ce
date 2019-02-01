@@ -495,6 +495,9 @@ msgstr ""
 msgid "Advanced settings"
 msgstr ""
 
+msgid "After adding your Auth Token, use the 'Connect' button to load projects"
+msgstr ""
+
 msgid "All"
 msgstr ""
 
@@ -1461,6 +1464,9 @@ msgstr ""
 msgid "Clear search input"
 msgstr ""
 
+msgid "Click 'Connect' to re-establish the connection to Sentry and activate the dropdown."
+msgstr ""
+
 msgid "Click any <strong>project name</strong> in the project list below to navigate to the project milestone."
 msgstr ""
 
@@ -2106,6 +2112,9 @@ msgid "Connect"
 msgstr ""
 
 msgid "Connect repositories from GitHub"
+msgstr ""
+
+msgid "Connection has failed. Re-check Auth Token and try again."
 msgstr ""
 
 msgid "Container Registry"
@@ -2881,9 +2890,6 @@ msgstr ""
 msgid "Enter the merge request title"
 msgstr ""
 
-msgid "Enter your Sentry API URL"
-msgstr ""
-
 msgid "Environment variables"
 msgstr ""
 
@@ -2990,6 +2996,12 @@ msgid "Error Reporting and Logging"
 msgstr ""
 
 msgid "Error Tracking"
+msgstr ""
+
+msgid "Error Tracking|Click 'Connect' to re-establish the connection to Sentry and activate the dropdown."
+msgstr ""
+
+msgid "Error Tracking|To enable project selection, enter a valid Auth Token"
 msgstr ""
 
 msgid "Error fetching contributors data."
@@ -3250,9 +3262,6 @@ msgstr ""
 msgid "Filter..."
 msgstr ""
 
-msgid "Find and manage Auth Tokens in your Sentry account settings page."
-msgstr ""
-
 msgid "Find by path"
 msgstr ""
 
@@ -3266,6 +3275,9 @@ msgid "Find the downloaded ZIP file and decompress it."
 msgstr ""
 
 msgid "Find the newly extracted <code>Takeout/Google Code Project Hosting/GoogleCodeProjectHosting.json</code> file."
+msgstr ""
+
+msgid "Find your hostname in your Sentry account settings page"
 msgstr ""
 
 msgid "Fingerprints"
@@ -4743,6 +4755,9 @@ msgstr ""
 msgid "No prioritised labels with such name or description"
 msgstr ""
 
+msgid "No projects available"
+msgstr ""
+
 msgid "No public groups"
 msgstr ""
 
@@ -5679,6 +5694,9 @@ msgid "ProjectSettings|Learn more about badges."
 msgstr ""
 
 msgid "Projects"
+msgstr ""
+
+msgid "Projects Successfully Retrieved"
 msgstr ""
 
 msgid "Projects shared with %{group_name}"
@@ -7100,6 +7118,9 @@ msgstr ""
 msgid "There was an error loading users activity calendar."
 msgstr ""
 
+msgid "There was an error saving your changes."
+msgstr ""
+
 msgid "There was an error saving your notification settings."
 msgstr ""
 
@@ -8301,6 +8322,9 @@ msgstr ""
 msgid "Your changes have been saved"
 msgstr ""
 
+msgid "Your changes have been saved."
+msgstr ""
+
 msgid "Your comment will not be visible to the public."
 msgstr ""
 
@@ -8410,7 +8434,7 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-msgid "http://<sentry-host>/api/0/projects/{organization_slug}/{project_slug}/"
+msgid "https://mysentryserver.com"
 msgstr ""
 
 msgid "https://your-bitbucket-server"
