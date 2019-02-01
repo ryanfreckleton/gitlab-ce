@@ -1,5 +1,7 @@
 import axios from '~/lib/utils/axios_utils';
 import types from './mutation_types';
+import createFlash from '~/flash';
+import { s__ } from '~/locale';
 
 const transformBackendProject = ({
   slug,
@@ -14,6 +16,7 @@ const transformBackendProject = ({
   organizationSlug,
 });
 
+// TODO: determine action naming conventions
 export default {
   loadProjects({ dispatch, state }, data) {
     return axios
@@ -35,8 +38,16 @@ export default {
   receiveLoadProjects({ commit }, projects) {
     commit(types.RECEIVE_PROJECTS, projects);
   },
-  // TODO: Add mutations
   saveSettings({ state }, data) {
+    // TODO: Find out from Reuben if this is required
+    const project = state.selectedProject
+      ? state.selectedProject
+      : {
+          name: null,
+          slug: null,
+          organization_name: null,
+          organization_slug: null,
+        };
     return axios
       .patch(data.operationsSettingsEndpoint, {
         project: {
@@ -44,22 +55,18 @@ export default {
             api_host: state.apiHost,
             enabled: state.enabled,
             token: state.token,
-            project: {
-              name: 'sentry-example',
-              slug: 'sentry-example',
-              organization_name: 'Sentry',
-              organization_slug: 'sentry',
-            },
+            project,
           },
         },
       })
-      .then(res => {
-        // TODO: Show save success banner
-        console.log('Saved successfully: ', res.data);
+      .then(() => {
+        createFlash(s__('Your changes have been saved.'), 'notice');
       })
       .catch(err => {
-        // TODO: error handling
-        console.log(err);
+        createFlash(
+          `${s__('There was an error saving your changes.')} ${err.message ? err.message : ''}`,
+          'alert',
+        );
       });
   },
   updateApiHost({ commit, dispatch }, apiHost) {
