@@ -2,13 +2,12 @@
 import { s__ } from '~/locale';
 import { mapActions } from 'vuex';
 import Icon from '~/vue_shared/components/icon.vue';
-import BFormInput from 'bootstrap-vue/es/components/form-input/form-input';
 
 import { GlFormGroup, GlFormInput } from '@gitlab/ui';
 
 export default {
   name: 'ErrorTrackingForm',
-  components: { BFormInput, GlFormGroup, GlFormInput, Icon },
+  components: { GlFormGroup, GlFormInput, Icon },
   props: {
     initialApiHost: {
       type: String,
@@ -41,7 +40,12 @@ export default {
       token: this.initialToken,
     };
   },
-  computed: {},
+  computed: {
+    showCheck() {
+      // TODO
+      return true;
+    },
+  },
   methods: {
     ...mapActions(['loadProjects']),
     handleClick() {
@@ -105,7 +109,13 @@ export default {
           class="form-control form-control-inline"
           style="width: auto;"
         >
-        <div class="btn btn-success prepend-left-10" @click="handleClick">{{ connectText }}</div>
+        <button class="btn btn-success prepend-left-5" @click="handleClick">{{ connectText }}</button>
+        <icon
+          v-show="showCheck"
+          class="prepend-left-5"
+          :aria-label="__('Projects Successfully Retrieved')"
+          name="check-circle"
+        />
         <p class="form-text text-muted">{{ tokenDescription }}</p>
       </div>
     </div>
