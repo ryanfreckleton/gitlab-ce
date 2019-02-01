@@ -49,12 +49,12 @@ export default {
       return s__('Project');
     },
     projectSelectionText() {
+      if (this.$store.state.token) {
+        return s__(
+          "Error Tracking|Click 'Connect' to re-establish the connection to Sentry and activate the dropdown.",
+        );
+      }
       return s__('Error Tracking|To enable project selection, enter a valid Auth Token');
-    },
-    enableDropdownText() {
-      return s__(
-        "Error Tracking|Click 'Connect' to re-establish the connection to Sentry and activate the dropdown.",
-      );
     },
     isProjectListEmpty() {
       return this.areProjectsLoaded && this.$store.state.projects.length === 0;
@@ -75,12 +75,6 @@ export default {
     },
     hasExistingProject() {
       return this.initialProject !== null;
-    },
-    hasPreExistingProjectAndNoListLoaded() {
-      return this.hasExistingProject && !this.areProjectsLoaded;
-    },
-    hasNoPreExistingProjectAndNoListLoaded() {
-      return !this.hasExistingProject && !this.areProjectsLoaded;
     },
   },
   methods: {
@@ -139,13 +133,6 @@ export default {
     <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
     <!-- TODO: possibly convert to else-if? -->
     <span v-if="isDefaultProjectInvalid" class="form-text gl-field-error-message">{{errorText}}</span>
-    <span
-      v-if="hasNoPreExistingProjectAndNoListLoaded"
-      class="form-text text-muted"
-    >{{projectSelectionText}}</span>
-    <span
-      v-if="hasPreExistingProjectAndNoListLoaded"
-      class="form-text text-muted"
-    >{{enableDropdownText}}</span>
+    <span v-else-if="!areProjectsLoaded" class="form-text text-muted">{{projectSelectionText}}</span>
   </div>
 </template>
