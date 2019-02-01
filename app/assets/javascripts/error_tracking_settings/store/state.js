@@ -4,7 +4,7 @@ export default () => ({
   enabled: '',
   token: '',
   projects: null,
-  selectedProject: '',
+  selectedProject: null,
   connectSuccessful: false,
   connectError: false,
   // TODO: potentially store error states here too

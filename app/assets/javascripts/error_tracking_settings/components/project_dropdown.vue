@@ -1,5 +1,6 @@
 <script>
 import { s__ } from '~/locale';
+import { mapActions } from 'vuex';
 import Icon from '~/vue_shared/components/icon.vue';
 
 import { GlDropdown, GlDropdownHeader, GlDropdownItem } from '@gitlab/ui';
@@ -12,30 +13,25 @@ export default {
     GlDropdownItem,
     Icon,
   },
-  props: {
-    initialProject: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  },
   data() {
     return {
-      selected: '',
+      projectLabel: s__('Project'),
     };
   },
   computed: {
-    // TODO: tidy up this logic
+    selectedProject: {
+      get() {
+        return this.$store.state.selectedProject;
+      },
+      set(selectedProject) {
+        this.updateSelectedProject(selectedProject);
+      },
+    },
     dropdownText() {
-      if (this.selected === '' && !this.initialProject) {
-        return s__('Error Tracking|Select Project');
+      if (this.selectedProject !== null) {
+        return this.getDisplayName(this.selectedProject);
       }
-      if (this.selected === '' && this.initialProject) {
-        return this.getDisplayName(this.initialProject);
-      }
-      return this.getDisplayName(
-        this.$store.state.projects.find(item => item.id === this.selected),
-      );
+      return s__('Error Tracking|Select Project');
     },
     errorText() {
       // TODO: read up on best way to handle translations with interpolation in JS
@@ -44,9 +40,6 @@ export default {
           this.initialProject.name
         } is no longer available. Select another project to continue.`,
       );
-    },
-    projectLabel() {
-      return s__('Project');
     },
     projectSelectionText() {
       if (this.$store.state.token) {
@@ -59,30 +52,26 @@ export default {
     isProjectListEmpty() {
       return this.areProjectsLoaded && this.$store.state.projects.length === 0;
     },
-    isValid() {
-      return this.isDefaultProjectInvalid || this.isProjectListEmpty;
-    },
-    isDefaultProjectInvalid() {
-      // TODO: Disable saving the page when component is invalid
+    isProjectValid() {
       return (
-        this.hasExistingProject &&
+        this.selectedProject &&
         this.areProjectsLoaded &&
-        this.$store.state.projects.findIndex(item => item.id === this.selected) === -1
+        this.$store.state.projects.findIndex(item => item.id === this.selectedProject.id) === -1
       );
     },
     areProjectsLoaded() {
       return this.$store.state.projects !== null;
     },
-    hasExistingProject() {
-      return this.initialProject !== null;
-    },
   },
   methods: {
+    ...mapActions(['updateSelectedProject']),
     // TODO: Is there a better way to do this? v-model doesn't seem to bind directly to gl-dropdown because it's not a typical select element,
     // but it feels like there should be a better solution.
     // Perhaps some way to get this to work https://vuejs.org/v2/guide/forms.html#v-model-with-Components?
     handleClick(event) {
-      this.selected = event.target.value;
+      this.selectedProject = {
+        ...this.$store.state.projects.find(item => item.id === event.target.value),
+      };
     },
     getDisplayName(project) {
       return `${project.organizationName} | ${project.name}`;
@@ -92,7 +81,7 @@ export default {
 </script>
 
 <template>
-  <div :class="[isDefaultProjectInvalid ? 'gl-show-field-errors' : '']">
+  <div :class="[isProjectValid ? 'gl-show-field-errors' : '']">
     <!-- Following: HTML-only boostrap dropdown menu, for comparison -->
     <!-- <div class="dropdown">
       <button class="dropdown-menu-toggle js-dropdown-toggle w-100" type="button">
@@ -132,7 +121,7 @@ export default {
     </gl-dropdown>
     <!-- TODO: Figure out the correct markup for an error message. Move the error state into gitlab-ui component if it's useful. -->
     <!-- TODO: possibly convert to else-if? -->
-    <span v-if="isDefaultProjectInvalid" class="form-text gl-field-error-message">{{errorText}}</span>
+    <span v-if="isProjectValid" class="form-text gl-field-error-message">{{errorText}}</span>
     <span v-else-if="!areProjectsLoaded" class="form-text text-muted">{{projectSelectionText}}</span>
   </div>
 </template>

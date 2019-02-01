@@ -22,6 +22,11 @@ export default {
       token,
     });
   },
+  [types.UPDATE_SELECTED_PROJECT](state, selectedProject) {
+    Object.assign(state, {
+      selectedProject,
+    });
+  },
   [types.UPDATE_CONNECT_SUCCESSFUL](state, connectSuccessful) {
     Object.assign(state, {
       connectSuccessful,

@@ -70,6 +70,9 @@ export default {
     commit(types.UPDATE_TOKEN, token);
     dispatch('connectReset');
   },
+  updateSelectedProject({ commit }, selectedProject) {
+    commit(types.UPDATE_SELECTED_PROJECT, selectedProject);
+  },
   connectFailed({ commit }) {
     commit(types.UPDATE_CONNECT_SUCCESSFUL, false);
     commit(types.UPDATE_CONNECT_ERROR, true);

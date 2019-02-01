@@ -4,21 +4,38 @@ import store from './store';
 import types from './store/mutation_types';
 import ErrorTrackingSettings from './components/error_tracking_settings.vue';
 
+const getInitialProject = projectDataElement => {
+  const {
+    dataset: { slug, name, organizationName, organizationSlug },
+  } = projectDataElement;
+  if (slug) {
+    return {
+      slug,
+      name,
+      organizationName,
+      organizationSlug,
+    };
+  }
+  return null;
+};
+
 export default () => {
   // TODO: make all dom searches relative to this element to save cycles
   const formContainerEl = $('.js-error-tracking-form').first();
-  const containerEl = document.getElementById('vue-dropdown-placeholder');
+  const projectContainerEl = document.getElementById('vue-dropdown-placeholder');
   const listProjectsEl = document.getElementById('js-error-tracking-list-projects');
 
   const operationsSettingsEndpoint = formContainerEl.attr('action');
   const { listProjectsEndpoint } = listProjectsEl.dataset;
 
   const { apiHost, enabled, token } = formContainerEl.data();
+  const initialProject = getInitialProject(projectContainerEl);
 
   // Set up initial data from DOM
   store.commit(types.UPDATE_API_HOST, apiHost);
   store.commit(types.UPDATE_ENABLED, enabled);
   store.commit(types.UPDATE_TOKEN, token);
+  store.commit(types.UPDATE_SELECTED_PROJECT, initialProject);
 
   return new Vue({
     el: formContainerEl[0],
@@ -27,29 +44,11 @@ export default () => {
       ErrorTrackingSettings,
     },
     data() {
-      const {
-        dataset: { slug, name, organizationName, organizationSlug },
-      } = containerEl;
-
-      const data = {
+      return {
         initialEnabled: enabled,
         initialToken: token,
         initialApiHost: apiHost,
       };
-
-      if (slug !== undefined) {
-        return {
-          ...data,
-          initialProject: {
-            id: slug + organizationSlug,
-            slug,
-            name,
-            organizationName,
-            organizationSlug,
-          },
-        };
-      }
-      return { ...data, initialProject: null };
     },
     render(createElement) {
       return createElement(ErrorTrackingSettings, {
@@ -57,7 +56,6 @@ export default () => {
           initialEnabled: this.initialEnabled,
           initialToken: this.initialToken,
           initialApiHost: this.initialApiHost,
-          initialProject: this.initialProject,
           listProjectsEndpoint,
           operationsSettingsEndpoint,
         },

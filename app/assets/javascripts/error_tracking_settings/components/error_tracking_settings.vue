@@ -21,11 +21,6 @@ export default {
       type: String,
       required: true,
     },
-    initialProject: {
-      type: Object,
-      required: false,
-      default: null,
-    },
     listProjectsEndpoint: {
       type: String,
       required: true,
@@ -60,7 +55,7 @@ export default {
       :list-projects-endpoint="listProjectsEndpoint"
     />
     <div class="form-group">
-      <ProjectDropdown :initial-project="initialProject"/>
+      <ProjectDropdown/>
     </div>
     <button class="btn btn-success" @click="handleSubmit">{{saveChangesText}}</button>
   </div>
