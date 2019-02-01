@@ -5,7 +5,9 @@ import types from './store/mutation_types';
 import ErrorTrackingSettings from './components/error_tracking_settings.vue';
 
 const getInitialProject = projectDataElement => {
-  const { slug, name, organizationName, organizationSlug } = projectDataElement.data();
+  const {
+    project: { name, slug, organizationName, organizationSlug },
+  } = projectDataElement.data();
   if (slug) {
     return {
       slug,
@@ -27,6 +29,7 @@ export default () => {
 
   const { apiHost, enabled, token } = formContainerEl.data();
   const initialProject = getInitialProject(formContainerEl);
+  console.log(initialProject);
 
   // Set up initial data from DOM
   store.commit(types.UPDATE_API_HOST, apiHost);

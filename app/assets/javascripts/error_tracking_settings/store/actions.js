@@ -39,15 +39,6 @@ export default {
     commit(types.RECEIVE_PROJECTS, projects);
   },
   saveSettings({ state }, data) {
-    // TODO: Find out from Reuben if this is required
-    const project = state.selectedProject
-      ? state.selectedProject
-      : {
-          name: null,
-          slug: null,
-          organization_name: null,
-          organization_slug: null,
-        };
     return axios
       .patch(data.operationsSettingsEndpoint, {
         project: {
@@ -55,7 +46,7 @@ export default {
             api_host: state.apiHost,
             enabled: state.enabled,
             token: state.token,
-            project,
+            project: state.selectedProject,
           },
         },
       })

@@ -2,6 +2,12 @@
 
 - setting = error_tracking_setting
 
+// TODO: remove these
+- p setting.project_name
+- p setting.project_slug
+- p setting.organization_name
+- p setting.organization_slug
+
 %section.settings.expanded.border-0.no-animate
   .settings-header
     %h4
@@ -9,7 +15,7 @@
     %p
       = _('To link Sentry to GitLab, enter your Sentry URL and Auth Token.')
   .settings-content
-    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'}, data: { api_host: setting.api_host, enabled: setting.enabled, token: setting.token, project: setting[:project] } do |f|
+    = form_for @project, url: project_settings_operations_path(@project), method: :patch, :html => {:class => 'edit_project js-error-tracking-form'}, data: { api_host: setting.api_host, enabled: setting.enabled, token: setting.token, project: { name: setting.project_name, slug: setting.project_slug, organization_name: setting.organization_name, organization_slug: setting.organization_slug }  } do |f|
       = form_errors(@project)
       .form-group
         = f.fields_for :error_tracking_setting_attributes, setting do |form|
