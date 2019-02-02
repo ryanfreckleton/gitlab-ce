@@ -156,9 +156,9 @@ table {
   }
 }
 
-.top-area + .content-list {
+.top-area + .content-list,
+.tabs-holder + .tab-content thead {
   th {
     border-top: 0;
   }
 }
-
