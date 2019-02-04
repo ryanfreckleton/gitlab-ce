@@ -204,16 +204,16 @@ stages:
 .only-canonical: &only-canonical
   only:
     variables:
-      - $CI_PROJECT_PATH == gitlab-org/gitlab-ce
-      - $CI_PROJECT_PATH == gitlab-org/gitlab-ee
-      - $CI_PROJECT_PATH == gitlab/gitlabhq
-      - $CI_PROJECT_PATH == gitlab/gitlab-ee
+      - $CI_PROJECT_PATH == "gitlab-org/gitlab-ce"
+      - $CI_PROJECT_PATH == "gitlab-org/gitlab-ee"
+      - $CI_PROJECT_PATH == "gitlab/gitlabhq"
+      - $CI_PROJECT_PATH == "gitlab/gitlab-ee"
 
 .only-canonical-ce: &only-canonical-ce
   only:
     variables:
-      - $CI_PROJECT_PATH == gitlab-org/gitlab-ce
-      - $CI_PROJECT_PATH == gitlab/gitlabhq
+      - $CI_PROJECT_PATH == "gitlab-org/gitlab-ce"
+      - $CI_PROJECT_PATH == "gitlab/gitlabhq"
 
 .only-canonical-masters: &only-canonical-masters
   only:
