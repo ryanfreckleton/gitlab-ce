@@ -189,11 +189,6 @@ stages:
       - /^[\d-]+-stable(-ee)?$/
       - merge_requests
 
-.only-tags: &only-tags
-  only:
-    refs:
-      - tags
-
 .only-merge-requests: &only-merge-requests
   only:
     refs:
@@ -206,9 +201,6 @@ stages:
     variables:
       - $CI_COMMIT_REF_NAME =~ /(^docs[\/-].*|.*-docs$)/
 
-##
-# We should not use RegEx with `refs` keyword i.e. `/^doc-/@gitlab-org/gitlab-ce`
-# because Pipelines for Merge requests does not support RegEx yet.
 .only-canonical: &only-canonical
   only:
     variables:
@@ -354,8 +346,6 @@ review-docs-cleanup:
 # Trigger a docker image build in CNG (Cloud Native GitLab) repository
 #
 cloud-native-image:
-  <<: *only-tags
-  <<: *only-canonical
   image: ruby:2.5-alpine
   before_script: []
   dependencies: []
@@ -368,6 +358,9 @@ cloud-native-image:
   script:
     - gem install gitlab --no-document
     - CNG_PROJECT_PATH="gitlab-org/build/CNG" BUILD_TRIGGER_TOKEN=$CI_JOB_TOKEN ./scripts/trigger-build cng
+  only:
+    - tags@gitlab-org/gitlab-ce
+    - tags@gitlab-org/gitlab-ee
 
 # Retrieve knapsack and rspec_flaky reports
 retrieve-tests-metadata:
