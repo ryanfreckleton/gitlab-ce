@@ -199,7 +199,7 @@ stages:
     refs:
       - merge_requests
 
-.only-docs: &except-docs
+.only-docs: &only-docs
   only:
     refs:
       - merge_requests
