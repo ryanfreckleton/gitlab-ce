@@ -385,6 +385,30 @@ module API
         present merge_request, with: Entities::MergeRequest, current_user: current_user, project: user_project
       end
 
+      desc 'Merge a merge request to its temporary merge ref path' do
+        success Entities::MergeRequest
+      end
+      put ':id/merge_requests/:merge_request_iid/merge_to_ref' do
+        merge_request = find_project_merge_request(params[:merge_request_iid])
+
+        authorize! :admin_merge_request, user_project
+
+        unless merge_request.mergeable_to_ref?
+          render_api_error!("Branch cannot be merged to #{merge_request.merge_ref_path}", 406)
+        end
+
+        result = ::MergeRequests::MergeToRefService
+          .new(merge_request.target_project, current_user, {})
+          .execute(merge_request)
+
+        if result[:status] == :success
+          present result, 201
+        else
+          http_status = result[:http_status] || 400
+          render_api_error!(result[:message], http_status)
+        end
+      end
+
       desc 'Cancel merge if "Merge When Pipeline Succeeds" is enabled' do
         success Entities::MergeRequest
       end

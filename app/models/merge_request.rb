@@ -752,6 +752,18 @@ class MergeRequest < ActiveRecord::Base
     can_be_merged? && !should_be_rebased?
   end
 
+  def mergeable_to_ref?
+    return false if merged?
+    return false if broken?
+
+    # Given the `merge_ref_path` will have the same
+    # state the `target_branch` would have. Ideally
+    # we need to check if it can be merged to it.
+    return false unless project.repository.can_be_merged?(diff_head_sha, target_branch)
+
+    true
+  end
+
   def mergeable_state?(skip_ci_check: false, skip_discussions_check: false)
     return false unless open?
     return false if work_in_progress?

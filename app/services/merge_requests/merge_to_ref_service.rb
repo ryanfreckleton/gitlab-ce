@@ -24,16 +24,26 @@ module MergeRequests
     private
 
     def process_merge
-      unless merge_method_supported?
-        raise MergeError, "#{project.human_merge_method} to " \
-          "#{target_ref} is currently not supported."
-      end
-
       commit_id = commit
 
       raise MergeError, 'Conflicts detected during merge' unless commit_id
 
       success(commit_id: commit_id)
+    end
+
+    def error_check!
+      error =
+        if !merge_method_supported?
+          "#{project.human_merge_method} to #{target_ref} is currently not supported."
+        elsif @merge_request.should_be_rebased?
+          'Only fast-forward merge is allowed for your project. Please update your source branch'
+        elsif !@merge_request.mergeable_to_ref?
+          "Merge request is not mergeable to #{target_ref}"
+        elsif !source
+          'No source for merge'
+        end
+
+      raise MergeError, error if error
     end
 
     def target_ref
@@ -42,8 +52,8 @@ module MergeRequests
 
     def commit
       repository.merge_to_ref(current_user, source, merge_request, target_ref)
-    rescue Gitlab::Git::PreReceiveError => e
-      handle_merge_error(log_message: e.message)
+    rescue Gitlab::Git::PreReceiveError => error
+      raise MergeError, error.message
     end
 
     def merge_method_supported?
