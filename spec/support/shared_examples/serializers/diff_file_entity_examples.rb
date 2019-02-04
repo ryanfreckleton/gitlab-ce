@@ -6,9 +6,9 @@ shared_examples 'diff file base entity' do
                                :submodule_tree_url, :old_path_html,
                                :new_path_html, :blob, :can_modify_blob,
                                :file_hash, :file_path, :old_path, :new_path,
-                               :collapsed, :text, :diff_refs, :stored_externally,
+                               :viewer, :diff_refs, :stored_externally,
                                :external_storage, :renamed_file, :deleted_file,
-                               :mode_changed, :a_mode, :b_mode, :new_file)
+                               :a_mode, :b_mode, :new_file)
   end
 
   # Converted diff files from GitHub import does not contain blob file
