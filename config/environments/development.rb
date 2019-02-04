@@ -41,7 +41,7 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = (ENV['BOOTSTRAP'] != '1')
   config.action_mailer.preview_path = 'app/mailers/previews'
 
-  config.eager_load = false
+  config.eager_load = true
 
   # Do not log asset requests
   config.assets.quiet = true
