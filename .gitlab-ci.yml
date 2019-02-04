@@ -182,12 +182,22 @@ stages:
       - merge_requests
       - tags
 
-.only-branches: &only-branches
+.only-canonical-ce-default: &only-canonical-ce-default
   only:
     refs:
-      - master
-      - /^[\d-]+-stable(-ee)?$/
-      - merge_requests
+      - master@gitlab-org/gitlab-ce
+      - master@gitlab/gitlabhq
+      - /^[\d-]+-stable(-ee)?$/@gitlab-org/gitlab-ce
+      - /^[\d-]+-stable(-ee)?$/@gitlab/gitlabhq
+      - merge_requests@gitlab-org/gitlab-ce
+      - merge_requests@gitlab/gitlabhq
+      - tags@gitlab-org/gitlab-ce
+      - tags@gitlab/gitlabhq
+
+.except-tags: &except-tags
+  except:
+    refs:
+      - tags
 
 .only-merge-requests: &only-merge-requests
   only:
@@ -195,25 +205,10 @@ stages:
       - merge_requests
 
 .only-docs: &only-docs
+  <<: *only-merge-requests
   only:
-    refs:
-      - merge_requests
     variables:
       - $CI_COMMIT_REF_NAME =~ /(^docs[\/-].*|.*-docs$)/
-
-.only-canonical: &only-canonical
-  only:
-    variables:
-      - $CI_PROJECT_PATH == "gitlab-org/gitlab-ce"
-      - $CI_PROJECT_PATH == "gitlab-org/gitlab-ee"
-      - $CI_PROJECT_PATH == "gitlab/gitlabhq"
-      - $CI_PROJECT_PATH == "gitlab/gitlab-ee"
-
-.only-canonical-ce: &only-canonical-ce
-  only:
-    variables:
-      - $CI_PROJECT_PATH == "gitlab-org/gitlab-ce"
-      - $CI_PROJECT_PATH == "gitlab/gitlabhq"
 
 .only-canonical-masters: &only-canonical-masters
   only:
@@ -221,6 +216,37 @@ stages:
     - master@gitlab-org/gitlab-ee
     - master@gitlab/gitlabhq
     - master@gitlab/gitlab-ee
+
+.only-canonical-merge-requests: &only-canonical-merge-requests
+  only:
+    refs:
+      - merge_requests@gitlab-org/gitlab-ce
+      - merge_requests@gitlab-org/gitlab-ee
+      - merge_requests@gitlab/gitlabhq
+      - merge_requests@gitlab/gitlab-ee
+
+##
+# We cannot use `only: variables` for project restriction, because
+# it's already used for $CI_COMMIT_REF_NAME evaluation
+.only-canonical-default: &only-canonical-default
+  <<: *only-canonical-masters
+  <<: *only-canonical-merge-requests
+  only:
+    refs:
+      - /^[\d-]+-stable(-ee)?$/@gitlab-org/gitlab-ce
+      - /^[\d-]+-stable(-ee)?$/@gitlab-org/gitlab-ee
+      - /^[\d-]+-stable(-ee)?$/@gitlab/gitlabhq
+      - /^[\d-]+-stable(-ee)?$/@gitlab/gitlab-ee
+      - tags@gitlab-org/gitlab-ce
+      - tags@gitlab-org/gitlab-ee
+      - tags@gitlab/gitlabhq
+      - tags@gitlab/gitlab-ee
+
+.only-docs-canonical: &only-docs-canonical
+  <<: *only-canonical-merge-requests
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME =~ /(^docs[\/-].*|.*-docs$)/
 
 .gitlab-setup: &gitlab-setup
   <<: *dedicated-no-docs-and-no-qa-pull-cache-job
@@ -271,8 +297,7 @@ stages:
 # Trigger a package build in omnibus-gitlab repository
 #
 package-and-qa:
-  <<: *only-default
-  <<: *only-canonical
+  <<: *only-canonical-default
   image: ruby:2.5-alpine
   stage: test
   before_script: []
@@ -307,8 +332,7 @@ package-and-qa:
 # Trigger a manual docs build in gitlab-docs only on non docs-only branches.
 # Useful to preview the docs changes live.
 review-docs-deploy-manual:
-  <<: *only-branches
-  <<: *only-canonical
+  <<: *only-canonical-default
   <<: *except-docs-and-qa
   <<: *review-docs
   stage: build
@@ -320,8 +344,7 @@ review-docs-deploy-manual:
 # Always trigger a docs build in gitlab-docs only on docs-only branches.
 # Useful to preview the docs changes live.
 review-docs-deploy:
-  <<: *only-docs
-  <<: *only-canonical
+  <<: *only-canonical-merge-requests
   <<: *review-docs
   stage: post-test
   script:
@@ -330,8 +353,8 @@ review-docs-deploy:
 
 # Cleanup remote environment of gitlab-docs
 review-docs-cleanup:
-  <<: *only-branches
-  <<: *only-canonical
+  <<: *only-canonical-default
+  <<: *except-tags
   <<: *review-docs
   stage: post-cleanup
   environment:
@@ -466,8 +489,7 @@ setup-test-env:
 
 # GitLab Review apps
 .review-only: &review-only
-  <<: *only-merge-requests
-  <<: *only-canonical
+  <<: *only-canonical-merge-requests
   <<: *except-docs
   only:
     kubernetes: active
@@ -674,8 +696,7 @@ gitlab:setup-mysql:
 
 # Frontend-related jobs
 gitlab:assets:compile:
-  <<: *only-default
-  <<: *only-canonical
+  <<: *only-canonical-default
   <<: *dedicated-no-docs-pull-cache-job
   image: dev.gitlab.org:5005/gitlab/gitlab-build-images:ruby-2.5.3-git-2.18-chrome-71.0-node-8.x-yarn-1.12-graphicsmagick-1.3.29-docker-18.06.1
   dependencies: []
@@ -997,8 +1018,7 @@ gitlab_git_test:
 
 no_ee_check:
   <<: *dedicated-runner
-  <<: *only-default
-  <<: *only-canonical-ce
+  <<: *only-canonical-ce-default
   <<: *except-docs-and-qa
   variables:
     SETUP_DB: "false"
