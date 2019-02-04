@@ -117,7 +117,15 @@ export default {
 </script>
 
 <template>
-  <div class="note-actions">
+  <div
+    class="d-flex
+           align-self-start
+           flex-shrink-0
+           justify-content-end
+           d-md-inline-flex
+           align-items-md-center
+           note-actions"
+  >
     <span v-if="accessLevel" class="note-role user-access-role">{{ accessLevel }}</span>
     <div v-if="canResolve" class="note-actions-item">
       <button

@@ -28,10 +28,10 @@
               %span.badge.badge-pill{ class: badge_class }
                 = counter
     .timeline-content
-      .note-header
+      .d-flex.flex-column.justify-content-between.flex-md-row.note-header
         .note-header-info
           %a{ href: user_path(note.author) }
-            %span.note-header-author-name
+            %span.d-none.d-sm-inline.note-header-author-name
               = sanitize(note.author.name)
             = user_status(note.author)
             %span.note-headline-light
@@ -45,7 +45,7 @@
                 &middot;
               %a.system-note-separator{ href: "##{dom_id(note)}" }= time_ago_with_tooltip(note.created_at, placement: 'bottom', html_class: 'note-created-ago')
         - unless note.system?
-          .note-actions
+          .note-actions.d-flex.align-self-start.flex-shrink-0.justify-content-end.d-md-inline-flex.align-items-md-center
             - if note.for_personal_snippet?
               = render 'snippets/notes/actions', note: note, note_editable: note_editable
             - else

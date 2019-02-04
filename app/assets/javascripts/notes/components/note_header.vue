@@ -81,7 +81,7 @@ export default {
       :data-user-id="author.id"
       :data-username="author.username"
     >
-      <span class="note-header-author-name">{{ author.name }}</span>
+      <span class="d-none d-sm-inline note-header-author-name">{{ author.name }}</span>
       <span v-if="author.status_tooltip_html" v-html="author.status_tooltip_html"></span>
       <span class="note-headline-light"> @{{ author.username }} </span>
     </a>
