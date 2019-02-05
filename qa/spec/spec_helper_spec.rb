@@ -133,7 +133,7 @@ describe 'rspec config tests' do
 
       ex = foo_examples.find { |e| e.description == "not in quarantine" }
       expect(ex.execution_result.status).to eq(:pending)
-      expect(ex.execution_result.pending_message).to eq('Running tests tagged with all of [:quarantine, :foo]')
+      expect(ex.execution_result.pending_message).to eq('Only running tests tagged with :quarantine and any of [:foo]')
 
       ex = foo_examples.find { |e| e.description == "in quarantine" }
       expect(ex.execution_result.status).to eq(:passed)
@@ -147,7 +147,7 @@ describe 'rspec config tests' do
 
       ex = default_examples.find { |e| e.description == "in quarantine" }
       expect(ex.execution_result.status).to eq(:pending)
-      expect(ex.execution_result.pending_message).to eq('Running tests tagged with all of [:quarantine, :foo]')
+      expect(ex.execution_result.pending_message).to eq('Only running tests tagged with :quarantine and any of [:foo]')
     end
   end
 
@@ -248,14 +248,14 @@ describe 'rspec config tests' do
 
       ex = group.examples.find { |e| e.description == "foo" }
       expect(ex.execution_result.status).to eq(:pending)
-      expect(ex.execution_result.pending_message).to eq('Running tests tagged with all of [:bar, :foo, :quarantine]')
+      expect(ex.execution_result.pending_message).to eq('Only running tests tagged with :quarantine and any of [:bar, :foo]')
 
       ex = group.examples.find { |e| e.description == "bar and quarantine" }
       expect(ex.execution_result.status).to eq(:passed)
 
       ex = group.examples.find { |e| e.description == "foo and bar" }
       expect(ex.execution_result.status).to eq(:pending)
-      expect(ex.execution_result.pending_message).to eq('Running tests tagged with all of [:bar, :foo, :quarantine]')
+      expect(ex.execution_result.pending_message).to eq('Only running tests tagged with :quarantine and any of [:bar, :foo]')
 
       ex = group.examples.find { |e| e.description == "foo, bar, and quarantine" }
       expect(ex.execution_result.status).to eq(:passed)
