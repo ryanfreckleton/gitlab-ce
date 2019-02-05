@@ -49,7 +49,7 @@ module GettextI18nRailsJs
       end
 
       def load_messages
-        `node scripts/frontend/extract_gettext_all.js --all`
+        `node --experimental-modules scripts/frontend/extract_gettext_all.mjs --all`
       end
     end
   end

@@ -34,3 +34,7 @@ rules:
   vue/no-use-v-if-with-v-for: off
   vue/no-v-html: off
   vue/use-v-on-exact: off
+  import/extensions:
+    - error
+    - ignorePackages
+    - js: never

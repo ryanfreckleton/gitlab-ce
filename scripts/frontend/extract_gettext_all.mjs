@@ -1,11 +1,13 @@
-const argumentsParser = require('commander');
+import argumentsParser from 'commander';
 
-const { GettextExtractor, JsExtractors } = require('gettext-extractor');
-const {
-  decorateJSParserWithVueSupport,
-  decorateExtractorWithHelpers,
-} = require('gettext-extractor-vue');
-const ensureSingleLine = require('../../app/assets/javascripts/locale/ensure_single_line.js');
+import GE from 'gettext-extractor';
+const { GettextExtractor, JsExtractors } = GE;
+
+import GettextExtractorVue from 'gettext-extractor-vue';
+
+const { decorateExtractorWithHelpers, decorateJSParserWithVueSupport } = GettextExtractorVue;
+
+import ensureSingleLine from '../../app/assets/javascripts/locale/ensure_single_line.mjs';
 
 const args = argumentsParser
   .option('-f, --file <file>', 'Extract message from one single file')
