@@ -5,7 +5,7 @@ const presets = [
     '@babel/preset-env',
     {
       modules: false,
-      useBuiltIns: 'entry',
+      useBuiltIns: 'usage',
       targets: {
         ie: '11',
       },
