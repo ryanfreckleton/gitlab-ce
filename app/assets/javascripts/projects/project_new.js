@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { addSelectOnFocusBehaviour } from '../lib/utils/common_utils';
 import { slugifyWithHyphens } from '../lib/utils/text_utility';
+import initSettingsPanels from '~/settings_panels';
 
 let hasUserDefinedProjectPath = false;
 
@@ -165,6 +166,8 @@ const bindEvents = () => {
     onProjectNameChange($projectName, $projectPath);
     hasUserDefinedProjectPath = $projectPath.val().trim().length > 0;
   });
+
+  initSettingsPanels();
 };
 
 export default {
