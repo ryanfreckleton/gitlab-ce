@@ -62,11 +62,32 @@ describe ErrorTracking::ProjectErrorTrackingSetting do
     end
 
     context 'URL path' do
-      it 'fails validation with wrong path' do
+      it 'fails validation without api/0/projects' do
         subject.api_url = 'http://gitlab.com/project1/something'
 
         expect(subject).not_to be_valid
         expect(subject.errors.messages[:api_url]).to include('path needs to start with /api/0/projects')
+      end
+
+      it 'fails validation without org and project slugs' do
+        subject.api_url = 'http://gitlab.com/api/0/projects/'
+
+        expect(subject).not_to be_valid
+        expect(subject.errors.messages[:project]).to include('needs to be selected')
+      end
+
+      it 'fails validation when api_url has extra parts' do
+        subject.api_url = 'http://gitlab.com/api/0/projects/org/proj/something'
+
+        expect(subject).not_to be_valid
+        expect(subject.errors.messages[:api_url]).to include("needs to be in the format 'https://<sentry-host>/api/0/projects/{organization_slug}/{project_slug}/'")
+      end
+
+      it 'fails validation when api_url has less parts' do
+        subject.api_url = 'http://gitlab.com/api/0/projects/org'
+
+        expect(subject).not_to be_valid
+        expect(subject.errors.messages[:api_url]).to include("needs to be in the format 'https://<sentry-host>/api/0/projects/{organization_slug}/{project_slug}/'")
       end
 
       it 'passes validation with correct path' do

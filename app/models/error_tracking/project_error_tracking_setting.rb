@@ -122,10 +122,24 @@ module ErrorTracking
       return if api_url.blank?
 
       begin
-        unless Addressable::URI.parse(api_url).path.starts_with?('/api/0/projects')
-          errors.add(:api_url, 'path needs to start with /api/0/projects')
-        end
+        url = Addressable::URI.parse(api_url)
       rescue Addressable::URI::InvalidURIError
+        return
+      end
+
+      unless url.path.starts_with?('/api/0/projects')
+        errors.add(:api_url, 'path needs to start with /api/0/projects')
+        return
+      end
+
+      path_parts = url.path.split('/').reject(&:blank?)
+      if path_parts.length < 4
+        errors.add(:project, 'needs to be selected')
+        return
+      end
+
+      unless path_parts.length == 5
+        errors.add(:api_url, "needs to be in the format 'https://<sentry-host>/api/0/projects/{organization_slug}/{project_slug}/'")
       end
     end
   end
