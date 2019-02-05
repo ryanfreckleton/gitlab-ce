@@ -48,6 +48,30 @@ describe ErrorTracking::ListIssuesService do
             status: :error, http_status: :no_content, message: 'not ready')
         end
       end
+
+      context 'when list_sentry_issues returns empty array' do
+        before do
+          expect(error_tracking_setting)
+            .to receive(:list_sentry_issues).and_return(issues: [])
+        end
+
+        it 'returns the empty array' do
+          expect(result).to eq(
+            status: :success, issues: [])
+        end
+      end
+
+      context 'when list_sentry_issues returns error' do
+        before do
+          expect(error_tracking_setting)
+            .to receive(:list_sentry_issues).and_return(error: 'Sentry response error: 401')
+        end
+
+        it 'returns the error' do
+          expect(result).to eq(
+            status: :error, http_status: :bad_request, message: 'Sentry response error: 401')
+        end
+      end
     end
 
     context 'with unauthorized user' do

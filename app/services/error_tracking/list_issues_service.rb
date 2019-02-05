@@ -17,6 +17,10 @@ module ErrorTracking
         return error('not ready', :no_content)
       end
 
+      if result[:error].present?
+        return error(result[:error], result[:http_status] || :bad_request)
+      end
+
       success(issues: result[:issues])
     end
 
