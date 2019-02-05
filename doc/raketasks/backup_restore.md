@@ -1,7 +1,6 @@
 # Backing up and restoring GitLab
 
 remove-me
-
 ![backup banner](backup_hrz.png)
 
 An application data backup creates an archive file that contains the database,
