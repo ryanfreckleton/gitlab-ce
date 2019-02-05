@@ -2074,6 +2074,12 @@ class Project < ActiveRecord::Base
     pool_repository&.link_repository(repository)
   end
 
+  def join_pool_repository
+    return unless pool_repository
+
+    ObjectPool::JoinWorker.perform_async(pool_repository.id, self.id)
+  end
+
   private
 
   def merge_requests_allowing_collaboration(source_branch = nil)
@@ -2091,12 +2097,6 @@ class Project < ActiveRecord::Base
 
     pool.schedule unless pool.scheduled?
     pool
-  end
-
-  def join_pool_repository
-    return unless pool_repository
-
-    ObjectPool::JoinWorker.perform_async(pool_repository.id, self.id)
   end
 
   def use_hashed_storage
