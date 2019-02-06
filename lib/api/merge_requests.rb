@@ -12,6 +12,9 @@ module API
     helpers do
       params :optional_params_ee do
       end
+
+      params :optional_merge_requests_params do
+      end
     end
 
     def self.update_params_at_least_one_of
@@ -111,6 +114,8 @@ module API
         optional :target_branch, type: String, desc: 'Return merge requests with the given target branch'
         optional :search, type: String, desc: 'Search merge requests for text present in the title or description'
         optional :wip, type: String, values: %w[yes no], desc: 'Search merge requests for WIP in the title'
+
+        use :optional_merge_requests_params
         use :pagination
       end
     end
