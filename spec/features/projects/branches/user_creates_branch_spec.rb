@@ -43,4 +43,14 @@ describe "User creates branch", :js do
       expect(page).to have_content("Branch already exists")
     end
   end
+
+  context "when branch name matches protected branches" do
+    let!(:protected_branch) { create(:protected_branch, :no_one_can_push, project: project, name: "feature-*") }
+
+    it "creates new branch" do
+      create_branch("feature-v1")
+
+      expect(page).to have_content("feature-v1")
+    end
+  end
 end

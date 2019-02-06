@@ -34,6 +34,10 @@ module Gitlab
         protocol == 'web'
       end
 
+      def updated_from_api?
+        protocol == 'http'
+      end
+
       def tag_exists?
         project.repository.tag_exists?(tag_name)
       end

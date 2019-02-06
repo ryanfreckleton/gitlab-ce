@@ -34,8 +34,8 @@ describe ProjectPolicy do
 
   let(:developer_permissions) do
     %i[
-      admin_milestone admin_merge_request update_merge_request create_commit_status
-      update_commit_status create_build update_build create_pipeline
+      push_to_create_protected_branch admin_milestone admin_merge_request update_merge_request
+      create_commit_status update_commit_status create_build update_build create_pipeline
       update_pipeline create_merge_request_from create_wiki push_code
       resolve_note create_container_image update_container_image
       create_environment create_deployment create_release update_release
@@ -44,9 +44,8 @@ describe ProjectPolicy do
 
   let(:base_maintainer_permissions) do
     %i[
-      push_to_delete_protected_branch update_project_snippet update_environment
-      update_deployment admin_project_snippet
-      admin_project_member admin_note admin_wiki admin_project
+      push_to_delete_protected_branch update_project_snippet update_environment update_deployment
+      admin_project_snippet admin_project_member admin_note admin_wiki admin_project
       admin_commit_status admin_build admin_container_image
       admin_pipeline admin_environment admin_deployment destroy_release add_cluster
     ]
@@ -244,6 +243,7 @@ describe ProjectPolicy do
       %i[
         create_merge_request_in
         create_merge_request_from
+        push_to_create_protected_branch
         push_to_delete_protected_branch
         push_code
         request_access

@@ -546,6 +546,17 @@ describe API::Branches do
       end
     end
 
+    context 'when authenticated', 'as a developer and branch is protected' do
+      let(:current_user) { create(:user) }
+      let!(:protected_branch) { create(:protected_branch, :no_one_can_push, project: project, name: 'feature*') }
+
+      before do
+        project.add_developer(current_user)
+      end
+
+      it_behaves_like 'repository new branch'
+    end
+
     context 'when authenticated', 'as a maintainer' do
       let(:current_user) { user }
 

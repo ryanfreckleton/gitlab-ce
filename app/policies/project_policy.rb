@@ -229,6 +229,7 @@ class ProjectPolicy < BasePolicy
   rule { can?(:developer_access) & can?(:create_issue) }.enable :import_issues
 
   rule { can?(:developer_access) }.policy do
+    enable :push_to_create_protected_branch
     enable :admin_merge_request
     enable :admin_milestone
     enable :update_merge_request
@@ -253,6 +254,7 @@ class ProjectPolicy < BasePolicy
   end
 
   rule { can?(:maintainer_access) }.policy do
+    enable :push_to_create_protected_branch
     enable :push_to_delete_protected_branch
     enable :update_project_snippet
     enable :update_environment
@@ -284,6 +286,7 @@ class ProjectPolicy < BasePolicy
 
   rule { archived }.policy do
     prevent :push_code
+    prevent :push_to_create_protected_branch
     prevent :push_to_delete_protected_branch
     prevent :request_access
     prevent :upload_file

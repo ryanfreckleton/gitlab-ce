@@ -55,6 +55,44 @@ describe Gitlab::Checks::BranchCheck do
         end
       end
 
+      context 'branch creation' do
+        let(:oldrev) { '0000000000000000000000000000000000000000' }
+        let(:ref) { 'refs/heads/feature' }
+
+        context 'user is not allowed to create protected branches' do
+          let(:another_user) { create(:user) }
+          let(:user_access) { Gitlab::UserAccess.new(another_user, project: project) }
+
+          it 'raises an error' do
+            expect { subject.validate! }.to raise_error(Gitlab::GitAccess::UnauthorizedError, 'You are not allowed to create protected branches on this project.')
+          end
+        end
+
+        context 'user is allowed to create protected branches' do
+          context 'via web interface' do
+            let(:protocol) { 'web' }
+
+            it 'allows branch creation' do
+              expect { subject.validate! }.not_to raise_error
+            end
+          end
+
+          context 'via API' do
+            let(:protocol) { 'http' }
+
+            it 'allows branch creation' do
+              expect { subject.validate! }.not_to raise_error
+            end
+          end
+
+          context 'via SSH' do
+            it 'raises an error' do
+              expect { subject.validate! }.to raise_error(Gitlab::GitAccess::UnauthorizedError, 'You can only create protected branches using the web interface and API.')
+            end
+          end
+        end
+      end
+
       context 'branch deletion' do
         let(:newrev) { '0000000000000000000000000000000000000000' }
         let(:ref) { 'refs/heads/feature' }

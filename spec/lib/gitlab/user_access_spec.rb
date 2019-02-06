@@ -259,6 +259,50 @@ describe Gitlab::UserAccess do
     end
   end
 
+  describe '#can_create_branch?' do
+    context 'unprotected branch creation' do
+      it 'returns true if user is a maintainer' do
+        project.add_user(user, :maintainer)
+
+        expect(access.can_create_branch?('random_branch')).to be_truthy
+      end
+
+      it 'returns true if user is a developer' do
+        project.add_user(user, :developer)
+
+        expect(access.can_create_branch?('random_branch')).to be_truthy
+      end
+
+      it 'returns false if user is a reporter' do
+        project.add_user(user, :reporter)
+
+        expect(access.can_create_branch?('random_branch')).to be_falsey
+      end
+    end
+
+    describe 'create protected branch' do
+      let(:branch) { create(:protected_branch, project: project, name: "test") }
+
+      it 'returns true if user is a maintainer' do
+        project.add_user(user, :maintainer)
+
+        expect(access.can_create_branch?(branch.name)).to be_truthy
+      end
+
+      it 'returns true if user is a developer' do
+        project.add_user(user, :developer)
+
+        expect(access.can_create_branch?(branch.name)).to be_truthy
+      end
+
+      it 'returns false if user is a reporter' do
+        project.add_user(user, :reporter)
+
+        expect(access.can_create_branch?(branch.name)).to be_falsey
+      end
+    end
+  end
+
   describe '#can_delete_branch?' do
     describe 'delete unprotected branch' do
       it 'returns true if user is a maintainer' do
