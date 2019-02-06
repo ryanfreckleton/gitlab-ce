@@ -266,7 +266,7 @@ export default {
   },
 
   [types.CONVERT_TO_DISCUSSION](state, discussionId) {
-    const discussion = utils.findNoteObjectById(state.discussions, discussionId);
-    Object.assign(discussion, { individual_note: false, converted: true });
+    const convertedNotes = [...state.convertedNotes, discussionId];
+    Object.assign(state, { convertedNotes });
   },
 };

@@ -5,6 +5,7 @@ import mutations from '../mutations';
 export default () => ({
   state: {
     discussions: [],
+    convertedNotes: [],
     targetNoteHash: null,
     lastFetchedAt: null,
 

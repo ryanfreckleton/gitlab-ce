@@ -91,6 +91,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'convertedNotes',
       'getNoteableData',
       'nextUnresolvedDiscussionId',
       'unresolvedDiscussionsCount',
@@ -299,7 +300,7 @@ export default {
         note: { note: noteText },
       };
 
-      if (this.discussion.converted) {
+      if (this.convertedNotes.includes(this.discussion.id)) {
         postData.return_discussion = true;
       }
 

@@ -65,6 +65,7 @@ export default {
     ...mapGetters([
       'isNotesFetched',
       'discussions',
+      'convertedNotes',
       'getNotesDataByProp',
       'isLoading',
       'commentsDisabled',
@@ -198,7 +199,7 @@ export default {
           />
           <placeholder-note v-else :key="discussion.id" :note="discussion.notes[0]" />
         </template>
-        <template v-else-if="discussion.individual_note">
+        <template v-else-if="discussion.individual_note && !convertedNotes.includes(discussion.id)">
           <system-note
             v-if="discussion.notes[0].system"
             :key="discussion.id"
