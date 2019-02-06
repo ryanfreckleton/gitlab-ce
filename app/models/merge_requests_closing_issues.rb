@@ -13,5 +13,9 @@ class MergeRequestsClosingIssues < ActiveRecord::Base
         .where(issue_id: ids)
         .pluck('issue_id', 'COUNT(*) as count')
     end
+
+    def count_for_issue_id(id)
+      where(issue_id: id).count
+    end
   end
 end
