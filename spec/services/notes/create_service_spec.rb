@@ -311,8 +311,10 @@ describe Notes::CreateService do
         end
 
         it 'converts existing note to DiscussionNote' do
+          existing_note
+
           expect do
-            subject
+            Timecop.freeze(Time.now + 30.seconds) { subject }
             existing_note.reload
           end.to change { existing_note.type }.from(nil).to('DiscussionNote')
              .and change { existing_note.updated_at }

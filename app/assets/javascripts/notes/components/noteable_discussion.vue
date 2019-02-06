@@ -299,6 +299,10 @@ export default {
         note: { note: noteText },
       };
 
+      if (this.discussion.converted) {
+        postData.return_discussion = true;
+      }
+
       if (this.discussion.for_commit) {
         postData.note_project_id = this.discussion.project_id;
       }
