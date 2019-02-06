@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190124200344) do
+ActiveRecord::Schema.define(version: 20190131122559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1203,8 +1203,10 @@ ActiveRecord::Schema.define(version: 20190124200344) do
     t.string "b_mode", null: false
     t.text "new_path", null: false
     t.text "old_path", null: false
-    t.text "diff", null: false
+    t.text "diff"
     t.boolean "binary"
+    t.integer "external_diff_offset"
+    t.integer "external_diff_size"
     t.index ["merge_request_diff_id", "relative_order"], name: "index_merge_request_diff_files_on_mr_diff_id_and_order", unique: true, using: :btree
   end
 
@@ -1218,6 +1220,9 @@ ActiveRecord::Schema.define(version: 20190124200344) do
     t.string "head_commit_sha"
     t.string "start_commit_sha"
     t.integer "commits_count"
+    t.string "external_diff"
+    t.integer "external_diff_store"
+    t.boolean "stored_externally"
     t.index ["merge_request_id", "id"], name: "index_merge_request_diffs_on_merge_request_id_and_id", using: :btree
   end
 
@@ -1574,10 +1579,12 @@ ActiveRecord::Schema.define(version: 20190124200344) do
   end
 
   create_table "project_error_tracking_settings", primary_key: "project_id", id: :integer, force: :cascade do |t|
-    t.boolean "enabled", default: true, null: false
-    t.string "api_url", null: false
+    t.boolean "enabled", default: false, null: false
+    t.string "api_url"
     t.string "encrypted_token"
     t.string "encrypted_token_iv"
+    t.string "project_name"
+    t.string "organization_name"
   end
 
   create_table "project_features", force: :cascade do |t|

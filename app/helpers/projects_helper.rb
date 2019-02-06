@@ -265,10 +265,6 @@ module ProjectsHelper
     link_to 'BFG', 'https://rtyley.github.io/bfg-repo-cleaner/', target: '_blank', rel: 'noopener noreferrer'
   end
 
-  def legacy_render_context(params)
-    params[:legacy_render] ? { markdown_engine: :redcarpet } : {}
-  end
-
   def explore_projects_tab?
     current_page?(explore_projects_path) ||
       current_page?(trending_explore_projects_path) ||
@@ -328,7 +324,7 @@ module ProjectsHelper
   def external_nav_tabs(project)
     [].tap do |tabs|
       tabs << :external_issue_tracker if project.external_issue_tracker
-      tabs << :external_wiki if project.has_external_wiki?
+      tabs << :external_wiki if project.external_wiki
     end
   end
 

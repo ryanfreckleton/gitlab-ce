@@ -372,21 +372,16 @@ describe ProjectsHelper do
     end
 
     context 'when project has external wiki' do
-      before do
-        allow(project).to receive(:has_external_wiki?).and_return(true)
-      end
-
       it 'includes external wiki tab' do
+        project.create_external_wiki_service(active: true, properties: { 'external_wiki_url' => 'https://gitlab.com' })
+
         is_expected.to include(:external_wiki)
       end
     end
 
     context 'when project does not have external wiki' do
-      before do
-        allow(project).to receive(:has_external_wiki?).and_return(false)
-      end
-
       it 'does not include external wiki tab' do
+        expect(project.external_wiki).to be_nil
         is_expected.not_to include(:external_wiki)
       end
     end
@@ -537,18 +532,6 @@ describe ProjectsHelper do
 
         expect(result).to be_html_safe
       end
-    end
-  end
-
-  describe '#legacy_render_context' do
-    it 'returns the redcarpet engine' do
-      params = { legacy_render: '1' }
-
-      expect(helper.legacy_render_context(params)).to include(markdown_engine: :redcarpet)
-    end
-
-    it 'returns nothing' do
-      expect(helper.legacy_render_context({})).to be_empty
     end
   end
 

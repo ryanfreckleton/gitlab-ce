@@ -8,6 +8,7 @@ class Projects::IssuesController < Projects::ApplicationController
   include IssuableCollections
   include IssuesCalendar
   include SpammableActions
+  include RecordUserLastActivity
 
   def self.issue_except_actions
     %i[index calendar new create bulk_update import_csv]
@@ -246,7 +247,7 @@ class Projects::IssuesController < Projects::ApplicationController
       task_num
       lock_version
       discussion_locked
-    ] + [{ label_ids: [], assignee_ids: [] }]
+    ] + [{ label_ids: [], assignee_ids: [], update_task: [:index, :checked, :line_number, :line_source] }]
   end
 
   def store_uri
