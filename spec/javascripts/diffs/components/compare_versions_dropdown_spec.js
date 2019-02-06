@@ -4,6 +4,7 @@ import diffsMockData from '../mock_data/merge_request_diffs';
 
 const localVue = createLocalVue();
 const targetBranch = { branchName: 'tmp-wine-dev', versionIndex: -1 };
+const startVersion = { version_index: 4 };
 
 describe('CompareVersionsDropdown', () => {
   let wrapper;
@@ -28,14 +29,8 @@ describe('CompareVersionsDropdown', () => {
         mergeRequestVersion: {
           version_path: '123',
         },
-        startVersion: {
-          version_index: '1',
-        },
-        otherVersions: [
-          {
-            version_index: '1',
-          },
-        ],
+        startVersion,
+        otherVersions: diffsMockData,
       });
 
       expect(findSelectedVersion().text()).toBe('latest version');
@@ -51,13 +46,11 @@ describe('CompareVersionsDropdown', () => {
 
     it('shows correct version for non-base and non-latest branches', () => {
       createComponent({
-        startVersion: {
-          version_index: '1',
-        },
+        startVersion,
         targetBranch,
       });
 
-      expect(findSelectedVersion().text()).toBe('version 1');
+      expect(findSelectedVersion().text()).toBe('version 4');
     });
   });
 
