@@ -117,15 +117,17 @@ function isEmojiUnicodeSupported(unicodeSupportMap = {}, emojiUnicode, unicodeVe
     unicodeSupportMap.meta.isChrome &&
     unicodeSupportMap.meta.chromeVersion < 57;
 
+  return true;
+
   // For comments about each scenario, see the comments above each individual respective function
-  return (
+  /* return (
     unicodeSupportMap[unicodeVersion] &&
     !(isOlderThanChrome57 && isKeycapEmoji(emojiUnicode)) &&
     checkFlagEmojiSupport(unicodeSupportMap, emojiUnicode) &&
     checkSkinToneModifierSupport(unicodeSupportMap, emojiUnicode) &&
     checkHorseRacingSkinToneComboEmojiSupport(unicodeSupportMap, emojiUnicode) &&
     checkPersonEmojiSupport(unicodeSupportMap, emojiUnicode)
-  );
+  ); */
 }
 
 export {

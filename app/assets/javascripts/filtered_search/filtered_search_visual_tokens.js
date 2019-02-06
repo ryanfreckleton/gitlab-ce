@@ -146,12 +146,16 @@ export default class FilteredSearchVisualTokens {
     return (
       import(/* webpackChunkName: 'emoji' */ '../emoji')
         .then(Emoji => {
-          if (!Emoji.isEmojiNameValid(tokenValue)) {
-            return;
-          }
+          Emoji.initEmojiMap()
+            .then(() => {
+              if (!Emoji.isEmojiNameValid(tokenValue)) {
+                return;
+              }
 
-          container.dataset.originalValue = tokenValue;
-          element.innerHTML = Emoji.glEmojiTag(tokenValue);
+              container.dataset.originalValue = tokenValue;
+              element.innerHTML = Emoji.glEmojiTag(tokenValue);
+            })
+            .catch(() => {});
         })
         // ignore error and leave emoji name in the search bar
         .catch(() => {})

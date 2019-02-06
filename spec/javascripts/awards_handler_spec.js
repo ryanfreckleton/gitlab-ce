@@ -1,5 +1,7 @@
 import $ from 'jquery';
 import Cookies from 'js-cookie';
+import MockAdapter from 'axios-mock-adapter';
+import axios from '~/lib/utils/axios_utils';
 import loadAwardsHandler from '~/awards_handler';
 import '~/lib/utils/common_utils';
 
@@ -7,6 +9,7 @@ window.gl = window.gl || {};
 window.gon = window.gon || {};
 
 let openAndWaitForEmojiMenu;
+let mock;
 let awardsHandler = null;
 const urlRoot = gon.relative_url_root;
 
@@ -19,8 +22,13 @@ const lazyAssert = function(done, assertFn) {
 };
 
 describe('AwardsHandler', function() {
+  const emojiData = getJSONFixture('emojis/emojis.json');
   preloadFixtures('snippets/show.html.raw');
+
   beforeEach(function(done) {
+    mock = new MockAdapter(axios);
+    mock.onGet(`/emojis/emojis.json`).reply(200, emojiData);
+
     loadFixtures('snippets/show.html.raw');
     loadAwardsHandler(true)
       .then(obj => {
@@ -52,6 +60,8 @@ describe('AwardsHandler', function() {
   afterEach(function() {
     // restore original url root value
     gon.relative_url_root = urlRoot;
+
+    mock.restore();
 
     // Undo what we did to the shared <body>
     $('body').removeAttr('data-page');
