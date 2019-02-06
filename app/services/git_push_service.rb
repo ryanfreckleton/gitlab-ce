@@ -132,6 +132,10 @@ class GitPushService < BaseService
     project.update_remote_mirrors
   end
 
+  def mirror_update
+    false # to be overriden in EE
+  end
+
   def execute_related_hooks
     # Update merge requests that may be affected by this push. A new branch
     # could cause the last commit of a merge request to change.
@@ -140,7 +144,7 @@ class GitPushService < BaseService
       .perform_async(project.id, current_user.id, params[:oldrev], params[:newrev], params[:ref])
 
     EventCreateService.new.push(project, current_user, build_push_data)
-    Ci::CreatePipelineService.new(project, current_user, build_push_data).execute(:push)
+    Ci::CreatePipelineService.new(project, current_user, build_push_data).execute(:push, mirror_update: mirror_update)
 
     project.execute_hooks(build_push_data.dup, :push_hooks)
     project.execute_services(build_push_data.dup, :push_hooks)

@@ -2,14 +2,20 @@
 
 module Notes
   class QuickActionsService < BaseService
-    UPDATE_SERVICES = {
-      'Issue' => Issues::UpdateService,
-      'MergeRequest' => MergeRequests::UpdateService,
-      'Commit' => Commits::TagService
-    }.freeze
+    extend Gitlab::Utils::StrongMemoize
+
+    def self.update_services
+      strong_memoize(:update_services) do
+        {
+          'Issue' => Issues::UpdateService,
+          'MergeRequest' => MergeRequests::UpdateService,
+          'Commit' => Commits::TagService
+        }
+      end
+    end
 
     def self.noteable_update_service(note)
-      UPDATE_SERVICES[note.noteable_type]
+      update_services[note.noteable_type]
     end
 
     def self.supported?(note)
