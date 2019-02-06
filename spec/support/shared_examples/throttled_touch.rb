@@ -7,14 +7,25 @@ shared_examples_for 'throttled touch' do
       end
     end
 
-    it 'updates the object at most once per minute' do
-      first_updated_at = Time.zone.now - (ThrottledTouch::TOUCH_INTERVAL * 2)
-      second_updated_at = Time.zone.now - (ThrottledTouch::TOUCH_INTERVAL * 1.5)
+    context 'when updating more than once per minute' do
+      let(:first_updated_at) { Time.zone.now - (ThrottledTouch::TOUCH_INTERVAL * 2) }
+      let(:second_updated_at) { Time.zone.now - (ThrottledTouch::TOUCH_INTERVAL * 1.5) }
 
-      Timecop.freeze(first_updated_at) { subject.touch }
-      Timecop.freeze(second_updated_at) { subject.touch }
+      before do
+        Timecop.freeze(first_updated_at) { subject.touch }
+      end
 
-      expect(subject.updated_at).to be_like_time(first_updated_at)
+      it 'does not update the timestamp' do
+        Timecop.freeze(second_updated_at) { subject.touch }
+
+        expect(subject.updated_at).to be_like_time(first_updated_at)
+      end
+
+      it 'updates the timestamp when `force` is true' do
+        Timecop.freeze(second_updated_at) { subject.touch(force: true) }
+
+        expect(subject.updated_at).to be_like_time(second_updated_at)
+      end
     end
   end
 end
