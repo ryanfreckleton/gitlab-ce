@@ -11,12 +11,8 @@ describe('CompareVersionsDropdown', () => {
 
     wrapper = shallowMount(CompareVersionsDropdown, {
       localVue,
-      propsData: {
-        baseVersionPath: '/gnuwget/wget2/merge_requests/6/diffs?diff_id=37',
-        otherVersions: diffsMockData.slice(1),
-        targetBranch,
-        ...props,
-      },
+      sync: false,
+      propsData: { ...props },
     });
   };
 
@@ -32,7 +28,11 @@ describe('CompareVersionsDropdown', () => {
   });
 
   it('should render a correct base version link', () => {
-    createComponent();
+    createComponent({
+      baseVersionPath: '/gnuwget/wget2/merge_requests/6/diffs?diff_id=37',
+      otherVersions: diffsMockData.slice(1),
+      targetBranch,
+    });
 
     const links = wrapper.findAll('a');
     const lastLink = links.wrappers[links.length - 1];
