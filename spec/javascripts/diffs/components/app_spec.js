@@ -8,6 +8,7 @@ import DiffFile from '~/diffs/components/diff_file.vue';
 import CompareVersions from '~/diffs/components/compare_versions.vue';
 import HiddenFilesWarning from '~/diffs/components/hidden_files_warning.vue';
 import CommitWidget from '~/diffs/components/commit_widget.vue';
+import TreeList from '~/diffs/components/tree_list.vue';
 import createDiffsStore from '../create_diffs_store';
 
 describe('diffs/components/app', () => {
@@ -119,7 +120,7 @@ describe('diffs/components/app', () => {
     it('should render compare versions component', () => {
       createComponent();
 
-      expect(vm.contains(CompareVersions));
+      expect(vm.contains(CompareVersions)).toBe(true);
     });
 
     it('should render hidden files warning if render overflow warning is present', () => {
@@ -150,6 +151,12 @@ describe('diffs/components/app', () => {
       });
 
       expect(vm.contains(DiffFile)).toBe(true);
+    });
+
+    it('should render tree list', () => {
+      createComponent();
+
+      expect(vm.find(TreeList).exists()).toBe(true);
     });
   });
 });
