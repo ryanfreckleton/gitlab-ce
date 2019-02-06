@@ -167,7 +167,10 @@ const bindEvents = () => {
     hasUserDefinedProjectPath = $projectPath.val().trim().length > 0;
   });
 
-  initSettingsPanels();
+  initSettingsPanels({
+    expandedText: 'Hide avatar, license and features settings',
+    collapsedText: 'Show avatar, license and features settings',
+  });
 };
 
 export default {
