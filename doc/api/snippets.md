@@ -279,10 +279,12 @@ Example request:
 curl --request DELETE --header "PRIVATE-TOKEN: <your_access_token>" "https://gitlab.example.com/api/v4/snippets/1"
 ```
 
-If:
+The following are possible return codes:
 
-- Delete is successful, a `204 No content` HTTP code is returned with no data.
-- The snippet is non-existent, a `404 Not Found` is returned.
+| Code  | Description                                 |
+|:------|:--------------------------------------------|
+| `204` | Delete was successful. No data is returned. |
+| `404` | The snippet wasn't found.                   |
 
 ## List all public snippets
 
