@@ -35,6 +35,40 @@ describe PreferencesHelper do
     end
   end
 
+  describe '#first_day_of_week_choices' do
+    it 'has Sunday and Monday' do
+      expect(helper.first_day_of_week_choices.first).to eq(['Sunday', 0])
+      expect(helper.first_day_of_week_choices.second).to eq(['Monday', 1])
+    end
+  end
+
+  describe '#default_first_day_of_week' do
+    it 'returns the system default' do
+      stub_application_setting(first_day_of_week: 1)
+
+      expect(helper.default_first_day_of_week).to eq('Monday')
+    end
+  end
+
+  describe '#first_day_of_week_choices_with_default' do
+    it 'has 3 options' do
+      expect(helper.first_day_of_week_choices_with_default.count).to eq(3)
+    end
+
+    it 'first item is System default' do
+      default = helper.first_day_of_week_choices_with_default.first
+
+      expect(default).to be_a(Array)
+      expect(default.first).to match(/^System default/)
+      expect(default.first).to match(helper.default_first_day_of_week)
+      expect(default.last).to be_nil
+    end
+
+    it 'contains #first_day_of_week_choices' do
+      expect(helper.first_day_of_week_choices_with_default).to include(*helper.first_day_of_week_choices)
+    end
+  end
+
   describe '#user_application_theme' do
     context 'with a user' do
       it "returns user's theme's css_class" do
