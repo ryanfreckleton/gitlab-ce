@@ -17,8 +17,6 @@ class Discussion
             :for_commit?,
             :for_merge_request?,
 
-            :save,
-
             to: :first_note
 
   def project_id
@@ -115,10 +113,6 @@ class Discussion
   end
 
   def individual_note?
-    false
-  end
-
-  def can_convert_to_discussion?
     false
   end
 

@@ -29,11 +29,6 @@ export default {
       type: Object,
       required: true,
     },
-    discussion: {
-      type: Object,
-      required: false,
-      default: null,
-    },
     line: {
       type: Object,
       required: false,
@@ -59,7 +54,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['targetNoteHash', 'getNoteableData', 'getUserData', 'commentsDisabled']),
+    ...mapGetters(['targetNoteHash', 'getNoteableData', 'getUserData']),
     author() {
       return this.note.author;
     },
@@ -84,19 +79,6 @@ export default {
     },
     isTarget() {
       return this.targetNoteHash === this.noteAnchorId;
-    },
-    discussionId() {
-      if (this.discussion) {
-        return this.discussion.id;
-      }
-      return '';
-    },
-    showReplyButton() {
-      if (!this.discussion || !this.getNoteableData.current_user.can_create_note) {
-        return false;
-      }
-
-      return this.discussion.individual_note && !this.commentsDisabled;
     },
     actionText() {
       if (!this.commit) {
@@ -249,7 +231,6 @@ export default {
           :note-id="note.id"
           :note-url="note.noteable_note_url"
           :access-level="note.human_access"
-          :show-reply="showReplyButton"
           :can-edit="note.current_user.can_edit"
           :can-award-emoji="note.current_user.can_award_emoji"
           :can-delete="note.current_user.can_edit"
@@ -260,7 +241,6 @@ export default {
           :is-resolved="note.resolved"
           :is-resolving="isResolving"
           :resolved-by="note.resolved_by"
-          :discussion-id="discussionId"
           @handleEdit="editHandler"
           @handleDelete="deleteHandler"
           @handleResolve="resolveHandler"

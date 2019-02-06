@@ -264,9 +264,4 @@ export default {
     ).length;
     state.hasUnresolvedDiscussions = state.unresolvedDiscussionsCount > 1;
   },
-
-  [types.CONVERT_TO_DISCUSSION](state, discussionId) {
-    const discussion = utils.findNoteObjectById(state.discussions, discussionId);
-    Object.assign(discussion, { individual_note: false });
-  },
 };

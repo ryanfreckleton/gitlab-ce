@@ -15,8 +15,6 @@ module Notes
           return note
         end
 
-        discussion = discussion.convert_to_discussion! if discussion.can_convert_to_discussion?
-
         params.merge!(discussion.reply_attributes)
         should_resolve = discussion.resolved?
       end

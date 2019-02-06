@@ -36,41 +36,19 @@ describe SentNotification do
     end
   end
 
-  shared_examples 'a successful sent notification' do
-    it 'creates a new SentNotification' do
-      expect { subject }.to change { described_class.count }.by(1)
-    end
-  end
-
   describe '.record' do
     let(:issue) { create(:issue) }
 
-    subject { described_class.record(issue, user.id) }
-
-    it_behaves_like 'a successful sent notification'
+    it 'creates a new SentNotification' do
+      expect { described_class.record(issue, user.id) }.to change { described_class.count }.by(1)
+    end
   end
 
   describe '.record_note' do
-    subject { described_class.record_note(note, note.author.id) }
+    let(:note) { create(:diff_note_on_merge_request) }
 
-    context 'for a discussion note' do
-      let(:note) { create(:diff_note_on_merge_request) }
-
-      it_behaves_like 'a successful sent notification'
-
-      it 'sets in_reply_to_discussion_id' do
-        expect(subject.in_reply_to_discussion_id).to eq(note.discussion_id)
-      end
-    end
-
-    context 'for an individual note' do
-      let(:note) { create(:note_on_merge_request) }
-
-      it_behaves_like 'a successful sent notification'
-
-      it 'does not set in_reply_to_discussion_id' do
-        expect(subject.in_reply_to_discussion_id).to be_nil
-      end
+    it 'creates a new SentNotification' do
+      expect { described_class.record_note(note, note.author.id) }.to change { described_class.count }.by(1)
     end
   end
 
