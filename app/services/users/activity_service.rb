@@ -25,6 +25,7 @@ module Users
 
     def record_activity
       return if Gitlab::Database.read_only?
+      return if @user.last_activity_on == Date.today
 
       lease = Gitlab::ExclusiveLease.new("acitvity_service:#{@user.id}",
                                          timeout: LEASE_TIMEOUT)
