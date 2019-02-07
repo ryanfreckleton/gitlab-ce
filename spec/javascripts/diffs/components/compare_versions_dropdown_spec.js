@@ -14,6 +14,11 @@ describe('CompareVersionsDropdown', () => {
 
   const findSelectedVersion = () => wrapper.find('.dropdown-menu-toggle');
   const findVersionsListElements = () => wrapper.findAll('li');
+  const findLinkElement = index =>
+    findVersionsListElements()
+      .at(index)
+      .find('a');
+  const findLastLink = () => findLinkElement(findVersionsListElements().length - 1);
 
   const createComponent = (props = {}) => {
     wrapper = shallowMount(CompareVersionsDropdown, {
@@ -74,18 +79,35 @@ describe('CompareVersionsDropdown', () => {
 
       expect(findVersionsListElements().length).toEqual(diffsMockData.length + 1);
     });
-  });
 
-  it('should render a correct base version link', () => {
-    createComponent({
-      baseVersionPath: '/gnuwget/wget2/merge_requests/6/diffs?diff_id=37',
-      otherVersions: diffsMockData.slice(1),
-      targetBranch,
+    it('should have base branch link as active on base branch', () => {
+      createComponent({
+        targetBranch,
+        otherVersions: diffsMockData,
+      });
+
+      expect(findLastLink().classes()).toContain('is-active');
     });
 
-    const links = wrapper.findAll('a');
-    const lastLink = links.wrappers[links.length - 1];
+    it('should have correct branch link as active if start version present', () => {
+      createComponent({
+        targetBranch,
+        startVersion,
+        otherVersions: diffsMockData,
+      });
 
-    expect(lastLink.attributes('href')).toEqual(wrapper.props('baseVersionPath'));
+      expect(findLinkElement(0).classes()).toContain('is-active');
+    });
+
+    it('should render a correct base version link', () => {
+      createComponent({
+        baseVersionPath: '/gnuwget/wget2/merge_requests/6/diffs?diff_id=37',
+        otherVersions: diffsMockData.slice(1),
+        targetBranch,
+      });
+
+      expect(findLastLink().attributes('href')).toEqual(wrapper.props('baseVersionPath'));
+      expect(findLastLink().text()).toContain('(base)');
+    });
   });
 });
