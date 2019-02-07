@@ -248,8 +248,8 @@ describe Gitlab::UsageData do
   end
 
   describe '#deployed_pages_projects' do
-    let(:pipeline1){ create(:ci_pipeline) }
-    let(:pipeline2){ create(:ci_pipeline) }
+    let(:pipeline1) { create(:ci_pipeline) }
+    let(:pipeline2) { create(:ci_pipeline) }
 
     it 'excludes builds that are not of name pages:deploy' do
       create(:ci_build, name: 'pages:deploy', pipeline: pipeline1)
@@ -259,7 +259,7 @@ describe Gitlab::UsageData do
 
       expect(count_data[:deployed_pages_projects]).to be(1)
     end
-    
+
     it 'returns the distinct count when multiple builds exist for the same project' do
       create(:ci_build, name: 'pages:deploy', pipeline: pipeline1)
       create(:ci_build, name: 'pages:deploy', pipeline: pipeline1)
