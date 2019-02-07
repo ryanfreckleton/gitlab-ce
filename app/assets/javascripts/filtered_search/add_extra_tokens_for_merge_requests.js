@@ -1,6 +1,4 @@
-export default (
-  IssuableTokenKeys
-) => {
+export default IssuableTokenKeys => {
   const wipToken = {
     key: 'wip',
     type: 'string',
