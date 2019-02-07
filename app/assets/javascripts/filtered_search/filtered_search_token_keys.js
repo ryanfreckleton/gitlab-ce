@@ -71,21 +71,4 @@ export default class FilteredSearchTokenKeys {
       ) || null
     );
   }
-
-  addExtraTokensForMergeRequests() {
-    const wipToken = {
-      key: 'wip',
-      type: 'string',
-      param: '',
-      symbol: '',
-      icon: 'admin',
-      tag: 'Yes or No',
-      lowercaseValueOnSubmit: true,
-      uppercaseTokenName: true,
-      capitalizeTokenValue: true,
-    };
-
-    this.tokenKeys.push(wipToken);
-    this.tokenKeysWithAlternative.push(wipToken);
-  }
 }
