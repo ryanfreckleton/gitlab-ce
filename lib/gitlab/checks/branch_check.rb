@@ -11,7 +11,7 @@ module Gitlab
         merge_protected_branch: 'You are not allowed to merge code into protected branches on this project.',
         push_protected_branch: 'You are not allowed to push code to protected branches on this project.',
         create_protected_branch: 'You are not allowed to create protected branches on this project.',
-        non_web_api_create_protected_branch: 'You can only create protected branches using the web interface and API.'
+        non_web_create_protected_branch: 'You can only create protected branches using the web interface and API.'
       }.freeze
 
       LOG_MESSAGES = {
@@ -60,8 +60,8 @@ module Gitlab
             raise GitAccess::UnauthorizedError, ERROR_MESSAGES[:create_protected_branch]
           end
 
-          unless updated_from_web? || updated_from_api?
-            raise GitAccess::UnauthorizedError, ERROR_MESSAGES[:non_web_api_create_protected_branch]
+          unless updated_from_web?
+            raise GitAccess::UnauthorizedError, ERROR_MESSAGES[:non_web_create_protected_branch]
           end
         end
       end

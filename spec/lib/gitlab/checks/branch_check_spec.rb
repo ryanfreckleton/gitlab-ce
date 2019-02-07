@@ -77,14 +77,6 @@ describe Gitlab::Checks::BranchCheck do
             end
           end
 
-          context 'via API' do
-            let(:protocol) { 'http' }
-
-            it 'allows branch creation' do
-              expect { subject.validate! }.not_to raise_error
-            end
-          end
-
           context 'via SSH' do
             it 'raises an error' do
               expect { subject.validate! }.to raise_error(Gitlab::GitAccess::UnauthorizedError, 'You can only create protected branches using the web interface and API.')
