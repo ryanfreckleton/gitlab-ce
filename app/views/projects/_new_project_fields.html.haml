@@ -96,10 +96,10 @@
           /
         %span.form-text.text-muted Lightweight issue tracking system for this project
         .project-feature-controls{"data-for" => "project[project_feature_attributes][issues_access_level]"}
-          %input{:name => "project[project_feature_attributes][issues_access_level]", :type => "hidden", :value => "0"}/
           %label.toggle-wrapper
             / 
-            %button.project-feature-toggle{"aria-label" => "Toggle Status: OFF", :type => "button"}
+            %button.js-project-feature-toggle.project-feature-toggle{"aria-label" => "Toggle Status: OFF", :type => "button"}
+              %input.js-project-feature-toggle-input{:name => "project[project_feature_attributes][issues_access_level]", :type => "hidden", :value => "0"}/            
               .loading-container.text-center.loading-icon
                 %i.fa.fa-spinner.fa-1x.fa-spin{"aria-hidden" => "true", "aria-label" => "Loading"}
               %span.toggle-icon
@@ -113,13 +113,13 @@
       .project-feature-row
         %label.label-bold
           Repository
-          / 
+          /
         %span.form-text.text-muted View and edit files in this project
         .project-feature-controls{"data-for" => "project[project_feature_attributes][repository_access_level]"}
-          %input{:name => "project[project_feature_attributes][repository_access_level]", :type => "hidden", :value => "10"}/
           %label.toggle-wrapper
             / 
-            %button.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+            %button.js-project-feature-toggle.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+              %input.js-project-feature-toggle-input{:name => "project[project_feature_attributes][repository_access_level]", :type => "hidden", :value => "10"}/            
               .loading-container.text-center.loading-icon
                 %i.fa.fa-spinner.fa-1x.fa-spin{"aria-hidden" => "true", "aria-label" => "Loading"}
               %span.toggle-icon
@@ -138,10 +138,10 @@
       -#       / 
       -#     %span.form-text.text-muted Submit changes to be merged upstream
       -#     .project-feature-controls{"data-for" => "project[project_feature_attributes][merge_requests_access_level]"}
-      -#       %input{:name => "project[project_feature_attributes][merge_requests_access_level]", :type => "hidden", :value => "10"}/
       -#       %label.toggle-wrapper
       -#         / 
-      -#         %button.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+      -#         %button.js-project-feature-toggle.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+      -#           %input.js-project-feature-toggle-input{:name => "project[project_feature_attributes][merge_requests_access_level]", :type => "hidden", :value => "10"}/
       -#           .loading-container.text-center.loading-icon
       -#             %i.fa.fa-spinner.fa-1x.fa-spin{"aria-hidden" => "true", "aria-label" => "Loading"}
       -#           %span.toggle-icon
@@ -158,10 +158,10 @@
       -#       /
       -#     %span.form-text.text-muted Build, test, and deploy your changes
       -#     .project-feature-controls{"data-for" => "project[project_feature_attributes][builds_access_level]"}
-      -#       %input{:name => "project[project_feature_attributes][builds_access_level]", :type => "hidden", :value => "10"}/
       -#       %label.toggle-wrapper
       -#         / 
-      -#         %button.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+      -#         %button.js-project-feature-toggle.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+      -#           %input.js-project-feature-toggle-input{:name => "project[project_feature_attributes][builds_access_level]", :type => "hidden", :value => "10"}/      
       -#           .loading-container.text-center.loading-icon
       -#             %i.fa.fa-spinner.fa-1x.fa-spin{"aria-hidden" => "true", "aria-label" => "Loading"}
       -#           %span.toggle-icon
@@ -180,8 +180,8 @@
       -#         %i.fa.fa-question-circle{"aria-hidden" => "true", "data-hidden" => "true"}
       -#     %span.form-text.text-muted Manages large files such as audio, video, and graphics files
       -#     %label.toggle-wrapper
-      -#       %input{:name => "project[lfs_enabled]", :type => "hidden", :value => "true"}/
-      -#       %button.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+      -#       %button.js-project-feature-toggle.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+      -#         %input.js-project-feature-toggle-input{:name => "project[lfs_enabled]", :type => "hidden", :value => "true"}/      
       -#         .loading-container.text-center.loading-icon
       -#           %i.fa.fa-spinner.fa-1x.fa-spin{"aria-hidden" => "true", "aria-label" => "Loading"}
       -#         %span.toggle-icon
@@ -193,10 +193,10 @@
           / 
         %span.form-text.text-muted Pages for project documentation
         .project-feature-controls{"data-for" => "project[project_feature_attributes][wiki_access_level]"}
-          %input{:name => "project[project_feature_attributes][wiki_access_level]", :type => "hidden", :value => "20"}/
           %label.toggle-wrapper
             / 
-            %button.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+            %button.js-project-feature-toggle.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+              %input.js-project-feature-toggle-input{:name => "project[project_feature_attributes][wiki_access_level]", :type => "hidden", :value => "20"}/            
               .loading-container.text-center.loading-icon
                 %i.fa.fa-spinner.fa-1x.fa-spin{"aria-hidden" => "true", "aria-label" => "Loading"}
               %span.toggle-icon
@@ -213,10 +213,10 @@
           / 
         %span.form-text.text-muted Share code pastes with others out of Git repository
         .project-feature-controls{"data-for" => "project[project_feature_attributes][snippets_access_level]"}
-          %input{:name => "project[project_feature_attributes][snippets_access_level]", :type => "hidden", :value => "20"}/
           %label.toggle-wrapper
             / 
-            %button.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+            %button.js-project-feature-toggle.project-feature-toggle.is-checked{"aria-label" => "Toggle Status: ON", :type => "button"}
+              %input.js-project-feature-toggle-input{:name => "project[project_feature_attributes][snippets_access_level]", :type => "hidden", :value => "20"}/            
               .loading-container.text-center.loading-icon
                 %i.fa.fa-spinner.fa-1x.fa-spin{"aria-hidden" => "true", "aria-label" => "Loading"}
               %span.toggle-icon

@@ -2,6 +2,7 @@ import $ from 'jquery';
 import { addSelectOnFocusBehaviour } from '../lib/utils/common_utils';
 import { slugifyWithHyphens } from '../lib/utils/text_utility';
 import initSettingsPanels from '~/settings_panels';
+import setupToggleButtons from '~/toggle_buttons';
 
 let hasUserDefinedProjectPath = false;
 
@@ -171,6 +172,8 @@ const bindEvents = () => {
     expandedText: 'Hide avatar, license and features settings',
     collapsedText: 'Show avatar, license and features settings',
   });
+
+  setupToggleButtons(document.querySelector('.project-feature-settings'));
 };
 
 export default {
