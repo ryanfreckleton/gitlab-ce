@@ -403,7 +403,6 @@ describe API::Issues do
       end
 
       it 'returns a related merge request count > 0 if there are related merge requests' do
-        mr = create(:merge_request)
         create(:merge_requests_closing_issues, issue: issue)
 
         get api('/issues', user)
