@@ -555,7 +555,7 @@ module API
           # Avoids an N+1 query when metadata is included
           options[:issuable_metadata][issue.id].merge_requests_count
         else
-          ::MergeRequestsClosingIssues.count_for_issue_id(issue.id)
+          issue.merge_requests_closing_issues.count
         end
       end
     end
