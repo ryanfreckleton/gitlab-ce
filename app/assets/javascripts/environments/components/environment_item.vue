@@ -3,7 +3,6 @@ import Timeago from 'timeago.js';
 import _ from 'underscore';
 import { GlTooltipDirective } from '@gitlab/ui';
 import UserAvatarLink from '~/vue_shared/components/user_avatar/user_avatar_link.vue';
-import { humanize } from '~/lib/utils/text_utility';
 import Icon from '~/vue_shared/components/icon.vue';
 import ActionsComponent from './environment_actions.vue';
 import ExternalUrlComponent from './environment_external_url.vue';
@@ -162,7 +161,7 @@ export default {
       const combinedActions = (manualActions || []).concat(scheduledActions || []);
       return combinedActions.map(action => ({
         ...action,
-        name: humanize(action.name),
+        name: action.name,
       }));
     },
 
