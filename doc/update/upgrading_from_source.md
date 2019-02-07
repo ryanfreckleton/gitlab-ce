@@ -2,15 +2,25 @@
 comments: false
 ---
 
-# From 11.3 to 11.4
+# Upgrading Community Edition and Enterprise Edition from source
 
-Make sure you view this update guide from the branch (version) of GitLab you would
-like to install (e.g., `11-4-stable`. You can select the branch in the version
+Make sure you view this update guide from the branch (version) of GitLab you
+would like to install (e.g., `11.8`. You can select the version in the version
 dropdown at the top left corner of GitLab (below the menu bar).
+
+In all examples, replace `BRANCH` with the branch for the version you uprading
+to (e.g. `11-8-stable` for `11.8`), and replace `PREVIOUS_BRANCH` with the
+branch for the version you are upgrading from (e.g. `11-7-stable` for `11.7`).
 
 If the highest number stable branch is unclear please check the
 [GitLab Blog](https://about.gitlab.com/blog/archives.html) for installation
 guide links by version.
+
+## Guidelines for all versions
+
+This section contains all the steps necessary to upgrade Community Edition or
+Enterprise Edition, regardless of the version you are upgrading to. Version
+specific guidelines (should there be any) are covered separately.
 
 ### 1. Stop server
 
@@ -30,8 +40,8 @@ sudo -u git -H bundle exec rake gitlab:backup:create RAILS_ENV=production
 
 ### 3. Update Ruby
 
-NOTE: GitLab 11.0 and higher only support Ruby 2.4.x and dropped support for Ruby 2.3.x. Be
-sure to upgrade your interpreter if necessary.
+NOTE: Beginning in GitLab 11.0, we only support Ruby 2.4 or higher, and dropped
+support for Ruby 2.3. Be sure to upgrade if necessary.
 
 You can check which version you are running with `ruby -v`.
 
@@ -39,9 +49,9 @@ Download Ruby and compile it:
 
 ```bash
 mkdir /tmp/ruby && cd /tmp/ruby
-curl --remote-name --progress https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.5.tar.gz
-echo '4d650f302f1ec00256450b112bb023644b6ab6dd  ruby-2.4.5.tar.gz' | shasum -c - && tar xzf ruby-2.4.5.tar.gz
-cd ruby-2.4.5
+curl --remote-name --progress https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.3.tar.gz
+echo 'f919a9fbcdb7abecd887157b49833663c5c15fda  ruby-2.5.3.tar.gz' | shasum -c - && tar xzf ruby-2.5.3.tar.gz
+cd ruby-2.5.3
 
 ./configure --disable-install-rdoc
 make
@@ -56,17 +66,20 @@ sudo gem install bundler --no-document --version '< 2'
 
 ### 4. Update Node
 
+NOTE: Beginning in GitLab 11.8, we only support node 8 or higher, and dropped
+support for node 6. Be sure to upgrade if necessary.
+
 GitLab utilizes [webpack](http://webpack.js.org) to compile frontend assets.
-This requires a minimum version of node v6.0.0.
+This requires a minimum version of node v8.10.0.
 
 You can check which version you are running with `node -v`. If you are running
-a version older than `v6.0.0` you will need to update to a newer version. You
+a version older than `v8.10.0` you will need to update to a newer version. You
 can find instructions to install from community maintained packages or compile
 from source at the nodejs.org website.
 
 <https://nodejs.org/en/download/>
 
-GitLab also requires the use of yarn `>= v1.2.0` to manage JavaScript
+GitLab also requires the use of yarn `>= v1.10.0` to manage JavaScript
 dependencies.
 
 ```bash
@@ -91,11 +104,11 @@ Download and install Go:
 # Remove former Go installation folder
 sudo rm -rf /usr/local/go
 
-curl --remote-name --progress https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz
-echo 'fa1b0e45d3b647c252f51f5e1204aba049cde4af177ef9f2181f43004f901035  go1.10.3.linux-amd64.tar.gz' | shasum -a256 -c - && \
-  sudo tar -C /usr/local -xzf go1.10.3.linux-amd64.tar.gz
+curl --remote-name --progress https://dl.google.com/go/go1.10.5.linux-amd64.tar.gz
+echo 'a035d9beda8341b645d3f45a1b620cf2d8fb0c5eb409be36b389c0fd384ecc3a  go1.10.5.linux-amd64.tar.gz' | shasum -a256 -c - && \
+  sudo tar -C /usr/local -xzf go1.10.5.linux-amd64.tar.gz
 sudo ln -sf /usr/local/go/bin/{go,godoc,gofmt} /usr/local/bin/
-rm go1.10.3.linux-amd64.tar.gz
+rm go1.10.5.linux-amd64.tar.gz
 ```
 
 ### 6. Get latest code
@@ -113,7 +126,7 @@ For GitLab Community Edition:
 ```bash
 cd /home/git/gitlab
 
-sudo -u git -H git checkout 11-4-stable
+sudo -u git -H git checkout BRANCH
 ```
 
 OR
@@ -123,7 +136,7 @@ For GitLab Enterprise Edition:
 ```bash
 cd /home/git/gitlab
 
-sudo -u git -H git checkout 11-4-stable-ee
+sudo -u git -H git checkout BRANCH-ee
 ```
 
 ### 7. Update gitlab-shell
@@ -153,31 +166,6 @@ sudo -u git -H make
 
 ### 9. Update Gitaly
 
-#### New Gitaly configuration options required
-
-In order to function Gitaly needs some additional configuration information. Below we assume you installed Gitaly in `/home/git/gitaly` and GitLab Shell in `/home/git/gitlab-shell`.
-
-```shell
-echo '
-[gitaly-ruby]
-dir = "/home/git/gitaly/ruby"
-
-[gitlab-shell]
-dir = "/home/git/gitlab-shell"
-' | sudo -u git tee -a /home/git/gitaly/config.toml
-```
-
-#### Check Gitaly configuration
-
-Due to a bug in the `rake gitlab:gitaly:install` script your Gitaly
-configuration file may contain syntax errors. The block name
-`[[storages]]`, which may occur more than once in your `config.toml`
-file, should be `[[storage]]` instead.
-
-```shell
-sudo -u git -H sed -i.pre-10.1 's/\[\[storages\]\]/[[storage]]/' /home/git/gitaly/config.toml
-```
-
 #### Compile Gitaly
 
 ```shell
@@ -189,7 +177,7 @@ sudo -u git -H make
 
 ### 10. Update gitlab-pages
 
-#### Only needed if you use GitLab Pages.
+#### Only needed if you use GitLab Pages
 
 Install and compile gitlab-pages. GitLab-Pages uses
 [GNU Make](https://www.gnu.org/software/make/).
@@ -230,12 +218,14 @@ log_bin_trust_function_creators=1
 
 #### New configuration options for `gitlab.yml`
 
-There might be configuration options available for [`gitlab.yml`][yaml]. View them with the command below and apply them manually to your current `gitlab.yml`:
+There might be configuration options available for [`gitlab.yml`][yaml]. View
+them with the command below and apply them manually to your current
+`gitlab.yml`:
 
 ```sh
 cd /home/git/gitlab
 
-git diff origin/11-3-stable:config/gitlab.yml.example origin/11-4-stable:config/gitlab.yml.example
+git diff origin/PREVIOUS_BRANCH:config/gitlab.yml.example origin/BRANCH:config/gitlab.yml.example
 ```
 
 #### Nginx configuration
@@ -246,27 +236,25 @@ Ensure you're still up-to-date with the latest NGINX configuration changes:
 cd /home/git/gitlab
 
 # For HTTPS configurations
-git diff origin/11-3-stable:lib/support/nginx/gitlab-ssl origin/11-4-stable:lib/support/nginx/gitlab-ssl
+git diff origin/PREVIOUS_BRANCH:lib/support/nginx/gitlab-ssl origin/BRANCH:lib/support/nginx/gitlab-ssl
 
 # For HTTP configurations
-git diff origin/11-3-stable:lib/support/nginx/gitlab origin/11-4-stable:lib/support/nginx/gitlab
+git diff origin/PREVIOUS_BRANCH:lib/support/nginx/gitlab origin/BRANCH:lib/support/nginx/gitlab
 ```
 
-If you are using Strict-Transport-Security in your installation to continue using it you must enable it in your Nginx
-configuration as GitLab application no longer handles setting it.
+If you are using Strict-Transport-Security in your installation to continue
+using it you must enable it in your Nginx configuration as GitLab application no
+longer handles setting it.
 
 If you are using Apache instead of NGINX please see the updated [Apache templates].
 Also note that because Apache does not support upstreams behind Unix sockets you
 will need to let gitlab-workhorse listen on a TCP port. You can do this
 via [/etc/default/gitlab].
 
-[Apache templates]: https://gitlab.com/gitlab-org/gitlab-recipes/tree/master/web-server/apache
-[/etc/default/gitlab]: https://gitlab.com/gitlab-org/gitlab-ce/blob/11-4-stable/lib/support/init.d/gitlab.default.example#L38
-
 #### SMTP configuration
 
-If you're installing from source and use SMTP to deliver mail, you will need to add the following line
-to config/initializers/smtp_settings.rb:
+If you're installing from source and use SMTP to deliver mail, you will need to
+add the following line to `config/initializers/smtp_settings.rb`:
 
 ```ruby
 ActionMailer::Base.delivery_method = :smtp
@@ -274,16 +262,16 @@ ActionMailer::Base.delivery_method = :smtp
 
 See [smtp_settings.rb.sample] as an example.
 
-[smtp_settings.rb.sample]: https://gitlab.com/gitlab-org/gitlab-ce/blob/11-4-stable/config/initializers/smtp_settings.rb.sample#L13
-
 #### Init script
 
-There might be new configuration options available for [`gitlab.default.example`][gl-example]. View them with the command below and apply them manually to your current `/etc/default/gitlab`:
+There might be new configuration options available for
+[`gitlab.default.example`][gl-example]. View them with the command below and
+apply them manually to your current `/etc/default/gitlab`:
 
 ```sh
 cd /home/git/gitlab
 
-git diff origin/11-3-stable:lib/support/init.d/gitlab.default.example origin/11-4-stable:lib/support/init.d/gitlab.default.example
+git diff origin/PREVIOUS_BRANCH:lib/support/init.d/gitlab.default.example origin/BRANCH:lib/support/init.d/gitlab.default.example
 ```
 
 Ensure you're still up-to-date with the latest init script changes:
@@ -305,11 +293,12 @@ sudo systemctl daemon-reload
 ```bash
 cd /home/git/gitlab
 
-# MySQL installations (note: the line below states '--without postgres')
-sudo -u git -H bundle install --without postgres development test --deployment
-
 # PostgreSQL installations (note: the line below states '--without mysql')
-sudo -u git -H bundle install --without mysql development test --deployment
+sudo -u git -H bundle install --deployment --without development test mysql aws kerberos
+
+# MySQL installations (note: the line below states '--without postgres')
+sudo -u git -H bundle install --deployment --without development test postgres aws kerberos
+
 
 # Optional: clean up old gems
 sudo -u git -H bundle clean
@@ -328,7 +317,8 @@ sudo -u git -H bundle exec rake yarn:install gitlab:assets:clean gitlab:assets:c
 sudo -u git -H bundle exec rake cache:clear RAILS_ENV=production
 ```
 
-**MySQL installations**: Run through the `MySQL strings limits` and `Tables and data conversion to utf8mb4` [tasks](../install/database_mysql.md).
+**MySQL installations**: Run through the `MySQL strings limits` and `Tables and
+data conversion to utf8mb4` [tasks](../install/database_mysql.md).
 
 ### 14. Start application
 
@@ -357,12 +347,31 @@ sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production
 
 If all items are green, then congratulations, the upgrade is complete!
 
-## Things went south? Revert to previous version (11.3)
+## Version specific upgrading instructions
+
+This section contains upgrading instructions for specific versions. When
+present, first follow the upgrading guidelines for all versions. If the version
+you are upgrading to is not listed here, then no additional steps are required.
+
+<!--
+Example:
+
+### 11.8.0
+
+Additional instructions here.
+-->
+
+## Things went south? Revert to previous version
 
 ### 1. Revert the code to the previous version
 
-Follow the [upgrade guide from 11.2 to 11.3](11.2-to-11.3.md), except for the
-database migration (the backup is already migrated to the previous version).
+To revert to a previous version, you'll need to following the upgrading guides
+for the previous version. If you upgraded to 11.8 and want to revert back to
+11.7, you'll need to follow the guides for upgrading from 11.6 to 11.7. You can
+use the version dropdown at the top of the page to select the right version.
+
+When reverting, you should _not_ follow the database migration guides, as the
+backup is already migrated to the previous version.
 
 ### 2. Restore from the backup
 
@@ -374,5 +383,8 @@ sudo -u git -H bundle exec rake gitlab:backup:restore RAILS_ENV=production
 
 If you have more than one backup `*.tar` file(s) please add `BACKUP=timestamp_of_backup` to the command above.
 
-[yaml]: https://gitlab.com/gitlab-org/gitlab-ce/blob/11-4-stable/config/gitlab.yml.example
-[gl-example]: https://gitlab.com/gitlab-org/gitlab-ce/blob/11-4-stable/lib/support/init.d/gitlab.default.example
+[yaml]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/config/gitlab.yml.example
+[gl-example]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/support/init.d/gitlab.default.example
+[smtp_settings.rb.sample]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/config/initializers/smtp_settings.rb.sample#L13
+[Apache templates]: https://gitlab.com/gitlab-org/gitlab-recipes/tree/master/web-server/apache
+[/etc/default/gitlab]: https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/support/init.d/gitlab.default.example#L38
