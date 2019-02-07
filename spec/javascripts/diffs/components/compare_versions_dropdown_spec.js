@@ -1,6 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import CompareVersionsDropdown from '~/diffs/components/compare_versions_dropdown.vue';
 import diffsMockData from '../mock_data/merge_request_diffs';
+import TimeAgo from '~/vue_shared/components/time_ago_tooltip.vue';
 
 const localVue = createLocalVue();
 const targetBranch = { branchName: 'tmp-wine-dev', versionIndex: -1 };
@@ -108,6 +109,49 @@ describe('CompareVersionsDropdown', () => {
 
       expect(findLastLink().attributes('href')).toEqual(wrapper.props('baseVersionPath'));
       expect(findLastLink().text()).toContain('(base)');
+    });
+
+    it('should not render commits count if no showCommitsCount is passed', () => {
+      createComponent({
+        otherVersions: diffsMockData,
+        targetBranch,
+      });
+
+      const commitsCount = diffsMockData[0].commits_count;
+
+      expect(findLinkElement(0).text()).not.toContain(`${commitsCount} commit`);
+    });
+
+    it('should render correct commits count if showCommitsCount is passed', () => {
+      createComponent({
+        otherVersions: diffsMockData,
+        targetBranch,
+        showCommitCount: true,
+      });
+
+      const commitsCount = diffsMockData[0].commits_count;
+
+      expect(findLinkElement(0).text()).toContain(`${commitsCount} commit`);
+    });
+
+    it('should render correct commit sha', () => {
+      createComponent({
+        otherVersions: diffsMockData,
+        targetBranch,
+      });
+
+      const commitShaElement = findLinkElement(0).find('.commit-sha');
+
+      expect(commitShaElement.text()).toBe(diffsMockData[0].short_commit_sha);
+    });
+
+    it('should render at least one time-ago component', () => {
+      createComponent({
+        otherVersions: diffsMockData,
+        targetBranch,
+      });
+
+      expect(wrapper.find(TimeAgo).exists()).toBe(true);
     });
   });
 });
