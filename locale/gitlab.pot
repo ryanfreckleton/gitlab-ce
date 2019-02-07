@@ -6697,6 +6697,9 @@ msgstr ""
 msgid "Something went wrong while resolving this discussion. Please try again."
 msgstr ""
 
+msgid "Something went wrong, unable to search projects"
+msgstr ""
+
 msgid "Something went wrong. Please try again."
 msgstr ""
 
