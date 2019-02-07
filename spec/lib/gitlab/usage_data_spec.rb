@@ -79,6 +79,8 @@ describe Gitlab::UsageData do
         auto_devops_disabled
         deploy_keys
         deployments
+        successful_deployments
+        failed_deployments
         environments
         clusters
         clusters_enabled
@@ -116,6 +118,7 @@ describe Gitlab::UsageData do
         projects_prometheus_active
         projects_with_repositories_enabled
         pages_domains
+        deployed_pages_projects
         protected_branches
         releases
         remote_mirrors
@@ -241,6 +244,29 @@ describe Gitlab::UsageData do
         .and_return({})
 
       expect(described_class.approximate_counts.values.uniq).to eq([-1])
+    end
+  end
+
+  describe '#deployed_pages_projects' do
+    let(:pipeline1){ create(:ci_pipeline) }
+    let(:pipeline2){ create(:ci_pipeline) }
+
+    it 'excludes builds that are not of name pages:deploy' do
+      create(:ci_build, name: 'pages:deploy', pipeline: pipeline1)
+      create(:ci_build, name: 'pages:deploy', pipeline: pipeline1)
+      create(:ci_build, name: 'foo', pipeline: pipeline2)
+      count_data = described_class.data[:counts]
+
+      expect(count_data[:deployed_pages_projects]).to be(1)
+    end
+    
+    it 'returns the distinct count when multiple builds exist for the same project' do
+      create(:ci_build, name: 'pages:deploy', pipeline: pipeline1)
+      create(:ci_build, name: 'pages:deploy', pipeline: pipeline1)
+      create(:ci_build, name: 'pages:deploy', pipeline: pipeline2)
+      count_data = described_class.data[:counts]
+
+      expect(count_data[:deployed_pages_projects]).to be(2)
     end
   end
 end
