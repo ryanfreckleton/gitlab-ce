@@ -94,6 +94,25 @@ all matching branches:
 
 ![Protected branch matches](img/protected_branches_matches.png)
 
+## Creating a protected branch
+
+> [Introduced][ce-53361] in GitLab 11.9.
+
+There are times that a branch needs to be created even though it matches a
+pattern of protected branches that no one is allowed to push.
+
+User with [Developer permissions][perm] and up can create protected branches
+via GitLab's web interface:
+
+1. Visit **Repository > Branches**
+1. Click on **New branch**
+1. Fill in the branch name and select an existing branch, tag, or commit that
+   the new branch will be based off
+
+Creating a protected branch is only allowed via the web interface and API, not
+via Git. This is to avoid creating a protected branch accidentally from your
+command line or a Git client application.
+
 ## Deleting a protected branch
 
 > [Introduced][ce-21393] in GitLab 9.3.
@@ -125,6 +144,10 @@ for details about the pipelines security model.
 
 ## Changelog
 
+**11.9**
+
+- Allow protected branches to be created by Developers if no new commits are added via API and interface" [gitlab-org/gitlab-ce#53361][ce-53361]
+
 **9.2**
 
 - Allow deletion of protected branches via the web interface [gitlab-org/gitlab-ce#21393][ce-21393]
@@ -140,6 +163,7 @@ for details about the pipelines security model.
 
 ---
 
+[ce-53361]: https://gitlab.com/gitlab-org/gitlab-ce/issues/53361 "Allow protected branches to be created by Developers if no new commits are added via API and interface"
 [ce-4665]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/4665 "Allow specifying protected branches using wildcards"
 [ce-4892]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/4892 "Allow developers to merge into a protected branch without having push access"
 [ce-5081]: https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/5081 "Allow creating protected branches that can't be pushed to"
